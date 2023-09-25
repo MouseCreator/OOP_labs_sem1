@@ -12,6 +12,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 @Data
 public class CarInsurance extends Insurance{
-    @OneToOne
-    private CarLicense carLicense;
+    private String carNumber;
+    private Long carPriceDollars;
 }

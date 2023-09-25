@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import univ.lab.dao.InsuranceDao;
 import univ.lab.model.Insurance;
-import univ.lab.model.InsuranceOwner;
 import univ.lab.model.LifeInsurance;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -22,7 +21,7 @@ class InsuranceServiceImplTest {
         LifeInsurance lifeInsurance = new LifeInsurance();
         lifeInsurance.setRiskFactor("asteroid");
         lifeInsurance.setRisk(10);
-        lifeInsurance.setOwner(new InsuranceOwner());
+        lifeInsurance.setOwnerName("Petrov");
 
         Mockito.when(insuranceService.save(lifeInsurance)).thenReturn(setId(lifeInsurance, 1L));
 

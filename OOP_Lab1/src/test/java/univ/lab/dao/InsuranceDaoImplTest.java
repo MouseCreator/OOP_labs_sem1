@@ -3,7 +3,6 @@ package univ.lab.dao;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import univ.lab.model.Insurance;
-import univ.lab.model.InsuranceOwner;
 import univ.lab.model.LifeInsurance;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,7 +19,7 @@ class InsuranceDaoImplTest extends InMemoryDatabaseTest {
     void save_Ok() {
         LifeInsurance lifeInsurance = new LifeInsurance();
         lifeInsurance.setRisk(10);
-        lifeInsurance.setOwner(new InsuranceOwner());
+        lifeInsurance.setOwnerName("Petrov");
         lifeInsurance.setRiskFactor("asteroid");
 
         Insurance actual = insuranceDao.save(lifeInsurance);
@@ -31,6 +30,6 @@ class InsuranceDaoImplTest extends InMemoryDatabaseTest {
 
     @Override
     protected Class<?>[] entities() {
-        return new Class[] {Insurance.class, LifeInsurance.class, InsuranceOwner.class};
+        return new Class[] {Insurance.class, LifeInsurance.class};
     }
 }

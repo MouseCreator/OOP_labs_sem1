@@ -8,11 +8,8 @@
         <property name="hbm2ddl.auto">create-drop</property>
 
         <mapping class="univ.lab.model.Insurance"/>
-        <mapping class="univ.lab.model.CarLicense"/>
         <mapping class="univ.lab.model.CarInsurance"/>
-        <mapping class="univ.lab.model.HouseLicense"/>
         <mapping class="univ.lab.model.HouseInsurance"/>
         <mapping class="univ.lab.model.LifeInsurance"/>
-        <mapping class="univ.lab.model.InsuranceOwner"/>
     </session-factory>
 </hibernate-configuration>

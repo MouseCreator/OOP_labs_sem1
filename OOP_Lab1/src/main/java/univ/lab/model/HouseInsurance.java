@@ -11,6 +11,5 @@ import lombok.EqualsAndHashCode;
 @Entity
 @Table(name = "house_insurances")
 public class HouseInsurance extends Insurance {
-    @OneToOne
-    private HouseLicense houseLicense;
+    private String houseLicense;
 }
