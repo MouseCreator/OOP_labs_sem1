@@ -8,6 +8,7 @@ public interface CrudDaoManager<T> {
     List<T> findAll();
     Optional<T> findById(Long id);
     void delete(Long id);
+    void delete(T entity);
     T update(T entity);
 
 }

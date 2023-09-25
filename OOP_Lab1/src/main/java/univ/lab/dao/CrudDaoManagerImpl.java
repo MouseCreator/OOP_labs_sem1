@@ -58,23 +58,29 @@ public class CrudDaoManagerImpl<T> implements CrudDaoManager<T> {
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(T entity) {
         Session session = null;
         Transaction transaction = null;
         try {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
-            session.remove(transaction);
+            session.remove(entity);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Cannot delete entity by id " + id, e);
+            throw new RuntimeException("Cannot delete entity " + entity, e);
         } finally {
             if (session != null)
                 session.close();
         }
+    }
+
+    @Override
+    public void delete(Long id) {
+        Optional<T> entityOptional = findById(id);
+        entityOptional.ifPresent(this::delete);
     }
 
     @Override

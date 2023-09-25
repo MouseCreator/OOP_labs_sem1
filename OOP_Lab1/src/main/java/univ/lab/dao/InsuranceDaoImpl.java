@@ -34,6 +34,11 @@ public class InsuranceDaoImpl implements InsuranceDao {
     }
 
     @Override
+    public void delete(Insurance entity) {
+        crudDaoManager.delete(entity);
+    }
+
+    @Override
     public Insurance update(Insurance entity) {
         return crudDaoManager.update(entity);
     }

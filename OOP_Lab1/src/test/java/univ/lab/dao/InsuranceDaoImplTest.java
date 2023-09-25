@@ -2,21 +2,27 @@ package univ.lab.dao;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import univ.lab.factory.InsuranceFactory;
+import univ.lab.factory.InsuranceFactoryImpl;
 import univ.lab.model.CarInsurance;
 import univ.lab.model.HouseInsurance;
 import univ.lab.model.Insurance;
 import univ.lab.model.LifeInsurance;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class InsuranceDaoImplTest extends InMemoryDatabaseTest {
     private InsuranceDao insuranceDao;
+    private InsuranceFactory insuranceFactory;
     @BeforeEach
     public void initInsuranceDao() {
         CrudDaoManager<Insurance> crudDaoManager = new CrudDaoManagerImpl<>(getSessionFactory(), Insurance.class);
         insuranceDao = new InsuranceDaoImpl(crudDaoManager);
+
+        insuranceFactory = new InsuranceFactoryImpl();
     }
 
     @Test
@@ -33,7 +39,7 @@ class InsuranceDaoImplTest extends InMemoryDatabaseTest {
     }
 
     @Test
-    void get_by_Id_Ok() {
+    void getByIdOk() {
         int itemsInjected = injectData();
 
         assert itemsInjected >= 2;
@@ -54,32 +60,52 @@ class InsuranceDaoImplTest extends InMemoryDatabaseTest {
     }
 
     @Test
-    void get_by_Id_Empty() {
+    void getByIdEmpty() {
         int itemsInjected = injectData();
         Optional<Insurance> byIdOverLimit = insuranceDao.findById(itemsInjected+1L);
         assertTrue(byIdOverLimit.isEmpty());
     }
 
+    @Test
+    void getAll() {
+        int itemsInjected = injectData();
+
+        List<Insurance> items = insuranceDao.findAll();
+
+
+        assertNotNull(items);
+
+        assertEquals(itemsInjected, items.size());
+
+        for (Insurance insurance : items) {
+            assertNotNull(insurance);
+        }
+    }
+
+    @Test
+    void deleteById() {
+        int itemsInjected = injectData();
+        assert itemsInjected > 0;
+        int sizeBefore = insuranceDao.findAll().size();
+
+        insuranceDao.delete(1L);
+
+        int sizeAfter = insuranceDao.findAll().size();
+
+        assertEquals(1, sizeBefore - sizeAfter);
+    }
+
     private int injectData() {
-        LifeInsurance lifeInsurance = new LifeInsurance();
-        lifeInsurance.setRisk(10);
-        lifeInsurance.setOwnerName("Petrov");
-        lifeInsurance.setRiskFactor("asteroid");
+        LifeInsurance lifeInsurance = insuranceFactory.getLifeInsurance(10, "Petrov", "Asteroid");
         insuranceDao.save(lifeInsurance);
 
-        HouseInsurance houseInsurance = new HouseInsurance();
-        houseInsurance.setRisk(5);
-        houseInsurance.setOwnerName("Ivanov");
-        houseInsurance.setHouseAddress("Abc street");
+        HouseInsurance houseInsurance = insuranceFactory.getHouseInsurance(5, "Ivanov", "Abc street");
         insuranceDao.save(houseInsurance);
 
-        CarInsurance carInsurance = new CarInsurance();
-        houseInsurance.setRisk(2);
-        houseInsurance.setOwnerName("Ivanov");
-        houseInsurance.setHouseAddress("Abc street");
-        insuranceDao.save(houseInsurance);
+        CarInsurance carInsurance = insuranceFactory.getCarInsurance(3, "Sidnov", "AA 0000 BB",10L);
+        insuranceDao.save(carInsurance);
 
-        return 2;
+        return 3;
     }
 
     @Override
