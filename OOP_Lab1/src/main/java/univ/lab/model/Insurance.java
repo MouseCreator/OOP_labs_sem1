@@ -11,5 +11,6 @@ public abstract class Insurance {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Integer risk;
+    private Long price;
     private String ownerName;
 }

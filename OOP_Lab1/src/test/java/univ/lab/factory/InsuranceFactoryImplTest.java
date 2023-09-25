@@ -20,10 +20,12 @@ class InsuranceFactoryImplTest {
         Integer risk = 10;
         String owner = "Petrov";
         String factor = "Killer";
-        LifeInsurance lifeInsurance = insuranceFactory.getLifeInsurance(risk, owner, factor);
+        Long price = 200L;
+        LifeInsurance lifeInsurance = insuranceFactory.getLifeInsurance(risk, owner, price, factor);
 
         assertEquals(risk, lifeInsurance.getRisk());
         assertEquals(owner, lifeInsurance.getOwnerName());
+        assertEquals(price, lifeInsurance.getPrice());
         assertEquals(factor, lifeInsurance.getRiskFactor());
 
         assertNull(lifeInsurance.getId());
@@ -34,9 +36,11 @@ class InsuranceFactoryImplTest {
         Integer risk = 10;
         String owner = "Petrov";
         String factor = "Killer";
-        assertThrows(IllegalArgumentException.class, ()-> insuranceFactory.getLifeInsurance(null, owner, factor));
-        assertThrows(IllegalArgumentException.class, ()-> insuranceFactory.getLifeInsurance(risk, null, factor));
-        assertThrows(IllegalArgumentException.class, ()-> insuranceFactory.getLifeInsurance(risk, owner, null));
+        Long price = 200L;
+        assertThrows(IllegalArgumentException.class, ()-> insuranceFactory.getLifeInsurance(null, owner, price, factor));
+        assertThrows(IllegalArgumentException.class, ()-> insuranceFactory.getLifeInsurance(risk, null, price, factor));
+        assertThrows(IllegalArgumentException.class, ()-> insuranceFactory.getLifeInsurance(risk, owner,  null, factor));
+        assertThrows(IllegalArgumentException.class, ()-> insuranceFactory.getLifeInsurance(risk, owner, price, null));
     }
 
     @Test
@@ -44,13 +48,15 @@ class InsuranceFactoryImplTest {
         Integer risk = 10;
         String owner = "Petrov";
         String number = "AA 0000 AA";
-        Long price = 20_000L;
-        CarInsurance lifeInsurance = insuranceFactory.getCarInsurance(risk, owner, number, price);
+        Long price = 2000L;
+        Long carPrice = 20_000L;
+        CarInsurance lifeInsurance = insuranceFactory.getCarInsurance(risk, owner, price, number, carPrice);
 
         assertEquals(risk, lifeInsurance.getRisk());
         assertEquals(owner, lifeInsurance.getOwnerName());
+        assertEquals(price, lifeInsurance.getPrice());
         assertEquals(number, lifeInsurance.getCarNumber());
-        assertEquals(price, lifeInsurance.getCarPriceDollars());
+        assertEquals(carPrice, lifeInsurance.getCarPriceDollars());
 
         assertNull(lifeInsurance.getId());
     }
@@ -60,11 +66,18 @@ class InsuranceFactoryImplTest {
         Integer risk = 10;
         String owner = "Petrov";
         String number = "AA 0000 AA";
-        Long price = 20_000L;
-        assertThrows(IllegalArgumentException.class, ()-> insuranceFactory.getCarInsurance(null, owner, number, price));
-        assertThrows(IllegalArgumentException.class, ()-> insuranceFactory.getCarInsurance(risk, null, number, price));
-        assertThrows(IllegalArgumentException.class, ()-> insuranceFactory.getCarInsurance(risk, owner, null, price));
-        assertThrows(IllegalArgumentException.class, ()-> insuranceFactory.getCarInsurance(risk, owner, number, null));
+        Long price = 10_000L;
+        Long carPrice = 20_000L;
+        assertThrows(IllegalArgumentException.class, ()->
+                insuranceFactory.getCarInsurance(null, owner, price, number, carPrice));
+        assertThrows(IllegalArgumentException.class, ()->
+                insuranceFactory.getCarInsurance(risk, null, price, number, carPrice));
+        assertThrows(IllegalArgumentException.class, ()->
+                insuranceFactory.getCarInsurance(risk, owner, null, number, carPrice));
+        assertThrows(IllegalArgumentException.class, ()->
+                insuranceFactory.getCarInsurance(risk, owner, price, null, carPrice));
+        assertThrows(IllegalArgumentException.class, ()->
+                insuranceFactory.getCarInsurance(risk, owner, price,  number, null));
     }
 
     @Test
@@ -72,11 +85,13 @@ class InsuranceFactoryImplTest {
         Integer risk = 10;
         String owner = "Petrov";
         String address = "ABC street";
-        HouseInsurance lifeInsurance = insuranceFactory.getHouseInsurance(risk, owner, address);
+        Long price = 200L;
+        HouseInsurance lifeInsurance = insuranceFactory.getHouseInsurance(risk, owner, price, address);
 
         assertEquals(risk, lifeInsurance.getRisk());
         assertEquals(owner, lifeInsurance.getOwnerName());
         assertEquals(address, lifeInsurance.getHouseAddress());
+        assertEquals(price, lifeInsurance.getPrice());
 
         assertNull(lifeInsurance.getId());
     }
@@ -86,8 +101,10 @@ class InsuranceFactoryImplTest {
         Integer risk = 10;
         String owner = "Petrov";
         String address = "ABC street";
-        assertThrows(IllegalArgumentException.class, ()-> insuranceFactory.getHouseInsurance(null, owner, address));
-        assertThrows(IllegalArgumentException.class, ()-> insuranceFactory.getHouseInsurance(risk, null, address));
-        assertThrows(IllegalArgumentException.class, ()-> insuranceFactory.getHouseInsurance(risk, owner, null));
+        Long price = 230L;
+        assertThrows(IllegalArgumentException.class, ()-> insuranceFactory.getHouseInsurance(null, owner, price, address));
+        assertThrows(IllegalArgumentException.class, ()-> insuranceFactory.getHouseInsurance(risk, null, price,  address));
+        assertThrows(IllegalArgumentException.class, ()-> insuranceFactory.getHouseInsurance(risk, owner, null, address));
+        assertThrows(IllegalArgumentException.class, ()-> insuranceFactory.getHouseInsurance(risk, owner, price, null));
     }
 }

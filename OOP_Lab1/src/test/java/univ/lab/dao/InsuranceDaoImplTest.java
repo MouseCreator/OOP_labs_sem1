@@ -27,7 +27,7 @@ class InsuranceDaoImplTest extends InMemoryDatabaseTest {
 
     @Test
     void save_Ok() {
-        LifeInsurance lifeInsurance = insuranceFactory.getLifeInsurance(10, "Petrov", "Asteroid");
+        LifeInsurance lifeInsurance = insuranceFactory.getLifeInsurance(10, "Petrov", 200L, "Asteroid");
 
         Insurance actual = insuranceDao.save(lifeInsurance);
 
@@ -93,13 +93,13 @@ class InsuranceDaoImplTest extends InMemoryDatabaseTest {
     }
 
     private int injectData() {
-        LifeInsurance lifeInsurance = insuranceFactory.getLifeInsurance(10, "Petrov", "Asteroid");
+        LifeInsurance lifeInsurance = insuranceFactory.getLifeInsurance(10, "Petrov", 100L, "Asteroid");
         insuranceDao.save(lifeInsurance);
 
-        HouseInsurance houseInsurance = insuranceFactory.getHouseInsurance(5, "Ivanov", "Abc street");
+        HouseInsurance houseInsurance = insuranceFactory.getHouseInsurance(5, "Ivanov", 50L, "Abc street");
         insuranceDao.save(houseInsurance);
 
-        CarInsurance carInsurance = insuranceFactory.getCarInsurance(3, "Sidney", "AA 0000 BB",10L);
+        CarInsurance carInsurance = insuranceFactory.getCarInsurance(3, "Sidney", 10L, "AA 0000 BB",10L);
         insuranceDao.save(carInsurance);
 
         return 3;
