@@ -13,5 +13,6 @@
         <mapping class="univ.lab.model.HouseLicense"/>
         <mapping class="univ.lab.model.HouseInsurance"/>
         <mapping class="univ.lab.model.LifeInsurance"/>
+        <mapping class="univ.lab.model.InsuranceOwner"/>
     </session-factory>
 </hibernate-configuration>
