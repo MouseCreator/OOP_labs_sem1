@@ -10,11 +10,22 @@ public class InsuranceDaoImpl implements InsuranceDao {
     @Override
     public Insurance save(Insurance insurance) {
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-        Session session = sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
-        session.persist(insurance);
-        transaction.commit();
-        session.close();
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
+            session.persist(insurance);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null)
+                transaction.rollback();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+
         return insurance;
     }
 
