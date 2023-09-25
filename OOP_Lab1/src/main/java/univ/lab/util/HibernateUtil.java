@@ -16,7 +16,7 @@ public class HibernateUtil {
         configuration.configure("hibernate.cfg.xml");
 
         Properties properties = new Properties();
-        try (InputStream input = HibernateUtil.class.getResourceAsStream("/db_config")) {
+        try (InputStream input = HibernateUtil.class.getResourceAsStream("/db_config.txt")) {
             properties.load(input);
         } catch (IOException e) {
             throw new RuntimeException("Unable to configure Hibernate");
