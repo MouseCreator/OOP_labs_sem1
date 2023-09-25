@@ -92,6 +92,28 @@ class InsuranceDaoImplTest extends InMemoryDatabaseTest {
         assertEquals(1L, sizeBefore - sizeAfter);
     }
 
+    @Test
+    void update() {
+        int itemsInjected = injectData();
+        assert itemsInjected > 0;
+
+        Optional<Insurance> insuranceOptional = insuranceDao.findById(1L);
+        assertTrue(insuranceOptional.isPresent());
+
+        Insurance insurance = insuranceOptional.get();
+        Long price = insurance.getPrice();
+        Long increasedPrice = price + 100L;
+        insurance.setPrice(increasedPrice);
+
+        insuranceDao.update(insurance);
+
+        Optional<Insurance> updatedOptional = insuranceDao.findById(1L);
+        assertTrue(updatedOptional.isPresent());
+
+        Insurance updated = insuranceOptional.get();
+        assertEquals(increasedPrice, updated.getPrice());
+    }
+
     private int injectData() {
         LifeInsurance lifeInsurance = insuranceFactory.getLifeInsurance(10, "Petrov", 100L, "Asteroid");
         insuranceDao.save(lifeInsurance);
