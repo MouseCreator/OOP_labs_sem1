@@ -27,10 +27,7 @@ class InsuranceDaoImplTest extends InMemoryDatabaseTest {
 
     @Test
     void save_Ok() {
-        LifeInsurance lifeInsurance = new LifeInsurance();
-        lifeInsurance.setRisk(10);
-        lifeInsurance.setOwnerName("Petrov");
-        lifeInsurance.setRiskFactor("asteroid");
+        LifeInsurance lifeInsurance = insuranceFactory.getLifeInsurance(10, "Petrov", "Asteroid");
 
         Insurance actual = insuranceDao.save(lifeInsurance);
 
@@ -92,7 +89,7 @@ class InsuranceDaoImplTest extends InMemoryDatabaseTest {
 
         int sizeAfter = insuranceDao.findAll().size();
 
-        assertEquals(1, sizeBefore - sizeAfter);
+        assertEquals(1L, sizeBefore - sizeAfter);
     }
 
     private int injectData() {
@@ -102,7 +99,7 @@ class InsuranceDaoImplTest extends InMemoryDatabaseTest {
         HouseInsurance houseInsurance = insuranceFactory.getHouseInsurance(5, "Ivanov", "Abc street");
         insuranceDao.save(houseInsurance);
 
-        CarInsurance carInsurance = insuranceFactory.getCarInsurance(3, "Sidnov", "AA 0000 BB",10L);
+        CarInsurance carInsurance = insuranceFactory.getCarInsurance(3, "Sidney", "AA 0000 BB",10L);
         insuranceDao.save(carInsurance);
 
         return 3;
