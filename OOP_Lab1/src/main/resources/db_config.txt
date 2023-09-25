@@ -1,4 +1,2 @@
-db.name=insurance_db
 db.username=your_username
 db.password=your_password
-
