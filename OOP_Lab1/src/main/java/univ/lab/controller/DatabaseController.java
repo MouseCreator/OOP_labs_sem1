@@ -266,6 +266,23 @@ public class DatabaseController {
     }
 
     private void injectData() {
+        Insurance insurance1 = insuranceService.save(insuranceFactory.getLifeInsurance(5, "Alice", 200L, "Ice"));
+        Insurance insurance2 = insuranceService.save(insuranceFactory.getCarInsurance(4, "Bob", 100L, "AA 00 BB", 200L));
+        Insurance insurance3 = insuranceService.save(insuranceFactory.getCarInsurance(3, "Carl", 50L, "CC 00 DD", 170L));
+        Derivative derivative1 = derivativeFactory.getDerivative();
+        derivative1.getInsurances().add(insurance1);
+        derivative1.getInsurances().add(insurance2);
+        derivative1.getInsurances().add(insurance3);
+        derivativeService.save(derivative1);
 
+        Insurance insurance4 = insuranceService.save(insuranceFactory.getHouseInsurance(5, "Alice", 80L, "Vito street"));
+        Insurance insurance5 = insuranceService.save( insuranceFactory.getCarInsurance(2, "Bill", 20L, "EE 00 FF", 30L));
+
+        Derivative derivative2 = derivativeFactory.getDerivative();
+        derivative2.getInsurances().add(insurance4);
+        derivative2.getInsurances().add(insurance5);
+        derivativeService.save(derivative2);
+        Derivative derivative3 = derivativeFactory.getDerivative();
+        derivativeService.save(derivative3);
     }
 }

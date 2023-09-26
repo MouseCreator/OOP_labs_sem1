@@ -1,7 +1,10 @@
 package univ.lab;
 
+import univ.lab.controller.DatabaseController;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        DatabaseController controller = new DatabaseController();
+        controller.start();
     }
 }
