@@ -11,5 +11,6 @@
         <mapping class="univ.lab.model.CarInsurance"/>
         <mapping class="univ.lab.model.HouseInsurance"/>
         <mapping class="univ.lab.model.LifeInsurance"/>
+        <mapping class="univ.lab.model.Derivative"/>
     </session-factory>
 </hibernate-configuration>

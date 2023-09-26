@@ -22,7 +22,7 @@ class DerivativeDaoImplTest extends InMemoryDatabaseTest {
 
     @BeforeEach
     void setUp() {
-        this.derivativeDao = new DerivativeDaoImpl(new CrudDaoManagerImpl<>(getSessionFactory(), Derivative.class));
+        this.derivativeDao = new DerivativeDaoImpl(getSessionFactory(), new CrudDaoManagerImpl<>(getSessionFactory(), Derivative.class));
         derivativeFactory = new DerivativeFactoryImpl();
         insuranceFactory = new InsuranceFactoryImpl();
         insuranceDao = new InsuranceDaoImpl(new CrudDaoManagerImpl<>(getSessionFactory(), Insurance.class));
@@ -106,12 +106,13 @@ class DerivativeDaoImplTest extends InMemoryDatabaseTest {
         Optional<Derivative> derivativeOptional = derivativeDao.findById(1L);
         assertTrue(derivativeOptional.isPresent());
         Derivative derivative = derivativeOptional.get();
+        derivative.getInsurances().remove(0);
         derivativeDao.update(derivative);
 
         Optional<Derivative> updated = derivativeDao.findById(1L);
         assertTrue(updated.isPresent());
         Derivative derivativeUpdated = updated.get();
-        assertEquals(derivativeUpdated.getId(), derivative.getId());
+        assertEquals(derivativeUpdated.getInsurances().size(), derivative.getInsurances().size());
     }
 
     @Override
