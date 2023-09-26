@@ -17,18 +17,26 @@ import univ.lab.util.HibernateUtil;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Scanner;
 import java.util.function.Predicate;
 
 public class DatabaseController {
-    private final DerivativeService derivativeService =
-            new DerivativeServiceImpl(new DerivativeDaoImpl(HibernateUtil.getSessionFactory(),
-                    new CrudDaoManagerImpl<>(HibernateUtil.getSessionFactory(), Derivative.class)));
-    private final DerivativeFactory derivativeFactory = new DerivativeFactoryImpl();
-    private final InsuranceService insuranceService = new InsuranceServiceImpl(
-            new InsuranceDaoImpl(
-                    new CrudDaoManagerImpl<>(HibernateUtil.getSessionFactory(), Insurance.class)));
-    private final InsuranceFactory insuranceFactory = new InsuranceFactoryImpl();
+    private final DerivativeService derivativeService;
+    private final DerivativeFactory derivativeFactory;
+    private final InsuranceService insuranceService;
+    private final InsuranceFactory insuranceFactory;
+    private final UserInputProcessor userInput;
+
+    public DatabaseController() {
+        insuranceService = new InsuranceServiceImpl(
+                new InsuranceDaoImpl(
+                        new CrudDaoManagerImpl<>(HibernateUtil.getSessionFactory(), Insurance.class)));
+        derivativeService =
+                new DerivativeServiceImpl(new DerivativeDaoImpl(HibernateUtil.getSessionFactory(),
+                        new CrudDaoManagerImpl<>(HibernateUtil.getSessionFactory(), Derivative.class)));
+        insuranceFactory = new InsuranceFactoryImpl();
+        derivativeFactory = new DerivativeFactoryImpl();
+        userInput = new UserInputProcessorImpl();
+    }
     public void start() {
         injectData();
         doMainLoop();
@@ -63,10 +71,10 @@ public class DatabaseController {
     }
 
     private void getByParameters() {
-        Long derivative = requestLong("Derivative ID: ");
+        Long derivative = userInput.requestLong("Derivative ID: ");
         List<Predicate<Insurance>> properties = new ArrayList<>();
 
-        String requestLowerRisk = requestString("Risk (lower): ");
+        String requestLowerRisk = userInput.requestString("Risk (lower): ");
         String decimalPattern = "\\d*\\.?\\d+";
         if (requestLowerRisk.matches(decimalPattern)) {
             long rLow = Long.parseLong(requestLowerRisk);
@@ -74,28 +82,28 @@ public class DatabaseController {
             properties.add(predicate);
         }
 
-        String requestUpperRisk = requestString("Risk (higher): ");
+        String requestUpperRisk = userInput.requestString("Risk (higher): ");
         if (requestUpperRisk.matches(decimalPattern)) {
             long rHigh = Long.parseLong(requestUpperRisk);
             Predicate<Insurance> predicate = insurance -> insurance.getRisk() < rHigh;
             properties.add(predicate);
         }
 
-        String requestLowerPrice = requestString("Price (Lower): ");
+        String requestLowerPrice = userInput.requestString("Price (Lower): ");
         if (requestLowerPrice.matches(decimalPattern)) {
             long priceLower = Long.parseLong(requestLowerPrice);
             Predicate<Insurance> predicate = insurance -> insurance.getPrice() > priceLower;
             properties.add(predicate);
         }
 
-        String requestUpperPrice = requestString("Price (Higher): ");
+        String requestUpperPrice = userInput.requestString("Price (Higher): ");
         if (requestUpperPrice.matches(decimalPattern)) {
             long priceLower = Long.parseLong(requestUpperPrice);
             Predicate<Insurance> predicate = insurance -> insurance.getPrice() < priceLower;
             properties.add(predicate);
         }
 
-        String requestName = requestString("Owner name: ");
+        String requestName = userInput.requestString("Owner name: ");
         if (!requestUpperPrice.equals("any")) {
             Predicate<Insurance> predicate = insurance -> insurance.getOwnerName().equals(requestName);
             properties.add(predicate);
@@ -106,42 +114,42 @@ public class DatabaseController {
     }
 
     private void getAndSort() {
-        Long derivative = requestLong("Derivative ID: ");
+        Long derivative = userInput.requestLong("Derivative ID: ");
         List<Insurance> insurancesSorted = derivativeService.getInsurancesSorted(derivative);
         System.out.println(insurancesSorted);
     }
 
     private void calculateSum() {
-        Long derivative = requestLong("Derivative ID: ");
+        Long derivative = userInput.requestLong("Derivative ID: ");
         Long sum = derivativeService.calculatePrice(derivative);
         System.out.println("Sum: " + sum);
     }
 
     private void removeInsuranceFromDerivative() {
-        Long insuranceId = requestLong("Insurance ID: ");
+        Long insuranceId = userInput.requestLong("Insurance ID: ");
         Optional<Insurance> insurance = insuranceService.find(insuranceId);
         if (insurance.isEmpty()) {
             System.out.println("No such ID!");
             return;
         }
-        Long derivative = requestLong("Derivative ID: ");
+        Long derivative = userInput.requestLong("Derivative ID: ");
         derivativeService.removeInsuranceFromDerivative(derivative, insurance.get());
     }
 
     private void putInsuranceInDerivative() {
-        Long insuranceId = requestLong("Insurance ID: ");
+        Long insuranceId = userInput.requestLong("Insurance ID: ");
         Optional<Insurance> insurance = insuranceService.find(insuranceId);
         if (insurance.isEmpty()) {
             System.out.println("No such ID!");
             return;
         }
-        Long derivative = requestLong("Derivative ID: ");
+        Long derivative = userInput.requestLong("Derivative ID: ");
         derivativeService.addInsuranceToDerivative(derivative, insurance.get());
     }
 
 
     private void deleteDerivative() {
-        Long id = requestLong("ID: ");
+        Long id = userInput.requestLong("ID: ");
         try {
             derivativeService.delete(id);
         } catch (Exception e) {
@@ -150,7 +158,7 @@ public class DatabaseController {
     }
 
     private void deleteInsurance() {
-        Long id = requestLong("ID: ");
+        Long id = userInput.requestLong("ID: ");
         try {
             derivativeService.delete(id);
         } catch (Exception e) {
@@ -173,7 +181,7 @@ public class DatabaseController {
 
     private void addInsurance() {
         System.out.println("Adding insurance:");
-        String type = requestString("Type: ");
+        String type = userInput.requestString("Type: ");
         switch (type) {
             case "car" -> addCarInsurance();
             case "life" -> addLifeInsurance();
@@ -183,29 +191,29 @@ public class DatabaseController {
     }
 
     private void addHouseInsurance() {
-        Integer risk = requestInteger("Risk: ");
-        String owner = requestString("Owner: ");
-        Long price = requestLong("Price: ");
-        String address = requestString("Address: ");
+        Integer risk = userInput.requestInteger("Risk: ");
+        String owner = userInput.requestString("Owner: ");
+        Long price = userInput.requestLong("Price: ");
+        String address = userInput.requestString("Address: ");
         HouseInsurance houseInsurance = insuranceFactory.getHouseInsurance(risk, owner, price, address);
         insuranceService.save(houseInsurance);
     }
 
     private void addLifeInsurance() {
-        Integer risk = requestInteger("Risk: ");
-        String owner = requestString("Owner: ");
-        Long price = requestLong("Price: ");
-        String riskFactor = requestString("Risk factor: ");
+        Integer risk = userInput.requestInteger("Risk: ");
+        String owner = userInput.requestString("Owner: ");
+        Long price = userInput.requestLong("Price: ");
+        String riskFactor = userInput.requestString("Risk factor: ");
         LifeInsurance lifeInsurance = insuranceFactory.getLifeInsurance(risk, owner, price, riskFactor);
         insuranceService.save(lifeInsurance);
     }
 
     private void addCarInsurance() {
-        Integer risk = requestInteger("Risk: ");
-        String owner = requestString("Owner: ");
-        Long price = requestLong("Price: ");
-        String number = requestString("Car number: ");
-        Long carPrice = requestLong("Car price: ");
+        Integer risk = userInput.requestInteger("Risk: ");
+        String owner = userInput.requestString("Owner: ");
+        Long price = userInput.requestLong("Price: ");
+        String number = userInput.requestString("Car number: ");
+        Long carPrice = userInput.requestLong("Car price: ");
         CarInsurance carInsurance = insuranceFactory.getCarInsurance(risk, owner, price, number, carPrice);
         insuranceService.save(carInsurance);
     }
@@ -215,58 +223,10 @@ public class DatabaseController {
     }
 
     private String getUserCommand() {
-        return requestString("> ");
+        return userInput.requestString("> ");
     }
 
-    private String requestString(String prompt) {
-        Scanner scanner = new Scanner(System.in);
-        String input;
 
-        do {
-            System.out.print(prompt);
-            input = scanner.nextLine();
-
-        } while (input == null || input.isEmpty());
-
-        return input;
-    }
-
-    private Long requestLong(String prompt) {
-        Scanner scanner = new Scanner(System.in);
-        String input;
-        long res;
-        do {
-            System.out.print(prompt);
-            input = scanner.nextLine();
-            if ((input == null || input.isEmpty()))
-                continue;
-            try {
-                res = Long.parseLong(input);
-            } catch (Exception e) {
-                continue;
-            }
-            return res;
-        } while (true);
-
-    }
-
-    private Integer requestInteger(String prompt) {
-        Scanner scanner = new Scanner(System.in);
-        String input;
-        int res;
-        do {
-            System.out.print(prompt);
-            input = scanner.nextLine();
-            if ((input == null || input.isEmpty()))
-                continue;
-            try {
-                res = Integer.parseInt(input);
-            } catch (Exception e) {
-                continue;
-            }
-            return res;
-        } while (true);
-    }
 
     private void injectData() {
         Insurance insurance1 = insuranceService.save(insuranceFactory.getLifeInsurance(10, "Alice", 200L, "Ice"));
