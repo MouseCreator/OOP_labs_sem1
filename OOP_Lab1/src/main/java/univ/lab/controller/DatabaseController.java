@@ -104,7 +104,7 @@ public class DatabaseController {
         }
 
         String requestName = userInput.requestString("Owner name: ");
-        if (!requestUpperPrice.equals("any")) {
+        if (!requestName.equals("any")) {
             Predicate<Insurance> predicate = insurance -> insurance.getOwnerName().equals(requestName);
             properties.add(predicate);
         }

@@ -10,8 +10,10 @@ import univ.lab.factory.InsuranceFactory;
 import univ.lab.factory.InsuranceFactoryImpl;
 import univ.lab.model.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -59,10 +61,10 @@ class DerivativeServiceImplTest {
         LifeInsurance lifeInsurance = insuranceFactory.getLifeInsurance(10, "Petrov", 200L, "Fire");
         derivativeService.addInsuranceToDerivative(1L, lifeInsurance);
 
-        CarInsurance carInsurance = insuranceFactory.getCarInsurance(3, "Petrov", 50L, "00 AA 00", 300L);
+        CarInsurance carInsurance = insuranceFactory.getCarInsurance(3, "Ivanov", 50L, "00 AA 00", 300L);
         derivativeService.addInsuranceToDerivative(1L, carInsurance);
 
-        HouseInsurance houseInsurance = insuranceFactory.getHouseInsurance(5, "Petrov", 100L, "ABC street");
+        HouseInsurance houseInsurance = insuranceFactory.getHouseInsurance(5, "Bob", 100L, "ABC street");
         derivativeService.addInsuranceToDerivative(1L, houseInsurance);
 
 
@@ -89,5 +91,16 @@ class DerivativeServiceImplTest {
         assertEquals(10, insurancesSorted.get(0).getRisk());
         assertEquals(5, insurancesSorted.get(1).getRisk());
         assertEquals(3, insurancesSorted.get(2).getRisk());
+    }
+
+    @Test
+    void getByParams() {
+        injectData();
+        ArrayList<Predicate<Insurance>> predicates = new ArrayList<>();
+        predicates.set(0, insurance -> insurance.getOwnerName().equals("Bob"));
+        List<Insurance> insurancesFiltered = derivativeService.getInsurancesByParameters(1L, predicates);
+
+        assertEquals(1, insurancesFiltered.size());
+        assertEquals("Bob", insurancesFiltered.get(0).getOwnerName());
     }
 }
