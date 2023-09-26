@@ -97,7 +97,7 @@ class DerivativeServiceImplTest {
     void getByParams() {
         injectData();
         ArrayList<Predicate<Insurance>> predicates = new ArrayList<>();
-        predicates.set(0, insurance -> insurance.getOwnerName().equals("Bob"));
+        predicates.add(insurance -> insurance.getOwnerName().equals("Bob"));
         List<Insurance> insurancesFiltered = derivativeService.getInsurancesByParameters(1L, predicates);
 
         assertEquals(1, insurancesFiltered.size());
