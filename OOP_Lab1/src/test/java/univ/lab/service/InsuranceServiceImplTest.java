@@ -4,6 +4,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import univ.lab.dao.InsuranceDao;
+import univ.lab.factory.InsuranceFactory;
+import univ.lab.factory.InsuranceFactoryImpl;
 import univ.lab.model.Insurance;
 import univ.lab.model.LifeInsurance;
 
@@ -11,17 +13,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class InsuranceServiceImplTest {
     private InsuranceService insuranceService;
+    private InsuranceFactory insuranceFactory;
     @BeforeEach
     void setUp() {
         InsuranceDao insuranceDaoMock = Mockito.mock(InsuranceDao.class);
         insuranceService = new InsuranceServiceImpl(insuranceDaoMock);
+        insuranceFactory = new InsuranceFactoryImpl();
     }
     @Test
     void saveInsurance_Ok() {
-        LifeInsurance lifeInsurance = new LifeInsurance();
-        lifeInsurance.setRiskFactor("asteroid");
-        lifeInsurance.setRisk(10);
-        lifeInsurance.setOwnerName("Petrov");
+        LifeInsurance lifeInsurance = insuranceFactory.getLifeInsurance(10, "Petrov", 20L, "Asteroid");
 
         Mockito.when(insuranceService.save(lifeInsurance)).thenReturn(setId(lifeInsurance, 1L));
 
