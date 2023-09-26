@@ -1,2 +1,2 @@
-db.username=root
-db.password=zilTTlA_289AVPT
+db.username=your_username
+db.password=your_password
