@@ -41,4 +41,5 @@ public class InsuranceServiceImpl implements InsuranceService {
     public Insurance update(Insurance entity) {
         return insuranceDao.update(entity);
     }
+
 }

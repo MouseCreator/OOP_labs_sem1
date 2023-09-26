@@ -7,6 +7,8 @@ import univ.lab.model.Insurance;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class DerivativeServiceImpl implements DerivativeService {
 
@@ -92,5 +94,21 @@ public class DerivativeServiceImpl implements DerivativeService {
         List<Insurance> insurances = derivative.getInsurances();
         insurances.sort(insuranceComparator);
         return insurances;
+    }
+
+    @Override
+    public List<Insurance> getInsurancesByParameters(Long derivativeId, List<Predicate<Insurance>> predicates) {
+        Optional<Derivative> derivativeOptional = find(derivativeId);
+        if (derivativeOptional.isEmpty()) {
+            throw new IllegalArgumentException("Cannot find derivative with id " + derivativeId);
+        }
+        Derivative derivative = derivativeOptional.get();
+        List<Insurance> insurances = derivative.getInsurances();
+        Predicate<Insurance> mainPredicate = o -> true;
+        for (Predicate<Insurance> predicate : predicates) {
+            mainPredicate = mainPredicate.and(predicate);
+        }
+
+        return insurances.stream().filter(mainPredicate).collect(Collectors.toList());
     }
 }
