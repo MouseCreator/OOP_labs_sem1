@@ -40,7 +40,7 @@ public class DatabaseController {
                 String command = getUserCommand();
                 command = unifyCommand(command);
                 switch (command) {
-                    case "exit" -> {
+                    case "exit", "close" -> {
                         return;
                     }
                     case "add_insurance", "ai" -> addInsurance();
@@ -67,28 +67,29 @@ public class DatabaseController {
         List<Predicate<Insurance>> properties = new ArrayList<>();
 
         String requestLowerRisk = requestString("Risk (lower): ");
-        if (!requestLowerRisk.equals("any")) {
+        String decimalPattern = "\\d*\\.?\\d+";
+        if (requestLowerRisk.matches(decimalPattern)) {
             long rLow = Long.parseLong(requestLowerRisk);
             Predicate<Insurance> predicate = insurance -> insurance.getRisk() > rLow;
             properties.add(predicate);
         }
 
         String requestUpperRisk = requestString("Risk (higher): ");
-        if (!requestUpperRisk.equals("any")) {
+        if (requestUpperRisk.matches(decimalPattern)) {
             long rHigh = Long.parseLong(requestUpperRisk);
             Predicate<Insurance> predicate = insurance -> insurance.getRisk() < rHigh;
             properties.add(predicate);
         }
 
         String requestLowerPrice = requestString("Price (Lower): ");
-        if (!requestLowerPrice.equals("any")) {
+        if (requestLowerPrice.matches(decimalPattern)) {
             long priceLower = Long.parseLong(requestLowerPrice);
             Predicate<Insurance> predicate = insurance -> insurance.getPrice() > priceLower;
             properties.add(predicate);
         }
 
         String requestUpperPrice = requestString("Price (Higher): ");
-        if (!requestUpperPrice.equals("any")) {
+        if (requestUpperPrice.matches(decimalPattern)) {
             long priceLower = Long.parseLong(requestUpperPrice);
             Predicate<Insurance> predicate = insurance -> insurance.getPrice() < priceLower;
             properties.add(predicate);
@@ -218,56 +219,58 @@ public class DatabaseController {
     }
 
     private String requestString(String prompt) {
-        try(Scanner scanner = new Scanner(System.in)) {
-            do {
-                System.out.print(prompt);
-                String line = scanner.nextLine();
-                if (line == null || line.isEmpty())
-                    continue;
-                return unifyCommand(line);
-            } while (true);
-        }
+        Scanner scanner = new Scanner(System.in);
+        String input;
+
+        do {
+            System.out.print(prompt);
+            input = scanner.nextLine();
+
+        } while (input == null || input.isEmpty());
+
+        return input;
     }
 
     private Long requestLong(String prompt) {
-        try(Scanner scanner = new Scanner(System.in)) {
-            do {
-                System.out.print(prompt);
-                String line = scanner.nextLine();
-                if (line == null || line.isEmpty())
-                    continue;
-                long longV;
-                try {
-                    longV = Long.parseLong(line);
-                } catch (Exception e) {
-                    continue;
-                }
-                return longV;
-            } while (true);
-        }
+        Scanner scanner = new Scanner(System.in);
+        String input;
+        long res;
+        do {
+            System.out.print(prompt);
+            input = scanner.nextLine();
+            if ((input == null || input.isEmpty()))
+                continue;
+            try {
+                res = Long.parseLong(input);
+            } catch (Exception e) {
+                continue;
+            }
+            return res;
+        } while (true);
+
     }
 
     private Integer requestInteger(String prompt) {
-        try(Scanner scanner = new Scanner(System.in)) {
-            do {
-                System.out.print(prompt);
-                String line = scanner.nextLine();
-                if (line == null || line.isEmpty())
-                    continue;
-                int intV;
-                try {
-                    intV = Integer.parseInt(line);
-                } catch (Exception e) {
-                    continue;
-                }
-                return intV;
-            } while (true);
-        }
+        Scanner scanner = new Scanner(System.in);
+        String input;
+        int res;
+        do {
+            System.out.print(prompt);
+            input = scanner.nextLine();
+            if ((input == null || input.isEmpty()))
+                continue;
+            try {
+                res = Integer.parseInt(input);
+            } catch (Exception e) {
+                continue;
+            }
+            return res;
+        } while (true);
     }
 
     private void injectData() {
-        Insurance insurance1 = insuranceService.save(insuranceFactory.getLifeInsurance(5, "Alice", 200L, "Ice"));
-        Insurance insurance2 = insuranceService.save(insuranceFactory.getCarInsurance(4, "Bob", 100L, "AA 00 BB", 200L));
+        Insurance insurance1 = insuranceService.save(insuranceFactory.getLifeInsurance(10, "Alice", 200L, "Ice"));
+        Insurance insurance2 = insuranceService.save(insuranceFactory.getCarInsurance(5, "Bob", 100L, "AA 00 BB", 200L));
         Insurance insurance3 = insuranceService.save(insuranceFactory.getCarInsurance(3, "Carl", 50L, "CC 00 DD", 170L));
         Derivative derivative1 = derivativeFactory.getDerivative();
         derivative1.getInsurances().add(insurance1);

@@ -2,11 +2,13 @@ package univ.lab.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 
 import java.util.List;
 @Entity
 @Data
 @Table(name="derivatives")
+@ToString(callSuper = true)
 public class Derivative {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
