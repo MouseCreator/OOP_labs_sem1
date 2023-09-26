@@ -101,6 +101,17 @@ class DerivativeDaoImplTest extends InMemoryDatabaseTest {
 
     @Test
     void update() {
+        int injectedItemsCount = injectData();
+        assert injectedItemsCount > 0;
+        Optional<Derivative> derivativeOptional = derivativeDao.findById(1L);
+        assertTrue(derivativeOptional.isPresent());
+        Derivative derivative = derivativeOptional.get();
+        derivativeDao.update(derivative);
+
+        Optional<Derivative> updated = derivativeDao.findById(1L);
+        assertTrue(updated.isPresent());
+        Derivative derivativeUpdated = updated.get();
+        assertEquals(derivativeUpdated.getId(), derivative.getId());
     }
 
     @Override
