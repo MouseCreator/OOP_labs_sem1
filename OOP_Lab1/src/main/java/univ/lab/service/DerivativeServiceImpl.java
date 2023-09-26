@@ -88,7 +88,7 @@ public class DerivativeServiceImpl implements DerivativeService {
             throw new IllegalArgumentException("Cannot find derivative with id " + derivativeId);
         }
         Derivative derivative = derivativeOptional.get();
-        Comparator<Insurance> insuranceComparator = Comparator.comparingInt(Insurance::getRisk);
+        Comparator<Insurance> insuranceComparator = (o1, o2) -> o2.getRisk() - o1.getRisk();
         List<Insurance> insurances = derivative.getInsurances();
         insurances.sort(insuranceComparator);
         return insurances;
