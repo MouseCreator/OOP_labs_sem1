@@ -2,6 +2,5 @@ package univ.lab.service;
 
 import univ.lab.model.Insurance;
 
-public interface InsuranceService {
-    Insurance save(Insurance insurance);
+public interface InsuranceService extends CrudService<Insurance> {
 }
