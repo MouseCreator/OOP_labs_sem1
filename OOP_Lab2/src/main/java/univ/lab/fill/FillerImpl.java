@@ -4,8 +4,8 @@ import java.lang.reflect.Field;
 
 public class FillerImpl implements Filler {
     @Override
-    public <T> void fill(Object obj, String attribute, T value) {
-        Field[] declaredFields = obj.getClass().getDeclaredFields();
+    public <T> void fill(Object toInitialize, String attribute, T value) {
+        Field[] declaredFields = toInitialize.getClass().getDeclaredFields();
         for (Field field : declaredFields) {
             if (field.isAnnotationPresent(Fill.class)) {
                 Fill annotation = field.getAnnotation(Fill.class);
