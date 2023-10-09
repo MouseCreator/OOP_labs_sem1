@@ -16,8 +16,10 @@
 
     <xs:complexType name="characteristic">
         <xs:sequence>
-            <xs:element name="topic" type="xs:string"/>
             <xs:element name="colored" type="xs:boolean"/>
+            <xs:element name="volume" type="xs:int"/>
+            <xs:element name="glossy" type="xs:boolean"/>
+            <xs:element name="subscription_index" type="xs:boolean"/>
         </xs:sequence>
     </xs:complexType>
 </xs:schema>

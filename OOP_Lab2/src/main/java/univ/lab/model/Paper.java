@@ -7,4 +7,5 @@ public class Paper {
     private String title;
     private String type;
     private boolean monthly;
+    private Characteristics characteristics;
 }
