@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="paper">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="title" type="xs:string"/>
+                <xs:element name="type" type="xs:string"/>
+                <xs:element name="monthly" type="xs:boolean"/>
+                <xs:element name="characteristics" type="characteristic" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+    <xs:complexType name="characteristic">
+        <xs:sequence>
+            <xs:element name="topic" type="xs:string"/>
+            <xs:element name="colored" type="xs:boolean"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
