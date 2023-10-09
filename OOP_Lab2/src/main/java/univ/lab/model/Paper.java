@@ -1,22 +1,22 @@
 package univ.lab.model;
 
 import lombok.Data;
-import univ.lab.inject.Inject;
+import univ.lab.inject.Fill;
 
 @Data
 public class Paper {
-    @Inject(attribute="id")
+    @Fill(attribute="id")
     private Long id;
 
-    @Inject(attribute="title")
+    @Fill(attribute="title")
     private String title;
 
-    @Inject(attribute="type")
+    @Fill(attribute="type")
     private String type;
 
-    @Inject(attribute="monthly")
+    @Fill(attribute="monthly")
     private Boolean monthly;
 
-    @Inject(attribute="characteristics")
+    @Fill(attribute="characteristics")
     private Characteristics characteristics;
 }
