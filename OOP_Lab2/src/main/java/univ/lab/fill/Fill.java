@@ -1,4 +1,4 @@
-package univ.lab.inject;
+package univ.lab.fill;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

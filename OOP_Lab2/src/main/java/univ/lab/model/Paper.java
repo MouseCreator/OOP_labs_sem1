@@ -1,7 +1,7 @@
 package univ.lab.model;
 
 import lombok.Data;
-import univ.lab.inject.Fill;
+import univ.lab.fill.Fill;
 
 @Data
 public class Paper {
