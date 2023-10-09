@@ -1,5 +1,6 @@
 package univ.lab.inject;
 
 public interface Injector {
-    <E extends T, T> E getInstance(Class<T> interfaceClass);
+    <T> T getInstance(Class<T> interfaceClass);
+    void addImplementation(Class<?> interfaceClass, Class<?> implClass);
 }

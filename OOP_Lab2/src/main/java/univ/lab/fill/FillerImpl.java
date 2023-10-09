@@ -10,16 +10,16 @@ public class FillerImpl implements Filler {
             if (field.isAnnotationPresent(Fill.class)) {
                 Fill annotation = field.getAnnotation(Fill.class);
                 if (annotation.attribute().equals(attribute)) {
-                    setField(field, value);
+                    setField(field, toInitialize, value);
                 }
             }
         }
     }
 
-    private <T> void setField(Field field, T value) {
+    private <T> void setField(Field field, Object obj, T value) {
         try {
             field.setAccessible(true);
-            field.set(field, value);
+            field.set(obj, value);
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }
