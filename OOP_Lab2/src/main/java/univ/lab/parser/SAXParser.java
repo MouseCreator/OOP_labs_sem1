@@ -1,7 +1,5 @@
 package univ.lab.parser;
 
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 import univ.lab.model.Paper;
 
