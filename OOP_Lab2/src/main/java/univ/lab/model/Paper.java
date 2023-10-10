@@ -2,8 +2,10 @@ package univ.lab.model;
 
 import lombok.Data;
 import univ.lab.fill.Fill;
+import univ.lab.fill.Fillable;
 
 @Data
+@Fillable(name="paper")
 public class Paper {
     @Fill(attribute="id")
     private Long id;

@@ -4,5 +4,11 @@
         <title>World News</title>
         <type>Newspaper</type>
         <monthly>true</monthly>
+        <characteristics>
+            <colored>true</colored>
+            <volume>30</volume>
+            <glossy>true</glossy>
+            <subscription_index>true</subscription_index>
+        </characteristics>
     </paper>
 </papers>
