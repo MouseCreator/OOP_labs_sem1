@@ -86,7 +86,8 @@ public class FillerImpl implements Filler {
             throw new RuntimeException(e);
         }
     }
-    private void initList(Field field, Object toInit, Object t) throws InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+    private void initList(Field field, Object toInit, Object t) throws InstantiationException,
+            IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         Object list;
         if (field.getType().isInterface()) {
             list = new ArrayList<>();
