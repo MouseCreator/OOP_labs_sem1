@@ -6,7 +6,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 
 public class InjectorImpl implements Injector {
-    private final HashMap<Class<?>, Class<?>> implementations = new HashMap<>();
+    final HashMap<Class<?>, Class<?>> implementations = new HashMap<>();
     private final HashMap<Class<?>, Object> instances = new HashMap<>();
     @Override
     public <T> T getInstance(Class<T> interfaceClass) {
@@ -51,8 +51,8 @@ public class InjectorImpl implements Injector {
         return implementation;
     }
 
-    public void addImplementation(Class<?> interfaceClass, Class<?> implClass) {
-        implementations.put(interfaceClass, implClass);
+    public Class<?> addImplementation(Class<?> interfaceClass, Class<?> implClass) {
+        return implementations.put(interfaceClass, implClass);
     }
 
     private <T> void setField(Field field, Object obj, T value) {
