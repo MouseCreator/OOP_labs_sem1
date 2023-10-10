@@ -23,11 +23,8 @@ public class SAXPaperHandler extends DefaultHandler {
     public void startElement(String uri, String localName, String qName, Attributes attributes) {
 
         if (isElementDeclaration(qName)) {
-            if (currentElement != null) {
-                stack.push(currentElement);
-            }
             processNewElement(qName, attributes);
-
+            stack.push(currentElement);
         }
 
     }
@@ -38,12 +35,14 @@ public class SAXPaperHandler extends DefaultHandler {
     @Override
     public void endElement(String uri, String localName, String qName) {
         if (isElementDeclaration(qName)) {
-            Object finishedElement = currentElement;
-            currentElement = stack.pop();
-            filler.fill(currentElement, qName, finishedElement);
+            Object finishedElement = stack.pop();
             if (stack.empty()) {
-                result = currentElement;
+                result = finishedElement;
+                return;
             }
+            currentElement = stack.peek();
+
+            filler.fill(currentElement, qName, finishedElement);
             return;
         }
         filler.fill(currentElement, qName, bufferedTag);
