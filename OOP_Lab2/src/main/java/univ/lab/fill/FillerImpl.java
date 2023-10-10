@@ -1,6 +1,7 @@
 package univ.lab.fill;
 
 import java.lang.reflect.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class FillerImpl implements Filler {
@@ -63,6 +64,7 @@ public class FillerImpl implements Filler {
         }
     }
     private void appendList(Field field, Object toInit, Object toAdd) {
+        field.setAccessible(true);
         if (toAdd instanceof String str) {
             String listOf = isListOf(field);
             switch (listOf) {
@@ -71,7 +73,7 @@ public class FillerImpl implements Filler {
             }
         }
         try {
-            if (field.get(toAdd) == null) {
+            if (field.get(toInit) == null) {
                 initList(field, toInit, toAdd);
             } else {
                 addToList(field, toAdd, toInit);
@@ -81,7 +83,12 @@ public class FillerImpl implements Filler {
         }
     }
     private void initList(Field field, Object toInit, Object t) throws InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
-        Object list = field.getType().getConstructor().newInstance();
+        Object list;
+        if (field.getType().isInterface()) {
+            list = new ArrayList<>();
+        } else {
+            list = field.getType().getConstructor().newInstance();
+        }
         Method add = List.class.getDeclaredMethod("add",Object.class);
         add.invoke(list, t);
         field.set(toInit, list);

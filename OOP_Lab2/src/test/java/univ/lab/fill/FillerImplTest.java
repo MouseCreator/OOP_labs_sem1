@@ -2,6 +2,9 @@ package univ.lab.fill;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+import java.util.Set;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class FillerImplTest {
@@ -44,5 +47,41 @@ class FillerImplTest {
         FillerImpl filler = new FillerImpl();
         filler.fill(toFill, "integer", 10);
         assertNull(toFill.notInjectInt);
+    }
+
+    private static class ClassWithList {
+        @FillList(attribute = "strings")
+        private List<String> strings;
+    }
+
+    private static class ClassWithSet {
+        @FillList(attribute = "strings")
+        private Set<String> strings;
+    }
+    @Test
+    void fillList_Ok() {
+        ClassWithList toFill = new ClassWithList();
+        toFill.strings=null;
+
+        FillerImpl filler = new FillerImpl();
+
+        String helloString = "Hello";
+        Boolean randomBool = true;
+
+        filler.fill(toFill, "strings", helloString);
+        assertThrows(RuntimeException.class, () -> filler.fill(toFill, "strings", randomBool));
+        assertEquals(helloString, toFill.strings.get(0));
+    }
+
+    @Test
+    void fillList_WrongClass() {
+        ClassWithSet toFill = new ClassWithSet();
+        toFill.strings=null;
+
+        FillerImpl filler = new FillerImpl();
+
+        String helloString = "Hello";
+
+        assertThrows(RuntimeException.class, () -> filler.fill(toFill, "strings", helloString));
     }
 }
