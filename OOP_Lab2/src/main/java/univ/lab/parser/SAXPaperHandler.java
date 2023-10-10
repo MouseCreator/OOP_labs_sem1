@@ -5,21 +5,24 @@ import org.xml.sax.helpers.DefaultHandler;
 import univ.lab.fill.Fillable;
 import univ.lab.fill.FillableCreator;
 import univ.lab.fill.Filler;
-import univ.lab.model.Paper;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Stack;
 
 public class SAXPaperHandler extends DefaultHandler {
-    private final List<Paper> papers = new ArrayList<>();
     private Object result = null;
-    private boolean inPaper;
     private Fillable currentElement;
-    private FillableCreator creator;
     private final Stack<Fillable> stack = new Stack<>();
+    private FillableCreator creator;
     private Filler filler;
     private String bufferedValue;
+
+    public void setCreator(FillableCreator creator) {
+        this.creator = creator;
+    }
+
+    public void setFiller(Filler filler) {
+        this.filler = filler;
+    }
+
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) {
 
@@ -66,8 +69,7 @@ public class SAXPaperHandler extends DefaultHandler {
         return creator.isElementDeclaration(qName);
     }
 
-
-    public List<Paper> getResult() {
-        return papers;
+    public Object getResult() {
+        return result;
     }
 }

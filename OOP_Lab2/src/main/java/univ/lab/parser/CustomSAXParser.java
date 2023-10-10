@@ -11,8 +11,16 @@ import java.util.List;
 
 public class CustomSAXParser implements Parser<Paper> {
     private SAXParserFactory SAXFactory;
+
+    public CustomSAXParser(SAXParserFactory saxFactory) {
+        SAXFactory = saxFactory;
+    }
+
+    public CustomSAXParser() {
+    }
+
     @Override
-    public List<Paper> parse(String filename) {
+    public Object parse(String filename) {
         try {
             SAXParser saxParser = SAXFactory.newSAXParser();
             SAXPaperHandler saxPaperHandler = new SAXPaperHandler();
