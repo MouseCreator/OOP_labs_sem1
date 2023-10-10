@@ -9,7 +9,7 @@ import javax.xml.parsers.SAXParserFactory;
 import java.io.IOException;
 import java.util.List;
 
-public class CustomSAXParser implements Parser<Paper> {
+public class CustomSAXParser implements Parser {
     private SAXParserFactory SAXFactory;
 
     public CustomSAXParser(SAXParserFactory saxFactory) {
@@ -20,12 +20,12 @@ public class CustomSAXParser implements Parser<Paper> {
     }
 
     @Override
-    public Object parse(String filename) {
+    public List<Paper> parse(String filename) {
         try {
             SAXParser saxParser = SAXFactory.newSAXParser();
             SAXPaperHandler saxPaperHandler = new SAXPaperHandler();
             saxParser.parse(filename, saxPaperHandler);
-            return saxPaperHandler.getResult();
+            return null;//saxPaperHandler.getResult();
         } catch (ParserConfigurationException | SAXException | IOException e) {
             throw new RuntimeException(e);
         }
