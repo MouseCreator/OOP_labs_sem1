@@ -5,23 +5,22 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 
 public class FillableCreator {
-    private HashMap<String, Class<?>> map;
+    private final HashMap<String, Class<?>> map = new HashMap<>();
     public boolean isElementDeclaration(String qName) {
         return map.containsKey(qName);
     }
-    public void add(Fillable fillable) {
-        map.put(fillable.name(), fillable.getClass());
+    public void add(Class<?> fillableClass) {
+        if (fillableClass.isAnnotationPresent(Fillable.class)) {
+            Fillable fillableAnnotation = fillableClass.getAnnotation(Fillable.class);
+            String name = fillableAnnotation.name();
+            map.put(name, fillableClass);
+        }
     }
-    public Fillable createNew(String qName) {
+    public Object createNew(String qName) {
         Class<?> myClass = map.get(qName);
         try {
             Constructor<?> constructor = myClass.getConstructor();
-            Object instance = constructor.newInstance();
-            if (instance.getClass().isAnnotationPresent(Fillable.class)) {
-                return (Fillable) instance;
-            } else {
-                throw new InstantiationException("Class does not implement @Fillable");
-            }
+            return constructor.newInstance();
         } catch (NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }

@@ -71,6 +71,10 @@ class FillerImplTest {
         filler.fill(toFill, "strings", helloString);
         assertThrows(RuntimeException.class, () -> filler.fill(toFill, "strings", randomBool));
         assertEquals(helloString, toFill.strings.get(0));
+
+        String byeString = "Bye";
+        filler.fill(toFill, "strings", byeString);
+        assertEquals(byeString, toFill.strings.get(1));
     }
 
     @Test

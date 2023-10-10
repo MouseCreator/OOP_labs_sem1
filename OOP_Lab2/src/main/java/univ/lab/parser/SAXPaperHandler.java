@@ -2,27 +2,23 @@ package univ.lab.parser;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
-import univ.lab.fill.Fillable;
 import univ.lab.fill.FillableCreator;
 import univ.lab.fill.Filler;
 import java.util.Stack;
 
 public class SAXPaperHandler extends DefaultHandler {
     private Object result = null;
-    private Fillable currentElement;
-    private final Stack<Fillable> stack = new Stack<>();
+    private Object currentElement;
+    private final Stack<Object> stack = new Stack<>();
     private FillableCreator creator;
     private Filler filler;
-    private String bufferedValue;
-
+    private String bufferedTag;
     public void setCreator(FillableCreator creator) {
         this.creator = creator;
     }
-
     public void setFiller(Filler filler) {
         this.filler = filler;
     }
-
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) {
 
@@ -31,25 +27,26 @@ public class SAXPaperHandler extends DefaultHandler {
                 stack.push(currentElement);
             }
             processNewElement(qName, attributes);
+
         }
 
     }
     @Override
     public void characters(char[] chars, int start, int length) {
-        bufferedValue = new String(chars, start, length);
+        bufferedTag = new String(chars, start, length);
     }
     @Override
     public void endElement(String uri, String localName, String qName) {
         if (isElementDeclaration(qName)) {
-            Fillable finishedElement = currentElement;
+            Object finishedElement = currentElement;
             currentElement = stack.pop();
-            if (currentElement == null) {
-                result = finishedElement;
-            } else {
-                filler.fill(currentElement, qName, finishedElement);
+            filler.fill(currentElement, qName, finishedElement);
+            if (stack.empty()) {
+                result = currentElement;
             }
+            return;
         }
-        filler.fill(currentElement, qName, bufferedValue);
+        filler.fill(currentElement, qName, bufferedTag);
     }
 
     private void processNewElement(String qName, Attributes attributes) {
@@ -61,7 +58,7 @@ public class SAXPaperHandler extends DefaultHandler {
         }
     }
 
-    private Fillable createNewCurrent(String qName) {
+    private Object createNewCurrent(String qName) {
         return creator.createNew(qName);
     }
 

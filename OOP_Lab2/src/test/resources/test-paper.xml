@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8" ?>
 <papers>
     <paper id="1">
         <title>World News</title>
@@ -8,6 +7,17 @@
             <colored>true</colored>
             <volume>30</volume>
             <glossy>true</glossy>
+            <subscription_index>true</subscription_index>
+        </characteristics>
+    </paper>
+    <paper id="2">
+        <title>Poem Times</title>
+        <type>Magazine</type>
+        <monthly>false</monthly>
+        <characteristics>
+            <colored>false</colored>
+            <volume>15</volume>
+            <glossy>false</glossy>
             <subscription_index>true</subscription_index>
         </characteristics>
     </paper>

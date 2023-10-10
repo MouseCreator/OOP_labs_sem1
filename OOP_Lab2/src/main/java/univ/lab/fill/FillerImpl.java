@@ -38,6 +38,9 @@ public class FillerImpl implements Filler {
                 else if (typeArgument.equals(Boolean.class)) {
                     return "boolean";
                 }
+                else if (typeArgument.equals(Long.class)) {
+                    return "long";
+                }
                 else if (typeArgument.equals(String.class)) {
                     return "string";
                 }
@@ -70,13 +73,14 @@ public class FillerImpl implements Filler {
             switch (listOf) {
                 case "integer" -> toAdd = Integer.parseInt(str);
                 case "boolean" -> toAdd = Boolean.parseBoolean(str);
+                case "long" -> toAdd = Long.parseLong(str);
             }
         }
         try {
             if (field.get(toInit) == null) {
                 initList(field, toInit, toAdd);
             } else {
-                addToList(field, toAdd, toInit);
+                addToList(field, toInit, toAdd);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -89,15 +93,41 @@ public class FillerImpl implements Filler {
         } else {
             list = field.getType().getConstructor().newInstance();
         }
+        boolean valid = testGeneric(field, list, t);
+        if (!valid) {
+            throw new IllegalArgumentException("Argument is not of Generic type!");
+        }
         Method add = List.class.getDeclaredMethod("add",Object.class);
         add.invoke(list, t);
         field.set(toInit, list);
     }
 
-    private void addToList(Field field, Object obj, Object t) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
-        Object list = field.get(obj);
+    private boolean testGeneric(Field field, Object list, Object toAdd)  {
+        if (list instanceof List) {
+            Type genericType = field.getGenericType();
+            if (genericType instanceof ParameterizedType parameterizedType) {
+                Type[] typeArguments = parameterizedType.getActualTypeArguments();
+                if (typeArguments.length == 1) {
+                    Type listType = typeArguments[0];
+                    return listType.equals(toAdd.getClass());
+                }
+            }
+        }
+        return false;
+    }
+
+    private void addToList(Field field, Object toInitialize, Object toAdd) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+        Object list = field.get(toInitialize);
+        boolean valid = testGeneric(field, list, toAdd);
+        if (!valid) {
+            throw new IllegalArgumentException("Argument is not of Generic type!");
+        }
         Method add = List.class.getDeclaredMethod("add",Object.class);
-        add.invoke(list, t);
+        if (!(list instanceof List)) {
+            throw new IllegalArgumentException("Field is not of type List");
+        }
+        add.invoke(list, toAdd);
+        field.set(toInitialize, list);
     }
 
     private void setPrimitive(Field field, Object toInitialize, Object value) {
@@ -109,6 +139,8 @@ public class FillerImpl implements Filler {
             setField(field, toInitialize, Integer.parseInt(stringValue));
         } else if (fieldType.equals(String.class)) {
             setField(field, toInitialize, stringValue);
+        } else if (fieldType.equals(Long.class)) {
+            setField(field, toInitialize, Long.parseLong(stringValue));
         } else {
             throw new UnsupportedOperationException("Unsupported type to cast from String:" + value.getClass().getName());
         }
