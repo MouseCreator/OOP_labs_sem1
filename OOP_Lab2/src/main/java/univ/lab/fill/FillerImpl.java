@@ -1,11 +1,12 @@
 package univ.lab.fill;
 
-import java.lang.reflect.Field;
+import java.lang.reflect.*;
+import java.util.List;
 
 public class FillerImpl implements Filler {
 
     @Override
-    public <T> void fill(Object toInitialize, String attribute, T value) {
+    public void fill(Object toInitialize, String attribute, Object value) {
         Field[] declaredFields = toInitialize.getClass().getDeclaredFields();
         for (Field field : declaredFields) {
             if (field.isAnnotationPresent(Fill.class)) {
@@ -14,16 +15,43 @@ public class FillerImpl implements Filler {
                     setPrimitiveOrObject(field, toInitialize, value);
                 }
             }
+            else if (field.isAnnotationPresent(FillList.class)) {
+                FillList annotation = field.getAnnotation(FillList.class);
+                if (annotation.attribute().equals(attribute)) {
+                    appendList(field, toInitialize, value);
+                }
+            }
         }
     }
-    private <T> void setPrimitiveOrObject(Field field, Object toInitialize, T value) {
+
+    private String isListOf(Field field) {
+        Type genericFieldType = field.getGenericType();
+
+        if (genericFieldType instanceof ParameterizedType parameterizedType) {
+            Type[] typeArguments = parameterizedType.getActualTypeArguments();
+
+            for (Type typeArgument : typeArguments) {
+                if (typeArgument.equals(Integer.class)) {
+                    return "integer";
+                }
+                else if (typeArgument.equals(Boolean.class)) {
+                    return "boolean";
+                }
+                else if (typeArgument.equals(String.class)) {
+                    return "string";
+                }
+            }
+        }
+        throw new UnsupportedOperationException("Unsupported type to cast from String for Field:" + field.getName());
+    }
+    private void setPrimitiveOrObject(Field field, Object toInitialize, Object value) {
         if (value instanceof String) {
             setPrimitive(field, toInitialize, value);
         } else {
             setField(field, toInitialize, value);
         }
     }
-    private <T> void setField(Field field, Object obj, T value) {
+    private void setField(Field field, Object obj, Object value) {
         try {
             field.setAccessible(true);
             field.set(obj, value);
@@ -34,8 +62,38 @@ public class FillerImpl implements Filler {
                     + field.getType().getName() + ", but got " + value.getClass().getName(), e);
         }
     }
+    private void appendList(Field field, Object toInit, Object toAdd) {
+        if (toAdd instanceof String str) {
+            String listOf = isListOf(field);
+            switch (listOf) {
+                case "integer" -> toAdd = Integer.parseInt(str);
+                case "boolean" -> toAdd = Boolean.parseBoolean(str);
+            }
+        }
+        try {
+            if (field.get(toAdd) == null) {
+                initList(field, toInit, toAdd);
+            } else {
+                addToList(field, toAdd, toInit);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    private void initList(Field field, Object toInit, Object t) throws InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+        Object list = field.getType().getConstructor().newInstance();
+        Method add = List.class.getDeclaredMethod("add",Object.class);
+        add.invoke(list, t);
+        field.set(toInit, list);
+    }
 
-    private <T> void setPrimitive(Field field, Object toInitialize, T value) {
+    private void addToList(Field field, Object obj, Object t) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+        Object list = field.get(obj);
+        Method add = List.class.getDeclaredMethod("add",Object.class);
+        add.invoke(list, t);
+    }
+
+    private void setPrimitive(Field field, Object toInitialize, Object value) {
         String stringValue = (String) value;
         Class<?> fieldType = field.getType();
         if (fieldType.equals(boolean.class) || fieldType.equals(Boolean.class)) {

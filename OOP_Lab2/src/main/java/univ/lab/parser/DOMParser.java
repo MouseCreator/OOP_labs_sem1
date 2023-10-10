@@ -1,9 +1,13 @@
 package univ.lab.parser;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+import univ.lab.fill.Fillable;
+import univ.lab.fill.Filler;
+import univ.lab.fill.FillableCreator;
 import univ.lab.model.Paper;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -14,6 +18,9 @@ import java.io.IOException;
 import java.util.List;
 
 public class DOMParser implements Parser {
+
+    private FillableCreator creator;
+    private Filler filler;
     @Override
     public List<Paper> parse(String filename) {
         DocumentBuilder builder;
@@ -26,12 +33,23 @@ public class DOMParser implements Parser {
             Node currentStack;
             for (int i=0; i<papersOuterList.getLength(); i++) {
                 currentStack = papersOuterList.item(i);
+                processNode(currentStack);
             }
 
         } catch (ParserConfigurationException | SAXException | IOException e) {
             throw new RuntimeException(e);
         }
         return List.of();
+    }
+
+    private Fillable processNode(Node currentNode) {
+        Fillable currentItem = creator.createNew(currentNode.getLocalName());
+        NamedNodeMap attributes = currentNode.getAttributes();
+        for (int i = 0; i < attributes.getLength(); i++) {
+            Node attribute = attributes.item(i);
+            filler.fill(currentItem, attribute.getNodeName(), attribute.getNodeValue());
+        }
+        return null;
     }
 
     @Override
