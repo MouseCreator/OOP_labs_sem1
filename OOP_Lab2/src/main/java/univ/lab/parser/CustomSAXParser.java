@@ -39,8 +39,4 @@ public class CustomSAXParser implements Parser {
         }
     }
 
-    @Override
-    public void write(String filename, Papers instances) {
-
-    }
 }

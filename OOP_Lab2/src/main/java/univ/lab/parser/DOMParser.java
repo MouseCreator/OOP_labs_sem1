@@ -63,8 +63,4 @@ public class DOMParser implements Parser {
         return currentItem;
     }
 
-    @Override
-    public void write(String filename, Papers instances) {
-
-    }
 }
