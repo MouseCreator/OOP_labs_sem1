@@ -16,4 +16,5 @@ public interface Injector {
      * @return previous implementation or null if it is absent
      */
     Class<?> addImplementation(Class<?> interfaceClass, Class<?> implClass);
+    Class<?> addImplementation(Class<?> interfaceClass, Object implementation);
 }

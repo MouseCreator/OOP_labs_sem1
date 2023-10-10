@@ -55,6 +55,14 @@ public class InjectorImpl implements Injector {
         return implementations.put(interfaceClass, implClass);
     }
 
+    @Override
+    public Class<?> addImplementation(Class<?> interfaceClass, Object implementation) {
+        Class<?> newClass = implementation.getClass();
+        Class<?> prev = implementations.put(interfaceClass,newClass);
+        instances.put(newClass, implementation);
+        return prev;
+    }
+
     private <T> void setField(Field field, Object obj, T value) {
         try {
             field.setAccessible(true);
