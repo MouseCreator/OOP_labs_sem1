@@ -18,6 +18,8 @@ class DOMParserTest {
         fillableCreator.add(Paper.class);
         fillableCreator.add(Characteristics.class);
         DOMParser domParser = new DOMParser(fillableCreator, new FillerImpl());
-        domParser.parse("src/main/resources/xml/paper.xml");
+        Papers papers = domParser.parse("src/test/resources/test-paper.xml");
+        assertNotNull(papers);
+        assertEquals(2, papers.getPapersList().size());
     }
 }

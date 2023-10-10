@@ -33,34 +33,30 @@ public class DOMParser implements Parser {
             Document document = builder.parse(new File(filename));
             document.getDocumentElement().normalize();
 
-            processNode(document.getDocumentElement());
+            return (Papers) processNode(document.getDocumentElement());
 
         } catch (ParserConfigurationException | SAXException | IOException e) {
             throw new RuntimeException(e);
         }
-        return new Papers();
     }
 
     private Object processNode(Node node) {
-        Element element = (Element) node;
-        Object currentItem = creator.createNew(element.getTagName());
-
-        NamedNodeMap attributes = element.getAttributes();
+        Object result = creator.createNew(node.getNodeName());
+        NamedNodeMap attributes = node.getAttributes();
         for (int i = 0; i < attributes.getLength(); i++) {
-            Node attribute = attributes.item(i);
-            filler.fill(currentItem, attribute.getNodeName(), attribute.getNodeValue());
+            filler.fill(result, attributes.item(i).getNodeName(), attributes.item(i).getNodeValue());
         }
-
-        NodeList children = element.getChildNodes();
-        for (int i = 0; i < children.getLength(); i++) {
-            Node child = children.item(i);
-            if (child.getNodeType() == Node.ELEMENT_NODE) {
-                processNode(child);
-            } else if (child.getNodeType() == Node.TEXT_NODE) {
-                String nodeValue = child.getTextContent().trim();
+        NodeList childNodes = node.getChildNodes();
+        for (int i = 0; i < childNodes.getLength(); i++) {
+            Node detailNode = childNodes.item(i);
+            if (creator.isElementDeclaration(detailNode.getNodeName())) {
+                Object child = processNode(detailNode);
+                filler.fill(result, detailNode.getNodeName(), child);
+            } else {
+                filler.fill(result, detailNode.getNodeName(), detailNode.getTextContent());
             }
         }
-        return currentItem;
+        return result;
     }
 
 }
