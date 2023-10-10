@@ -21,7 +21,9 @@ public class FillerImpl implements Filler {
             field.setAccessible(true);
             field.set(obj, value);
         } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
+           throw new RuntimeException(e);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Cannot set field value. Expected: " + field.getType().getName() + ", but got " + value.getClass().getName(), e);
         }
     }
 }
