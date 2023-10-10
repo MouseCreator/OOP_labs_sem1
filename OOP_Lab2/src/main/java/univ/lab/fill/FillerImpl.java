@@ -3,6 +3,7 @@ package univ.lab.fill;
 import java.lang.reflect.Field;
 
 public class FillerImpl implements Filler {
+
     @Override
     public <T> void fill(Object toInitialize, String attribute, T value) {
         Field[] declaredFields = toInitialize.getClass().getDeclaredFields();
@@ -14,7 +15,9 @@ public class FillerImpl implements Filler {
                 }
             }
         }
+
     }
+
 
     private <T> void setField(Field field, Object obj, T value) {
         try {
