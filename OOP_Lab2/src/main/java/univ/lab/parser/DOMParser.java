@@ -49,7 +49,9 @@ public class DOMParser implements Parser {
                 Object child = processNode(detailNode);
                 filler.fill(result, detailNode.getNodeName(), child);
             } else {
-                filler.fill(result, detailNode.getNodeName(), detailNode.getTextContent());
+                String textContent = detailNode.getTextContent().trim();
+                if (!textContent.isEmpty())
+                    filler.fill(result, detailNode.getNodeName(), textContent);
             }
         }
         return result;
