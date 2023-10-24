@@ -2,6 +2,7 @@ package univ.lab.parser;
 
 import univ.lab.fill.FillableCreator;
 import univ.lab.fill.Filler;
+import univ.lab.inject.Inject;
 
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
@@ -12,13 +13,18 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 public class StAXParser implements ReflectParser {
+    @Inject
+    private FillableCreator creator;
 
-    private final FillableCreator creator;
-    private final Filler filler;
+    @Inject
+    private Filler filler;
 
     public StAXParser(FillableCreator creator, Filler filler) {
         this.creator = creator;
         this.filler = filler;
+    }
+
+    public StAXParser() {
     }
 
     @Override

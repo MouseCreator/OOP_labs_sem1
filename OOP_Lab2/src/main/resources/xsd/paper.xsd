@@ -11,7 +11,7 @@
                         <xs:element name="monthly" type="xs:boolean"/>
                         <xs:element name="characteristics" type="characteristic" minOccurs="0" maxOccurs="unbounded"/>
                     </xs:sequence>
-                    <xs:attribute name="id" type="xs:ID" use="required"/>
+                    <xs:attribute name="id" type="xs:string" use="required"/>
                 </xs:complexType>
             </xs:element>
         </xs:sequence>

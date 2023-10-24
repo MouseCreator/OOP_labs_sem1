@@ -2,7 +2,7 @@
 <configurations>
     <injections>
         <injection interface="univ.lab.fill.Filler" class="univ.lab.fill.FillerImpl"/>
-        <injection interface="univ.lab.fill.Parser" class="univ.lab.parser.StAXParser"/>
+        <injection interface="univ.lab.parser.Parser" class="univ.lab.parser.StAXParser"/>
     </injections>
     <creations>
         <creation>univ.lab.model.Papers</creation>

@@ -34,13 +34,14 @@ public class ConfigurationReader {
     }
 
     private void processCreations(Document document, ConfigurationManager configurationManager) {
-        NodeList injections = document.getElementsByTagName("creation");
-        for (int i = 0; i < injections.getLength(); i++) {
-            Node paperNode = injections.item(i);
-            if (paperNode.getNodeType() == Node.TEXT_NODE) {
-                String classS = paperNode.getTextContent();
+        NodeList creations = document.getElementsByTagName("creation");
+        for (int i = 0; i < creations.getLength(); i++) {
+            Node creationNode = creations.item(i);
+            if (creationNode.getNodeType() == Node.ELEMENT_NODE) {
+                Element creationElement = (Element) creationNode;
+                String creationValue = creationElement.getTextContent().trim();
                 try {
-                    configurationManager.getFillableCreator().add(Class.forName(classS));
+                    configurationManager.getFillableCreator().add(Class.forName(creationValue));
                 } catch (ClassNotFoundException e) {
                     throw new RuntimeException(e);
                 }
