@@ -1,5 +1,6 @@
 package univ.lab.parser;
 
+import univ.lab.factory.FillableCreatorFactory;
 import univ.lab.fill.FillableCreator;
 import univ.lab.model.Characteristics;
 import univ.lab.model.Paper;
@@ -12,11 +13,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public abstract class AbstractParserTest {
     protected FillableCreator createFillerCreator() {
-        FillableCreator fillableCreator = new FillableCreator();
-        fillableCreator.add(Papers.class);
-        fillableCreator.add(Paper.class);
-        fillableCreator.add(Characteristics.class);
-        return fillableCreator;
+        FillableCreatorFactory fillableCreatorFactory = new FillableCreatorFactory();
+        return fillableCreatorFactory.get();
     }
     private List<Paper> expectedPapers() {
         List<Paper> papers = new ArrayList<>();
