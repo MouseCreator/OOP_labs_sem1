@@ -54,6 +54,7 @@ public class RegularDOMParser implements RegularParser {
                 characteristics.setHasSubscriptionIndex(
                         Boolean.parseBoolean(characteristicsElement.getElementsByTagName("subscription_index").item(0).getTextContent()));
             }
+            papers.getPapersList().add(paper);
         }
         return papers;
     }
