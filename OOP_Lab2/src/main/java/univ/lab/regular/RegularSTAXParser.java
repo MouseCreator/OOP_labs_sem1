@@ -31,13 +31,12 @@ public class RegularSTAXParser implements RegularParser{
         Papers currentPapers = null;
         Paper currentPaper = null;
         Characteristics currentCharacteristics = null;
-
+        String elementName = null;
         while (reader.hasNext()) {
             int event = reader.next();
-
             switch (event) {
                 case XMLStreamConstants.START_ELEMENT -> {
-                    String elementName = reader.getLocalName();
+                    elementName = reader.getLocalName();
                     switch (elementName) {
                         case "papers" -> {
                             currentPapers = new Papers();
@@ -51,27 +50,28 @@ public class RegularSTAXParser implements RegularParser{
                         case "characteristics" -> currentCharacteristics = new Characteristics();
                     }
                 }
-
                 case XMLStreamConstants.CHARACTERS -> {
                     String v = reader.getText().trim();
-                    if (v.isEmpty())
+                    if (v.isEmpty() || elementName == null)
                         continue;
                     if (currentPaper == null) {
                         throw new XMLStreamException();
                     }
-                    switch (reader.getLocalName()) {
+                    switch (elementName) {
                         case "title" -> currentPaper.setTitle(v);
                         case "type" -> currentPaper.setType(v);
                         case "monthly" -> currentPaper.setMonthly(Boolean.parseBoolean(v));
-                    }
-                    if (currentCharacteristics == null) {
-                        throw new XMLStreamException();
-                    }
-                    switch (reader.getLocalName()) {
-                        case "colored" -> currentCharacteristics.setIsColored(Boolean.parseBoolean(v));
-                        case "volume" -> currentCharacteristics.setVolume(Integer.parseInt(v));
-                        case "glossy" -> currentCharacteristics.setIsGlossy(Boolean.parseBoolean(v));
-                        case "subscription_index" -> currentCharacteristics.setHasSubscriptionIndex(Boolean.parseBoolean(v));
+                        default -> {
+                            if (currentCharacteristics == null) {
+                                throw new XMLStreamException();
+                            }
+                            switch (elementName) {
+                                case "colored" -> currentCharacteristics.setIsColored(Boolean.parseBoolean(v));
+                                case "volume" -> currentCharacteristics.setVolume(Integer.parseInt(v));
+                                case "glossy" -> currentCharacteristics.setIsGlossy(Boolean.parseBoolean(v));
+                                case "subscription_index" -> currentCharacteristics.setHasSubscriptionIndex(Boolean.parseBoolean(v));
+                            }
+                        }
                     }
                 }
 
