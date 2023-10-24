@@ -4,7 +4,6 @@ import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 import univ.lab.fill.Filler;
 import univ.lab.fill.FillableCreator;
-import univ.lab.model.Papers;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -14,11 +13,8 @@ import java.io.IOException;
 
 public class DOMParser implements Parser {
 
-    private FillableCreator creator;
-    private Filler filler;
-
-    public DOMParser() {
-    }
+    private final FillableCreator creator;
+    private final Filler filler;
 
     public DOMParser(FillableCreator creator, Filler filler) {
         this.creator = creator;
@@ -26,14 +22,14 @@ public class DOMParser implements Parser {
     }
 
     @Override
-    public Papers parse(String filename) {
+    public Object parse(String filename) {
         DocumentBuilder builder;
         try {
             builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
             Document document = builder.parse(new File(filename));
             document.getDocumentElement().normalize();
 
-            return (Papers) processNode(document.getDocumentElement());
+            return processNode(document.getDocumentElement());
 
         } catch (ParserConfigurationException | SAXException | IOException e) {
             throw new RuntimeException(e);

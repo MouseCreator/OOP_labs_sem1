@@ -2,7 +2,6 @@ package univ.lab.parser;
 
 import univ.lab.fill.FillableCreator;
 import univ.lab.fill.Filler;
-import univ.lab.model.Papers;
 
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
@@ -12,7 +11,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
-public class StAXParser implements Parser {
+public class StAXParser implements ReflectParser {
 
     private final FillableCreator creator;
     private final Filler filler;
@@ -23,13 +22,13 @@ public class StAXParser implements Parser {
     }
 
     @Override
-    public Papers parse(String filename) {
+    public Object parse(String filename) {
 
         try {
             InputStream inputStream = new FileInputStream(filename);
             XMLInputFactory inputFactory = XMLInputFactory.newInstance();
             XMLStreamReader reader = inputFactory.createXMLStreamReader(inputStream);
-            return (Papers) parseElements(reader);
+            return parseElements(reader);
         } catch (XMLStreamException | FileNotFoundException e) {
             throw new RuntimeException(e);
         }
