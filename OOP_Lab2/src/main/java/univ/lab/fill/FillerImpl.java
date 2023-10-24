@@ -8,20 +8,31 @@ public class FillerImpl implements Filler {
 
     @Override
     public void fill(Object toInitialize, String attribute, Object value) {
+        if (attribute.isEmpty()) {
+            return;
+        }
         Field[] declaredFields = toInitialize.getClass().getDeclaredFields();
+        boolean fill = false;
         for (Field field : declaredFields) {
             if (field.isAnnotationPresent(Fill.class)) {
                 Fill annotation = field.getAnnotation(Fill.class);
                 if (annotation.attribute().equals(attribute)) {
                     setPrimitiveOrObject(field, toInitialize, value);
+                    fill = true;
                 }
             }
             else if (field.isAnnotationPresent(FillList.class)) {
                 FillList annotation = field.getAnnotation(FillList.class);
                 if (annotation.attribute().equals(attribute)) {
                     appendList(field, toInitialize, value);
+                    fill = true;
                 }
             }
+        }
+        if (!fill) {
+            throw new IllegalArgumentException(
+                    String.format("Object of %s class does not have attribute '%s'", toInitialize.getClass(), attribute)
+                    );
         }
     }
 

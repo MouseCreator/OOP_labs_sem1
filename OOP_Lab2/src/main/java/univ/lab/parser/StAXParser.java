@@ -2,7 +2,6 @@ package univ.lab.parser;
 
 import univ.lab.fill.FillableCreator;
 import univ.lab.fill.Filler;
-import univ.lab.fill.FillerImpl;
 import univ.lab.model.Papers;
 
 import javax.xml.stream.XMLInputFactory;
@@ -15,8 +14,13 @@ import java.io.InputStream;
 
 public class StAXParser implements Parser {
 
-    private final FillableCreator creator = new FillableCreator();
-    private final Filler filler = new FillerImpl();
+    private final FillableCreator creator;
+    private final Filler filler;
+
+    public StAXParser(FillableCreator creator, Filler filler) {
+        this.creator = creator;
+        this.filler = filler;
+    }
 
     @Override
     public Papers parse(String filename) {
@@ -42,20 +46,27 @@ public class StAXParser implements Parser {
             switch (event) {
                 case XMLStreamConstants.START_ELEMENT -> {
                     currentElement = reader.getLocalName();
-                    if (result == null) {
-                        result = initializeWithAttributes(reader, currentElement);
-                    } else {
-                        Object childNode = initializeWithAttributes(reader, currentElement);
-                        Object toFill = parseElements(childNode, reader, element);
-                        filler.fill(result, currentElement, toFill);
+                    if (creator.isElementDeclaration(currentElement)) {
+                        if (result == null) {
+                            result = initializeWithAttributes(reader, currentElement);
+                        } else {
+                            Object childNode = initializeWithAttributes(reader, currentElement);
+                            Object toFill = parseElements(childNode, reader, element);
+                            filler.fill(result, currentElement, toFill);
+                        }
                     }
                 }
                 case XMLStreamConstants.CHARACTERS -> {
                     String text = reader.getText().trim();
+                    if (text.isEmpty())
+                        continue;
                     filler.fill(result, currentElement, text);
                 }
                 case XMLStreamConstants.END_ELEMENT -> {
-                    return result;
+                    currentElement = reader.getLocalName();
+                    if (creator.isElementDeclaration(currentElement)) {
+                        return result;
+                    }
                 }
             }
         }
