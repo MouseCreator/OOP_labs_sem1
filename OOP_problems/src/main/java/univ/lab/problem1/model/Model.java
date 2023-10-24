@@ -1,10 +1,9 @@
-package univ.lab.model;
+package univ.lab.problem1.model;
 
 import lombok.Data;
 
 import java.io.Serial;
 import java.io.Serializable;
-
 @Data
 public class Model implements Serializable {
     @Serial
