@@ -12,12 +12,12 @@ import javax.xml.stream.XMLStreamReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.Stack;
 
-public class StAXParser implements Parser{
+public class StAXParser implements Parser {
 
     private final FillableCreator creator = new FillableCreator();
     private final Filler filler = new FillerImpl();
+
     @Override
     public Papers parse(String filename) {
 
@@ -32,23 +32,43 @@ public class StAXParser implements Parser{
     }
 
     private Object parseElements(XMLStreamReader reader) throws XMLStreamException {
-        String bufferedTag = "";
-        Object result = null;
-        Object currentObject = null;
-        String current = "";
-        Stack<Object> stack = new Stack<>();
+        return parseElements(null, reader, "");
+    }
+
+    private Object parseElements(Object result, XMLStreamReader reader, String element) throws XMLStreamException {
+        String currentElement = element;
         while (reader.hasNext()) {
             int event = reader.next();
-
             switch (event) {
-            case XMLStreamConstants.START_ELEMENT:
-                break;
-            case XMLStreamConstants.CHARACTERS:
-                break;
-            case XMLStreamConstants.END_ELEMENT:
-                break;
+                case XMLStreamConstants.START_ELEMENT -> {
+                    currentElement = reader.getLocalName();
+                    if (result == null) {
+                        result = initializeWithAttributes(reader, currentElement);
+                    } else {
+                        Object childNode = initializeWithAttributes(reader, currentElement);
+                        Object toFill = parseElements(childNode, reader, element);
+                        filler.fill(result, currentElement, toFill);
+                    }
+                }
+                case XMLStreamConstants.CHARACTERS -> {
+                    String text = reader.getText().trim();
+                    filler.fill(result, currentElement, text);
+                }
+                case XMLStreamConstants.END_ELEMENT -> {
+                    return result;
+                }
             }
         }
         return null;
+    }
+
+    private Object initializeWithAttributes(XMLStreamReader reader, String currentElement) {
+        Object result = creator.createNew(currentElement);
+        for (int i = 0; i < reader.getAttributeCount(); i++) {
+            String name = reader.getAttributeName(i).toString();
+            String value = reader.getAttributeValue(i);
+            filler.fill(result, name, value);
+        }
+        return result;
     }
 }
