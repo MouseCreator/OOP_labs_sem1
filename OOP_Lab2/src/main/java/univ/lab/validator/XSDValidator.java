@@ -21,7 +21,7 @@ public class XSDValidator {
     }
 
     public void validate(String xsd, String xml) throws SAXException, IOException {
-        SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI);
+        SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
         Schema schema = schemaFactory.newSchema(new File(xsd));
         Validator validator = schema.newValidator();
         validator.validate(new StreamSource(new File(xml)));

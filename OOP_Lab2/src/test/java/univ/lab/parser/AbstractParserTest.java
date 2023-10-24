@@ -10,7 +10,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class AbstractParserTest {
+public abstract class AbstractParserTest {
     protected FillableCreator createFillerCreator() {
         FillableCreator fillableCreator = new FillableCreator();
         fillableCreator.add(Papers.class);
