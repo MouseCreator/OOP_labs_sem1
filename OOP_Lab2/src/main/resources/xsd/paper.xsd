@@ -7,7 +7,7 @@
                 <xs:complexType>
                     <xs:sequence>
                         <xs:element name="title" type="xs:string"/>
-                        <xs:element name="type" type="xs:string"/>
+                        <xs:element name="type" type="PaperType"/>
                         <xs:element name="monthly" type="xs:boolean"/>
                         <xs:element name="characteristics" type="characteristic" minOccurs="0" maxOccurs="unbounded"/>
                     </xs:sequence>
@@ -26,4 +26,12 @@
             <xs:element name="subscription_index" type="xs:boolean"/>
         </xs:sequence>
     </xs:complexType>
+
+    <xs:simpleType name="PaperType" final="restriction">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Newspaper"/>
+            <xs:enumeration value="Booklet"/>
+            <xs:enumeration value="Magazine"/>
+        </xs:restriction>
+    </xs:simpleType>
 </xs:schema>

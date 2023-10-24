@@ -26,4 +26,11 @@ public class FileManager {
         }
     }
 
+    public synchronized void reset() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+            writer.write("");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
