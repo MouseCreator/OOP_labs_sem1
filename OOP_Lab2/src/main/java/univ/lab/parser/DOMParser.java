@@ -4,6 +4,7 @@ import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 import univ.lab.fill.Filler;
 import univ.lab.fill.FillableCreator;
+import univ.lab.inject.Inject;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -12,9 +13,12 @@ import java.io.File;
 import java.io.IOException;
 
 public class DOMParser implements Parser {
+    @Inject
+    private FillableCreator creator;
+    @Inject
+    private Filler filler;
 
-    private final FillableCreator creator;
-    private final Filler filler;
+    public DOMParser() {}
 
     public DOMParser(FillableCreator creator, Filler filler) {
         this.creator = creator;

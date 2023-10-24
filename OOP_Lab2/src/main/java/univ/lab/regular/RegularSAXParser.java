@@ -1,6 +1,7 @@
 package univ.lab.regular;
 
 import org.xml.sax.SAXException;
+import univ.lab.inject.Inject;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -8,8 +9,12 @@ import javax.xml.parsers.SAXParserFactory;
 import java.io.IOException;
 
 public class RegularSAXParser implements RegularParser {
-    private final SAXParserFactory SAXFactory;
 
+    @Inject
+    private SAXParserFactory SAXFactory;
+
+    public RegularSAXParser() {
+    }
 
     public RegularSAXParser(SAXParserFactory saxFactory) {
         SAXFactory = saxFactory;

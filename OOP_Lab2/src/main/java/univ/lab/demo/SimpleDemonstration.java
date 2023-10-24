@@ -32,6 +32,8 @@ public class SimpleDemonstration implements Demonstration{
         Injector injector = createInjector();
         Parser parser = injector.getInstance(Parser.class);
 
+        System.out.println("Parser: " + parser.getClass().getSimpleName());
+
         Papers papers = (Papers) parser.parse(PAPERS_XML);
         print(papers);
     }
@@ -48,7 +50,7 @@ public class SimpleDemonstration implements Demonstration{
             builder.append(String.format("\t\tvolume=%d\n", characteristics.getVolume()));
             builder.append(String.format("\t\tglossy=%s\n", characteristics.getIsGlossy()));
             builder.append(String.format("\t\thas_index=%s\n", characteristics.getHasSubscriptionIndex()));
-            builder.append("\t}\n}");
+            builder.append("\t}\n}\n");
         }
         System.out.println(builder);
     }
