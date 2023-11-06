@@ -13,7 +13,7 @@ public class Client {
             Model model = new Model();
             model.setId(1);
             model.setName("Hello");
-            model.setDescription("Hello from server");
+            model.setDescription("Hello to server");
             outputStream.writeObject(model);
         } catch (IOException e) {
             throw new RuntimeException(e);
