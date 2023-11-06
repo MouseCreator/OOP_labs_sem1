@@ -7,7 +7,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class Client {
-    private final Model myModel;
+    protected final Model myModel;
     public Client() {
         myModel = createModel();
     }
