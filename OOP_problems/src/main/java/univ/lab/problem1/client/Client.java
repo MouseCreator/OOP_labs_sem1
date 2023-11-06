@@ -7,16 +7,27 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class Client {
-    public static void main(String[] args) {
-        try(Socket socket = new Socket("127.0.0.1", 7777)) {
+    private final Model myModel;
+    public Client() {
+        myModel = createModel();
+    }
+    public Client(Model model) {
+        myModel = model;
+    }
+    public void runClient() {
+        try(Socket socket = new Socket("127.0.0.1", 15777)) {
             ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
-            Model model = new Model();
-            model.setId(1);
-            model.setName("Hello");
-            model.setDescription("Hello to server");
-            outputStream.writeObject(model);
+            outputStream.writeObject(myModel);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private Model createModel() {
+        Model model = new Model();
+        model.setId(1);
+        model.setName("Hello");
+        model.setDescription("Hello to server");
+        return model;
     }
 }

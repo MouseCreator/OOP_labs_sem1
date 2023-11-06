@@ -9,10 +9,12 @@ import java.net.Socket;
 
 
 public class Server {
-
-    private final FileManager fileManager = new FileManager("src/main/resources/filebase/database.txt");
+    public Server(String file) {
+        fileManager = new FileManager(file);
+    }
+    private final FileManager fileManager;
     public void runServer() {
-        try(ServerSocket serverSocket = new ServerSocket(7777)) {
+        try(ServerSocket serverSocket = new ServerSocket(15777)) {
             Socket clientSocket = serverSocket.accept();
             processClient(clientSocket);
         } catch (IOException e) {
