@@ -87,13 +87,13 @@ public class SolverWorker implements Runnable{
     public void fillProcessMatrix(double[][] processMatrix, int rank, int maxRank) {
         int c = 2 * rank;
         processMatrix[c][c] = matrix[FROM][FROM];
+        processMatrix[c + 1][c + 1] = matrix[TO - 1][TO - 1];
         if (rank != 0) {
             processMatrix[c][c - 1] = matrix[FROM][FROM - 1];
-            processMatrix[c + 1][c] = matrix[TO - 1][TO - 1];
+            processMatrix[c + 1][c] = matrix[TO - 1][FROM - 1];
         }
         if (rank != maxRank) {
             processMatrix[c][c+1] = matrix[FROM][TO];
-            processMatrix[c + 1][c + 1] = matrix[TO - 1][TO - 1];
             processMatrix[c + 1][c + 2] = matrix[TO - 1][TO];
         }
     }

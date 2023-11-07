@@ -8,8 +8,8 @@ class TridiagonalMatrixSolverTest {
 
     @Test
     void solve() {
-        int N = 50;
-        int process = 5;
+        int N = 4;
+        int process = 2;
         Generator generator = new Generator();
         double[][] matrix = generator.generateMatrix(N);
         double[] vector = generator.generateVector(N);

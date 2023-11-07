@@ -20,13 +20,13 @@ public class Generator {
         }
         int n = dim - 1;
         matrix[n][n] = 6;
-        matrix[n][n-1] = 2;
+        matrix[n][n-1] = 3;
         return matrix;
     }
     public double[] generateVector(int dim) {
         double[] vector = new double[dim];
         vector[0] = 7;
-        vector[dim-1] = 8;
+        vector[dim-1] = 9;
         Arrays.fill(vector, 1, dim - 1, 6);
         return vector;
     }

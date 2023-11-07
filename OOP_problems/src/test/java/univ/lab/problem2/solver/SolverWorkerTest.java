@@ -53,4 +53,15 @@ class SolverWorkerTest {
         print(solver.getSub());
         assertTrue(isDiagonal(solver.getSub()));
     }
+
+    @Test
+    void doEliminationSmall() {
+        int N = 4;
+        Generator generator = new Generator();
+        double[][] matrix = generator.generateMatrix(N);
+        double[] vector = generator.generateVector(N);
+        SolverWorker solver = new SolverWorker(matrix, vector, 2, 4);
+        solver.doElimination();
+        print(solver.getSub());
+    }
 }
