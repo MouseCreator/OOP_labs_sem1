@@ -40,8 +40,8 @@ class TridiagonalMatrixHelper {
     private double[] solveProcessMatrix() {
         double[][] processMatrix = getProcessMatrix();
         double[] processVector = getProcessVector();
-        ThomasAlgorithmSolver thomasAlgorithmSolver = new ThomasAlgorithmSolver();
-        return thomasAlgorithmSolver.solve(processMatrix, processVector);
+        Solver solver = new ThomasAlgorithmSolver();
+        return solver.solve(processMatrix, processVector);
     }
 
     private double[] getProcessVector() {
