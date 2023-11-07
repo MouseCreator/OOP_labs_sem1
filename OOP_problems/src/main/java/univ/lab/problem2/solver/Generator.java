@@ -31,17 +31,22 @@ public class Generator {
     public double[][] randomIntMatrix(int dim) {
         double[][] matrix = new double[dim][dim];
         matrix[0][0] = randomIntNumber();
-        matrix[0][1] = randomIntNumber();
+        matrix[0][1] = bigRandomIt(dim);
         for (int i = 1; i < dim - 1; i++) {
             matrix[i][i-1] = randomIntNumber();
-            matrix[i][i] = randomIntNumber();
+            matrix[i][i] = bigRandomIt(dim);
             matrix[i][i+1] = randomIntNumber();
         }
         int n = dim - 1;
-        matrix[n][n] = randomIntNumber();
+        matrix[n][n] = bigRandomIt(dim);
         matrix[n][n-1] = randomIntNumber();
         return matrix;
     }
+
+    private int bigRandomIt(int dim) {
+        return dim * 10 + randomIntNumber();
+    }
+
     public double[] randomIntVector(int dim) {
         double[] solution = new double[dim];
         for (int i = 0; i < dim; i++) {
