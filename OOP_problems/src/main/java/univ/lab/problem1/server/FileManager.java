@@ -19,7 +19,7 @@ public class FileManager {
     }
     public synchronized void save(Model model) {
         String str = convertModel(model);
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, false))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
             writer.write(str);
         } catch (IOException e) {
             e.printStackTrace();
