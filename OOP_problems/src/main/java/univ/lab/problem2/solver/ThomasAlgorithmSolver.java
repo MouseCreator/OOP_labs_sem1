@@ -1,14 +1,14 @@
 package univ.lab.problem2.solver;
 
-public class ThomasAlgorithmSolver {
+public class ThomasAlgorithmSolver implements Solver {
 
-    private static double calculate_z(double[][] matrix, double[] alpha_vector, int i) {
+    private double calculate_z(double[][] matrix, double[] alpha_vector, int i) {
         return - (matrix[i][i] + alpha_vector[i] * matrix[i][i-1]);
     }
-    private static boolean isZero(double v) {
+    private boolean isZero(double v) {
         return Math.abs(v) < 0.00001;
     }
-    public static double[] solve(double[][] matrix, double[] vector) {
+    public double[] solve(double[][] matrix, double[] vector) {
         int n = matrix.length;
         double[] alpha_vector = new double[n];
         double[] beta_vector = new double[n];

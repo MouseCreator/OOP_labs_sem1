@@ -5,8 +5,12 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ThomasAlgorithmSolverTest {
-    private double[][] parseMatrix(String input) {
-        String[] rows = input.trim().split("\n");
+    private double[][] parseCustomMatrix() {
+        String[] rows = """
+                1 1 0
+                1 3 2
+                0 1 2
+                """.trim().split("\n");
         int numRows = rows.length;
         int numCols = rows[0].trim().split(" ").length;
         double[][] matrix = new double[numRows][numCols];
@@ -22,13 +26,11 @@ class ThomasAlgorithmSolverTest {
     }
     @Test
     void solve() {
-        double[][] matrix = parseMatrix("""
-                1 1 0
-                1 3 2
-                0 1 2
-                """);
+        double[][] matrix = parseCustomMatrix();
+        ThomasAlgorithmSolver solver = new ThomasAlgorithmSolver();
+
         double[] vector = new double[]{1,1,1};
-        double[] solve = ThomasAlgorithmSolver.solve(matrix, vector);
+        double[] solve = solver.solve(matrix, vector);
         double[] solution = new double[]{2,-1,1};
         assertArrayEquals(solution, solve);
     }
@@ -39,7 +41,8 @@ class ThomasAlgorithmSolverTest {
         int N = 50;
         double[][] matrix = generator.generateMatrix(N);
         double[] vector = generator.generateVector(N);
-        double[] solution = ThomasAlgorithmSolver.solve(matrix, vector);
+        ThomasAlgorithmSolver thomasAlgorithmSolver = new ThomasAlgorithmSolver();
+        double[] solution = thomasAlgorithmSolver.solve(matrix, vector);
         assertTrue(generator.isSolution(solution));
     }
 

@@ -2,15 +2,27 @@ package univ.lab.problem2.solver;
 
 import java.util.ArrayList;
 import java.util.List;
+public class TridiagonaMatrixSolver implements Solver {
+    private final int nProcesses;
 
-public class TridiagonalMatrixSolver {
+    public TridiagonaMatrixSolver(int nProcesses) {
+        this.nProcesses = nProcesses;
+    }
+
+    @Override
+    public double[] solve(double[][] matrix, double[] vector) {
+        TridiagonalMatrixHelper helper = new TridiagonalMatrixHelper(matrix, vector, nProcesses);
+        return helper.solve();
+    }
+}
+class TridiagonalMatrixHelper {
     private final double[][] matrix;
     private final double[] vector;
     private final int N;
     private final int P;
     private int STEP;
     private final List<SolverWorker> workerList;
-    public TridiagonalMatrixSolver(double[][] matrix, double[] vector, int numWorkers) {
+    public TridiagonalMatrixHelper(double[][] matrix, double[] vector, int numWorkers) {
         this.matrix = matrix;
         this.N = matrix.length;
         this.vector = vector;
@@ -28,7 +40,8 @@ public class TridiagonalMatrixSolver {
     private double[] solveProcessMatrix() {
         double[][] processMatrix = getProcessMatrix();
         double[] processVector = getProcessVector();
-        return ThomasAlgorithmSolver.solve(processMatrix, processVector);
+        ThomasAlgorithmSolver thomasAlgorithmSolver = new ThomasAlgorithmSolver();
+        return thomasAlgorithmSolver.solve(processMatrix, processVector);
     }
 
     private double[] getProcessVector() {
