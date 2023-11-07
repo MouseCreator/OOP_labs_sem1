@@ -15,7 +15,7 @@ public class FileManager {
 
     private String convertModel(Model model) {
         return "Model { " + model.getId() + " " +
-                model.getName() + " " + model.getDescription() + "\n";
+                model.getName() + " " + model.getDescription() + " }\n";
     }
     public synchronized void save(Model model) {
         String str = convertModel(model);

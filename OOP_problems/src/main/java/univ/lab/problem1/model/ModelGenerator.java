@@ -13,25 +13,32 @@ public class ModelGenerator {
 
     private String generateDescription() {
         int wordCount = random.nextInt(10) + 3;
-        StringBuilder builder = new StringBuilder(generateString());
-        for (int i = 0; i < wordCount; i++) {
+        String initial = capitalize(generateString());
+        StringBuilder builder = new StringBuilder(initial);
+        for (int i = 1; i < wordCount; i++) {
             builder.append(' ').append(generateString());
         }
         return builder.toString();
     }
 
     private String generateName() {
-        return generateString();
+        return capitalize(generateString());
     }
     private String generateString() {
         int length = random.nextInt(10) + 5;
         return generateStringOfLength(length);
     }
-
+    private String capitalize(String string) {
+        if (string == null || string.isEmpty()) {
+            return string;
+        }
+        char firstChar = Character.toUpperCase(string.charAt(0));
+        return firstChar + string.substring(1);
+    }
     private String generateStringOfLength(int length) {
-        StringBuilder builder = new StringBuilder('A'+random.nextInt(26));
-        for (int i = 1; i < length; i++) {
-            builder.append('a'+random.nextInt(26));
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            builder.append((char) ('a' + random.nextInt(26)));
         }
         return builder.toString();
     }
