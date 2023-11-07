@@ -32,4 +32,28 @@ class ThomasAlgorithmSolverTest {
         double[] solution = new double[]{2,-1,1};
         assertArrayEquals(solution, solve);
     }
+
+    @Test
+    void solveGenerated() {
+        Generator generator = new Generator();
+        int N = 50;
+        double[][] matrix = generator.generateMatrix(N);
+        double[] vector = generator.generateVector(N);
+        double[] solution = generator.generateSolution(N);
+        double[] solve = ThomasAlgorithmSolver.solve(matrix, vector);
+        assertTrue(compareArrays(solution, solve));
+    }
+
+    private boolean compareArrays(double[] expected, double[] actual) {
+        if (expected.length != actual.length) {
+            return false;
+        }
+        int n = expected.length;
+        for (int i = 0; i < n; i++) {
+            if (Math.abs(expected[i] - actual[i]) > 0.000001) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

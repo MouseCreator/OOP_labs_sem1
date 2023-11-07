@@ -70,7 +70,7 @@ public class TridiagonalMatrixSolver {
         workerList.add(lastWorker);
     }
 
-    public double[][] getProcessMatrix() {
+    private double[][] getProcessMatrix() {
         double[][] processMatrix = new double[2*P][2*P];
         for (int i = 0; i < P; i++) {
             workerList.get(i).fillProcessMatrix(processMatrix, i, P - 1);
