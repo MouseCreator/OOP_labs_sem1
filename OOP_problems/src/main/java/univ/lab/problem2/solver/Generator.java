@@ -1,8 +1,10 @@
 package univ.lab.problem2.solver;
 
 import java.util.Arrays;
+import java.util.Random;
 
 public class Generator {
+    private final Random random = new Random();
     public double[] generateSolution(int n) {
         double[] onesVector = new double[n];
         Arrays.fill(onesVector, 1.0);
@@ -23,6 +25,49 @@ public class Generator {
         matrix[n][n-1] = 3;
         return matrix;
     }
+    private int randomIntNumber() {
+        return random.nextInt(10) + 1;
+    }
+    public double[][] randomIntMatrix(int dim) {
+        double[][] matrix = new double[dim][dim];
+        matrix[0][0] = randomIntNumber();
+        matrix[0][1] = randomIntNumber();
+        for (int i = 1; i < dim - 1; i++) {
+            matrix[i][i-1] = randomIntNumber();
+            matrix[i][i] = randomIntNumber();
+            matrix[i][i+1] = randomIntNumber();
+        }
+        int n = dim - 1;
+        matrix[n][n] = randomIntNumber();
+        matrix[n][n-1] = randomIntNumber();
+        return matrix;
+    }
+    public double[] randomIntVector(int dim) {
+        double[] solution = new double[dim];
+        for (int i = 0; i < dim; i++) {
+            solution[i] = randomIntNumber();
+        }
+        return solution;
+    }
+    private double[] multiply(double[][] matrix, double[] vector) {
+        int numRows = matrix.length;
+        int numCols = matrix[0].length;
+        if (numCols != vector.length) {
+            throw new IllegalArgumentException("Matrix column count must be equal to vector length");
+        }
+        double[] result = new double[numRows];
+        for (int i = 0; i < numRows; i++) {
+            double sum = 0.0;
+            for (int j = 0; j < numCols; j++) {
+                sum += matrix[i][j] * vector[j];
+            }
+            result[i] = sum;
+        }
+        return result;
+    }
+    public double[] vectorFromMatrixSolution(double[][] matrix, double[] solution) {
+        return multiply(matrix, solution);
+    }
     public double[] generateVector(int dim) {
         double[] vector = new double[dim];
         vector[0] = 7;
@@ -32,18 +77,7 @@ public class Generator {
     }
 
     public boolean isSolution(double[] sol) {
-        return vectorCompare(sol, generateSolution(sol.length));
-    }
-    private boolean vectorCompare(double[] expected, double[] actual) {
-        if (expected.length != actual.length) {
-            return false;
-        }
-        int n = expected.length;
-        for (int i = 0; i < n; i++) {
-            if (Math.abs(expected[i] - actual[i]) > 0.000001) {
-                return false;
-            }
-        }
-        return true;
+        VectorComparatorSimple comparator = new VectorComparatorSimple();
+        return comparator.vectorCompare(sol, generateSolution(sol.length));
     }
 }

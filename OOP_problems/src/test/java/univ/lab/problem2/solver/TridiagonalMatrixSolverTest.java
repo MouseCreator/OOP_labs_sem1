@@ -17,8 +17,27 @@ class TridiagonalMatrixSolverTest {
         double[] vector = generator.generateVector(N);
         TridiagonalMatrixHelper solver = new TridiagonalMatrixHelper(matrix, vector, process);
         double[] actual = solver.solve();
-        System.out.println(Arrays.toString(actual));
         assertTrue(generator.isSolution(actual));
+    }
+
+    @Test
+    void solveRandom() {
+        int N = 10;
+        int process = 2;
+        Generator generator = new Generator();
+        VectorComparator comparator = new VectorComparatorSimple();
+        double[][] matrix = generator.randomIntMatrix(N);
+        double[] solution = generator.randomIntVector(N);
+        double[] vector = generator.vectorFromMatrixSolution(matrix, solution);
+
+        System.out.println(Arrays.toString(solution));
+        TridiagonaMatrixSolver solver = new TridiagonaMatrixSolver(process);
+        Gaussian gaussianSolver = new Gaussian();
+        double[] actual = solver.solve(matrix, vector);
+        double[] gaussian = gaussianSolver.solve(matrix, vector);
+        System.out.println(Arrays.toString(gaussian));
+        System.out.println(Arrays.toString(actual));
+        assertTrue(comparator.vectorCompare(actual, solution));
     }
 
 

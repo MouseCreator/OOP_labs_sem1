@@ -47,4 +47,18 @@ class ThomasAlgorithmSolverTest {
     }
 
 
+    @Test
+    void solveRandom() {
+        Generator generator = new Generator();
+        VectorComparator comparator = new VectorComparatorSimple();
+        int N = 50;
+        double[][] matrix = generator.randomIntMatrix(N);
+        double[] solution = generator.randomIntVector(N);
+        double[] vector = generator.vectorFromMatrixSolution(matrix, solution);
+        ThomasAlgorithmSolver thomasAlgorithmSolver = new ThomasAlgorithmSolver();
+        double[] solve = thomasAlgorithmSolver.solve(matrix, vector);
+        assertTrue(comparator.vectorCompare(solve, solution));
+    }
+
+
 }
