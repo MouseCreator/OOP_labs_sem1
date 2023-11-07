@@ -71,4 +71,26 @@ public class SolverWorker implements Runnable{
             throw new RuntimeException(String.format("Trying to get %d row of matrix with %d rows", row, matrix.length));
         }
     }
+    /*
+    a5 = [C][C-1] #not 1
+    c5 = [C][C]
+    g5 = [C][C+1]
+
+    d8 = [C+1][C] #not 1
+    c8 = [C+1][C+1] #not P
+    b8 = [C+1][C+2] #not P
+     */
+    public void fillProcessMatrix(double[][] processMatrix, int rank, int maxRank) {
+        int c = 2 * rank;
+        processMatrix[c][c] = matrix[FROM][FROM];
+        if (rank != 0) {
+            processMatrix[c][c - 1] = matrix[FROM][FROM - 1];
+            processMatrix[c + 1][c] = matrix[TO - 1][TO - 1];
+        }
+        if (rank != maxRank) {
+            processMatrix[c][c+1] = matrix[FROM][TO];
+            processMatrix[c + 1][c + 1] = matrix[TO - 1][TO - 1];
+            processMatrix[c + 1][c + 2] = matrix[TO - 1][TO];
+        }
+    }
 }
