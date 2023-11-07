@@ -6,21 +6,25 @@ public class SolverWorker implements Runnable{
     protected final int N;
     protected final int M;
     protected final double[][] matrix;
-    public SolverWorker(double[][] matrix, int from, int to) {
+    protected final double[] vector;
+    public SolverWorker(double[][] matrix, double[] vector, int from, int to) {
         FROM = from;
         TO = to;
         N = matrix.length;
         M = TO - FROM;
+        this.vector = vector;
         this.matrix = matrix;
     }
 
     public void run() {
-
+        eliminateA();
+        eliminateB();
     }
     private void addRowFull(int toAdd, int addTo, double multiplyBy) {
         for (int i = 0; i < N; i++) {
             matrix[addTo][i] += matrix[toAdd][i] * multiplyBy;
         }
+        vector[addTo] += vector[toAdd] * multiplyBy;
     }
 
     protected void doElimination() {

@@ -47,7 +47,8 @@ class SolverWorkerTest {
     @Test
     void doElimination() {
         double[][] mtx =initMatrix(12);
-        SolverWorker solver = new SolverWorker(mtx, 4, 8);
+        double[] vector = new double[12];
+        SolverWorker solver = new SolverWorker(mtx, vector, 4, 8);
         solver.doElimination();
         print(solver.getSub());
         assertTrue(isDiagonal(solver.getSub()));
