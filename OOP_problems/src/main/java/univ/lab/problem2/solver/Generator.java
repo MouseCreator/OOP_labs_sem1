@@ -26,8 +26,24 @@ public class Generator {
     public double[] generateVector(int dim) {
         double[] vector = new double[dim];
         vector[0] = 7;
-        vector[dim-1] = 9;
         Arrays.fill(vector, 1, dim - 1, 6);
+        vector[dim-1] = 9;
         return vector;
+    }
+
+    public boolean isSolution(double[] sol) {
+        return vectorCompare(sol, generateSolution(sol.length));
+    }
+    private boolean vectorCompare(double[] expected, double[] actual) {
+        if (expected.length != actual.length) {
+            return false;
+        }
+        int n = expected.length;
+        for (int i = 0; i < n; i++) {
+            if (Math.abs(expected[i] - actual[i]) > 0.000001) {
+                return false;
+            }
+        }
+        return true;
     }
 }

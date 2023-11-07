@@ -56,12 +56,11 @@ class SolverWorkerTest {
 
     @Test
     void doEliminationSmall() {
-        int N = 4;
+        int N = 8;
         Generator generator = new Generator();
         double[][] matrix = generator.generateMatrix(N);
         double[] vector = generator.generateVector(N);
-        SolverWorker solver = new SolverWorker(matrix, vector, 2, 4);
+        SolverWorker solver = new SolverWorker(matrix, vector, 4, 8);
         solver.doElimination();
-        print(solver.getSub());
     }
 }

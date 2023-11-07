@@ -17,8 +17,7 @@ public class SolverWorker implements Runnable{
     }
 
     public void run() {
-        eliminateA();
-        eliminateB();
+        doElimination();
     }
     private void addRowFull(int toAdd, int addTo, double multiplyBy) {
         for (int i = 0; i < N; i++) {
@@ -65,7 +64,7 @@ public class SolverWorker implements Runnable{
         }
         return matrix[row][row+1];
     }
-    private double getC( int row) {
+    private double getC(int row) {
         validateRow(row);
         return matrix[row][row];
     }

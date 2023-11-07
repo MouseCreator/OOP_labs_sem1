@@ -36,7 +36,7 @@ public class TridiagonalMatrixSolver {
         int dim = 2 * P;
         double[] processVector = new double[dim];
         for (int i = 0; i < dim; i++) {
-            processVector[i] = vector[i];
+            processVector[i] = vector[t];
             t = nextT(t);
         }
         return processVector;
@@ -79,21 +79,23 @@ public class TridiagonalMatrixSolver {
     }
     private void subsToSolution(int index, double[] solution) {
         double res = vector[index];
-        for (int i = 0; i < N; i++) {
-            if (i == index)
-                continue;
-            res -= solution[i] * matrix[index][i];
+        int t = 0;
+        for (int i = 0; i < 2 * P; i++) {
+            res -= solution[t] * matrix[index][t];
+            t = nextT(t);
         }
-        solution[index] = res;
+        solution[index] = res / matrix[index][index];
     }
     private double[] toSolution(double[] processSolution) {
         double[] solution = new double[N];
         int t = 0;
-        int k = 0;
+        for (int i = 0; i < 2 * P; i++) {
+            solution[t] = processSolution[i];
+            t = nextT(t);
+        }
+        t = 0;
         for (int i = 0; i < N; i++) {
-            if (i==t) {
-                solution[i] = processSolution[k];
-                k++;
+            if (i == t) {
                 t = nextT(t);
             } else {
                 subsToSolution(i, solution);
@@ -102,7 +104,9 @@ public class TridiagonalMatrixSolver {
         return solution;
     }
     private int nextT(int current) {
-        int res = (current+1) % STEP == 0 ? current + STEP - 1 : current + 1;
+        if (current == (P-1)*STEP)
+            return N-1;
+        int res = (current) % STEP == 0 ? current + STEP - 1 : current + 1;
         return Math.min(N - 1, res);
     }
 
