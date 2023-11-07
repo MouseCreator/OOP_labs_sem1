@@ -1,12 +1,12 @@
 package univ.lab.problem2.solver;
 
-public class SolverRunnable implements Runnable{
+public class SolverWorker implements Runnable{
     protected final int FROM;
     protected final int TO;
     protected final int N;
     protected final int M;
     protected final double[][] matrix;
-    private SolverRunnable(double[][] matrix, int from, int to) {
+    public SolverWorker(double[][] matrix, int from, int to) {
         FROM = from;
         TO = to;
         N = matrix.length;
@@ -27,14 +27,23 @@ public class SolverRunnable implements Runnable{
         eliminateA();
         eliminateB();
     }
+    public double[][] getSub() {
+        double[][] sub = new double[M][M];
+        for (int i = 0; i < M; i++) {
+            System.arraycopy(matrix[FROM + i], FROM, sub[i], 0, M);
+        }
+        return sub;
+    }
     private void eliminateA() {
         for (int i = FROM + 1; i < TO; i++) {
-            addRowFull(i, i-1, -getA(i)/getC(i-1));
+            double a = getA(i);
+            double c = getC(i-1);
+            addRowFull(i-1, i, -a/c);
         }
     }
     private void eliminateB() {
         for (int i = TO - 2; i >= FROM; i--) {
-            addRowFull(i, i+1, -getC(i+1)/getB(i));
+            addRowFull(i+1, i, -getB(i)/getC(i+1));
         }
     }
 
@@ -47,14 +56,14 @@ public class SolverRunnable implements Runnable{
     }
     private double getB(int row) {
         validateRow(row);
-        return matrix[row][row];
-    }
-    private double getC( int row) {
-        validateRow(row);
         if (row == N - 1) {
             throw new RuntimeException("Cannot get value C for the last row of the matrix");
         }
         return matrix[row][row+1];
+    }
+    private double getC( int row) {
+        validateRow(row);
+        return matrix[row][row];
     }
 
     private void validateRow(int row) {
