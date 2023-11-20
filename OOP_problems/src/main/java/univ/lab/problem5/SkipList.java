@@ -78,13 +78,11 @@ public class SkipList<T> {
         private Node<T> prev;
         private final Node<T> levelDown;
         private boolean head;
-        private boolean deleted;
         public Node(T element, Node<T> prev, Node<T> next, Node<T> levelDown) {
             this.element = element;
             this.next = next;
             this.prev = prev;
             this.levelDown = levelDown;
-            deleted = false;
             head = false;
         }
         public static <T> Node<T> headNode(int num) {
@@ -159,10 +157,11 @@ public class SkipList<T> {
         if (node == null)
             return null;
         Node<T> current = node;
-        for (int i = 0; i < height; i++) {
+        for (int i = 1; i < height; i++) {
             current = moveForward(current, element);
+            current = current.levelDown;
         }
-        return current;
+        return moveForward(current, element);
     }
 
     private Node<T> moveForward(Node<T> current, T element) {

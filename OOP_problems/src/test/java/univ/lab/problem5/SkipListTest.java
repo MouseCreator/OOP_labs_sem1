@@ -3,7 +3,6 @@ package univ.lab.problem5;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -18,7 +17,7 @@ class SkipListTest {
         for (int p : list) {
             skipList.add(p);
         }
-        System.out.println(skipList.print());
+        assertTrue(skipList.testStructure());
     }
 
     private static List<Integer> createList(int n) {
@@ -50,5 +49,17 @@ class SkipListTest {
 
     @Test
     void contains() {
+        SkipList<Integer> skipList = new SkipList<>(Integer::compareTo, 4);
+        List<Integer> list = createList(40);
+        for (int p : list) {
+            skipList.add(p);
+        }
+        list = list.stream().sorted().toList();
+        for (int p : list) {
+            assertTrue(skipList.contains(p), "List does not contain " + p);
+        }
+        int a = list.stream().max(Integer::compareTo).orElse(0)+1;
+        assertFalse(skipList.contains(a));
+        assertTrue(skipList.testStructure());
     }
 }
