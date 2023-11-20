@@ -21,6 +21,10 @@ public class Bird extends Animal implements Flyable{
         return wingLength;
     }
 
+    private void sit() {
+        System.out.println("Sitting...");
+    }
+
     public void setWingLength(int wingLength) {
         this.wingLength = wingLength;
     }
