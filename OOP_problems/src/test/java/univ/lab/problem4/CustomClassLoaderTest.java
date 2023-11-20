@@ -20,4 +20,19 @@ class CustomClassLoaderTest {
         assertNotNull(aClass);
         assertEquals(name, aClass.getName());
     }
+
+    @Test
+    void findCustomClass() {
+        CustomClassLoader loader = new CustomClassLoader();
+        String name = "univ.lab.problem1.client.Client";
+        Class<?> aClass;
+        try {
+            aClass = loader.findClass(name);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        assertNotNull(aClass);
+        assertEquals(name, aClass.getName());
+    }
 }
