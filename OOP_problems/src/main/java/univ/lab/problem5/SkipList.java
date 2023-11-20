@@ -1,6 +1,8 @@
 package univ.lab.problem5;
 
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Random;
 
 public class SkipList<T> {
@@ -36,12 +38,46 @@ public class SkipList<T> {
     public boolean contains(T element) {
         return find(element) != null;
     }
+
+    protected boolean testStructure() {
+        List<T> elements = new ArrayList<>();
+        Node<T> lowest = lowerLevel();
+        while (lowest != null) {
+            elements.add(lowest.element);
+            lowest = lowest.next;
+        }
+        Node<T> initial = head;
+        while (initial!= null) {
+            List<T> currentList = new ArrayList<>(elements);
+            Node<T> current = initial.next;
+            while (current != null) {
+                if (!currentList.remove(current.element)) {
+                    return false;
+                }
+                if (current.prev.next != current) {
+                    return false;
+                }
+                current = current.next;
+            }
+            initial = initial.levelDown;
+        }
+        return true;
+    }
+
+    private Node<T> lowerLevel() {
+        Node<T> current = head;
+        while (current.levelDown != null) {
+            current = current.levelDown;
+        }
+        return current;
+    }
+
     public static class Node<T> {
         private final T element;
         private Node<T> next;
         private Node<T> prev;
         private final Node<T> levelDown;
-        private final boolean head;
+        private boolean head;
         private boolean deleted;
         public Node(T element, Node<T> prev, Node<T> next, Node<T> levelDown) {
             this.element = element;
@@ -52,23 +88,30 @@ public class SkipList<T> {
             head = false;
         }
         public static <T> Node<T> headNode(int num) {
-            if (num == 0) {
-                return new Node<>(null, null, null, null);
+            Node<T> tNode;
+            if (num == 1) {
+                tNode = new Node<>(null, null, null, null);
+            } else {
+                tNode = new Node<>(null, null, null, headNode(num-1));
             }
-            return new Node<>(null, null, null, headNode(num-1));
+            tNode.head = true;
+            return tNode;
         }
     }
     private boolean recursiveDeletion(Node<T> begin, T element) {
         Node<T> current = moveForward(begin, element);
         boolean deletionSuccess = false;
         if (current.levelDown != null) {
-            deletionSuccess = recursiveDeletion(begin, element);
+            deletionSuccess = recursiveDeletion(current.levelDown, element);
+        }
+        if (current.head) {
+            return deletionSuccess;
         }
         boolean v = current.element.equals(element);
         if (v) {
             delete(current);
         }
-        return  current.levelDown == null ? v : deletionSuccess;
+        return current.levelDown == null ? v : deletionSuccess;
     }
 
     private void delete(Node<T> current) {
@@ -105,7 +148,10 @@ public class SkipList<T> {
     }
     private Node<T> find(T element) {
         Node<T> closest = findClosest(element);
-        return closest != null && !closest.element.equals(element) ? closest : null;
+        if (closest == null || closest.head) {
+            return null;
+        }
+        return closest.element.equals(element) ? closest : null;
     }
 
     private Node<T> findClosest(T element) {
@@ -124,7 +170,7 @@ public class SkipList<T> {
             if (current.next == null) {
                 return current;
             }
-            if (comparator.compare(element, current.next.element) <= 0) {
+            if (comparator.compare(element, current.next.element) >= 0) {
                 current = current.next;
                 continue;
             }
@@ -142,5 +188,23 @@ public class SkipList<T> {
 
     public void setInsertProbability(double insertProbability) {
         this.insertProbability = insertProbability;
+    }
+
+    public String print() {
+        StringBuilder builder = new StringBuilder();
+        Node<T> initial = topLevel();
+        int i = 0;
+        while (initial != null) {
+            builder.append("[Level ").append(height-i).append("]");
+            i++;
+            Node<T> current = initial.next;
+            while (current != null) {
+                builder.append(" --> ").append(current.element);
+                current = current.next;
+            }
+            builder.append("\n");
+            initial = initial.levelDown;
+        }
+        return builder.toString();
     }
 }
