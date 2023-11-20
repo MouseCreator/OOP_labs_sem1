@@ -1,57 +1,122 @@
 package univ.lab.problem5;
 
-import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.List;
 import java.util.Random;
 
 public class SkipList<T> {
-    private final List<List<Node<T>>> layers;
+    private final Node<T> head;
     private final Random random;
     private double insertProbability = 0.5;
     private final Comparator<T> comparator;
-    private final int layerNum;
-    public SkipList(Comparator<T> comparator, int layerNum) {
-        this.layerNum = layerNum;
+    private final int height;
+    public SkipList(Comparator<T> comparator, int height) {
         this.comparator = comparator;
-        this.layers = new ArrayList<>(layerNum);
-        for (int i = 0; i < layerNum; i++) {
-            layers.add(new ArrayList<>());
-        }
+        this.head = Node.headNode(height);
         random = new Random();
+        this.height = height;
     }
 
-    private boolean isInsert() {
+    private boolean coinFlip() {
         return random.nextDouble() < insertProbability;
     }
 
     public void add(T element) {
-
+        Node<T> tNode = topLevel();
+        if (tNode == null) {
+            return;
+        }
+        recursiveInsertion(tNode, element);
     }
     public boolean remove(T element) {
-        return false;
+        Node<T> tNode = topLevel();
+        if (tNode == null)
+            return false;
+        return recursiveDeletion(tNode, element);
     }
     public boolean contains(T element) {
         return find(element) != null;
     }
     public static class Node<T> {
-        private T element;
+        private final T element;
         private Node<T> next;
-        private Node<T> levelDown;
+        private Node<T> prev;
+        private final Node<T> levelDown;
+        private final boolean head;
+        private boolean deleted;
+        public Node(T element, Node<T> prev, Node<T> next, Node<T> levelDown) {
+            this.element = element;
+            this.next = next;
+            this.prev = prev;
+            this.levelDown = levelDown;
+            deleted = false;
+            head = false;
+        }
+        public static <T> Node<T> headNode(int num) {
+            if (num == 0) {
+                return new Node<>(null, null, null, null);
+            }
+            return new Node<>(null, null, null, headNode(num-1));
+        }
     }
-    private Node<T> find(T element) {
-        Node<T> current = topLevel();
-        if (current == null) {
+    private boolean recursiveDeletion(Node<T> begin, T element) {
+        Node<T> current = moveForward(begin, element);
+        boolean deletionSuccess = false;
+        if (current.levelDown != null) {
+            deletionSuccess = recursiveDeletion(begin, element);
+        }
+        boolean v = current.element.equals(element);
+        if (v) {
+            delete(current);
+        }
+        return  current.levelDown == null ? v : deletionSuccess;
+    }
+
+    private void delete(Node<T> current) {
+        Node<T> next = current.next;
+        Node<T> prev = current.prev;
+        if (next != null) {
+            next.prev = prev;
+        }
+        if (prev != null) {
+            prev.next = next;
+        }
+    }
+
+    private Node<T> insert(Node<T> prev, T element, Node<T> levelDown) {
+        assert prev != null;
+        Node<T> newNode = new Node<>(element, prev, prev.next, levelDown);
+        Node<T> next = prev.next;
+        if (next != null) {
+            next.prev = newNode;
+        }
+        prev.next = newNode;
+        return newNode;
+    }
+    private Node<T> recursiveInsertion(Node<T> begin, T element) {
+        Node<T> prev = moveForward(begin, element);
+        if (prev.levelDown == null) {
+            return insert(prev, element, null);
+        }
+        Node<T> levelDown = recursiveInsertion(prev.levelDown, element);
+        if (levelDown == null) {
             return null;
         }
-        for (int i = 0; i < layerNum; i++) {
+        return coinFlip() ? insert(prev, element, levelDown) : null;
+    }
+    private Node<T> find(T element) {
+        Node<T> closest = findClosest(element);
+        return closest != null && !closest.element.equals(element) ? closest : null;
+    }
+
+    private Node<T> findClosest(T element) {
+        Node<T> node = topLevel();
+        if (node == null)
+            return null;
+        Node<T> current = node;
+        for (int i = 0; i < height; i++) {
             current = moveForward(current, element);
-            if (current.element.equals(element)) {
-                return current;
-            }
-            current = current.levelDown;
         }
-        return null;
+        return current;
     }
 
     private Node<T> moveForward(Node<T> current, T element) {
@@ -59,7 +124,7 @@ public class SkipList<T> {
             if (current.next == null) {
                 return current;
             }
-            if (comparator.compare(element, current.next.element) < 0) {
+            if (comparator.compare(element, current.next.element) <= 0) {
                 current = current.next;
                 continue;
             }
@@ -68,12 +133,7 @@ public class SkipList<T> {
     }
 
     private Node<T> topLevel() {
-        for (int i = layerNum - 1; i > -1; i--) {
-            if (layers.get(i).isEmpty())
-                continue;
-            return layers.get(i).get(0);
-        }
-        return null;
+        return head;
     }
 
     public double getInsertProbability() {
