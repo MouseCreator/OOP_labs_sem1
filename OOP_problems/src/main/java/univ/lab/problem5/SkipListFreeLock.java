@@ -59,7 +59,7 @@ public final class SkipListFreeLock<T> {
         Node<T>[] predecessors = collectionNode();
         Node<T>[] successors = collectionNode();
         while (true) {
-            boolean found =  find(value, predecessors, successors);
+            boolean found = find(value, predecessors, successors);
             if (found) {
                 return false;
             } else {

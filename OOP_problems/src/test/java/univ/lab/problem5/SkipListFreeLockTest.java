@@ -54,7 +54,7 @@ class SkipListFreeLockTest {
         Collections.shuffle(list);
         List<Integer> removed = list.subList(0, 10);
         for (int p : removed) {
-            lockFreeSkipList.delete(p);
+            assertTrue(lockFreeSkipList.delete(p));
         }
         for (int p : removed) {
             assertFalse(lockFreeSkipList.contains(p));
