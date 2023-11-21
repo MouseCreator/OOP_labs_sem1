@@ -3,7 +3,6 @@ package univ.lab.problem5;
 
 import java.util.Comparator;
 import java.util.Random;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicMarkableReference;
 
 public class SkipListFreeLock<T> {
@@ -67,6 +66,34 @@ public class SkipListFreeLock<T> {
         }
     }
 
+    public synchronized String print(T value) {
+        StringBuilder builder = new StringBuilder();
+        int bottomLevel = 0;
+        boolean[] marked = { false };
+        AtomicNode<T> predecessor = head;
+        AtomicNode<T> current = null;
+        AtomicNode<T> successor;
+        for (int i = maxHeight; i >= bottomLevel; i--) {
+            current = predecessor.next[i].getReference();
+            builder.append("-->").append(current.value);
+            while (true) {
+                successor = current.next[i].get(marked);
+                while (marked[0]) {
+                    current = predecessor.next[i].getReference();
+                    successor = current.next[i].get(marked);
+                }
+                if (compare(current, value) < 0) {
+                    predecessor = current;
+                    current = successor;
+                } else {
+                    break;
+                }
+            }
+        }
+        return builder.toString();
+    }
+
+
     public boolean add(T value) {
         int topLevel = chooseRandomLevel();
         int bottomLevel = 0;
@@ -78,7 +105,7 @@ public class SkipListFreeLock<T> {
                 return false;
             }
             AtomicNode<T> newNode = AtomicNode.newNode(value, topLevel);
-            for (int i = bottomLevel; i < topLevel; i++) {
+            for (int i = bottomLevel; i <= topLevel; i++) {
                 AtomicNode<T> successor = successors[i];
                 newNode.next[i].set(successor, false);
             }
@@ -100,7 +127,7 @@ public class SkipListFreeLock<T> {
         }
     }
 
-    private boolean remove(T value) {
+    public boolean remove(T value) {
         int bottomLevel = 0;
         AtomicNode<T>[] predecessors = relativeCollection();
         AtomicNode<T>[] successors = relativeCollection();
@@ -124,7 +151,7 @@ public class SkipListFreeLock<T> {
             boolean markedIt = nodeToRemove.next[bottomLevel].compareAndSet(successor, successor, false, true);
             successor = successors[bottomLevel].next[bottomLevel].get(marked);
             if (markedIt) {
-                find (value, predecessors, successors);
+                find(value, predecessors, successors);
                 return true;
             }
             else if (marked[0]) {
@@ -132,49 +159,56 @@ public class SkipListFreeLock<T> {
             }
         }
     }
+    private static class ReferenceContainer<T> {
+        private boolean r;
+        private AtomicNode<T> curr;
 
+        public ReferenceContainer() {
+            r = false;
+            curr = null;
+        }
+    }
     private boolean find(T value, AtomicNode<T>[] predecessors, AtomicNode<T>[] successors) {
-        int bottomLevel = 0;
         boolean[] marked = {false};
         boolean r = true;
-        AtomicNode<T> current = null;
-        AtomicBoolean atomicBoolean = new AtomicBoolean(false);
+        ReferenceContainer<T> container = new ReferenceContainer<>();
         while (r) {
-            r = onFind(value, predecessors, successors, bottomLevel, marked, current, atomicBoolean);
+            r = onFind(value, predecessors, successors, marked, container);
         }
-        return atomicBoolean.get();
+        return container.r;
     }
 
     private boolean onFind(T value, AtomicNode<T>[] predecessors, AtomicNode<T>[] successors,
-                           int bottomLevel, boolean[] marked, AtomicNode<T> current, AtomicBoolean atomicBoolean) {
+                           boolean[] marked, ReferenceContainer<T> cr) {
         AtomicNode<T> successor;
         boolean snip;
         AtomicNode<T> predecessor;
-
+        int bottomLevel = 0;
+        /* repeat loop */
         predecessor = head;
         for (int i = maxHeight; i >= bottomLevel; i--) {
-            current = predecessor.next[i].getReference();
+            cr.curr = predecessor.next[i].getReference();
             while (true) {
-                successor = current.next[i].get(marked);
+                successor = cr.curr.next[i].get(marked);
                 while (marked[0]) {
-                    snip = predecessor.next[i].compareAndSet(current, successor, false, false);
+                    snip = predecessor.next[i].compareAndSet(cr.curr, successor, false, false);
                     if (!snip) {
                         return true;
                     }
-                    current = predecessor.next[i].getReference();
-                    successor = current.next[i].get(marked);
+                    cr.curr = predecessor.next[i].getReference();
+                    successor = cr.curr.next[i].get(marked);
                 }
-                if (compare(current, value) < 0) {
-                    predecessor = successor;
-                    current = successor;
+                if (compare(cr.curr, value) < 0) {
+                    predecessor = cr.curr;
+                    cr.curr = successor;
                 } else {
                     break;
                 }
             }
             predecessors[i] = predecessor;
-            successors[i] = successor;
+            successors[i] = cr.curr;
         }
-        atomicBoolean.set(compare(current, value) == 0);
+        cr.r = (compare(cr.curr, value) == 0);
         return false;
 
     }
@@ -221,7 +255,7 @@ public class SkipListFreeLock<T> {
     }
 
     private int chooseRandomLevel() {
-        return random.nextInt(maxHeight);
+        return random.nextInt(maxHeight+1);
     }
 
 }
