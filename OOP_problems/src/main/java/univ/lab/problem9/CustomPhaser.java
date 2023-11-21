@@ -13,10 +13,10 @@ public class CustomPhaser {
         synchronized (obj) {
             reachedCount++;
             if (reachedCount == parties) {
-                currentPhase++;
                 reachedCount = 0;
+                obj.notifyAll();
+                return currentPhase++;
             }
-            notifyAll();
         }
         return currentPhase;
     }
@@ -29,7 +29,7 @@ public class CustomPhaser {
 
     public void awaitAdvance(int phase) throws InterruptedException {
         synchronized (obj) {
-            while (phase <= currentPhase) {
+            while (phase >= currentPhase) {
                 obj.wait();
             }
         }
