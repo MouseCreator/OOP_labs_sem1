@@ -28,6 +28,8 @@ public class ThreadPoolImpl implements ThreadPool {
             worker.stopThread();
         }
     }
+
+
     private class WorkerThread extends Thread {
         private volatile boolean running = true;
 
@@ -47,5 +49,6 @@ public class ThreadPoolImpl implements ThreadPool {
             running = false;
             interrupt();
         }
+
     }
 }
