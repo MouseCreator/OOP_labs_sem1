@@ -57,6 +57,9 @@ public class SkipList<T> {
                 if (current.prev.next != current) {
                     return false;
                 }
+                if (current.next != null && comparator.compare(current.element, current.next.element) >= 0) {
+                    return false;
+                }
                 current = current.next;
             }
             initial = initial.levelDown;
