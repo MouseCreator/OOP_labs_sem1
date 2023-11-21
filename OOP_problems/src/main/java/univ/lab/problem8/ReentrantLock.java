@@ -1,4 +1,4 @@
-package univ.lab.problem7;
+package univ.lab.problem8;
 
 public class ReentrantLock {
     private final Object obj = new Object();
