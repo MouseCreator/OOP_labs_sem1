@@ -129,7 +129,7 @@ public final class SkipListFreeLock<T> {
         boolean[] marked = {false};
         boolean snip;
         Node<T> prev, current = null, next;
-        retry:
+        boolean re = false;
         while (true) {
             prev = head;
             for (int level = MAX_LEVEL; level >= bottomLevel; level--) {
@@ -139,7 +139,10 @@ public final class SkipListFreeLock<T> {
                     while (marked[0]) {
                         snip = prev.next[level].compareAndSet(current, next,
                                 false, false);
-                        if (!snip) continue retry;
+                        if (!snip) {
+                            re = true;
+                            break;
+                        }
                         current = prev.next[level].getReference();
                         next = current.next[level].get(marked);
                     }
@@ -149,9 +152,13 @@ public final class SkipListFreeLock<T> {
                         break;
                     }
                 }
+                if (re)
+                    break;
                 prevN[level] = prev;
                 nextV[level] = current;
             }
+            if (re)
+                continue;
             return compare(current, x) == 0;
         }
     }
