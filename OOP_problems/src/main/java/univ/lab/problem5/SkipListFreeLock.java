@@ -1,91 +1,216 @@
 package univ.lab.problem5;
 
-
 import java.util.Comparator;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicMarkableReference;
 
-public class SkipListFreeLock<T> {
-    private final int maxHeight;
+public final class SkipListFreeLock<T> {
+    private static final int MAX_LEVEL = 4;
+    private final Node<T> head = new Node<>(false);
     private final Comparator<T> comparator;
-    private final AtomicNode<T> head;
     private final Random random = new Random();
-    public SkipListFreeLock(Comparator<T> comparator, int maxHeight) {
-        this.maxHeight = maxHeight;
+    public SkipListFreeLock(Comparator<T> comparator) {
         this.comparator = comparator;
-        head = AtomicNode.head(maxHeight);
-        AtomicNode<T> tail = AtomicNode.tail(maxHeight);
         for (int i = 0; i < head.next.length; i++) {
-            head.next[i] = new AtomicMarkableReference<>(tail, false);
+            Node<T> tail = new Node<>(true);
+            head.next[i]
+                    = new AtomicMarkableReference<>(tail, false);
         }
     }
 
-    private static class AtomicNode<T> {
-        public boolean isHead;
-        public boolean isTail;
-        private final T value;
+    public static final class Node<T> {
+        final T value;
+        final AtomicMarkableReference<Node<T>>[] next;
         private final int topLevel;
-        private final AtomicMarkableReference<AtomicNode<T>>[] next;
-        private AtomicNode(int maxHeight) {
+        private boolean isHead = false;
+        private boolean isTail = false;
+        public Node(boolean tail) {
             value = null;
-            next = initNext(maxHeight);
+            if (tail) {
+                isTail = true;
+            } else {
+                isHead = true;
+            }
+            next = getNext(MAX_LEVEL);
             for (int i = 0; i < next.length; i++) {
                 next[i] = new AtomicMarkableReference<>(null, false);
             }
-            topLevel = maxHeight;
+            topLevel = MAX_LEVEL;
         }
-
-        private AtomicNode(T value, int height) {
+        public Node(T value, int height) {
             this.value = value;
-            next = initNext(height);
+            next = getNext(height);
             for (int i = 0; i < next.length; i++) {
                 next[i] = new AtomicMarkableReference<>(null, false);
             }
             topLevel = height;
         }
 
-        private AtomicMarkableReference<AtomicNode<T>>[] initNext(int height) {
-            final AtomicMarkableReference<AtomicNode<T>>[] next;
-            next = new AtomicMarkableReference[height +1];
-            return next;
+        private static <T> AtomicMarkableReference<Node<T>>[] getNext(int height) {
+            return new AtomicMarkableReference[height + 1];
         }
-
-        public static <T> AtomicNode<T> head(int maxHeight) {
-            AtomicNode<T> node = new AtomicNode<>(maxHeight);
-            node.isHead = true;
-            return node;
-        }
-        public static <T> AtomicNode<T> tail(int maxHeight) {
-            AtomicNode<T> node =  new AtomicNode<>(maxHeight);
-            node.isTail = true;
-            return node;
-        }
-
-        public static <T> AtomicNode<T> newNode(T value, int height) {
-            return new AtomicNode<>(value, height);
+    }
+    private static <T> Node<T>[] collectionNode() {
+        return new Node[MAX_LEVEL + 1];
+    }
+    public boolean add(T value) {
+        int topLevel = randomLevel();
+        int bottomLevel = 0;
+        Node<T>[] predecessors = collectionNode();
+        Node<T>[] successors = collectionNode();
+        while (true) {
+            boolean found =  find(value, predecessors, successors);
+            if (found) {
+                return false;
+            } else {
+                Node<T> newNode = new Node<>(value, topLevel);
+                for (int i = bottomLevel; i <= topLevel; i++) {
+                    Node<T> successor = successors[i];
+                    newNode.next[i].set(successor, false);
+                }
+                Node<T> predecessor = predecessors[bottomLevel];
+                Node<T> successor = successors[bottomLevel];
+                newNode.next[bottomLevel].set(successor, false);
+                if (!predecessor.next[bottomLevel].compareAndSet(successor, newNode,
+                        false, false)) {
+                    continue;
+                }
+                for (int level = bottomLevel+1; level <= topLevel; level++) {
+                    while (true) {
+                        predecessor = predecessors[level];
+                        successor = successors[level];
+                        if (predecessor.next[level].compareAndSet(successor, newNode, false, false))
+                            break;
+                        find(value, predecessors, successors);
+                    }
+                }
+                return true;
+            }
         }
     }
 
-    public synchronized String print(T value) {
+    private int randomLevel() {
+        return random.nextInt(MAX_LEVEL+1);
+    }
+
+    public boolean delete(T value) {
+        int bottomLevel = 0;
+        Node<T>[] predecessors = collectionNode();
+        Node<T>[] successors = collectionNode();
+        Node<T> successor;
+        boolean found = find(value, predecessors, successors);
+        if (!found) {
+            return false;
+        } else {
+            Node<T> nodeToRemove = successors[bottomLevel];
+            for (int i = nodeToRemove.topLevel; i >= bottomLevel + 1; i--) {
+                boolean[] marked = {false};
+                successor = nodeToRemove.next[i].get(marked);
+                while (!marked[0]) {
+                    nodeToRemove.next[i].attemptMark(successor, true);
+                    successor = nodeToRemove.next[i].get(marked);
+                }
+            }
+            boolean[] marked = {false};
+            successor = nodeToRemove.next[bottomLevel].get(marked);
+            while (true) {
+                boolean markedNode = nodeToRemove.next[bottomLevel].compareAndSet(successor, successor,false, true);
+                successor = successors[bottomLevel].next[bottomLevel].get(marked);
+                if (markedNode) {
+                    find(value, predecessors, successors);
+                    return true;
+                } else if (marked[0]) return false;
+            }
+        }
+    }
+
+    public boolean find(T x, Node<T>[] prevN, Node<T>[] nextV) {
+        int bottomLevel = 0;
+        boolean[] marked = {false};
+        boolean snip;
+        Node<T> prev, current = null, next;
+        retry:
+        while (true) {
+            prev = head;
+            for (int level = MAX_LEVEL; level >= bottomLevel; level--) {
+                current = prev.next[level].getReference();
+                while (true) {
+                    next = current.next[level].get(marked);
+                    while (marked[0]) {
+                        snip = prev.next[level].compareAndSet(current, next,
+                                false, false);
+                        if (!snip) continue retry;
+                        current = prev.next[level].getReference();
+                        next = current.next[level].get(marked);
+                    }
+                    if (compare(current, x) < 0) {
+                        prev = current; current = next;
+                    } else {
+                        break;
+                    }
+                }
+                prevN[level] = prev;
+                nextV[level] = current;
+            }
+            return compare(current, x) == 0;
+        }
+    }
+
+    private int compare(Node<T> node, T value) {
+        if (node.isHead) {
+            return -1;
+        }
+        if (node.isTail) {
+            return 1;
+        }
+        return comparator.compare(node.value, value);
+    }
+
+    boolean contains(T x) {
+        int bottomLevel = 0;
+        boolean[] marked = {false};
+        Node<T> prev = head;
+        Node<T> curr = null;
+        Node<T> next;
+        for (int level = MAX_LEVEL; level >= bottomLevel; level--) {
+            curr = prev.next[level].getReference();
+            while (true) {
+                next = curr.next[level].get(marked);
+                while (marked[0]) {
+                    curr = prev.next[level].getReference();
+                    next = curr.next[level].get(marked);
+                }
+                if (compare(curr, x) < 0) {
+                    prev = curr;
+                    curr = next;
+                } else {
+                    break;
+                }
+            }
+        }
+        return (compare(curr, x) == 0);
+    }
+
+    public String print() {
         StringBuilder builder = new StringBuilder();
         int bottomLevel = 0;
-        boolean[] marked = { false };
-        AtomicNode<T> predecessor = head;
-        AtomicNode<T> current = null;
-        AtomicNode<T> successor;
-        for (int i = maxHeight; i >= bottomLevel; i--) {
-            current = predecessor.next[i].getReference();
-            builder.append("-->").append(current.value);
+        boolean[] marked = {false};
+        Node<T> pred = head, curr, succ;
+        Node<T> initial = pred;
+        for (int level = MAX_LEVEL; level >= bottomLevel; level--) {
+            curr = initial.next[level].getReference();
             while (true) {
-                successor = current.next[i].get(marked);
+                builder.append("-->").append(curr.value);
+                succ = curr.next[level].get(marked);
                 while (marked[0]) {
-                    current = predecessor.next[i].getReference();
-                    successor = current.next[i].get(marked);
+                    curr = pred.next[level].getReference();
+                    succ = curr.next[level].get(marked);
                 }
-                if (compare(current, value) < 0) {
-                    predecessor = current;
-                    current = successor;
+                if (!curr.isTail){
+                    pred = curr;
+                    curr = succ;
                 } else {
+                    builder.append("\n");
                     break;
                 }
             }
@@ -93,169 +218,8 @@ public class SkipListFreeLock<T> {
         return builder.toString();
     }
 
-
-    public boolean add(T value) {
-        int topLevel = chooseRandomLevel();
-        int bottomLevel = 0;
-        AtomicNode<T>[] predecessors = relativeCollection();
-        AtomicNode<T>[] successors = relativeCollection();
-        while (true) {
-            boolean found = find(value, predecessors, successors);
-            if (found) {
-                return false;
-            }
-            AtomicNode<T> newNode = AtomicNode.newNode(value, topLevel);
-            for (int i = bottomLevel; i <= topLevel; i++) {
-                AtomicNode<T> successor = successors[i];
-                newNode.next[i].set(successor, false);
-            }
-            AtomicNode<T> predecessor = predecessors[bottomLevel];
-            AtomicNode<T> successor = successors[bottomLevel];
-            newNode.next[bottomLevel].set(successor, false);
-            if (!predecessor.next[bottomLevel].compareAndSet(successor, newNode, false, false))
-                continue;
-            for (int i = bottomLevel + 1; i <= topLevel; i++) {
-                while (true) {
-                    predecessor = predecessors[i];
-                    successor = successors[i];
-                    if (predecessor.next[i].compareAndSet(successor, newNode, false, false))
-                        break;
-                    find(value, predecessors, successors);
-                }
-            }
-            return true;
-        }
-    }
-
-    public boolean remove(T value) {
-        int bottomLevel = 0;
-        AtomicNode<T>[] predecessors = relativeCollection();
-        AtomicNode<T>[] successors = relativeCollection();
-        AtomicNode<T> successor;
-        boolean found = find(value, predecessors, successors);
-        if (!found) {
-            return false;
-        }
-        AtomicNode<T> nodeToRemove = successors[bottomLevel];
-        for (int i = nodeToRemove.topLevel; i >= bottomLevel+1; i--) {
-            boolean[] marked = { false };
-            successor = nodeToRemove.next[i].get(marked);
-            while (!marked[0]) {
-                nodeToRemove.next[i].attemptMark(successor, true);
-                successor = nodeToRemove.next[i].get(marked);
-            }
-        }
-        boolean[] marked = { false };
-        successor = nodeToRemove.next[bottomLevel].get(marked);
-        while (true) {
-            boolean markedIt = nodeToRemove.next[bottomLevel].compareAndSet(successor, successor, false, true);
-            successor = successors[bottomLevel].next[bottomLevel].get(marked);
-            if (markedIt) {
-                find(value, predecessors, successors);
-                return true;
-            }
-            else if (marked[0]) {
-                return false;
-            }
-        }
-    }
-    private static class ReferenceContainer<T> {
-        private boolean r;
-        private AtomicNode<T> curr;
-
-        public ReferenceContainer() {
-            r = false;
-            curr = null;
-        }
-    }
-    private boolean find(T value, AtomicNode<T>[] predecessors, AtomicNode<T>[] successors) {
-        boolean[] marked = {false};
-        boolean r = true;
-        ReferenceContainer<T> container = new ReferenceContainer<>();
-        while (r) {
-            r = onFind(value, predecessors, successors, marked, container);
-        }
-        return container.r;
-    }
-
-    private boolean onFind(T value, AtomicNode<T>[] predecessors, AtomicNode<T>[] successors,
-                           boolean[] marked, ReferenceContainer<T> cr) {
-        AtomicNode<T> successor;
-        boolean snip;
-        AtomicNode<T> predecessor;
-        int bottomLevel = 0;
-        /* repeat loop */
-        predecessor = head;
-        for (int i = maxHeight; i >= bottomLevel; i--) {
-            cr.curr = predecessor.next[i].getReference();
-            while (true) {
-                successor = cr.curr.next[i].get(marked);
-                while (marked[0]) {
-                    snip = predecessor.next[i].compareAndSet(cr.curr, successor, false, false);
-                    if (!snip) {
-                        return true;
-                    }
-                    cr.curr = predecessor.next[i].getReference();
-                    successor = cr.curr.next[i].get(marked);
-                }
-                if (compare(cr.curr, value) < 0) {
-                    predecessor = cr.curr;
-                    cr.curr = successor;
-                } else {
-                    break;
-                }
-            }
-            predecessors[i] = predecessor;
-            successors[i] = cr.curr;
-        }
-        cr.r = (compare(cr.curr, value) == 0);
-        return false;
-
-    }
-
-    public boolean contains(T value) {
-        int bottomLevel = 0;
-        boolean[] marked = { false };
-        AtomicNode<T> predecessor = head;
-        AtomicNode<T> current = null;
-        AtomicNode<T> successor;
-        for (int i = maxHeight; i >= bottomLevel; i--) {
-            current = predecessor.next[i].getReference();
-            while (true) {
-                successor = current.next[i].get(marked);
-                while (marked[0]) {
-                    current = predecessor.next[i].getReference();
-                    successor = current.next[i].get(marked);
-                }
-                if (compare(current, value) < 0) {
-                    predecessor = current;
-                    current = successor;
-                } else {
-                    break;
-                }
-            }
-        }
-        if (current == null)
-            return false;
-        return compare(current, value) == 0;
-    }
-
-    private int compare(AtomicNode<T> current, T value) {
-        if (current.isHead) {
-            return -1;
-        }
-        if (current.isTail) {
-            return 1;
-        }
-        return comparator.compare(current.value, value);
-    }
-
-    private AtomicNode<T>[] relativeCollection() {
-        return new AtomicNode[maxHeight + 1];
-    }
-
-    private int chooseRandomLevel() {
-        return random.nextInt(maxHeight+1);
+    public void setSeed(long seed) {
+        this.random.setSeed(seed);
     }
 
 }
