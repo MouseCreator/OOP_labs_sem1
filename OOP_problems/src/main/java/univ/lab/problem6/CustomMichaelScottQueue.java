@@ -15,9 +15,9 @@ public class CustomMichaelScottQueue<T> {
     private final AtomicReference<Node<T>> head;
     private final AtomicReference<Node<T>> tail;
     public CustomMichaelScottQueue() {
-        Node<T> dummyNode = new Node<>(null);
-        head = new AtomicReference<>(dummyNode);
-        tail = new AtomicReference<>(dummyNode);
+        Node<T> emptyNode = new Node<>(null);
+        head = new AtomicReference<>(emptyNode);
+        tail = new AtomicReference<>(emptyNode);
     }
 
     public void enqueue(T item) {
