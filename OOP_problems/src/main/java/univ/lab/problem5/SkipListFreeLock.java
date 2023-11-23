@@ -3,7 +3,6 @@ package univ.lab.problem5;
 import java.util.Comparator;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicMarkableReference;
-
 public final class SkipListFreeLock<T> {
     private static final int MAX_LEVEL = 4;
     private final Node<T> head = new Node<>(false);
@@ -13,8 +12,7 @@ public final class SkipListFreeLock<T> {
         this.comparator = comparator;
         for (int i = 0; i < head.next.length; i++) {
             Node<T> tail = new Node<>(true);
-            head.next[i]
-                    = new AtomicMarkableReference<>(tail, false);
+            head.next[i] = new AtomicMarkableReference<>(tail, false);
         }
     }
 
@@ -90,7 +88,12 @@ public final class SkipListFreeLock<T> {
     }
 
     private int randomLevel() {
-        return random.nextInt(MAX_LEVEL+1);
+        for (int i = MAX_LEVEL; i > 0; i--) {
+            boolean b = random.nextBoolean();
+            if (!b)
+                return i;
+        }
+        return 0;
     }
 
     public boolean delete(T value) {
@@ -129,7 +132,7 @@ public final class SkipListFreeLock<T> {
         boolean[] marked = {false};
         boolean snip;
         Node<T> prev, current = null, next;
-        boolean re = false;
+        boolean repeat = false;
         while (true) {
             prev = head;
             for (int level = MAX_LEVEL; level >= bottomLevel; level--) {
@@ -140,7 +143,7 @@ public final class SkipListFreeLock<T> {
                         snip = prev.next[level].compareAndSet(current, next,
                                 false, false);
                         if (!snip) {
-                            re = true;
+                            repeat = true;
                             break;
                         }
                         current = prev.next[level].getReference();
@@ -152,12 +155,12 @@ public final class SkipListFreeLock<T> {
                         break;
                     }
                 }
-                if (re)
+                if (repeat)
                     break;
                 prevN[level] = prev;
                 nextV[level] = current;
             }
-            if (re)
+            if (repeat)
                 continue;
             return compare(current, x) == 0;
         }
@@ -200,6 +203,8 @@ public final class SkipListFreeLock<T> {
 
     public String print() {
         StringBuilder builder = new StringBuilder();
+        StringBuilder general = new StringBuilder();
+        int count = 0;
         int bottomLevel = 0;
         boolean[] marked = {false};
         Node<T> pred = head, curr, succ;
@@ -208,6 +213,7 @@ public final class SkipListFreeLock<T> {
             curr = initial.next[level].getReference();
             while (true) {
                 builder.append("-->").append(curr.value);
+                count++;
                 succ = curr.next[level].get(marked);
                 while (marked[0]) {
                     curr = pred.next[level].getReference();
@@ -218,11 +224,14 @@ public final class SkipListFreeLock<T> {
                     curr = succ;
                 } else {
                     builder.append("\n");
+                    general.append("[").append(count).append("]").append(builder);
+                    count = 0;
+                    builder = new StringBuilder();
                     break;
                 }
             }
         }
-        return builder.toString();
+        return general.toString();
     }
 
     public void setSeed(long seed) {

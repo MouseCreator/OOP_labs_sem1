@@ -10,11 +10,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ThreadPoolImplTest {
 
-    private record SimpleTask(CountDownLatch latch) implements Runnable {
+    private record SimpleTask(CountDownLatch latch, int id) implements Runnable {
         @Override
         public void run() {
             try {
                 Thread.sleep(100);
+                System.out.println(Thread.currentThread().getName() + " completed task " + id);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -28,6 +29,7 @@ class ThreadPoolImplTest {
         public void run() {
             try {
                 Thread.sleep(2000);
+
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
@@ -48,11 +50,12 @@ class ThreadPoolImplTest {
         int nTasks = 20;
         CountDownLatch latch = new CountDownLatch(nTasks);
         for (int i = 0; i < nTasks; i++) {
-            threadPool.submit(new SimpleTask(latch));
+            threadPool.submit(new SimpleTask(latch, i));
         }
         try {
             boolean await = latch.await(1, TimeUnit.SECONDS);
             assertTrue(await);
+            threadPool.shutdown();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

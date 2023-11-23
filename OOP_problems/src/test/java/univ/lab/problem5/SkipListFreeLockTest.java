@@ -41,6 +41,7 @@ class SkipListFreeLockTest {
                 -->1-->2-->3-->4-->5-->6-->7-->null
                 """;
         String act = lockFreeSkipList.print();
+        System.out.println(act);
         assertEquals(exp, act);
     }
 
@@ -112,5 +113,36 @@ class SkipListFreeLockTest {
             throw new RuntimeException(e);
         }
         //System.out.println(skipList.print());
+    }
+
+    @Test
+    void evenOdd() {
+        List<Integer> list = createList(100);
+        SkipListFreeLock<Integer> skipList = new SkipListFreeLock<>(Integer::compareTo);
+        for (int p : list) {
+            skipList.add(p);
+        }
+        Random random = new Random();
+        int N = 200;
+        Thread writer = new Thread(()->{
+            for (int i = 0; i < N; i++) {
+                skipList.add(random.nextInt(100) * 2);
+            }
+        });
+        Thread writer2 = new Thread(()->{
+            for (int i = 0; i < N; i++) {
+                skipList.add(random.nextInt(100) * 2 + 1);
+            }
+        });
+        writer.start();
+        writer2.start();
+
+        try {
+            writer.join();
+            writer2.join();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println(skipList.print());
     }
 }

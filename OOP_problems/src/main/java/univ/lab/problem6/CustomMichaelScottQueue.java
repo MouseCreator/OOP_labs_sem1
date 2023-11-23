@@ -5,7 +5,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class CustomMichaelScottQueue<T> {
     private static class Node<T> {
-        final T value;
+        private final T value;
         AtomicReference<Node<T>> next;
         Node(T value) {
             this.value = value;
