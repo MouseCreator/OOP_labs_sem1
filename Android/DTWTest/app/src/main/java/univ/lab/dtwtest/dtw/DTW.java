@@ -11,8 +11,12 @@ public class DTW<T> {
     public double dtwDistance(T[] seq1, T[] seq2) {
         int m = seq1.length;
         int n = seq2.length;
-
         double[][] matrix = new double[m + 1][n + 1];
+        fillDTWMatrix(seq1, seq2, m, n, matrix);
+        return matrix[m][n];
+    }
+
+    private void fillDTWMatrix(T[] seq1, T[] seq2, int m, int n, double[][] matrix) {
         for (int i = 0; i <= m; i++) {
             for (int j = 0; j <= n; j++) {
                 matrix[i][j] = Double.POSITIVE_INFINITY;
@@ -27,7 +31,14 @@ public class DTW<T> {
                 matrix[i][j] = cost + Math.min(Math.min(matrix[i - 1][j], matrix[i][j - 1]), matrix[i - 1][j - 1]);
             }
         }
-        return matrix[m][n];
+    }
+
+    public double dtwNormalizedDistance(T[] seq1, T[] seq2) {
+        int m = seq1.length;
+        int n = seq2.length;
+        double[][] matrix = new double[m + 1][n + 1];
+        fillDTWMatrix(seq1, seq2, m, n, matrix);
+        return matrix[m][n] / calculatePathLength(matrix);
     }
 
     private int minIndex(double[] arr) {
@@ -48,6 +59,30 @@ public class DTW<T> {
         return minIndex;
     }
 
+    public double calculatePathLength(double[][] matrix) {
+        int m = matrix.length - 1;
+        int n = matrix[0].length - 1;
+
+        int i = m;
+        int j = n;
+        double pathLength = 1.0;
+
+        while (i > 0 || j > 0) {
+            double minCost = Math.min(Math.min(matrix[i - 1][j], matrix[i][j - 1]), matrix[i - 1][j - 1]);
+            if (minCost == matrix[i - 1][j - 1]) {
+                i--;
+                j--;
+            } else if (minCost == matrix[i - 1][j]) {
+                i--;
+            } else {
+                j--;
+            }
+            pathLength++;
+        }
+
+        return pathLength;
+    }
+
     private int nextMin(double[][] matrix, int i, int j) {
         if (i == 0) {
             return 1;
@@ -61,24 +96,14 @@ public class DTW<T> {
 
     private void print(double[][] matrix) {
         StringBuilder builder = new StringBuilder("Matrix\n");
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix[i].length; j++) {
-                builder.append(matrix[i][j]).append(" ");
+        for (double[] doubles : matrix) {
+            for (double dv : doubles) {
+                builder.append(dv).append(" ");
             }
             builder.append("\n");
         }
         System.out.println(builder);
 
-    }
-
-    private double modification(double[][] matrix, int i, int j) {
-        if (i == 0) {
-            return j==0 ? 0 : matrix[i][j-1];
-        }
-        if (j == 0) {
-            return matrix[i-1][j];
-        }
-        return Math.min(Math.min(matrix[i-1][j], matrix[i][j-1]), matrix[i-1][j-1]);
     }
 
 }

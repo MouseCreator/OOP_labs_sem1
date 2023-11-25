@@ -4,15 +4,12 @@ public class Vector3 {
     private final double x;
     private final double y;
     private final double z;
-
     public double x() {
         return x;
     }
-
     public double y() {
         return y;
     }
-
     public double z() {
         return z;
     }
