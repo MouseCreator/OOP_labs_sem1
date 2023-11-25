@@ -17,6 +17,10 @@ public class Vector3 {
         this.z = other.z;
     }
 
+    public static Vector3 zero() {
+        return new Vector3(0,0,0);
+    }
+
     public Vector3 add(Vector3 addend) {
         return new Vector3(x + addend.x, y + addend.y, z + addend.z);
     }
@@ -37,5 +41,9 @@ public class Vector3 {
 
     public Vector3 subtract(Vector3 accel) {
         return new Vector3(x - accel.x, y - accel.y, z - accel.z);
+    }
+
+    public double magnitude() {
+        return Math.sqrt(x*x + y*y + z*z);
     }
 }

@@ -19,10 +19,15 @@ public class MainActivity extends AppCompatActivity {
     private SensorEventListener sensorEventListener;
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
+    private Sensor mGravity;
+    private Sensor mGyroscope;
+    private Sensor mRotation;
+    private Sensor mLinearAcceleration;
     private long lastUpdateTime = 0;
-    private Vector3 currentPosition = new Vector3(0, 0, 0);
-    private Vector3 accel = null;
-    private Vector3 velocity = new Vector3(0, 0, 0);
+    private Vector3 currentPosition = Vector3.zero();
+    private Vector3 originAccel = null;
+    private Vector3 prevAccel = null;
+    private Vector3 velocity = Vector3.zero();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +36,8 @@ public class MainActivity extends AppCompatActivity {
 
         accelerationTexts = new TextView[3];
         accelerationTexts[0] = findViewById(R.id.txt_accel_x);
-        accelerationTexts[1] = findViewById(R.id.txt_accel_z);
-        accelerationTexts[2] = findViewById(R.id.txt_accel_y);
+        accelerationTexts[1] = findViewById(R.id.txt_accel_y);
+        accelerationTexts[2] = findViewById(R.id.txt_accel_z);
 
         velocityTexts = new TextView[3];
         velocityTexts[0] = findViewById(R.id.txt_velocity_x);
@@ -58,10 +63,17 @@ public class MainActivity extends AppCompatActivity {
                 float y = sensorEvent.values[1];
                 float z = sensorEvent.values[2];
                 Vector3 acceleration = new Vector3(x, y, z);
-                if (accel == null) {
-                    accel = acceleration;
+                if (originAccel == null) {
+                    originAccel = acceleration;
+                    prevAccel = acceleration;
                 } else {
-                    acceleration = acceleration.subtract(accel);
+                    acceleration = acceleration.subtract(originAccel);
+                    if (prevAccel.subtract(acceleration).magnitude()<0) {
+                        acceleration = Vector3.zero();
+                    } else {
+                        acceleration = removeNoise(acceleration);
+                    }
+                    prevAccel = acceleration;
                 }
                 long currentTime = System.currentTimeMillis();
                 if (lastUpdateTime == 0) {
@@ -83,6 +95,14 @@ public class MainActivity extends AppCompatActivity {
         };
     }
 
+    private Vector3 removeNoise(Vector3 acceleration) {
+        final double noiseConst = 0.02;
+        double x = Math.abs(acceleration.x()) < noiseConst ? 0 : acceleration.x();
+        double y = Math.abs(acceleration.y()) < noiseConst ? 0 : acceleration.y();
+        double z = Math.abs(acceleration.z()) < noiseConst ? 0 : acceleration.z();
+        return new Vector3(x,y,z);
+    }
+
     private void printVector(TextView[] textFamily, Vector3 vector) {
         textFamily[0].setText(String.format(Locale.ENGLISH, "X = %.2f", vector.x()));
         textFamily[1].setText(String.format(Locale.ENGLISH, "Y = %.2f", vector.y()));
@@ -91,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
 
     protected void onResume() {
         super.onResume();
-        mSensorManager.registerListener(sensorEventListener, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(sensorEventListener, mAccelerometer, SensorManager.SENSOR_DELAY_GAME);
     }
 
     protected void onPause() {
