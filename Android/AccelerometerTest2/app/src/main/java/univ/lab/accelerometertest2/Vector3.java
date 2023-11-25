@@ -46,4 +46,8 @@ public class Vector3 {
     public double magnitude() {
         return Math.sqrt(x*x + y*y + z*z);
     }
+
+    public Vector3 divide(Vector3 byElements) {
+        return new Vector3(x / byElements.x, y / byElements.y, z / byElements.z);
+    }
 }

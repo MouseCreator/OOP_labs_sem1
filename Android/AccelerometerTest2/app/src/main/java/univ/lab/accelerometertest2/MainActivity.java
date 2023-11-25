@@ -16,7 +16,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView[] accelerationTexts;
     private TextView[] velocityTexts;
     private TextView[] positionTexts;
-    private SensorEventListener sensorEventListener;
+    private SensorEventListener accelerationEventListener;
+    private SensorEventListener gravityEventListener;
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
     private Sensor mGravity;
@@ -25,9 +26,8 @@ public class MainActivity extends AppCompatActivity {
     private Sensor mLinearAcceleration;
     private long lastUpdateTime = 0;
     private Vector3 currentPosition = Vector3.zero();
-    private Vector3 originAccel = null;
-    private Vector3 prevAccel = null;
     private Vector3 velocity = Vector3.zero();
+    private Vector3 gravity = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,29 +51,22 @@ public class MainActivity extends AppCompatActivity {
 
         mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mGravity = mSensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
 
-        initSensorEventListener();
+        initAccelerometerEventListener();
+        initGravityEventListener();
     }
 
-    private void initSensorEventListener() {
-        sensorEventListener = new SensorEventListener() {
+    private void initAccelerometerEventListener() {
+        accelerationEventListener = new SensorEventListener() {
             @Override
             public void onSensorChanged(SensorEvent sensorEvent) {
                 float x = sensorEvent.values[0];
                 float y = sensorEvent.values[1];
                 float z = sensorEvent.values[2];
                 Vector3 acceleration = new Vector3(x, y, z);
-                if (originAccel == null) {
-                    originAccel = acceleration;
-                    prevAccel = acceleration;
-                } else {
-                    acceleration = acceleration.subtract(originAccel);
-                    if (prevAccel.subtract(acceleration).magnitude()<0) {
-                        acceleration = Vector3.zero();
-                    } else {
-                        acceleration = removeNoise(acceleration);
-                    }
-                    prevAccel = acceleration;
+                if (gravity != null) {
+                    acceleration = acceleration.divide(gravity);
                 }
                 long currentTime = System.currentTimeMillis();
                 if (lastUpdateTime == 0) {
@@ -86,6 +79,23 @@ public class MainActivity extends AppCompatActivity {
                 printVector(positionTexts, currentPosition);
                 printVector(velocityTexts, velocity);
                 printVector(accelerationTexts, acceleration);
+            }
+
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int i) {
+
+            }
+        };
+    }
+
+    private void initGravityEventListener() {
+        gravityEventListener = new SensorEventListener() {
+            @Override
+            public void onSensorChanged(SensorEvent sensorEvent) {
+                float x = sensorEvent.values[0];
+                float y = sensorEvent.values[1];
+                float z = sensorEvent.values[2];
+                gravity = new Vector3(x, y, z);
             }
 
             @Override
@@ -111,11 +121,12 @@ public class MainActivity extends AppCompatActivity {
 
     protected void onResume() {
         super.onResume();
-        mSensorManager.registerListener(sensorEventListener, mAccelerometer, SensorManager.SENSOR_DELAY_GAME);
+        mSensorManager.registerListener(accelerationEventListener, mAccelerometer, SensorManager.SENSOR_DELAY_GAME);
+        mSensorManager.registerListener(gravityEventListener, mGravity, SensorManager.SENSOR_DELAY_GAME);
     }
 
     protected void onPause() {
         super.onPause();
-        mSensorManager.unregisterListener(sensorEventListener);
+        mSensorManager.unregisterListener(accelerationEventListener);
     }
 }
