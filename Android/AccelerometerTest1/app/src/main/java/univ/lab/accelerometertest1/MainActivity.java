@@ -9,12 +9,15 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
+
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
     private SensorManager sensorManager;
     private Sensor accelerometer;
-
+    private TextView xValue, yValue, zValue;
     private static final String TAG = "MainActivity";
 
     @Override
@@ -23,6 +26,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         setContentView(R.layout.activity_main);
 
         Log.d(TAG, "onCreate: Initialization");
+
+        xValue = (TextView) findViewById(R.id.xValue);
+        yValue = (TextView) findViewById(R.id.yValue);
+        zValue = (TextView) findViewById(R.id.zValue);
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -36,7 +43,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         float x = sensorEvent.values[0];
         float y = sensorEvent.values[1];
         float z = sensorEvent.values[2];
-        Log.d(TAG, String.format("onSensorChanged: X: %f, Y: %f, Z: %f", x, y, z));
+        xValue.setText(String.format(Locale.ENGLISH, "X: %f", x));
+        yValue.setText(String.format(Locale.ENGLISH, "Y: %f", y));
+        zValue.setText(String.format(Locale.ENGLISH, "Z: %f", z));
     }
 
     @Override
