@@ -7,15 +7,15 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView txtCurrentAcceleration, txtPrevAcceleration, txtAcceleration;
-    private ProgressBar progressBarShakeMeter;
+    private TextView[] accelerationTexts;
+    private TextView[] velocityTexts;
+    private TextView[] positionTexts;
     private SensorEventListener sensorEventListener;
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
@@ -29,10 +29,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        txtAcceleration = findViewById(R.id.txt_accel);
-        txtCurrentAcceleration = findViewById(R.id.txt_currentAccel);
-        txtPrevAcceleration = findViewById(R.id.txt_prevAccel);
-        progressBarShakeMeter = findViewById(R.id.prog_shakeMeter);
+        accelerationTexts = new TextView[3];
+        accelerationTexts[0] = findViewById(R.id.txt_accel_x);
+        accelerationTexts[1] = findViewById(R.id.txt_accel_z);
+        accelerationTexts[2] = findViewById(R.id.txt_accel_y);
+
+        velocityTexts = new TextView[3];
+        velocityTexts[0] = findViewById(R.id.txt_velocity_x);
+        velocityTexts[1] = findViewById(R.id.txt_velocity_y);
+        velocityTexts[2] = findViewById(R.id.txt_velocity_z);
+
+        positionTexts = new TextView[3];
+        positionTexts[0] = findViewById(R.id.txt_position_x);
+        positionTexts[1] = findViewById(R.id.txt_position_y);
+        positionTexts[2] = findViewById(R.id.txt_position_z);
 
         mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -51,20 +61,19 @@ public class MainActivity extends AppCompatActivity {
                 if (accel == null) {
                     accel = acceleration;
                 } else {
-                    Vector3 temp = new Vector3(accel);
-                    accel = new Vector3(acceleration);
-                    acceleration = acceleration.subtract(temp);
+                    acceleration = acceleration.subtract(accel);
                 }
                 long currentTime = System.currentTimeMillis();
-                float deltaTime = (currentTime - lastUpdateTime) / 1000.f; // Convert to seconds
-
+                if (lastUpdateTime == 0) {
+                    lastUpdateTime = currentTime;
+                }
+                float deltaTime = (currentTime - lastUpdateTime) / 1000.f;
                 velocity = velocity.add(acceleration.multiply(deltaTime));
                 currentPosition = currentPosition.add(velocity.multiply(deltaTime));
                 lastUpdateTime = currentTime;
-
-                txtAcceleration.setText(String.format(Locale.ENGLISH, "X = %.2f", acceleration.x()));
-                txtPrevAcceleration.setText(String.format(Locale.ENGLISH, "Y = %.2f", acceleration.y()));
-                txtCurrentAcceleration.setText(String.format(Locale.ENGLISH, "Z = %.2f", acceleration.z()));
+                printVector(positionTexts, currentPosition);
+                printVector(velocityTexts, velocity);
+                printVector(accelerationTexts, acceleration);
             }
 
             @Override
@@ -72,6 +81,12 @@ public class MainActivity extends AppCompatActivity {
 
             }
         };
+    }
+
+    private void printVector(TextView[] textFamily, Vector3 vector) {
+        textFamily[0].setText(String.format(Locale.ENGLISH, "X = %.2f", vector.x()));
+        textFamily[1].setText(String.format(Locale.ENGLISH, "Y = %.2f", vector.y()));
+        textFamily[2].setText(String.format(Locale.ENGLISH, "Z = %.2f", vector.z()));
     }
 
     protected void onResume() {
