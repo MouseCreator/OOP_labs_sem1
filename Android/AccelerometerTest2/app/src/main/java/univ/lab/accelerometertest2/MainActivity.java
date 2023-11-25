@@ -19,9 +19,6 @@ public class MainActivity extends AppCompatActivity {
     private SensorEventListener sensorEventListener;
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
-    private double accelerationCurrentValue = 0;
-    private double accelerationPreviousValue = 0;
-    private double changeOfAccelerationValue = 0;
     private long lastUpdateTime = 0;
     private Vector3 currentPosition = new Vector3(0, 0, 0);
     private Vector3 accel = null;
@@ -40,8 +37,6 @@ public class MainActivity extends AppCompatActivity {
         mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
-
-        progressBarShakeMeter.setProgress((int) changeOfAccelerationValue);
         initSensorEventListener();
     }
 
