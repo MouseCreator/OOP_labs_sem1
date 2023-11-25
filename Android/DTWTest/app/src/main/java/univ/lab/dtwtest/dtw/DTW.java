@@ -27,7 +27,6 @@ public class DTW<T> {
                 matrix[i][j] = cost + Math.min(Math.min(matrix[i - 1][j], matrix[i][j - 1]), matrix[i - 1][j - 1]);
             }
         }
-        print(matrix);
         return matrix[m][n];
     }
 
