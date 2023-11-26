@@ -5,7 +5,6 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import univ.lab.accelerometertest2.Vector3;
 
 public class OrientationManager {
     private Vector3 currentVector = null;

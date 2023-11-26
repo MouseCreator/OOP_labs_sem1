@@ -13,6 +13,7 @@ import java.util.Locale;
 
 import univ.lab.accelerometertest2.filtered.MagneticOrientationCalculator;
 import univ.lab.accelerometertest2.filtered.SensorWrapper;
+import univ.lab.accelerometertest2.filtered.Vector3;
 
 public class MainActivity extends AppCompatActivity {
 

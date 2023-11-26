@@ -2,8 +2,6 @@ package univ.lab.accelerometertest2.filtered;
 
 import android.hardware.SensorEvent;
 
-import univ.lab.accelerometertest2.Vector3;
-
 public class RegularOrientationCalculator implements OrientationCalculator {
     private final double TRUST_CONST;
     public RegularOrientationCalculator() {

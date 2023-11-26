@@ -1,4 +1,4 @@
-package univ.lab.accelerometertest2;
+package univ.lab.accelerometertest2.filtered;
 
 public class Vector3 {
     private final double x;
