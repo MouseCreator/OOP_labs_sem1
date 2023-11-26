@@ -20,7 +20,7 @@ public class OrientationCalculator {
         this.gyroWrapper = gyroWrapper;
     }
 
-    private void processAccelerometerMagnetometer(SensorEvent accValues, SensorEvent magValues) {
+    private void processAccelerometerMagnetometer(SensorEvent accValues, SensorEvent magValues, double estimateYaw) {
         float[] acc = accValues.values;
         float ax = acc[0];
         float ay = acc[1];
@@ -42,7 +42,7 @@ public class OrientationCalculator {
             yaw = Math.atan2(sinRoll * mx - cosRoll * my,
                     cosPitch * mx + sinPitch * sinRoll * my + sinPitch * cosPitch + mz);
         } catch (NullPointerException e) {
-            currentMagnetic = new Vector3(pitch, roll, 0);
+            currentMagnetic = new Vector3(pitch, roll, estimateYaw);
             return;
         }
         currentMagnetic = new Vector3(pitch, roll, yaw);
@@ -84,7 +84,7 @@ public class OrientationCalculator {
 
     public Vector3 updateAndGet() {
         try {
-            processAccelerometerMagnetometer(accWrapper.get(), magWrapper.get());
+            processAccelerometerMagnetometer(accWrapper.get(), magWrapper.get(), gyroWrapper.get().values[2]);
             processGyroscope(gyroWrapper.get().values);
             return getOrientation();
         } catch (NullPointerException e) {
