@@ -11,6 +11,7 @@ public class GamePanel extends JPanel implements Runnable{
     private Thread gameThread;
     private double scaleX = 1.0;
     private double scaleY = 1.0;
+    private final int FPS = 60;
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -32,7 +33,7 @@ public class GamePanel extends JPanel implements Runnable{
         this.setPreferredSize(new Dimension(ConstUtils.worldWidth, ConstUtils.worldHeight));
         this.setBackground(Color.blue);
         this.setDoubleBuffered(true);
-
+        this.setFocusable(true);
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
@@ -45,11 +46,42 @@ public class GamePanel extends JPanel implements Runnable{
         gameThread = new Thread(this);
         gameThread.start();
     }
-    @Override
+    /*
     public void run() {
+        double drawInterval = 1000.0 / FPS;
+        double nextDrawTime = System.currentTimeMillis() + drawInterval;
         while (gameThread != null) {
+
             update();
             repaint();
+
+            try {
+                double remainingTime = nextDrawTime - System.currentTimeMillis();
+                if (remainingTime > 0) {
+                    Thread.sleep((long) remainingTime);
+                }
+                nextDrawTime += drawInterval;
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    } */
+
+    public void run() {
+        double drawInterval = 1000.0 / FPS;
+        double delta = 0;
+        long lastTime = System.currentTimeMillis();
+        long currentTime;
+        while (gameThread != null) {
+            currentTime = System.currentTimeMillis();
+            delta += (currentTime - lastTime) / drawInterval;
+            lastTime = currentTime;
+            if (delta >= 1) {
+                update();
+                repaint();
+                delta -= 1;
+            }
         }
     }
+
 }
