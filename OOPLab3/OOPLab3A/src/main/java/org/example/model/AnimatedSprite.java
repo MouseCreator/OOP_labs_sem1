@@ -3,7 +3,7 @@ package org.example.model;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class AnimatedSprite {
+public class AnimatedSprite implements DrawableSprite {
     private BufferedImage image;
     private int spriteCount;
     private int currentFrame;

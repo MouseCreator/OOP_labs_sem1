@@ -6,6 +6,7 @@ import java.awt.*;
 
 public class Dram extends Entity{
     private GamePanel gamePanel;
+    private AnimatedSprite animatedSprite;
     public enum State {
         ALIVE, DEAD, WAITING
     }
@@ -15,7 +16,7 @@ public class Dram extends Entity{
     }
 
     public void draw(Graphics2D g2d) {
-
+        animatedSprite.draw(g2d, position);
     }
     public void update() {
 
