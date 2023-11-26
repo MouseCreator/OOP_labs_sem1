@@ -17,6 +17,11 @@ public class OrientationManager {
         this.context = context;
     }
 
+    private void recalibrate() {
+        currentVector = null;
+        orientationCalculator.resetVectors();
+    }
+
     public void start() {
         create();
         resumeSensors();

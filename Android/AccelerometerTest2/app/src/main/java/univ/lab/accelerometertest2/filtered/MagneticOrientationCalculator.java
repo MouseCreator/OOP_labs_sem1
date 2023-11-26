@@ -87,4 +87,10 @@ public class MagneticOrientationCalculator implements OrientationCalculator {
             return new Vector3(-1, -2, -3);
         }
     }
+
+    @Override
+    public void resetVectors() {
+        currentMagnetic = null;
+        currentGyro = null;
+    }
 }
