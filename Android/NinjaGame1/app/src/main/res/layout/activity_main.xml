@@ -17,16 +17,14 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageViewShuriken"
-        android:layout_width="203dp"
-        android:layout_height="205dp"
-        android:layout_marginTop="111dp"
-        android:layout_marginBottom="40dp"
+        android:id="@+id/shurikenIm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="44dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        tools:srcCompat="@drawable/shuriken"
-        android:contentDescription="@string/shuriken_image_desc" />
+        app:srcCompat="@drawable/sprite" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
