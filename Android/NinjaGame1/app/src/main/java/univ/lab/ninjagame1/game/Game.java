@@ -3,6 +3,7 @@ package univ.lab.ninjagame1.game;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -13,11 +14,15 @@ import univ.lab.ninjagame1.R;
 
 public class Game extends SurfaceView implements SurfaceHolder.Callback {
     private final GameLoop gameLoop;
+
+    public Shuriken shuriken;
     public Game(Context context) {
         super(context);
         SurfaceHolder surfaceHolder = getHolder();
         surfaceHolder.addCallback(this);
         gameLoop = new GameLoop(this, surfaceHolder);
+
+        shuriken = new Shuriken(getContext(), Vector2.get(200, 200), 30);
         setFocusable(true);
     }
 
@@ -37,10 +42,22 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     @Override
+    public boolean onTouchEvent(MotionEvent motionEvent) {
+        switch (motionEvent.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+            case MotionEvent.ACTION_MOVE:
+                shuriken.setPosition(Vector2.get(motionEvent.getX(), motionEvent.getY()));
+                return true;
+        }
+        return super.onTouchEvent(motionEvent);
+    }
+
+    @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
         drawFPS(canvas);
         drawUPS(canvas);
+        shuriken.draw(canvas);
     }
 
     private void drawFPS(Canvas canvas) {
@@ -65,6 +82,6 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
 
 
     public void update() {
-
+        shuriken.update();
     }
 }
