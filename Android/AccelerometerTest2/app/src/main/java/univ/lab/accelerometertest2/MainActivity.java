@@ -11,23 +11,19 @@ import android.widget.TextView;
 
 import java.util.Locale;
 
+import univ.lab.accelerometertest2.filtered.OrientationCalculator;
+import univ.lab.accelerometertest2.filtered.SensorWrapper;
+
 public class MainActivity extends AppCompatActivity {
 
     private TextView[] accelerationTexts;
     private TextView[] velocityTexts;
     private TextView[] positionTexts;
-    private SensorEventListener accelerationEventListener;
-    private SensorEventListener gravityEventListener;
-    private SensorManager mSensorManager;
-    private Sensor mAccelerometer;
-    private Sensor mGravity;
     private Sensor mGyroscope;
-    private Sensor mRotation;
-    private Sensor mLinearAcceleration;
-    private long lastUpdateTime = 0;
-    private Vector3 currentPosition = Vector3.zero();
-    private Vector3 velocity = Vector3.zero();
-    private Vector3 gravity = null;
+    private Sensor mAccelerometer;
+    private Sensor mMagnetic;
+    private OrientationCalculator orientationCalculator;
+    private SensorManager mSensorManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,35 +46,17 @@ public class MainActivity extends AppCompatActivity {
         positionTexts[2] = findViewById(R.id.txt_position_z);
 
         mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
-        mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        mGravity = mSensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
-
-        initAccelerometerEventListener();
-        initGravityEventListener();
+        advancedGyroListener();
     }
+
 
     private void initAccelerometerEventListener() {
-        accelerationEventListener = new SensorEventListener() {
+        accelerometerEventListener = new SensorEventListener() {
             @Override
             public void onSensorChanged(SensorEvent sensorEvent) {
-                float x = sensorEvent.values[0];
-                float y = sensorEvent.values[1];
-                float z = sensorEvent.values[2];
-                Vector3 acceleration = new Vector3(x, y, z);
-                if (gravity != null) {
-                    acceleration = acceleration.divide(gravity);
-                }
-                long currentTime = System.currentTimeMillis();
-                if (lastUpdateTime == 0) {
-                    lastUpdateTime = currentTime;
-                }
-                float deltaTime = (currentTime - lastUpdateTime) / 1000.f;
-                velocity = velocity.add(acceleration.multiply(deltaTime));
-                currentPosition = currentPosition.add(velocity.multiply(deltaTime));
-                lastUpdateTime = currentTime;
-                printVector(positionTexts, currentPosition);
-                printVector(velocityTexts, velocity);
-                printVector(accelerationTexts, acceleration);
+                accelerometerWrapper.update(sensorEvent);
+                Vector3 v = new Vector3(sensorEvent.values);
+                printVector(accelerationTexts, v);
             }
 
             @Override
@@ -88,14 +66,13 @@ public class MainActivity extends AppCompatActivity {
         };
     }
 
-    private void initGravityEventListener() {
-        gravityEventListener = new SensorEventListener() {
+    private void initGyroscopeEventListener() {
+        gyroscopeEventListener = new SensorEventListener() {
             @Override
             public void onSensorChanged(SensorEvent sensorEvent) {
-                float x = sensorEvent.values[0];
-                float y = sensorEvent.values[1];
-                float z = sensorEvent.values[2];
-                gravity = new Vector3(x, y, z);
+                gyroscopeWrapper.update(sensorEvent);
+                Vector3 estimate = orientationCalculator.updateAndGet();
+                printVector(positionTexts, estimate);
             }
 
             @Override
@@ -105,28 +82,57 @@ public class MainActivity extends AppCompatActivity {
         };
     }
 
-    private Vector3 removeNoise(Vector3 acceleration) {
-        final double noiseConst = 0.02;
-        double x = Math.abs(acceleration.x()) < noiseConst ? 0 : acceleration.x();
-        double y = Math.abs(acceleration.y()) < noiseConst ? 0 : acceleration.y();
-        double z = Math.abs(acceleration.z()) < noiseConst ? 0 : acceleration.z();
-        return new Vector3(x,y,z);
+    private void advancedGyroListener() {
+        orientationCalculator = new OrientationCalculator();
+        mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mMagnetic = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+        mGyroscope = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+        accelerometerWrapper = new SensorWrapper(null);
+        magneticWrapper = new SensorWrapper(null);
+        gyroscopeWrapper = new SensorWrapper(null);
+        initAccelerometerEventListener();
+        initMagneticEventListener();
+        initGyroscopeEventListener();
+        orientationCalculator.init(accelerometerWrapper, magneticWrapper, gyroscopeWrapper);
     }
+    private void initMagneticEventListener() {
+        magneticEventListener = new SensorEventListener() {
+            @Override
+            public void onSensorChanged(SensorEvent sensorEvent) {
+                magneticWrapper.update(sensorEvent);
+                Vector3 v = new Vector3(sensorEvent.values);
+                printVector(velocityTexts, v);
+            }
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int i) {
+
+            }
+        };
+    }
+    private SensorWrapper magneticWrapper;
+    private SensorWrapper accelerometerWrapper;
+    private SensorWrapper gyroscopeWrapper;
+    private SensorEventListener magneticEventListener;
+    private SensorEventListener accelerometerEventListener;
+    private SensorEventListener gyroscopeEventListener;
 
     private void printVector(TextView[] textFamily, Vector3 vector) {
         textFamily[0].setText(String.format(Locale.ENGLISH, "X = %.2f", vector.x()));
         textFamily[1].setText(String.format(Locale.ENGLISH, "Y = %.2f", vector.y()));
         textFamily[2].setText(String.format(Locale.ENGLISH, "Z = %.2f", vector.z()));
     }
-
+    @Override
     protected void onResume() {
         super.onResume();
-        mSensorManager.registerListener(accelerationEventListener, mAccelerometer, SensorManager.SENSOR_DELAY_GAME);
-        mSensorManager.registerListener(gravityEventListener, mGravity, SensorManager.SENSOR_DELAY_GAME);
+        mSensorManager.registerListener(gyroscopeEventListener, mGyroscope, SensorManager.SENSOR_DELAY_GAME);
+        mSensorManager.registerListener(accelerometerEventListener, mAccelerometer, SensorManager.SENSOR_DELAY_GAME);
+        mSensorManager.registerListener(magneticEventListener, mMagnetic, SensorManager.SENSOR_DELAY_GAME);
     }
-
+    @Override
     protected void onPause() {
         super.onPause();
-        mSensorManager.unregisterListener(accelerationEventListener);
+        mSensorManager.unregisterListener(accelerometerEventListener);
+        mSensorManager.unregisterListener(gyroscopeEventListener);
+        mSensorManager.unregisterListener(magneticEventListener);
     }
 }

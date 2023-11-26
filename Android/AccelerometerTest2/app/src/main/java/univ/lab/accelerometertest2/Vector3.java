@@ -1,9 +1,9 @@
 package univ.lab.accelerometertest2;
 
 public class Vector3 {
-    private double x;
-    private double y;
-    private double z;
+    private final double x;
+    private final double y;
+    private final double z;
 
     public Vector3(double x, double y, double z) {
         this.x = x;
@@ -15,6 +15,12 @@ public class Vector3 {
         this.x = other.x;
         this.y = other.y;
         this.z = other.z;
+    }
+
+    public Vector3(float[] arr) {
+        this.x = arr.length < 1 ? 0 : arr[0];
+        this.y = arr.length < 2 ? 0 : arr[1];
+        this.z = arr.length < 3 ? 0 : arr[2];
     }
 
     public static Vector3 zero() {

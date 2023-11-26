@@ -1,5 +1,7 @@
 package univ.lab.dtwtest.dtw;
 
+import java.util.List;
+
 public class DTW<T> {
 
     private final DistanceCalculator<T> distanceCalculator;
