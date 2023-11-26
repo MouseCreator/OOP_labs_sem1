@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import java.util.Locale;
 
-import univ.lab.accelerometertest2.filtered.OrientationCalculator;
+import univ.lab.accelerometertest2.filtered.MagneticOrientationCalculator;
 import univ.lab.accelerometertest2.filtered.SensorWrapper;
 
 public class MainActivity extends AppCompatActivity {
@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private Sensor mGyroscope;
     private Sensor mAccelerometer;
     private Sensor mMagnetic;
-    private OrientationCalculator orientationCalculator;
+    private MagneticOrientationCalculator orientationCalculator;
     private SensorManager mSensorManager;
 
     @Override
@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void advancedGyroListener() {
-        orientationCalculator = new OrientationCalculator();
+        orientationCalculator = new MagneticOrientationCalculator();
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mMagnetic = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
         mGyroscope = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);

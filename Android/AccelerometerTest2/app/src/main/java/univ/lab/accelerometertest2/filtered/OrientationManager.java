@@ -9,11 +9,9 @@ import univ.lab.accelerometertest2.Vector3;
 
 public class OrientationManager {
     private Vector3 currentVector = null;
-
     public Vector3 getCurrentVector() {
         return currentVector;
     }
-
     private final Context context;
 
     public OrientationManager(Context context) {
@@ -47,7 +45,6 @@ public class OrientationManager {
     private Sensor mMagnetic;
     private OrientationCalculator orientationCalculator;
     private SensorManager mSensorManager;
-
     private SensorWrapper magneticWrapper;
     private SensorWrapper accelerometerWrapper;
     private SensorWrapper gyroscopeWrapper;
@@ -90,7 +87,7 @@ public class OrientationManager {
     }
 
     private void advancedGyroListener() {
-        orientationCalculator = new OrientationCalculator();
+        orientationCalculator = new MagneticOrientationCalculator();
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mMagnetic = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
         mGyroscope = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
