@@ -23,7 +23,7 @@ public class DimTranslator {
     private double minScale;
     private double scaleM;
     private void define() {
-        depthXCoefficient = 0.4;
+        depthXCoefficient = 0.6;
         depthYCoefficient = 0.4;
         middle = ConstUtils.worldWidth / 2.0;
         alphaSide = ConstUtils.depth / (1.0 / depthXCoefficient - 1);

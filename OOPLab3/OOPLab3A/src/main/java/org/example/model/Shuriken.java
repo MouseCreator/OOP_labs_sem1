@@ -17,10 +17,10 @@ public class Shuriken extends Entity implements DrawUpdatable{
     }
 
     public void initFromMovement(MovementParams movementParams) {
-        this.position3D = Vector3D.get(ConstUtils.worldWidth / 2.0, 120, 0);
+        this.position3D = Vector3D.get(ConstUtils.worldWidth / 2.0, 120, -10);
         double speed = movementParams.getSpeed() * 0.001;
         double x = -movementParams.getZAngle() * speed * ConstUtils.X_MULTIPLIER;
-        double y =-movementParams.getXAngle()*speed * ConstUtils.Y_MULTIPLIER;
+        double y = movementParams.getXAngle() * speed * ConstUtils.Y_MULTIPLIER;
         double z = speed * ConstUtils.Z_MULTIPLIER;
         this.speed3D = Vector3D.get(x, y, z);
         this.acceleration3d = Vector3D.get(0,-0.4, 0);

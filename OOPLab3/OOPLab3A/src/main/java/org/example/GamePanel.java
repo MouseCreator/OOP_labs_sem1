@@ -47,7 +47,7 @@ public class GamePanel extends JPanel implements Runnable{
             count++;
         }
         if (count==30) {
-            shurikenManager.spawn(spriteBuffer, new MovementParams(0,0,0,12000));
+            //shurikenManager.spawn(spriteBuffer, new MovementParams(-0.2,0,0.4,12000));
         }
     }
 
