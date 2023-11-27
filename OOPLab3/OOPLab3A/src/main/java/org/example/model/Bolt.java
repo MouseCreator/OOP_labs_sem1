@@ -23,4 +23,6 @@ public class Bolt extends Entity implements DrawUpdatable {
     public void draw(Graphics2D g2d) {
         sprite.draw(g2d, position);
     }
+
+
 }

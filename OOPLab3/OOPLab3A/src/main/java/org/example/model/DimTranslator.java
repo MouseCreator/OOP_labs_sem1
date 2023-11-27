@@ -22,6 +22,11 @@ public class DimTranslator {
     private double maxScale;
     private double minScale;
     private double scaleM;
+
+    public Vector2I toCenter(Vector2I originPosition, Vector2I size) {
+        return originPosition.subtract(size.multiply(0.5));
+    }
+
     private void define() {
         depthXCoefficient = 0.6;
         depthYCoefficient = 0.4;

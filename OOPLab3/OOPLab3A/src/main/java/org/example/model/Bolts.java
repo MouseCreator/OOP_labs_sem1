@@ -9,7 +9,6 @@ import java.util.function.Consumer;
 
 public class Bolts implements DrawUpdatable {
     List<Bolt> boltList = new ArrayList<>();
-
     public static Bolts create() {
         int width = 3;
         int height = 2;

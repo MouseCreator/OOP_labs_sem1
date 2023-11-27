@@ -15,6 +15,10 @@ public class Vector3D {
         return new Vector3D(x,y,z);
     }
 
+    public static Vector3D zero() {
+        return new Vector3D(0,0,0);
+    }
+
     public double x() {
         return x;
     }
