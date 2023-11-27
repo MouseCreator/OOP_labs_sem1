@@ -3,7 +3,7 @@ package org.example.model;
 import java.awt.*;
 
 public class Enemy extends Entity implements DrawUpdatable {
-    private static final Vector2I enemySize = Vector2I.get(128, 128);
+    public static final Vector2I enemySize = Vector2I.get(128, 128);
     private ScalableSprite sprite = null;
     private Vector3D position3D = Vector3D.zero();
     public static Enemy withOrigin(Vector3D position3D, ScalableSprite sprite) {

@@ -58,10 +58,10 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void init() {
-        enemies = Enemies.create();
+        createSpriteBuffer();
+        enemies = Enemies.create(spriteBuffer);
         shurikenManager = ShurikenManager.create();
         background = Background.getBG();
-        createSpriteBuffer();
         initSprites();
     }
 

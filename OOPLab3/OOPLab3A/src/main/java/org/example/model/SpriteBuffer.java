@@ -7,15 +7,13 @@ import java.io.InputStream;
 
 public class SpriteBuffer {
     private BufferedImage background = null;
-    private BufferedImage drams = null;
-    private BufferedImage bolt = null;
     private BufferedImage shuriken = null;
+    private BufferedImage dummy = null;
     public void init() {
         try {
             background = loadImage("gfx/GameBackground.png");
-            drams = loadImage("gfx/Drams.png");
-            bolt = loadImage("gfx/SimpleBolt.png");
             shuriken = loadImage("gfx/ShurikenSmall.png");
+            dummy = loadImage("gfx/Dummy.png");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -37,11 +35,7 @@ public class SpriteBuffer {
         return shuriken;
     }
 
-    public BufferedImage getDrams() {
-        return drams;
-    }
-
-    public BufferedImage getBolt() {
-        return bolt;
+    public BufferedImage getDummy() {
+        return dummy;
     }
 }
