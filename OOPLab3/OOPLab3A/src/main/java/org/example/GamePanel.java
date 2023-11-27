@@ -15,8 +15,7 @@ public class GamePanel extends JPanel implements Runnable{
     private double scaleX = 1.0;
     private double scaleY = 1.0;
     private final int FPS = 60;
-    private Drams drams;
-    private Bolts bolts;
+    private Enemies enemies;
     private Background background;
     private SpriteBuffer spriteBuffer;
     private ShurikenManager shurikenManager;
@@ -33,22 +32,15 @@ public class GamePanel extends JPanel implements Runnable{
 
     private void draw(Graphics2D g2d) {
         background.draw(g2d);
-        //bolts.draw(g2d);
-        //drams.draw(g2d);
+        enemies.draw(g2d);
         shurikenManager.draw(g2d);
     }
-    private int count = 0;
+
     public void update() {
-        //bolts.update();
-        //drams.update();
         messageProcessor.ifAny(m -> shurikenManager.spawn(spriteBuffer, m));
         shurikenManager.update();
-        if (count < 31) {
-            count++;
-        }
-        if (count==30) {
-            //shurikenManager.spawn(spriteBuffer, new MovementParams(-0.2,0,0.4,12000));
-        }
+        enemies.update();
+
     }
 
     public GamePanel () {
@@ -66,10 +58,9 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void init() {
-        bolts = Bolts.create();
+        enemies = Enemies.create();
         shurikenManager = ShurikenManager.create();
         background = Background.getBG();
-        drams = Drams.create(bolts);
         createSpriteBuffer();
         initSprites();
     }
@@ -79,8 +70,6 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     private void initSprites() {
-        bolts.each(b -> b.initSprite(Sprite.get(spriteBuffer.getBolt())));
-        drams.each(d -> d.initSprite(AnimatedSprite.get(spriteBuffer.getDrams(), 4)));
         background.initSprite(Sprite.get(spriteBuffer.getBackground()));
     }
 
