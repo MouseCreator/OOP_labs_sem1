@@ -9,14 +9,14 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class GameServer {
     private final ConcurrentLinkedQueue<String> messageQueue = new ConcurrentLinkedQueue<>();
-
     private boolean running = false;
     public void start(int port) {
         if (running)
             return;
         running = true;
         try (ServerSocket serverSocket = new ServerSocket(port)) {
-            ClientHandler clientHandler = new ClientHandler(serverSocket.accept(), messageQueue);
+            Socket client = serverSocket.accept();
+            ClientHandler clientHandler = new ClientHandler(client, messageQueue);
             clientHandler.process();
         } catch (IOException e) {
             e.printStackTrace();

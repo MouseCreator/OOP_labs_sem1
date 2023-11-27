@@ -1,5 +1,7 @@
 package univ.lab.ninjagame1.client;
 
+import univ.lab.ninjagame1.filtered.Vector3;
+
 public class MovementParams {
     private final int speed;
     private final double xAngle;
@@ -11,6 +13,13 @@ public class MovementParams {
         this.xAngle = xAngle;
         this.yAngle = yAngle;
         this.zAngle = zAngle;
+    }
+
+    public MovementParams(int speed, Vector3 vector) {
+        this.speed = speed;
+        this.xAngle = vector.x();
+        this.yAngle = vector.y();
+        this.zAngle = vector.z();
     }
 
     public int getSpeed() {
