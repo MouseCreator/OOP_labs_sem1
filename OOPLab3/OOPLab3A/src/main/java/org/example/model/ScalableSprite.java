@@ -13,7 +13,7 @@ public class ScalableSprite implements DrawableSprite {
     }
     private Vector2I size;
     private BufferedImage image;
-    private boolean visible;
+    private boolean visible = true;
     public void draw(Graphics2D g2d, Vector2I position) {
         if (visible) {
             g2d.drawImage(image, position.x(), position.y(), (int) (size.x() * scale), (int) (size.y() * scale), null);

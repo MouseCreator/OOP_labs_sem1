@@ -5,6 +5,18 @@ public class MovementParams {
     private double yAngle;
     private double zAngle;
     private int speed;
+    public MovementParams() {
+        xAngle = 0;
+        yAngle = 0;
+        zAngle = 0;
+        speed = 0;
+    }
+    public MovementParams(double x, double y, double z, int speed) {
+        this.xAngle = x;
+        this.yAngle = y;
+        this.zAngle = z;
+        this.speed = speed;
+    }
 
     public double getXAngle() {
         return xAngle;

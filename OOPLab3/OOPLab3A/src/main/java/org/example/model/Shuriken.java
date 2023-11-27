@@ -17,9 +17,9 @@ public class Shuriken extends Entity implements DrawUpdatable{
 
     public void initFromMovement(MovementParams movementParams) {
         this.position3D = Vector3D.get(position.x(), position.y(), 0);
-        double speed = movementParams.getSpeed() * 0.2;
-        this.speed3D = Vector3D.get(movementParams.getZAngle()*speed, movementParams.getXAngle()*speed, 0.5 * speed);
-        this.acceleration3d = Vector3D.get(0,-1, 0);
+        double speed = movementParams.getSpeed() * 0.0025;
+        this.speed3D = Vector3D.get(movementParams.getZAngle()*speed, -movementParams.getXAngle()*speed, 0.5 * speed);
+        this.acceleration3d = Vector3D.get(0,0.5, 0);
     }
 
     public Shuriken(Vector2I pos) {
@@ -38,7 +38,11 @@ public class Shuriken extends Entity implements DrawUpdatable{
     public void update() {
         speed3D = speed3D.add(acceleration3d);
         position3D = position3D.add(speed3D);
+        double scale = 1.0; // 0.5 + Math.max (0, (ConstUtils.depth - position3D.z()) / ConstUtils.depth);
         position = Vector2I.get((int) position3D.x(), (int) position3D.y());
-        sprite.setScale(0.5 + Math.max (0, (ConstUtils.depth - position3D.z()) / ConstUtils.depth));
+        position = Vector2I.get(position.x() - (int) ((shurikenSize.x() * scale - shurikenSize.x()) / 2),
+                position.y() - (int) ((shurikenSize.y() * scale - shurikenSize.y()) / 2));
+        sprite.setScale(scale);
+        System.out.println(position.x() + " " + position.y() + " " + sprite.getScale());
     }
 }
