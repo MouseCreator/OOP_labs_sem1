@@ -11,13 +11,14 @@ public class Communicator {
     private final Socket socket;
     private PrintWriter out;
     private final BlockingQueue<String> senderQueue = new LinkedBlockingQueue<>();
+    private Thread socketThread;
     public Communicator(Socket socket) {
         this.socket = socket;
     }
     public void start() {
         try {
             out = new PrintWriter(socket.getOutputStream(), true);
-            processQueue();
+            socketThread = new Thread(this::processQueue);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -58,6 +59,7 @@ public class Communicator {
 
     public void stopConnection() {
         try {
+            socketThread.interrupt();
             out.close();
             socket.close();
         } catch (IOException e) {
