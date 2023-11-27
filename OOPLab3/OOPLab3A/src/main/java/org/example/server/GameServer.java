@@ -16,6 +16,7 @@ public class GameServer {
         running = true;
         try (ServerSocket serverSocket = new ServerSocket(port)) {
             Socket client = serverSocket.accept();
+            System.out.println("ACCEPTED");
             ClientHandler clientHandler = new ClientHandler(client, messageQueue);
             clientHandler.process();
         } catch (IOException e) {
@@ -42,6 +43,7 @@ public class GameServer {
                 String inputLine;
                 while ((inputLine = in.readLine()) != null) {
                     messageQueue.offer(inputLine);
+                    System.out.println(inputLine);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -53,6 +55,7 @@ public class GameServer {
                     e.printStackTrace();
                 }
             }
+            System.out.println("Exited");
         }
     }
 

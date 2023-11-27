@@ -1,23 +1,24 @@
 package univ.lab.ninjagame1.client;
 
-import android.util.Log;
+import android.Manifest;
+import android.app.Activity;
+import android.content.pm.PackageManager;
 
-import java.io.IOException;
-import java.net.Socket;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 
 public class ClientManager {
 
-    public Communicator start() {
-        try {
-            Socket socket = new Socket("128.0.175.19", 6666);
-            Log.d("COMM", "Connected!");
-            SocketCommunicator communicator = new SocketCommunicator(socket);
-            communicator.start();
-            return communicator;
-        } catch (IOException e) {
-            e.printStackTrace();
+    public Communicator start(Activity activity) {
+
+        if (ContextCompat.checkSelfPermission(activity, Manifest.permission.INTERNET)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.INTERNET}, 1);
         }
-        return new MockCommunicator();
+        SocketCommunicator communicator = new SocketCommunicator();
+        communicator.start();
+        return communicator;
     }
 
 }

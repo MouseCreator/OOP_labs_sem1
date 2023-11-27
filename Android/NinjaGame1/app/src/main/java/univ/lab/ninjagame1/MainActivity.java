@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initCommunicator() {
         ClientManager clientManager = new ClientManager();
-        communicator = clientManager.start();
+        communicator = clientManager.start(this);
     }
 
     private void initOrientationManager() {
