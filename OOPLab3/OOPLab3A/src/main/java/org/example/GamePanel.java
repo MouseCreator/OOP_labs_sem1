@@ -2,6 +2,8 @@ package org.example;
 
 import org.example.engine.ConstUtils;
 import org.example.model.*;
+import org.example.server.ServerHandler;
+import org.example.server.SimpleMessageProcessor;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,6 +20,7 @@ public class GamePanel extends JPanel implements Runnable{
     private Background background;
     private SpriteBuffer spriteBuffer;
     private ShurikenManager shurikenManager;
+    private SimpleMessageProcessor messageProcessor;
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -35,16 +38,11 @@ public class GamePanel extends JPanel implements Runnable{
         shurikenManager.draw(g2d);
     }
 
-    private int count = 0;
     public void update() {
-        count++;
-        bolts.update();
-        drams.update();
+        //bolts.update();
+        //drams.update();
+        messageProcessor.ifAny(m -> shurikenManager.spawn(ScalableSprite.get(spriteBuffer.getShuriken()), m));
         shurikenManager.update();
-        if (count == 60) {
-            shurikenManager.spawn(ScalableSprite.get(spriteBuffer.getShuriken()),
-                    new MovementParams(0.1, 0, 0, 12000));
-        }
     }
 
     public GamePanel () {
@@ -68,6 +66,10 @@ public class GamePanel extends JPanel implements Runnable{
         drams = Drams.create(bolts);
         createSpriteBuffer();
         initSprites();
+    }
+
+    public void connectAndStart(ServerHandler handler) {
+        messageProcessor = handler.start();
     }
 
     private void initSprites() {

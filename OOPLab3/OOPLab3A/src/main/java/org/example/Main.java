@@ -1,5 +1,8 @@
 package org.example;
 
+import org.example.server.GameServer;
+import org.example.server.ServerHandler;
+
 import javax.swing.*;
 
 public class Main {
@@ -11,6 +14,7 @@ public class Main {
 
         GamePanel gamePanel = new GamePanel();
         gamePanel.init();
+        gamePanel.connectAndStart(new ServerHandler());
         window.add(gamePanel);
 
         window.pack();
