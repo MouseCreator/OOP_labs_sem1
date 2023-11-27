@@ -10,7 +10,7 @@ import java.util.function.Consumer;
 public class Enemies implements DrawUpdatable {
     private final List<Enemy> enemiesList = new ArrayList<>();
     private final EnemyFactory enemyFactory;
-    private final int spawnFrequency = 1000;
+    private final int spawnFrequency = 2000;
     private long lastSpawn;
     public Enemies(SpriteBuffer spriteBuffer) {
         this.enemyFactory = new EnemyFactory(spriteBuffer.getDummy());
@@ -35,6 +35,11 @@ public class Enemies implements DrawUpdatable {
     public void update() {
         trySpawn();
         each(Enemy::update);
+        removeDestroyed();
+    }
+
+    private void removeDestroyed() {
+        enemiesList.removeIf(Enemy::isDestroyed);
     }
 
     private void trySpawn() {

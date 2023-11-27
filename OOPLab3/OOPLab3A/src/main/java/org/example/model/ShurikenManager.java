@@ -4,10 +4,11 @@ import org.example.engine.ConstUtils;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class ShurikenManager implements DrawUpdatable {
+public class ShurikenManager implements DrawUpdatable, Iterable<Shuriken> {
     private final List<Shuriken> shurikenList = new ArrayList<>();
 
     public static ShurikenManager create() {
@@ -40,5 +41,10 @@ public class ShurikenManager implements DrawUpdatable {
         shuriken.initFromMovement(movementParams);
         shuriken.initSprite(sprite);
         shurikenList.add(shuriken);
+    }
+
+    @Override
+    public Iterator<Shuriken> iterator() {
+        return shurikenList.iterator();
     }
 }

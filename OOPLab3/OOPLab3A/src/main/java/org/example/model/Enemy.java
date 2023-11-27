@@ -11,6 +11,7 @@ public class Enemy extends Entity implements DrawUpdatable, Collidable {
     private ScalableSprite sprite = null;
     private Vector3D position3D = Vector3D.zero();
     private Collision collision;
+    private boolean destroyed = false;
     public static Enemy withOrigin(Vector3D position3D, ScalableSprite sprite) {
         Enemy enemy = new Enemy();
         enemy.initSprite(sprite);
@@ -45,7 +46,6 @@ public class Enemy extends Entity implements DrawUpdatable, Collidable {
     public void draw(Graphics2D g2d) {
         sprite.draw(g2d, position);
     }
-
     public Vector3D position3d() {
         return position3D;
     }
@@ -53,5 +53,11 @@ public class Enemy extends Entity implements DrawUpdatable, Collidable {
     @Override
     public Collision getCollision() {
         return collision;
+    }
+    public void toDestroy() {
+        destroyed = true;
+    }
+    public boolean isDestroyed() {
+        return destroyed;
     }
 }

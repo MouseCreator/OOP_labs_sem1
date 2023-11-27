@@ -1,5 +1,6 @@
 package org.example;
 
+import org.example.collision.CollisionDetector;
 import org.example.engine.ConstUtils;
 import org.example.model.*;
 import org.example.server.ServerHandler;
@@ -20,6 +21,7 @@ public class GamePanel extends JPanel implements Runnable{
     private SpriteBuffer spriteBuffer;
     private ShurikenManager shurikenManager;
     private SimpleMessageProcessor messageProcessor;
+    private CollisionDetector collisionDetector;
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -38,6 +40,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void update() {
         messageProcessor.ifAny(m -> shurikenManager.spawn(spriteBuffer, m));
+        collisionDetector.processDummies(shurikenManager, enemies);
         shurikenManager.update();
         enemies.update();
 
@@ -62,7 +65,12 @@ public class GamePanel extends JPanel implements Runnable{
         enemies = Enemies.create(spriteBuffer);
         shurikenManager = ShurikenManager.create();
         background = Background.getBG();
+        initCollisions();
         initSprites();
+    }
+
+    private void initCollisions() {
+        collisionDetector = new CollisionDetector();
     }
 
     public void connectAndStart(ServerHandler handler) {
