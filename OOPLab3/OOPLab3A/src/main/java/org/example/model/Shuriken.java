@@ -44,7 +44,6 @@ public class Shuriken extends Entity implements DrawUpdatable{
         if (position3D.y() > ConstUtils.worldHeight - position3D.z()) {
             destroyed = true;
         }
-        System.out.println(position3D);
     }
 
     private void modifyScaleAndPosition() {
