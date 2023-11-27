@@ -10,7 +10,6 @@ public class Shuriken extends Entity implements DrawUpdatable{
     private Vector3D position3D;
     private Vector3D speed3D;
     private boolean destroyed = false;
-    private MoveableBody moveableBody;
     private Vector3D acceleration3d;
     public static Shuriken withOrigin(Vector2I originPosition) {
         Vector2I newPosition = originPosition.subtract(shurikenSize.multiply(0.5));
@@ -24,14 +23,14 @@ public class Shuriken extends Entity implements DrawUpdatable{
         double y =-movementParams.getXAngle()*speed * ConstUtils.Y_MULTIPLIER;
         double z = speed * ConstUtils.Z_MULTIPLIER;
         this.speed3D = Vector3D.get(x, y, z);
-        this.acceleration3d = Vector3D.get(0,0.1, 0);
+        this.acceleration3d = Vector3D.get(0,-0.4, 0);
     }
     public Shuriken(Vector2I pos) {
         super(pos, shurikenSize);
     }
     public void initSprite(ScalableSprite sprite) {
         this.sprite = sprite;
-        modifyScaleAndPosition();
+        position = DimTranslator.get().translate(sprite, position3D);
     }
 
     @Override
@@ -41,8 +40,12 @@ public class Shuriken extends Entity implements DrawUpdatable{
 
     @Override
     public void update() {
-        position3D = moveableBody.updatePosition(position3D);
+        speed3D = speed3D.add(acceleration3d);
+        position3D = position3D.add(speed3D);
         position = DimTranslator.get().translate(sprite, position3D);
+        if (isOutOfBounds()) {
+            destroyed = true;
+        }
     }
 
     //OLD
@@ -61,7 +64,7 @@ public class Shuriken extends Entity implements DrawUpdatable{
     }
 
     private boolean isOutOfBounds() {
-        return position3D.z() > ConstUtils.depth;
+        return position3D.z() > ConstUtils.depth || position3D.y() < -10;
     }
 
     private void modifyScaleAndPosition() {
@@ -79,9 +82,5 @@ public class Shuriken extends Entity implements DrawUpdatable{
 
     public boolean isDestroyed() {
         return destroyed;
-    }
-
-    public void setMoveableBody(MoveableBody moveableBody) {
-        this.moveableBody = moveableBody;
     }
 }

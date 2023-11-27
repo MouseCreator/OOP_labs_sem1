@@ -41,14 +41,4 @@ public class ShurikenManager implements DrawUpdatable {
         shuriken.initSprite(sprite);
         shurikenList.add(shuriken);
     }
-
-    public void spawn(SpriteBuffer spriteBuffer, MovementParams movementParams, MoveableBody moveableBody) {
-        ScalableSprite sprite = ScalableSprite.get(spriteBuffer.getShuriken());
-        Vector2I origin = Vector2I.get(ConstUtils.worldWidth/2, ConstUtils.worldHeight);
-        Shuriken shuriken = Shuriken.withOrigin(origin);
-        shuriken.initFromMovement(movementParams);
-        shuriken.initSprite(sprite);
-        shuriken.setMoveableBody(moveableBody);
-        shurikenList.add(shuriken);
-    }
 }

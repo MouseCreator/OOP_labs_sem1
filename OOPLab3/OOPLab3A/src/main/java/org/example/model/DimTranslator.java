@@ -53,4 +53,5 @@ public class DimTranslator {
     private Vector2I centralize(ScalableSprite sprite, Vector2I position) {
         return position.subtract(sprite.getCurrentSize().multiply(0.5));
     }
+
 }
