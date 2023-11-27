@@ -10,13 +10,15 @@ public class ScalableSprite implements DrawableSprite {
     }
     public void setScale(double scale) {
         this.scale = scale;
+        currentSize = size.multiply(scale);
     }
     private Vector2I size;
+    private Vector2I currentSize;
     private BufferedImage image;
     private boolean visible = true;
     public void draw(Graphics2D g2d, Vector2I position) {
         if (visible) {
-            g2d.drawImage(image, position.x(), position.y(), (int) (size.x() * scale), (int) (size.y() * scale), null);
+            g2d.drawImage(image, position.x(), position.y(), currentSize.x(), currentSize.y(), null);
         }
     }
 
@@ -24,6 +26,7 @@ public class ScalableSprite implements DrawableSprite {
         ScalableSprite sprite = new ScalableSprite();
         sprite.image = image;
         sprite.size = new Vector2I(image.getWidth(), image.getHeight());
+        sprite.setScale(1.0);
         return sprite;
     }
 
@@ -33,5 +36,9 @@ public class ScalableSprite implements DrawableSprite {
 
     public void setVisible(boolean visible) {
         this.visible = visible;
+    }
+
+    public Vector2I getCurrentSize() {
+        return currentSize;
     }
 }

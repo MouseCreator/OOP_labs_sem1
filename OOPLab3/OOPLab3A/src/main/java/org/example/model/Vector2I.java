@@ -17,6 +17,10 @@ public class Vector2I {
         return new Vector2I(x, y);
     }
 
+    public static Vector2I from(Vector2I other) {
+        return new Vector2I(other.x, other.y);
+    }
+
     public int x() {
         return x;
     }

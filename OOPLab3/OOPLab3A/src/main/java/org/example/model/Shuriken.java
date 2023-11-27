@@ -17,8 +17,8 @@ public class Shuriken extends Entity implements DrawUpdatable{
 
     public void initFromMovement(MovementParams movementParams) {
         this.position3D = Vector3D.get(position.x(), position.y(), 0);
-        double speed = movementParams.getSpeed() * 0.0025;
-        this.speed3D = Vector3D.get(movementParams.getZAngle()*speed, -movementParams.getXAngle()*speed, 0.5 * speed);
+        double speed = movementParams.getSpeed() * 0.002;
+        this.speed3D = Vector3D.get(movementParams.getZAngle()*speed, -movementParams.getXAngle()*speed, 0.4 * speed);
         this.acceleration3d = Vector3D.get(0,0.5, 0);
     }
 
@@ -27,6 +27,7 @@ public class Shuriken extends Entity implements DrawUpdatable{
     }
     public void initSprite(ScalableSprite sprite) {
         this.sprite = sprite;
+        modifyScaleAndPosition();
     }
 
     @Override
@@ -38,11 +39,15 @@ public class Shuriken extends Entity implements DrawUpdatable{
     public void update() {
         speed3D = speed3D.add(acceleration3d);
         position3D = position3D.add(speed3D);
-        double scale = 1.0; // 0.5 + Math.max (0, (ConstUtils.depth - position3D.z()) / ConstUtils.depth);
-        position = Vector2I.get((int) position3D.x(), (int) position3D.y());
-        position = Vector2I.get(position.x() - (int) ((shurikenSize.x() * scale - shurikenSize.x()) / 2),
-                position.y() - (int) ((shurikenSize.y() * scale - shurikenSize.y()) / 2));
+        modifyScaleAndPosition();
+    }
+
+    private void modifyScaleAndPosition() {
+        double scale = 0.2 + 1.2 * Math.max(0, (ConstUtils.depth - position3D.z()) / ConstUtils.depth);
+        Vector2I beforeSize = Vector2I.from(sprite.getCurrentSize());
+        position = position.add(Vector2I.get((int) speed3D.x(), (int) speed3D.y()));
         sprite.setScale(scale);
-        System.out.println(position.x() + " " + position.y() + " " + sprite.getScale());
+        Vector2I afterSize = Vector2I.from(sprite.getCurrentSize());
+        position = position.add(beforeSize.subtract(afterSize).multiply(0.5));
     }
 }
