@@ -36,4 +36,6 @@ public class Entity {
     public Vector2I originPosition() {
         return position.add(size.multiply(0.5));
     }
+
+
 }

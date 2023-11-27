@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class ShurikenManager implements DrawUpdatable {
-    private List<Shuriken> shurikenList = new ArrayList<>();
+    private final List<Shuriken> shurikenList = new ArrayList<>();
 
     public static ShurikenManager create() {
         return new ShurikenManager();
@@ -33,10 +33,22 @@ public class ShurikenManager implements DrawUpdatable {
         shurikenList.removeIf(Shuriken::isDestroyed);
     }
 
-    public void spawn(ScalableSprite sprite, MovementParams movementParams) {
-        Shuriken shuriken = Shuriken.withOrigin(Vector2I.get(ConstUtils.worldWidth/2, ConstUtils.worldHeight/2));
+    public void spawn(SpriteBuffer spriteBuffer, MovementParams movementParams) {
+        ScalableSprite sprite = ScalableSprite.get(spriteBuffer.getShuriken());
+        Vector2I origin = Vector2I.get(ConstUtils.worldWidth/2, ConstUtils.worldHeight);
+        Shuriken shuriken = Shuriken.withOrigin(origin);
         shuriken.initFromMovement(movementParams);
         shuriken.initSprite(sprite);
+        shurikenList.add(shuriken);
+    }
+
+    public void spawn(SpriteBuffer spriteBuffer, MovementParams movementParams, MoveableBody moveableBody) {
+        ScalableSprite sprite = ScalableSprite.get(spriteBuffer.getShuriken());
+        Vector2I origin = Vector2I.get(ConstUtils.worldWidth/2, ConstUtils.worldHeight);
+        Shuriken shuriken = Shuriken.withOrigin(origin);
+        shuriken.initFromMovement(movementParams);
+        shuriken.initSprite(sprite);
+        shuriken.setMoveableBody(moveableBody);
         shurikenList.add(shuriken);
     }
 }

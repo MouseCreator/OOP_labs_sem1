@@ -1,5 +1,7 @@
 package univ.lab.ninjagame1.client;
 
+import android.util.Log;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -8,19 +10,24 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class SocketCommunicator implements Communicator {
-    private final Socket socket;
+    private Socket socket;
     private PrintWriter out;
     private final BlockingQueue<String> senderQueue = new LinkedBlockingQueue<>();
     private Thread socketThread;
-    public SocketCommunicator(Socket socket) {
-        this.socket = socket;
+    public SocketCommunicator() {
     }
     public void start() {
+        socketThread = new Thread(this::prepareAndProcess);
+        socketThread.start();
+    }
+    private void prepareAndProcess() {
         try {
+            socket = new Socket("192.168.1.102", 6666);
+            Log.d("COMM", "Socket Connected Successfully!");
             out = new PrintWriter(socket.getOutputStream(), true);
-            socketThread = new Thread(this::processQueue);
+            processQueue();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 

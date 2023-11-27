@@ -21,6 +21,7 @@ public class GamePanel extends JPanel implements Runnable{
     private SpriteBuffer spriteBuffer;
     private ShurikenManager shurikenManager;
     private SimpleMessageProcessor messageProcessor;
+    private MoveableBody moveableBody = new MoveableBody();
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -37,12 +38,18 @@ public class GamePanel extends JPanel implements Runnable{
         //drams.draw(g2d);
         shurikenManager.draw(g2d);
     }
-
+    private int count = 0;
     public void update() {
         //bolts.update();
         //drams.update();
-        messageProcessor.ifAny(m -> shurikenManager.spawn(ScalableSprite.get(spriteBuffer.getShuriken()), m));
+        messageProcessor.ifAny(m -> shurikenManager.spawn(spriteBuffer, m));
         shurikenManager.update();
+        if (count < 31) {
+            count++;
+        }
+        if (count==30) {
+            shurikenManager.spawn(spriteBuffer, new MovementParams(0,0,0,12000), moveableBody);
+        }
     }
 
     public GamePanel () {
@@ -50,6 +57,7 @@ public class GamePanel extends JPanel implements Runnable{
         this.setBackground(Color.blue);
         this.setDoubleBuffered(true);
         this.setFocusable(true);
+        addKeyListener(moveableBody);
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {

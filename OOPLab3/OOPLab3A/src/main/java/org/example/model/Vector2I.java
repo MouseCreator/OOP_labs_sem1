@@ -45,4 +45,12 @@ public class Vector2I {
     public Vector2I subtract(Vector2I other) {
         return new Vector2I(x - other.x, y - other.y);
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
+    }
 }

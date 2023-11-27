@@ -10,6 +10,7 @@ public class Shuriken extends Entity implements DrawUpdatable{
     private Vector3D position3D;
     private Vector3D speed3D;
     private boolean destroyed = false;
+    private MoveableBody moveableBody;
     private Vector3D acceleration3d;
     public static Shuriken withOrigin(Vector2I originPosition) {
         Vector2I newPosition = originPosition.subtract(shurikenSize.multiply(0.5));
@@ -17,15 +18,14 @@ public class Shuriken extends Entity implements DrawUpdatable{
     }
 
     public void initFromMovement(MovementParams movementParams) {
-        this.position3D = Vector3D.get(position.x(), position.y(), 0);
-        double speed = movementParams.getSpeed() * 0.002;
-        double x = -movementParams.getZAngle() * speed * 1.7;
-        double y =-movementParams.getXAngle()*speed;
-        double z = 0.4 * speed;
+        this.position3D = Vector3D.get(ConstUtils.worldWidth / 2.0, 120, 0);
+        double speed = movementParams.getSpeed() * 0.001;
+        double x = -movementParams.getZAngle() * speed * ConstUtils.X_MULTIPLIER;
+        double y =-movementParams.getXAngle()*speed * ConstUtils.Y_MULTIPLIER;
+        double z = speed * ConstUtils.Z_MULTIPLIER;
         this.speed3D = Vector3D.get(x, y, z);
-        this.acceleration3d = Vector3D.get(0,0.5, 0);
+        this.acceleration3d = Vector3D.get(0,0.1, 0);
     }
-
     public Shuriken(Vector2I pos) {
         super(pos, shurikenSize);
     }
@@ -41,24 +41,75 @@ public class Shuriken extends Entity implements DrawUpdatable{
 
     @Override
     public void update() {
+        position3D = moveableBody.updatePosition(position3D);
+        translate2D();
+    }
+
+    private void translate2D() {
+        double depthXCoefficient = 0.4;
+        double depthYCoefficient = 0.4;
+        double middle = ConstUtils.worldWidth / 2.0;
+        double alphaSide = ConstUtils.depth / (1.0 / depthXCoefficient - 1);
+        double extraLen = depthXCoefficient * (alphaSide + ConstUtils.depth - position3D.z()) / alphaSide;
+        double x = middle + extraLen * (position3D.x() - middle);
+
+        int skyline = 292;
+        double zRatio = (skyline - ConstUtils.worldHeight) / (double) ConstUtils.depth;
+        double y = skyline + zRatio * (position3D.z() - ConstUtils.depth);
+        double maxScale = 2.0;
+        double minScale = 0.2;
+        double scaleM = (maxScale - minScale) / (double) ConstUtils.depth;
+        double scale = minScale + scaleM * (ConstUtils.depth - position3D.z());
+
+        double height = depthYCoefficient * position3D.y() * (1 - zRatio);
+        y -= height;
+        sprite.setScale(scale);
+        position = Vector2I.get((int) x, (int) y);
+        centralize();
+    }
+
+    private void centralize() {
+        position = position.subtract(sprite.getCurrentSize().multiply(0.5));
+        System.out.println(position);
+    }
+
+    //OLD
+    private void oldUpdate() {
         speed3D = speed3D.add(acceleration3d);
         position3D = position3D.add(speed3D);
         modifyScaleAndPosition();
-        if (position3D.y() > ConstUtils.worldHeight - position3D.z()) {
+        System.out.println(position3D);
+        if (isOutOfBounds()) {
             destroyed = true;
         }
     }
 
+    public void markToDestroy() {
+        destroyed = true;
+    }
+
+    private boolean isOutOfBounds() {
+        return position3D.z() > ConstUtils.depth;
+    }
+
     private void modifyScaleAndPosition() {
-        double scale = 0.2 + 1.2 * Math.max(0, (ConstUtils.depth - position3D.z()) / ConstUtils.depth);
+        double scale = 0.1 + 2 * Math.max(0, (ConstUtils.depth - position3D.z()) / ConstUtils.depth);
         Vector2I beforeSize = Vector2I.from(sprite.getCurrentSize());
-        position = position.add(Vector2I.get((int) speed3D.x(), (int) speed3D.y()));
+        position = modify2DPosition();
         sprite.setScale(scale);
         Vector2I afterSize = Vector2I.from(sprite.getCurrentSize());
         position = position.add(beforeSize.subtract(afterSize).multiply(0.5));
     }
 
+    private Vector2I modify2DPosition() {
+        return position.add(Vector2I.get((int) speed3D.x(), (int) -(speed3D.z() + speed3D.y())));
+    }
+
     public boolean isDestroyed() {
         return destroyed;
+    }
+
+    public void setMoveableBody(MoveableBody moveableBody) {
+        this.moveableBody = moveableBody;
     }
 }
