@@ -1,16 +1,26 @@
 package org.example.model;
 
+import org.example.collision.Collidable;
+import org.example.collision.Collision;
+import org.example.collision.Sizes;
+
 import java.awt.*;
 
-public class Enemy extends Entity implements DrawUpdatable {
+public class Enemy extends Entity implements DrawUpdatable, Collidable {
     public static final Vector2I enemySize = Vector2I.get(128, 128);
     private ScalableSprite sprite = null;
     private Vector3D position3D = Vector3D.zero();
+    private Collision collision;
     public static Enemy withOrigin(Vector3D position3D, ScalableSprite sprite) {
         Enemy enemy = new Enemy();
         enemy.initSprite(sprite);
         enemy.moveTo(position3D);
+        enemy.initCollision();
         return enemy;
+    }
+
+    private void initCollision() {
+        collision = new Collision(position3D, Sizes.dummySize());
     }
 
     private void moveTo(Vector3D position3D) {
@@ -38,5 +48,10 @@ public class Enemy extends Entity implements DrawUpdatable {
 
     public Vector3D position3d() {
         return position3D;
+    }
+
+    @Override
+    public Collision getCollision() {
+        return collision;
     }
 }

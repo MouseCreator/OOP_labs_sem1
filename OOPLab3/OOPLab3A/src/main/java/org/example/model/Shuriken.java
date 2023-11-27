@@ -1,10 +1,13 @@
 package org.example.model;
 
+import org.example.collision.Collidable;
+import org.example.collision.Collision;
+import org.example.collision.Sizes;
 import org.example.engine.ConstUtils;
 
 import java.awt.*;
 
-public class Shuriken extends Entity implements DrawUpdatable{
+public class Shuriken extends Entity implements DrawUpdatable, Collidable {
     private static final Vector2I shurikenSize =Vector2I.get(320, 128);
     private ScalableSprite sprite = null;
     private Vector3D position3D;
@@ -18,13 +21,19 @@ public class Shuriken extends Entity implements DrawUpdatable{
 
     public void initFromMovement(MovementParams movementParams) {
         this.position3D = Vector3D.get(ConstUtils.worldWidth / 2.0, 120, -10);
+        initSpeed(movementParams);
+        this.acceleration3d = Vector3D.get(0,-0.4, 0);
+        collision = new Collision(position3D, Sizes.shurikenSize());
+    }
+
+    private void initSpeed(MovementParams movementParams) {
         double speed = movementParams.getSpeed() * 0.001;
         double x = -movementParams.getZAngle() * speed * ConstUtils.X_MULTIPLIER;
         double y = movementParams.getXAngle() * speed * ConstUtils.Y_MULTIPLIER;
         double z = speed * ConstUtils.Z_MULTIPLIER;
         this.speed3D = Vector3D.get(x, y, z);
-        this.acceleration3d = Vector3D.get(0,-0.4, 0);
     }
+
     public Shuriken(Vector2I pos) {
         super(pos, shurikenSize);
     }
@@ -42,6 +51,7 @@ public class Shuriken extends Entity implements DrawUpdatable{
     public void update() {
         speed3D = speed3D.add(acceleration3d);
         position3D = position3D.add(speed3D);
+        collision.moveTo(position3D);
         position = DimTranslator.get().translate(sprite, position3D);
         if (isOutOfBounds()) {
             destroyed = true;
@@ -82,5 +92,10 @@ public class Shuriken extends Entity implements DrawUpdatable{
 
     public boolean isDestroyed() {
         return destroyed;
+    }
+    private Collision collision;
+    @Override
+    public Collision getCollision() {
+        return collision;
     }
 }
