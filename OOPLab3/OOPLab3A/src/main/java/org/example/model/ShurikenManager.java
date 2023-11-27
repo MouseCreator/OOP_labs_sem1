@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class ShurikenManager implements DrawUpdatable {
-    private final List<Shuriken> shurikenList = new ArrayList<>();
+    private List<Shuriken> shurikenList = new ArrayList<>();
 
     public static ShurikenManager create() {
         return new ShurikenManager();
@@ -26,7 +26,11 @@ public class ShurikenManager implements DrawUpdatable {
     @Override
     public void update() {
         each(Shuriken::update);
-        //check for removal
+        removeDestroyed();
+    }
+
+    private void removeDestroyed() {
+        shurikenList.removeIf(Shuriken::isDestroyed);
     }
 
     public void spawn(ScalableSprite sprite, MovementParams movementParams) {

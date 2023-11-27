@@ -28,4 +28,9 @@ public class Vector3D {
     public Vector3D add(Vector3D other) {
         return new Vector3D(x + other.x, y + other.y, z + other.z);
     }
+
+    @Override
+    public String toString() {
+        return String.format("%.3f; %.3f; %.3f", x, y, z);
+    }
 }

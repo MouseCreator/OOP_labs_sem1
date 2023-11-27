@@ -9,6 +9,7 @@ public class Shuriken extends Entity implements DrawUpdatable{
     private ScalableSprite sprite = null;
     private Vector3D position3D;
     private Vector3D speed3D;
+    private boolean destroyed = false;
     private Vector3D acceleration3d;
     public static Shuriken withOrigin(Vector2I originPosition) {
         Vector2I newPosition = originPosition.subtract(shurikenSize.multiply(0.5));
@@ -40,6 +41,10 @@ public class Shuriken extends Entity implements DrawUpdatable{
         speed3D = speed3D.add(acceleration3d);
         position3D = position3D.add(speed3D);
         modifyScaleAndPosition();
+        if (position3D.y() > ConstUtils.worldHeight - position3D.z()) {
+            destroyed = true;
+        }
+        System.out.println(position3D);
     }
 
     private void modifyScaleAndPosition() {
@@ -49,5 +54,9 @@ public class Shuriken extends Entity implements DrawUpdatable{
         sprite.setScale(scale);
         Vector2I afterSize = Vector2I.from(sprite.getCurrentSize());
         position = position.add(beforeSize.subtract(afterSize).multiply(0.5));
+    }
+
+    public boolean isDestroyed() {
+        return destroyed;
     }
 }

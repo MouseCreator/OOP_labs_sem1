@@ -12,7 +12,7 @@ public class SpriteBuffer {
     private BufferedImage shuriken = null;
     public void init() {
         try {
-            background = loadImage("gfx/SimpleBackground2.png");
+            background = loadImage("gfx/GameBackground.png");
             drams = loadImage("gfx/Drams.png");
             bolt = loadImage("gfx/SimpleBolt.png");
             shuriken = loadImage("gfx/ShurikenSmall.png");
