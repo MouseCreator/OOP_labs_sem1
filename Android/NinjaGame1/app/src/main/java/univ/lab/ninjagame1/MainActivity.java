@@ -11,10 +11,13 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import univ.lab.ninjagame1.filtered.OrientationManager;
 
 
 public class MainActivity extends AppCompatActivity {
     private GestureDetector gestureDetector;
+
+    private OrientationManager orientationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,14 +38,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        initOrientationManager();
+
         imageViewShuriken.setOnTouchListener((v, event) -> {
             gestureDetector.onTouchEvent(event);
             return true;
         });
     }
 
+    private void initOrientationManager() {
+        orientationManager = new OrientationManager(getApplicationContext());
+        orientationManager.start();
+    }
+
     private void calculateAndDisplaySpeed(float velocityY) {
         int speed = Math.abs((int) velocityY);
         Log.d("Main", "Speed: " + speed);
+        Log.d("Main", "V: " + orientationManager.getCurrentVector());
     }
 }
