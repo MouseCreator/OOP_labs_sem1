@@ -42,35 +42,7 @@ public class Shuriken extends Entity implements DrawUpdatable{
     @Override
     public void update() {
         position3D = moveableBody.updatePosition(position3D);
-        translate2D();
-    }
-
-    private void translate2D() {
-        double depthXCoefficient = 0.4;
-        double depthYCoefficient = 0.4;
-        double middle = ConstUtils.worldWidth / 2.0;
-        double alphaSide = ConstUtils.depth / (1.0 / depthXCoefficient - 1);
-        double extraLen = depthXCoefficient * (alphaSide + ConstUtils.depth - position3D.z()) / alphaSide;
-        double x = middle + extraLen * (position3D.x() - middle);
-
-        int skyline = 292;
-        double zRatio = (skyline - ConstUtils.worldHeight) / (double) ConstUtils.depth;
-        double y = skyline + zRatio * (position3D.z() - ConstUtils.depth);
-        double maxScale = 2.0;
-        double minScale = 0.2;
-        double scaleM = (maxScale - minScale) / (double) ConstUtils.depth;
-        double scale = minScale + scaleM * (ConstUtils.depth - position3D.z());
-
-        double height = depthYCoefficient * position3D.y() * (1 - zRatio);
-        y -= height;
-        sprite.setScale(scale);
-        position = Vector2I.get((int) x, (int) y);
-        centralize();
-    }
-
-    private void centralize() {
-        position = position.subtract(sprite.getCurrentSize().multiply(0.5));
-        System.out.println(position);
+        position = DimTranslator.get().translate(sprite, position3D);
     }
 
     //OLD
