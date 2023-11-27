@@ -10,13 +10,13 @@ public class Main {
         window.setTitle("Ninja game");
 
         GamePanel gamePanel = new GamePanel();
+        gamePanel.init();
         window.add(gamePanel);
 
         window.pack();
 
         window.setLocationRelativeTo(null);
         window.setVisible(true);
-
         gamePanel.startGameThread();
     }
 }

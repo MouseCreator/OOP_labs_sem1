@@ -1,6 +1,7 @@
 package org.example;
 
 import org.example.engine.ConstUtils;
+import org.example.model.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,6 +13,9 @@ public class GamePanel extends JPanel implements Runnable{
     private double scaleX = 1.0;
     private double scaleY = 1.0;
     private final int FPS = 60;
+    private Drams drams;
+    private Bolts bolts;
+    private SpriteBuffer spriteBuffer;
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -19,14 +23,15 @@ public class GamePanel extends JPanel implements Runnable{
         Graphics2D g2d = (Graphics2D) g;
         g2d.scale(scaleX, scaleY);
 
-        g2d.setColor(Color.RED);
-        g2d.fillRect(100, 100, 200, 100);
+        bolts.draw(g2d);
+        drams.draw(g2d);
 
         g2d.dispose();
     }
 
     public void update() {
-
+        bolts.update();
+        drams.update();
     }
 
     public GamePanel () {
@@ -42,11 +47,29 @@ public class GamePanel extends JPanel implements Runnable{
             }
         });
     }
+
+    public void init() {
+        bolts = Bolts.create();
+        drams = Drams.create(bolts);
+        createSpriteBuffer();
+        initSprites();
+    }
+
+    private void initSprites() {
+        bolts.each(b -> b.initSprite(Sprite.get(spriteBuffer.getBolt())));
+        drams.each(d -> d.initSprite(AnimatedSprite.get(spriteBuffer.getDrams(), 4)));
+    }
+
+    private void createSpriteBuffer() {
+        spriteBuffer = new SpriteBuffer();
+        spriteBuffer.init();
+    }
+
     public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
     }
-    /*
+
     public void run() {
         double drawInterval = 1000.0 / FPS;
         double nextDrawTime = System.currentTimeMillis() + drawInterval;
@@ -65,23 +88,23 @@ public class GamePanel extends JPanel implements Runnable{
                 e.printStackTrace();
             }
         }
-    } */
-
-    public void run() {
-        double drawInterval = 1000.0 / FPS;
-        double delta = 0;
-        long lastTime = System.currentTimeMillis();
-        long currentTime;
-        while (gameThread != null) {
-            currentTime = System.currentTimeMillis();
-            delta += (currentTime - lastTime) / drawInterval;
-            lastTime = currentTime;
-            if (delta >= 1) {
-                update();
-                repaint();
-                delta -= 1;
-            }
-        }
     }
+
+//    public void run() {
+//        double drawInterval = 1000.0 / FPS;
+//        double delta = 0;
+//        long lastTime = System.currentTimeMillis();
+//        long currentTime;
+//        while (gameThread != null) {
+//            currentTime = System.currentTimeMillis();
+//            delta += (currentTime - lastTime) / drawInterval;
+//            lastTime = currentTime;
+//            if (delta >= 1) {
+//                update();
+//                repaint();
+//                delta -= 1;
+//            }
+//        }
+//    }
 
 }

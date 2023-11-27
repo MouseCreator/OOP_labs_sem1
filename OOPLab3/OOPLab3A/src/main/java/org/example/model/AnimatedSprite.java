@@ -10,6 +10,17 @@ public class AnimatedSprite implements DrawableSprite {
     private Vector2I currentPosition = Vector2I.zero();
     private Vector2I tileSize = Vector2I.zero();
     private int step;
+
+    private boolean visible = true;
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
+
     private AnimatedSprite() {
     }
 
@@ -32,8 +43,10 @@ public class AnimatedSprite implements DrawableSprite {
         imageFromFrame();
     }
     public void draw(Graphics2D g2d, Vector2I position) {
-        g2d.drawImage(image, position.x(), position.y(), position.x() + tileSize.x(),  position.y() + tileSize.y(),
-                currentPosition.x(), currentPosition.y(), currentPosition.x() + tileSize.x(),
-                currentPosition.y() + tileSize.y(), null);
+        if (visible) {
+            g2d.drawImage(image, position.x(), position.y(), position.x() + tileSize.x(), position.y() + tileSize.y(),
+                    currentPosition.x(), currentPosition.y(), currentPosition.x() + tileSize.x(),
+                    currentPosition.y() + tileSize.y(), null);
+        }
     }
 }
