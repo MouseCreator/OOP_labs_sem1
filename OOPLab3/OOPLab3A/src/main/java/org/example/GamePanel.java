@@ -74,15 +74,12 @@ public class GamePanel extends JPanel implements Runnable{
     private void initCollisions() {
         collisionDetector = new CollisionDetector();
     }
-
     public void connectAndStart(ServerHandler handler) {
         messageProcessor = handler.start();
     }
-
     private void initSprites() {
         background.initSprite(Sprite.get(spriteBuffer.getBackground()));
     }
-
     private void createSpriteBuffer() {
         spriteBuffer = new SpriteBuffer();
         spriteBuffer.init();

@@ -10,7 +10,6 @@ public class SimpleMessageProcessor {
     public SimpleMessageProcessor(ConcurrentLinkedQueue<String> messageQueue) {
         this.messageQueue = messageQueue;
     }
-
     public MovementParams toMovement(String message) {
         String[] parts = message.split(" ");
         if (parts.length == 4) {

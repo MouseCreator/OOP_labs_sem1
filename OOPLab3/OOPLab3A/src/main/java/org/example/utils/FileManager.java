@@ -7,11 +7,9 @@ import java.io.IOException;
 
 public class FileManager {
     private final String filename;
-
     public FileManager(String filename) {
         this.filename = filename;
     }
-
     public String read() throws IOException {
         StringBuilder content = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
