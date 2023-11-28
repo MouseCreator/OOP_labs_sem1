@@ -9,11 +9,13 @@ public class SpriteBuffer {
     private BufferedImage background = null;
     private BufferedImage shuriken = null;
     private BufferedImage dummy = null;
+    private BufferedImage ninja = null;
     public void init() {
         try {
             background = loadImage("gfx/GameBackground.png");
             shuriken = loadImage("gfx/ShurikenSmall.png");
             dummy = loadImage("gfx/Dummy.png");
+            ninja = loadImage("gfx/Ninja.png");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -34,8 +36,10 @@ public class SpriteBuffer {
     public BufferedImage getShuriken() {
         return shuriken;
     }
-
     public BufferedImage getDummy() {
         return dummy;
+    }
+    public BufferedImage getNinja() {
+        return ninja;
     }
 }

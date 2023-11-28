@@ -52,4 +52,8 @@ public class AnimatedSprite implements DrawableSprite {
                     currentPosition.y() + tileSize.y(), null);
         }
     }
+
+    public int getFrame() {
+        return currentFrame;
+    }
 }
