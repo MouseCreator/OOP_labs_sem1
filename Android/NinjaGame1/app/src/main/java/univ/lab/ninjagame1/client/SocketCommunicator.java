@@ -10,7 +10,6 @@ import java.net.Socket;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.function.Consumer;
 
@@ -24,7 +23,6 @@ public class SocketCommunicator implements Communicator {
     private PrintWriter out;
     private BufferedReader in;
     private final BlockingQueue<String> senderQueue = new LinkedBlockingQueue<>();
-    private final ConcurrentLinkedQueue<String> receiveQueue = new ConcurrentLinkedQueue<>();
     private Thread senderThread;
     private Thread receiverThread;
     public SocketCommunicator() {
@@ -75,8 +73,8 @@ public class SocketCommunicator implements Communicator {
             Thread.currentThread().interrupt();
         }
     }
-    private final int SHURIKEN_MESSAGE = 0;
-    private final int RECORD_MESSAGE = 1;
+    public static final int SHURIKEN_MESSAGE = 0;
+    public static final int RECORD_MESSAGE = 1;
     public void send(MovementParams movementParams) {
         MobileDTO mobileDTO = new MobileDTO();
         mobileDTO.setMessageType(SHURIKEN_MESSAGE);
