@@ -2,9 +2,11 @@ package univ.lab.ninjagame1.client;
 
 import android.util.Log;
 
+import java.util.List;
 import java.util.function.Consumer;
 
 import univ.lab.ninjagame1.dto.DesktopDTO;
+import univ.lab.ninjagame1.filtered.Vector3;
 
 public class MockCommunicator implements Communicator {
     @Override
@@ -25,5 +27,10 @@ public class MockCommunicator implements Communicator {
     @Override
     public void onReceive(Consumer<DesktopDTO> o) {
         Log.d("CMN", "Received!");
+    }
+
+    @Override
+    public void sendRecording(List<Vector3> recordedVector) {
+        Log.d("CMN", "Sent!");
     }
 }

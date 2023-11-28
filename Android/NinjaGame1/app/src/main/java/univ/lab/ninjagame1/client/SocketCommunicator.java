@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -15,6 +16,7 @@ import java.util.function.Consumer;
 
 import univ.lab.ninjagame1.dto.DesktopDTO;
 import univ.lab.ninjagame1.dto.MobileDTO;
+import univ.lab.ninjagame1.filtered.Vector3;
 import univ.lab.ninjagame1.util.JSONUtil;
 
 public class SocketCommunicator implements Communicator {
@@ -74,6 +76,7 @@ public class SocketCommunicator implements Communicator {
         }
     }
     private final int SHURIKEN_MESSAGE = 0;
+    private final int RECORD_MESSAGE = 1;
     public void send(MovementParams movementParams) {
         MobileDTO mobileDTO = new MobileDTO();
         mobileDTO.setMessageType(SHURIKEN_MESSAGE);
@@ -109,5 +112,25 @@ public class SocketCommunicator implements Communicator {
     @Override
     public void onReceive(Consumer<DesktopDTO> consumer) {
         onReceive = consumer;
+    }
+
+    @Override
+    public void sendRecording(List<Vector3> recordedVector) {
+        MobileDTO mobileDTO = new MobileDTO();
+        mobileDTO.setMessageType(RECORD_MESSAGE);
+        mobileDTO.setVectorData(transformRecords(recordedVector));
+        sendInput(JSONUtil.toJson(mobileDTO));
+    }
+
+    private String transformRecords(List<Vector3> recordedVector) {
+        int size = recordedVector.size();
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < size; i++) {
+            Vector3 v =recordedVector.get(i);
+            builder.append(v.x()).append(" ").append(v.y()).append(" ").append(v.z());
+            if (i != size-1)
+                builder.append(",");
+        }
+        return builder.toString();
     }
 }
