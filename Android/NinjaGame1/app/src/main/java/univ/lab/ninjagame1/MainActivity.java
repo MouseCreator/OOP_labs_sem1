@@ -16,6 +16,7 @@ import java.util.List;
 import univ.lab.ninjagame1.client.ClientManager;
 import univ.lab.ninjagame1.client.Communicator;
 import univ.lab.ninjagame1.client.MovementParams;
+import univ.lab.ninjagame1.client.mode.ModeManager;
 import univ.lab.ninjagame1.client.recording.RecordingManager;
 import univ.lab.ninjagame1.dto.DesktopDTO;
 import univ.lab.ninjagame1.filtered.OrientationManager;
@@ -26,16 +27,22 @@ public class MainActivity extends AppCompatActivity {
     private GestureDetector gestureDetector;
     private Communicator communicator;
     private OrientationManager orientationManager;
-    private boolean isRecorderMode = false;
+    private ModeManager modeManager;
     private RecordingManager recordingManager;
     private Button recordButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        switchActivity();
+        initModeManager();
+        switchRecordingActivity();
         initRecordingManager();
         initOrientationManager();
         initCommunicator();
+        modeManager.postConstruct(communicator, recordingManager, orientationManager);
+    }
+
+    private void initModeManager() {
+        modeManager = new ModeManager();
     }
 
     private void initRecordingManager() {
@@ -52,8 +59,11 @@ public class MainActivity extends AppCompatActivity {
         gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
             @Override
             public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-                calculateAndDisplaySpeed(velocityY);
-                return true;
+                if (modeManager.getCurrentMode()==0) {
+                    calculateAndDisplaySpeed(velocityY);
+                    return true;
+                }
+                return super.onFling(e1, e2, velocityX, velocityY);
             }
         });
         imageViewShuriken.setOnTouchListener((v, event) -> {
@@ -99,13 +109,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void onMessageReceive(DesktopDTO desktopDTO) {
         if (desktopDTO.getGameState() == 4) {
-            isRecorderMode = true;
-            runOnUiThread(this::switchActivity);
+            runOnUiThread(this::switchRecordingActivity);
         }
+        modeManager.switchToMode(desktopDTO.getGameState());
     }
 
-    private void switchActivity() {
-        if (isRecorderMode) {
+    private void switchRecordingActivity() {
+        if (modeManager.isRecordMode()) {
             setContentView(R.layout.activity_recorder);
             initRecordButton();
         } else {
