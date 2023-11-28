@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import univ.lab.dtwtest.dtw.DTW;
+import univ.lab.dtwtest.dtw.GenericDTW;
 import univ.lab.dtwtest.dtw.Vector3;
 import univ.lab.dtwtest.dtw.VectorDistanceCalculator;
 
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
             textView.setText("Recorded!");
             recordedData = new ArrayList<>(accelerometerData);
         } else {
-            DTW<Vector3> dtw = new DTW<>(new VectorDistanceCalculator());
+            GenericDTW<Vector3> dtw = new GenericDTW<>(new VectorDistanceCalculator());
             Vector3[] v1 = new Vector3[recordedData.size()];
             Vector3[] v2 = new Vector3[accelerometerData.size()];
             recordedData.toArray(v1);
