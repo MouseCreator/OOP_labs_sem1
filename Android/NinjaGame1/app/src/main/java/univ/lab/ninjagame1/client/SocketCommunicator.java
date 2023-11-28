@@ -9,6 +9,9 @@ import java.util.Locale;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import univ.lab.ninjagame1.dto.MobileDTO;
+import univ.lab.ninjagame1.util.JSONUtil;
+
 public class SocketCommunicator implements Communicator {
     private Socket socket;
     private PrintWriter out;
@@ -41,10 +44,12 @@ public class SocketCommunicator implements Communicator {
             Thread.currentThread().interrupt();
         }
     }
-
+    private final int SHURIKEN_MESSAGE = 0;
     public void send(MovementParams movementParams) {
-        String s = transformParams(movementParams);
-        sendInput(s);
+        MobileDTO mobileDTO = new MobileDTO();
+        mobileDTO.setMessageType(SHURIKEN_MESSAGE);
+        mobileDTO.setVectorData(transformParams(movementParams));
+        sendInput(JSONUtil.toJson(mobileDTO));
     }
 
     private String transformParams(MovementParams movementParams) {

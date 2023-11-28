@@ -6,15 +6,12 @@ public class DesktopDTO {
     public int getGameState() {
         return gameState;
     }
-
     public void setGameState(int gameState) {
         this.gameState = gameState;
     }
-
     public String getDetails() {
         return details;
     }
-
     public void setDetails(String details) {
         this.details = details;
     }

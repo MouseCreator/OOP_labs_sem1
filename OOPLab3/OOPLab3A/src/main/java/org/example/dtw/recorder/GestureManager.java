@@ -8,9 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GestureManager {
-
     private final String filename = "src/main/resources/gestures/gestures.txt";
-
     private final FileManager fileManager = new FileManager(filename);
     public List<Recording> readRecordings() {
         try {
