@@ -8,10 +8,10 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Locale;
-import java.util.Optional;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.function.Consumer;
 
 import univ.lab.ninjagame1.dto.DesktopDTO;
 import univ.lab.ninjagame1.dto.MobileDTO;
@@ -36,12 +36,17 @@ public class SocketCommunicator implements Communicator {
         try {
             String inputLine;
             while ((inputLine = in.readLine()) != null) {
-                receiveQueue.offer(inputLine);
-                System.out.println(inputLine);
+                String p = inputLine;
+                Thread thread = new Thread(() -> processReceived(p));
+                thread.start();
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    private void processReceived(String message) {
+        DesktopDTO desktopDTO = JSONUtil.fromJson(message);
+        onReceive.accept(desktopDTO);
     }
 
     private void prepareAndProcess() {
@@ -69,13 +74,6 @@ public class SocketCommunicator implements Communicator {
         }
     }
     private final int SHURIKEN_MESSAGE = 0;
-    public Optional<DesktopDTO> receive() {
-        String s = receiveQueue.poll();
-        if (s == null) {
-            return Optional.empty();
-        }
-        return Optional.of(JSONUtil.fromJson(s));
-    }
     public void send(MovementParams movementParams) {
         MobileDTO mobileDTO = new MobileDTO();
         mobileDTO.setMessageType(SHURIKEN_MESSAGE);
@@ -106,5 +104,10 @@ public class SocketCommunicator implements Communicator {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+    private Consumer<DesktopDTO> onReceive = t -> {};
+    @Override
+    public void onReceive(Consumer<DesktopDTO> consumer) {
+        onReceive = consumer;
     }
 }

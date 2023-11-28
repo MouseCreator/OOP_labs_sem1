@@ -15,16 +15,16 @@ import univ.lab.ninjagame1.client.ClientManager;
 import univ.lab.ninjagame1.client.Communicator;
 import univ.lab.ninjagame1.client.SocketCommunicator;
 import univ.lab.ninjagame1.client.MovementParams;
+import univ.lab.ninjagame1.dto.DesktopDTO;
 import univ.lab.ninjagame1.filtered.OrientationManager;
 import univ.lab.ninjagame1.filtered.Vector3;
 
 
 public class MainActivity extends AppCompatActivity {
     private GestureDetector gestureDetector;
-
     private Communicator communicator;
     private OrientationManager orientationManager;
-
+    private boolean isRecorderMode = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
     private void initCommunicator() {
         ClientManager clientManager = new ClientManager();
         communicator = clientManager.start(this);
+        communicator.onReceive(this::onMessageReceive);
     }
 
     private void initOrientationManager() {
@@ -69,5 +70,11 @@ public class MainActivity extends AppCompatActivity {
         Log.d("Main", "Speed: " + speed);
         Log.d("Main", "V: " + vector);
         communicator.send(new MovementParams(speed, vector));
+    }
+
+    private void onMessageReceive(DesktopDTO desktopDTO) {
+        if (desktopDTO.getGameState() == 4) {
+            isRecorderMode = true;
+        }
     }
 }
