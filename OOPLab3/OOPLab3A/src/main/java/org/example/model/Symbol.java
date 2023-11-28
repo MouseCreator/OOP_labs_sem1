@@ -3,14 +3,14 @@ package org.example.model;
 import org.example.sprite.AnimatedSprite;
 import org.example.vector.Vector2I;
 
+import java.awt.*;
 import java.util.Random;
 
-public class Symbol extends Entity {
+public class Symbol extends Entity implements DrawUpdatable {
     private String tag;
     private final Random random = new Random();
     private static final Vector2I symbolSize = Vector2I.get(256, 256);
     private AnimatedSprite animatedSprite;
-
     public Symbol(Vector2I position, Vector2I symbolSize) {
         super(position, symbolSize);
     }
@@ -42,5 +42,15 @@ public class Symbol extends Entity {
 
     public String getTag() {
         return tag;
+    }
+
+    @Override
+    public void draw(Graphics2D g2d) {
+        animatedSprite.draw(g2d, position);
+    }
+
+    @Override
+    public void update() {
+
     }
 }
