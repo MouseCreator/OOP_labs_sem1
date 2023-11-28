@@ -10,15 +10,16 @@ import java.awt.*;
 public class Ninja extends Entity implements DrawUpdatable {
     private Sprite sprite;
     private static final Vector2I ninjaSize = Vector2I.get(256, 256);
+    private static final Vector2I originalPosition = Vector2I.get(1300, 500);
     private final Vector2I speed = Vector2I.get(-5, 0);
-    public static Ninja create(Vector2I pos, Sprite sprite) {
-        Ninja ninja = new Ninja(pos, ninjaSize);
+    public static Ninja create(Sprite sprite) {
+        Ninja ninja = new Ninja(ninjaSize);
         ninja.sprite = sprite;
         return ninja;
     }
 
-    public Ninja(Vector2I pos, Vector2I size) {
-        super(pos, size);
+    public Ninja(Vector2I size) {
+        super(Vector2I.from(originalPosition), size);
     }
 
     @Override
@@ -42,5 +43,9 @@ public class Ninja extends Entity implements DrawUpdatable {
 
     public boolean isCentralized() {
         return Math.abs(DimTranslator.get().toCenter(position, size).x() - ConstUtils.worldWidth/2) > 5;
+    }
+
+    public void resetPosition() {
+        position = Vector2I.from(originalPosition);
     }
 }

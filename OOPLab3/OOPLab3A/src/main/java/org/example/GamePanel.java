@@ -97,7 +97,7 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     private void initNinja() {
-        ninja = Ninja.create(Vector2I.get(1280, 500), Sprite.get(spriteBuffer.getNinja()));
+        ninja = Ninja.create(Sprite.get(spriteBuffer.getNinja()));
         symbol = Symbol.createSymbol(Vector2I.get(640, 360), AnimatedSprite.get(spriteBuffer.getSymbols(), 5));
         swordManager = new SwordManager();
         ninjaManager = new NinjaManager();
@@ -247,6 +247,7 @@ public class GamePanel extends JPanel implements Runnable{
         @Override
         public void onStart() {
             ninja.show();
+            ninja.resetPosition();
             messageProcessor.send(GameState.FIGHTING);
         }
 
