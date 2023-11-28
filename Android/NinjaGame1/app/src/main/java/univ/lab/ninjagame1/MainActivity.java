@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
     private void onMessageReceive(DesktopDTO desktopDTO) {
         if (desktopDTO.getGameState() == 4) {
             isRecorderMode = true;
-            switchActivity();
+            runOnUiThread(this::switchActivity);
         }
     }
 

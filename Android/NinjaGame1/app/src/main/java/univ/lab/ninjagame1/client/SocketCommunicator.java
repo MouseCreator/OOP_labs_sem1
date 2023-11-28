@@ -33,6 +33,7 @@ public class SocketCommunicator implements Communicator {
     }
 
     private void receiveAndProcess() {
+        System.out.println("Receive thread");
         try {
             String inputLine;
             while ((inputLine = in.readLine()) != null) {
