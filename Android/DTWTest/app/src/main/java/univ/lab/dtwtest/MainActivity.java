@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import univ.lab.dtwtest.dtw.distance.AdvancedDTW;
+import univ.lab.dtwtest.dtw.AdvancedDTW;
 import univ.lab.dtwtest.dtw.DTW;
 import univ.lab.dtwtest.dtw.Vector3;
 import univ.lab.dtwtest.dtw.distance.EuclideanDistance;

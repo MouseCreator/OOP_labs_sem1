@@ -1,9 +1,8 @@
-package univ.lab.dtwtest.dtw.distance;
+package univ.lab.ninjagame1.dtw;
 
-import univ.lab.dtwtest.dtw.DTW;
+import univ.lab.ninjagame1.dtw.distance.DistanceCalculator;
 
 public class AdvancedDTW<T> implements DTW<T> {
-
     private final DistanceCalculator<T> distanceCalculator;
 
     public AdvancedDTW(DistanceCalculator<T> distanceCalculator) {
