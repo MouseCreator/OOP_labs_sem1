@@ -37,4 +37,12 @@ public class Vector3D {
     public String toString() {
         return String.format("%.3f; %.3f; %.3f", x, y, z);
     }
+
+    public double magnitude() {
+        return Math.sqrt(x*x+y*y+z*z);
+    }
+
+    public Vector3D subtract(Vector3D v2) {
+        return new Vector3D(x - v2.x, y - v2.y, z - v2.z);
+    }
 }
