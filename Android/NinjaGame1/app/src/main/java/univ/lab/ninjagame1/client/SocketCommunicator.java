@@ -81,7 +81,7 @@ public class SocketCommunicator implements Communicator {
         MobileDTO mobileDTO = new MobileDTO();
         mobileDTO.setMessageType(SHURIKEN_MESSAGE);
         mobileDTO.setVectorData(transformParams(movementParams));
-        sendInput(JSONUtil.toJson(mobileDTO));
+        toJson(mobileDTO);
     }
 
     private String transformParams(MovementParams movementParams) {
@@ -115,10 +115,21 @@ public class SocketCommunicator implements Communicator {
     }
 
     @Override
-    public void sendRecording(List<Vector3> recordedVector) {
+    public void sendMessageType(List<Vector3> recordedVector) {
         MobileDTO mobileDTO = new MobileDTO();
         mobileDTO.setMessageType(RECORD_MESSAGE);
         mobileDTO.setVectorData(transformRecords(recordedVector));
+        toJson(mobileDTO);
+    }
+
+    @Override
+    public void sendMessageType(int type) {
+        MobileDTO mobileDTO = new MobileDTO();
+        mobileDTO.setMessageType(type);
+        toJson(mobileDTO);
+    }
+
+    private void toJson(MobileDTO mobileDTO) {
         sendInput(JSONUtil.toJson(mobileDTO));
     }
 

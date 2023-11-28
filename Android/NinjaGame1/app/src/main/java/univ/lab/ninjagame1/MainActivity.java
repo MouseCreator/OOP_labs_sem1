@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private ModeManager modeManager;
     private RecordingManager recordingManager;
     private Button recordButton;
+    private Button pauseButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
     private void toggleRecording() {
         if (recordingManager.isRecording()) {
             List<Vector3> recordedVector = recordingManager.summarize(orientationManager.sensorManager());
-            communicator.sendRecording(recordedVector);
+            communicator.sendMessageType(recordedVector);
             recordButton.setText(R.string.button_record);
         } else {
             recordingManager.start(orientationManager.sensorManager());
@@ -121,6 +122,23 @@ public class MainActivity extends AppCompatActivity {
         } else {
             setContentView(R.layout.activity_main);
             initImage();
+            initPauseButton();
+        }
+    }
+
+    private void initPauseButton() {
+
+        pauseButton = findViewById(R.id.pauseButton);
+        recordButton.setOnClickListener(v -> togglePause());
+    }
+
+    private void togglePause() {
+        if (modeManager.getCurrentMode()==3) {
+            communicator.sendMessageType(4);
+            recordButton.setText(R.string.continueTxt);
+        } else {
+            communicator.sendMessageType(3);
+            recordButton.setText(R.string.pauseTxt);
         }
     }
 }

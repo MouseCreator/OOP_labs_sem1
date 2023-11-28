@@ -1,6 +1,5 @@
 package univ.lab.ninjagame1.client;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -12,5 +11,6 @@ public interface Communicator {
     void send(MovementParams movementParams);
     void stopConnection();
     void onReceive(Consumer<DesktopDTO> o);
-    void sendRecording(List<Vector3> recordedVector);
+    void sendMessageType(List<Vector3> recordedVector);
+    void sendMessageType(int type);
 }

@@ -57,7 +57,7 @@ public class ModeManager {
             orientationManager.stop();
         } else if (prev == 1) {
             List<Vector3> values = recordingManager.summarize(orientationManager.sensorManager());
-            communicator.sendRecording(values);
+            communicator.sendMessageType(values);
         }
     }
 

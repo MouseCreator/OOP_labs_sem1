@@ -30,7 +30,12 @@ public class MockCommunicator implements Communicator {
     }
 
     @Override
-    public void sendRecording(List<Vector3> recordedVector) {
+    public void sendMessageType(List<Vector3> recordedVector) {
+        Log.d("CMN", "Sent!");
+    }
+
+    @Override
+    public void sendMessageType(int type) {
         Log.d("CMN", "Sent!");
     }
 }
