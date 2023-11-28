@@ -91,7 +91,7 @@ public class OrientationManager {
     }
 
     private void advancedGyroListener() {
-        orientationCalculator = new MagneticOrientationCalculator();
+
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mMagnetic = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
         mGyroscope = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
@@ -99,9 +99,16 @@ public class OrientationManager {
         magneticWrapper = new SensorWrapper(null);
         gyroscopeWrapper = new SensorWrapper(null);
         initAccelerometerEventListener();
-        initMagneticEventListener();
         initGyroscopeEventListener();
-        orientationCalculator.init(accelerometerWrapper, magneticWrapper, gyroscopeWrapper);
+        if (mMagnetic == null) {
+            initMagneticEventListener();
+            orientationCalculator = new MagneticOrientationCalculator();
+            orientationCalculator.init(accelerometerWrapper, magneticWrapper, gyroscopeWrapper);
+        } else {
+            orientationCalculator = new RegularOrientationCalculator();
+            orientationCalculator.init(accelerometerWrapper, magneticWrapper, gyroscopeWrapper);
+        }
+
     }
     private void initMagneticEventListener() {
         magneticEventListener = new SensorEventListener() {

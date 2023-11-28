@@ -15,7 +15,9 @@ public class MagneticOrientationCalculator implements OrientationCalculator {
         this.magWrapper = magWrapper;
         this.gyroWrapper = gyroWrapper;
     }
+    /*
 
+     */
     private void processAccelerometerMagnetometer(SensorEvent accValues, SensorEvent magValues, double estimateYaw) {
         float[] acc = accValues.values;
         float ax = acc[0];

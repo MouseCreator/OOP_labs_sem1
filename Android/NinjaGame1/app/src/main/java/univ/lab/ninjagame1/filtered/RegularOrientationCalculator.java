@@ -13,7 +13,9 @@ public class RegularOrientationCalculator implements OrientationCalculator {
         this.accWrapper = accWrapper;
         this.gyroWrapper = gyroWrapper;
     }
-
+    /*
+    if vector is pointing (x,y), then angle theta = atan2(y,x)
+     */
     private void processAccelerometerMagnetometer(SensorEvent accValues, double estimateYaw) {
         float[] acc = accValues.values;
         float ax = acc[0];
