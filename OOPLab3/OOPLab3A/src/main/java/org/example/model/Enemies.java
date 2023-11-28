@@ -1,6 +1,8 @@
 package org.example.model;
 
 
+import org.example.sprite.SpriteBuffer;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Comparator;

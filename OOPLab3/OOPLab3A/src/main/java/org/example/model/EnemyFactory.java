@@ -1,6 +1,9 @@
 package org.example.model;
 
 import org.example.engine.ConstUtils;
+import org.example.sprite.ScalableSprite;
+import org.example.vector.Vector2I;
+import org.example.vector.Vector3D;
 
 import java.awt.image.BufferedImage;
 import java.util.Random;

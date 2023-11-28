@@ -1,4 +1,4 @@
-package org.example.model;
+package org.example.vector;
 
 public class Vector2I {
     private final int x;

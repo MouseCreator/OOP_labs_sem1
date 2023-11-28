@@ -1,4 +1,4 @@
-package org.example.model;
+package org.example.sprite;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

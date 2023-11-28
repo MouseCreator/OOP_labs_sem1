@@ -1,6 +1,6 @@
 package org.example.collision;
 
-import org.example.model.Vector3D;
+import org.example.vector.Vector3D;
 
 public class Sizes {
     public static Vector3D dummySize() {

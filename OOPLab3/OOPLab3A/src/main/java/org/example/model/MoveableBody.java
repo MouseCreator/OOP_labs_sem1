@@ -1,5 +1,7 @@
 package org.example.model;
 
+import org.example.vector.Vector3D;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 

@@ -5,6 +5,8 @@ import org.example.engine.ConstUtils;
 import org.example.model.*;
 import org.example.server.ServerHandler;
 import org.example.server.SimpleMessageProcessor;
+import org.example.sprite.Sprite;
+import org.example.sprite.SpriteBuffer;
 
 import javax.swing.*;
 import java.awt.*;

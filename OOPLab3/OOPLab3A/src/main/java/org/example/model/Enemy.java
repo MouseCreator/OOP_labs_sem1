@@ -3,6 +3,9 @@ package org.example.model;
 import org.example.collision.Collidable;
 import org.example.collision.Collision;
 import org.example.collision.Sizes;
+import org.example.sprite.ScalableSprite;
+import org.example.vector.Vector2I;
+import org.example.vector.Vector3D;
 
 import java.awt.*;
 

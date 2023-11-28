@@ -1,4 +1,7 @@
-package org.example.model;
+package org.example.sprite;
+
+import org.example.model.DrawableSprite;
+import org.example.vector.Vector2I;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
