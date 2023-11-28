@@ -56,4 +56,12 @@ public class Symbol extends Entity implements DrawUpdatable {
     public boolean isHidden() {
         return animatedSprite.isVisible();
     }
+
+    public void setStatus(boolean isRecognized) {
+        if (isRecognized) {
+            animatedSprite.setFrame(3);
+        } else {
+            animatedSprite.setFrame(4);
+        }
+    }
 }

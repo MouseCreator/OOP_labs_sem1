@@ -217,7 +217,16 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     private class SwordGameMode extends GameMode {
-
+        private boolean activated = false;
+        private int timer = 0;
+        private void customTimer() {
+            if (activated) {
+                timer++;
+                if (timer == 60) {
+                    switchToMode(3);
+                }
+            }
+        }
         @Override
         public void draw(Graphics2D g2d) {
             ninja.draw(g2d);
@@ -229,6 +238,7 @@ public class GamePanel extends JPanel implements Runnable{
             ninja.update();
             ninjaManager.update(ninja, symbol);
             symbol.update();
+            customTimer();
         }
 
         @Override
@@ -246,7 +256,9 @@ public class GamePanel extends JPanel implements Runnable{
         @Override
         public void processMessage(MobileDTO mobileDTO) {
             if (mobileDTO.getMessageType() == 1) {
-                swordManager.process(symbol.getTag(), mobileDTO.getVectorData());
+                boolean isRecognized = swordManager.process(symbol.getTag(), mobileDTO.getVectorData());
+                symbol.setStatus(isRecognized);
+                activated = true;
             }
         }
     }
