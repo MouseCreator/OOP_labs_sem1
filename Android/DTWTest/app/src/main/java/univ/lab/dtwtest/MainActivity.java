@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import univ.lab.dtwtest.dtw.AdvancedDTW;
+import univ.lab.dtwtest.dtw.DTW;
 import univ.lab.dtwtest.dtw.GenericDTW;
 import univ.lab.dtwtest.dtw.Vector3;
 import univ.lab.dtwtest.dtw.VectorDistanceCalculator;
@@ -23,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
     private SensorManager sensorManager;
     private Sensor accelerometer;
     private Button recordButton;
-
     private TextView textView;
     private List<Vector3> accelerometerData;
     private List<Vector3> recordedData = null;
@@ -58,12 +59,12 @@ public class MainActivity extends AppCompatActivity {
             textView.setText("Recorded!");
             recordedData = new ArrayList<>(accelerometerData);
         } else {
-            GenericDTW<Vector3> dtw = new GenericDTW<>(new VectorDistanceCalculator());
+            DTW<Vector3> dtw = new AdvancedDTW<>(new VectorDistanceCalculator());
             Vector3[] v1 = new Vector3[recordedData.size()];
             Vector3[] v2 = new Vector3[accelerometerData.size()];
             recordedData.toArray(v1);
             accelerometerData.toArray(v2);
-            double ds = dtw.dtwNormalizedDistance(v1, v2);
+            double ds = dtw.dtwDistance(v1, v2);
             textView.setText(String.format(Locale.ENGLISH, "Compared: %f", ds));
         }
         sensorManager.unregisterListener(sensorEventListener);
