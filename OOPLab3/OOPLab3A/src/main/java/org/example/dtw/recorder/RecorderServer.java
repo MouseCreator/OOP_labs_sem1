@@ -64,7 +64,9 @@ public class RecorderServer {
 
     private void sendRecorderMessage(PrintWriter out) {
         DesktopDTO desktopDTO = createRecordingNotification();
-        out.println(JSONUtil.toJSON(desktopDTO));
+        String json = JSONUtil.toJSON(desktopDTO);
+        out.println(json);
+        System.out.println(json);
     }
 
     private DesktopDTO createRecordingNotification() {
