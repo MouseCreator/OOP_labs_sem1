@@ -1,4 +1,6 @@
-package univ.lab.dtwtest.dtw;
+package univ.lab.dtwtest.dtw.distance;
+
+import univ.lab.dtwtest.dtw.DTW;
 
 public class AdvancedDTW<T> implements DTW<T> {
 
@@ -39,6 +41,6 @@ public class AdvancedDTW<T> implements DTW<T> {
 
     @Override
     public double dtwNormalizedDistance(T[] seq1, T[] seq2) {
-        return 0;
+        return dtwDistance(seq1, seq2) / (seq1.length + seq2.length);
     }
 }

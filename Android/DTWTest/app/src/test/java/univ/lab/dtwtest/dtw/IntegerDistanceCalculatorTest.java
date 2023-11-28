@@ -4,6 +4,9 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
+import univ.lab.dtwtest.dtw.distance.DistanceCalculator;
+import univ.lab.dtwtest.dtw.distance.IntegerDistanceCalculator;
+
 public class IntegerDistanceCalculatorTest extends TestCase {
     private DistanceCalculator<Integer> calculator;
 

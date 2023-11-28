@@ -1,4 +1,4 @@
-package univ.lab.dtwtest.dtw;
+package univ.lab.dtwtest.dtw.distance;
 
 public class IntegerDistanceCalculator implements DistanceCalculator<Integer> {
     @Override

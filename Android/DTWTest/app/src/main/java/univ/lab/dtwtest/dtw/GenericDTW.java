@@ -1,5 +1,7 @@
 package univ.lab.dtwtest.dtw;
 
+import univ.lab.dtwtest.dtw.distance.DistanceCalculator;
+
 public class GenericDTW<T> implements DTW<T> {
 
     private final DistanceCalculator<T> distanceCalculator;
