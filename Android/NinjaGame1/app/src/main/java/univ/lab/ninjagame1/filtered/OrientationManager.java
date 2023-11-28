@@ -133,4 +133,8 @@ public class OrientationManager {
         mSensorManager.unregisterListener(gyroscopeEventListener);
         mSensorManager.unregisterListener(magneticEventListener);
     }
+
+    public SensorManager sensorManager() {
+        return mSensorManager;
+    }
 }

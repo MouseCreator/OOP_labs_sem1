@@ -68,6 +68,7 @@ public class SocketCommunicator implements Communicator {
             while (!Thread.currentThread().isInterrupted()) {
                 String message = senderQueue.take();
                 out.println(message);
+                System.out.println(message);
             }
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();

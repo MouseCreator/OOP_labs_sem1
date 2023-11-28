@@ -1,27 +1,24 @@
 package univ.lab.ninjagame1.client.recording;
 
-import java.util.ArrayList;
+import android.hardware.SensorManager;
+
 import java.util.List;
 
 import univ.lab.ninjagame1.filtered.Vector3;
 
 public class RecordingManager {
-    private List<Vector3> vectors = new ArrayList<>();
+    private final RecordingListener recordingListener = new RecordingListener();
     private boolean isRecording = false;
-    public void start() {
+    public void start(SensorManager sensorManager) {
         isRecording = true;
+        recordingListener.register(sensorManager);
     }
-    public void append(Vector3 data) {
-        vectors.add(data);
-    }
-    public List<Vector3> summarize() {
-        List<Vector3> temp = vectors;
-        vectors = new ArrayList<>();
+    public List<Vector3> summarize(SensorManager sensorManager) {
         isRecording = false;
-        return temp;
+        recordingListener.unregister(sensorManager);
+        return recordingListener.getRecordings();
 
     }
-
     public boolean isRecording() {
         return isRecording;
     }

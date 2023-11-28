@@ -1,6 +1,7 @@
 package org.example.dtw.recorder;
 
 import org.example.dto.DesktopDTO;
+import org.example.dto.MobileDTO;
 import org.example.gamestate.GameState;
 import org.example.utils.JSONUtil;
 
@@ -41,6 +42,7 @@ public class RecorderServer {
         try {
             String clientMessage;
             while ((clientMessage = in.readLine()) != null) {
+                System.out.println(clientMessage);
                 toRecording(clientMessage);
             }
 
@@ -50,7 +52,10 @@ public class RecorderServer {
     }
 
     private void toRecording(String clientMessage) {
-        Optional<Recording> record = recorder.record(clientMessage);
+        MobileDTO mobileDTO = JSONUtil.fromJSON(clientMessage);
+        if (mobileDTO.getMessageType() != 1)
+            return;
+        Optional<Recording> record = recorder.record(mobileDTO.getVectorData());
         record.ifPresent(gestureManager::appendRecording);
         if (record.isPresent()) {
             System.out.println("ADDED RECORDING!");

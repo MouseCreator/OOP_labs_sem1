@@ -32,10 +32,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        initImage();
+        switchActivity();
+        initRecordingManager();
         initOrientationManager();
         initCommunicator();
+    }
+
+    private void initRecordingManager() {
+        recordingManager = new RecordingManager();
     }
 
     private void initImage() {
@@ -45,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
         rotateAnimation.setRepeatCount(Animation.INFINITE);
         rotateAnimation.setDuration(2000);
         imageViewShuriken.startAnimation(rotateAnimation);
-        initRecordButton();
         gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
             @Override
             public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
@@ -66,10 +69,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void toggleRecording() {
         if (recordingManager.isRecording()) {
-            List<Vector3> recordedVector = recordingManager.summarize();
+            List<Vector3> recordedVector = recordingManager.summarize(orientationManager.sensorManager());
             communicator.sendRecording(recordedVector);
+            recordButton.setText(R.string.button_record);
         } else {
-            recordingManager.start();
+            recordingManager.start(orientationManager.sensorManager());
+            recordButton.setText(R.string.button_stop);
         }
     }
 
@@ -102,8 +107,10 @@ public class MainActivity extends AppCompatActivity {
     private void switchActivity() {
         if (isRecorderMode) {
             setContentView(R.layout.activity_main);
+            initImage();
         } else {
             setContentView(R.layout.activity_recorder);
+            initRecordButton();
         }
     }
 }
