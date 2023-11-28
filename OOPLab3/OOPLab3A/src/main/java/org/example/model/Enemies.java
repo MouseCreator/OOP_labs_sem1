@@ -13,6 +13,9 @@ public class Enemies implements DrawUpdatable {
     private final List<Enemy> enemiesList = new ArrayList<>();
     private final EnemyFactory enemyFactory;
     private final int spawnFrequency = 2000;
+    private int spawned = 0;
+    private int destroyed = 0;
+    private final int limit = 15;
     private long lastSpawn;
     public Enemies(SpriteBuffer spriteBuffer) {
         this.enemyFactory = new EnemyFactory(spriteBuffer.getDummy());
@@ -41,19 +44,27 @@ public class Enemies implements DrawUpdatable {
     }
 
     private void removeDestroyed() {
+        int sizeBefore = enemiesList.size();
         enemiesList.removeIf(Enemy::isDestroyed);
+        int sizeAfter = enemiesList.size();
+        destroyed += (sizeBefore - sizeAfter);
     }
-
+    public boolean destroyedAll() {
+        return destroyed == limit;
+    }
     private void trySpawn() {
         long currentTime = System.currentTimeMillis();
-        if (currentTime - lastSpawn > spawnFrequency) {
+        if (spawned < limit && currentTime - lastSpawn > spawnFrequency) {
             spawnNew();
+            spawned++;
             lastSpawn = currentTime;
         }
     }
 
     public void reset() {
         lastSpawn = System.currentTimeMillis();
+        spawned = 0;
+        destroyed = 0;
         enemiesList.clear();
     }
 }

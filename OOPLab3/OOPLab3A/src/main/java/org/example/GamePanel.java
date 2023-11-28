@@ -164,6 +164,9 @@ public class GamePanel extends JPanel implements Runnable{
             collisionDetector.processDummies(shurikenManager, enemies);
             shurikenManager.update();
             enemies.update();
+            if (enemies.destroyedAll()) {
+                switchToMode(1);
+            }
         }
 
         @Override
