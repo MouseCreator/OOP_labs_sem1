@@ -50,4 +50,8 @@ public class ShurikenManager implements DrawUpdatable, Iterable<Shuriken> {
     public Iterator<Shuriken> iterator() {
         return shurikenList.iterator();
     }
+
+    public void reset() {
+        shurikenList.clear();
+    }
 }

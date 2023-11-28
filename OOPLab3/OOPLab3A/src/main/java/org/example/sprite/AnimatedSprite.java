@@ -13,7 +13,6 @@ public class AnimatedSprite implements DrawableSprite {
     private Vector2I currentPosition = Vector2I.zero();
     private Vector2I tileSize = Vector2I.zero();
     private int step;
-
     private boolean visible = true;
 
     public boolean isVisible() {

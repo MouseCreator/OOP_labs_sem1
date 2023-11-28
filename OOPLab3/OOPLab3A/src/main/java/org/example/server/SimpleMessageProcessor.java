@@ -1,17 +1,21 @@
 package org.example.server;
 
+import org.example.dto.DesktopDTO;
+import org.example.dto.MobileDTO;
 import org.example.model.MovementParams;
-import org.example.utils.JSONUtil;
 
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.function.Consumer;
 
 public class SimpleMessageProcessor {
-    private final ConcurrentLinkedQueue<String> messageQueue;
-    public SimpleMessageProcessor(ConcurrentLinkedQueue<String> messageQueue) {
+    private final ConcurrentLinkedQueue<MobileDTO> messageQueue;
+    private final BlockingQueue<DesktopDTO> sendQueue;
+    public SimpleMessageProcessor(ConcurrentLinkedQueue<MobileDTO> messageQueue, BlockingQueue<DesktopDTO> sendQueue) {
         this.messageQueue = messageQueue;
+        this.sendQueue = sendQueue;
     }
-    public MovementParams toMovement(String message) {
+    public static MovementParams toMovement(String message) {
         String[] parts = message.split(" ");
         if (parts.length == 4) {
             double x = Double.parseDouble(parts[0]);
@@ -24,11 +28,17 @@ public class SimpleMessageProcessor {
         }
     }
 
-    public void ifAny(Consumer<MovementParams> consumer) {
+    public void ifAny(Consumer<MobileDTO> consumer) {
         while (!messageQueue.isEmpty()) {
-            String message = messageQueue.poll();
-            MovementParams movementParams = toMovement(JSONUtil.fromJSON(message).getVectorData());
-            consumer.accept(movementParams);
+            MobileDTO message = messageQueue.poll();
+            consumer.accept(message);
         }
+    }
+
+    public void send(int state) {
+        DesktopDTO desktopDTO = new DesktopDTO();
+        desktopDTO.setGameState(state);
+        desktopDTO.setDetails("");
+        sendQueue.add(desktopDTO);
     }
 }

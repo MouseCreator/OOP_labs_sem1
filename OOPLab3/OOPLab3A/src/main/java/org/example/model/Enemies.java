@@ -51,4 +51,9 @@ public class Enemies implements DrawUpdatable {
             lastSpawn = currentTime;
         }
     }
+
+    public void reset() {
+        lastSpawn = System.currentTimeMillis();
+        enemiesList.clear();
+    }
 }

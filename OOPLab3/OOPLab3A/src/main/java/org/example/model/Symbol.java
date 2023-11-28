@@ -14,7 +14,6 @@ public class Symbol extends Entity implements DrawUpdatable {
     public Symbol(Vector2I position, Vector2I symbolSize) {
         super(position, symbolSize);
     }
-
     public void changeToRandom() {
         int frame = random.nextInt(3);
         animatedSprite.setFrame(frame);
@@ -52,5 +51,9 @@ public class Symbol extends Entity implements DrawUpdatable {
     @Override
     public void update() {
 
+    }
+
+    public boolean isHidden() {
+        return animatedSprite.isVisible();
     }
 }
