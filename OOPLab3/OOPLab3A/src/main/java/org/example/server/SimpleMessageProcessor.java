@@ -1,6 +1,7 @@
 package org.example.server;
 
 import org.example.model.MovementParams;
+import org.example.utils.JSONUtil;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.function.Consumer;
@@ -26,7 +27,7 @@ public class SimpleMessageProcessor {
     public void ifAny(Consumer<MovementParams> consumer) {
         while (!messageQueue.isEmpty()) {
             String message = messageQueue.poll();
-            MovementParams movementParams = toMovement(message);
+            MovementParams movementParams = toMovement(JSONUtil.fromJSON(message).getVectorData());
             consumer.accept(movementParams);
         }
     }

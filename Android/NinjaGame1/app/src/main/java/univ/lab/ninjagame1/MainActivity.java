@@ -106,11 +106,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void switchActivity() {
         if (isRecorderMode) {
-            setContentView(R.layout.activity_main);
-            initImage();
-        } else {
             setContentView(R.layout.activity_recorder);
             initRecordButton();
+        } else {
+            setContentView(R.layout.activity_main);
+            initImage();
         }
     }
 }

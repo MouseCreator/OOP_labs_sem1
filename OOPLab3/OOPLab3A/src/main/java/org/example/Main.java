@@ -1,6 +1,5 @@
 package org.example;
 
-import org.example.server.GameServer;
 import org.example.server.ServerHandler;
 
 import javax.swing.*;
