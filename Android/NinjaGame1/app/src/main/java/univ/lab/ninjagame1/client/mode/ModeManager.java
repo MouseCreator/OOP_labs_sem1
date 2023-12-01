@@ -1,5 +1,7 @@
 package univ.lab.ninjagame1.client.mode;
 
+import android.hardware.SensorManager;
+
 import java.util.List;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -15,6 +17,8 @@ public class ModeManager {
     private OrientationManager orientationManager;
     private RecordingManager recordingManager;
     private Communicator communicator;
+
+    private SensorManager sensorManager;
     public int getCurrentMode() {
         try {
             readWriteLock.readLock().lock();
@@ -23,8 +27,9 @@ public class ModeManager {
             readWriteLock.readLock().unlock();
         }
     }
-    public void postConstruct(Communicator communicator, RecordingManager recordingManager, OrientationManager orientationManager) {
+    public void postConstruct(SensorManager sensorManager, Communicator communicator, RecordingManager recordingManager, OrientationManager orientationManager) {
         this.communicator = communicator;
+        this.sensorManager = sensorManager;
         this.recordingManager = recordingManager;
         this.orientationManager = orientationManager;
     }
@@ -56,7 +61,7 @@ public class ModeManager {
         if (prev == 0) {
             orientationManager.stop();
         } else if (prev == 1) {
-            List<Vector3> values = recordingManager.summarize(orientationManager.sensorManager());
+            List<Vector3> values = recordingManager.summarize(sensorManager);
             communicator.sendMessageType(values);
         }
     }
@@ -66,8 +71,8 @@ public class ModeManager {
             case 0:
                 orientationManager.start();
                 break;
-            case 1:
-                recordingManager.start(orientationManager.sensorManager());
+            case 7:
+                recordingManager.start(sensorManager);
                 break;
         }
     }

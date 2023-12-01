@@ -28,7 +28,6 @@ public class OrientationManager {
     }
     public void stop() {
         pauseSensors();
-        destroyAll();
     }
     private void destroyAll() {
         mGyroscope = null;

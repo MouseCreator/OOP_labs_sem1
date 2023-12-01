@@ -42,7 +42,7 @@ public class Ninja extends Entity implements DrawUpdatable {
     }
 
     public boolean isCentralized() {
-        return Math.abs(DimTranslator.get().toCenter(position, size).x() - ConstUtils.worldWidth/2) > 5;
+        return Math.abs(DimTranslator.get().toCenter(position, size).x() - ConstUtils.worldWidth/2) < 5;
     }
 
     public void resetPosition() {

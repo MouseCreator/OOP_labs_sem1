@@ -25,24 +25,35 @@ public class SocketCommunicator implements Communicator {
     private final BlockingQueue<String> senderQueue = new LinkedBlockingQueue<>();
     private Thread senderThread;
     private Thread receiverThread;
+
+    private final Object obj = new Object();
     public SocketCommunicator() {
     }
     public void start() {
         senderThread = new Thread(this::prepareAndProcess);
         senderThread.start();
+        receiverThread = new Thread(this::receiveAndProcess);
+        receiverThread.start();
     }
 
     private void receiveAndProcess() {
         System.out.println("Receive thread");
         try {
             String inputLine;
+            while (socket == null) {
+                synchronized (obj) {
+                    obj.wait();
+                }
+            }
+            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             while ((inputLine = in.readLine()) != null) {
-                String p = inputLine;
-                Thread thread = new Thread(() -> processReceived(p));
-                thread.start();
+                System.out.println(inputLine);
+                processReceived(inputLine);
             }
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
         }
     }
     private void processReceived(String message) {
@@ -53,11 +64,12 @@ public class SocketCommunicator implements Communicator {
     private void prepareAndProcess() {
         try {
             socket = new Socket("192.168.1.102", 6666);
-            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            Log.d("COMM", "Socket Connected Successfully!");
-            receiverThread = new Thread(this::receiveAndProcess);
-            receiverThread.start();
             out = new PrintWriter(socket.getOutputStream(), true);
+            synchronized (obj) {
+                obj.notifyAll();
+            }
+
+            Log.d("COMM", "Socket Connected Successfully!");
             processQueue();
         } catch (IOException e) {
             e.printStackTrace();

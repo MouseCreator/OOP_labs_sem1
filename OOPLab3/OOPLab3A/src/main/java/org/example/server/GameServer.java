@@ -18,7 +18,7 @@ public class GameServer {
     private final ConcurrentLinkedQueue<MobileDTO> messageQueue = new ConcurrentLinkedQueue<>();
     private final BlockingQueue<DesktopDTO> sendQueue = new LinkedBlockingQueue<>();
     private boolean running = false;
-
+    private final Object object = new Object();
     private Socket client;
     public void start(int port) {
         if (running)
@@ -26,6 +26,9 @@ public class GameServer {
         running = true;
         try (ServerSocket serverSocket = new ServerSocket(port)) {
             client = serverSocket.accept();
+            synchronized (object) {
+                object.notifyAll();
+            }
             ClientHandler clientHandler = new ClientHandler(client, messageQueue);
             clientHandler.process();
         } catch (IOException e) {
@@ -42,7 +45,7 @@ public class GameServer {
     }
 
     public void startWriter() {
-        ClientSender clientHandler = new ClientSender(client, sendQueue);
+        ClientSender clientHandler = new ClientSender(sendQueue);
         clientHandler.process();
     }
 
@@ -77,20 +80,28 @@ public class GameServer {
         }
     }
 
-    private static class ClientSender {
-        private final Socket clientSocket;
+    private class ClientSender {
         private PrintWriter out;
         private final BlockingQueue<DesktopDTO> sendQueue;
-        public ClientSender(Socket socket, BlockingQueue<DesktopDTO> sendQueue) {
-            this.clientSocket = socket;
+        public ClientSender(BlockingQueue<DesktopDTO> sendQueue) {
             this.sendQueue = sendQueue;
         }
 
         public void process() {
+            synchronized (object) {
+                while (client == null) {
+                    try {
+                        object.wait();
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
             try {
-                out = new PrintWriter(clientSocket.getOutputStream());
+                out = new PrintWriter(client.getOutputStream(), true);
                 while (!Thread.currentThread().isInterrupted()) {
                     String json = JSONUtil.toJSON(sendQueue.take());
+                    System.out.println(json);
                     out.println(json);
                 }
             } catch (IOException e) {
@@ -100,7 +111,7 @@ public class GameServer {
             } finally {
                 try {
                     out.close();
-                    clientSocket.close();
+                    client.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

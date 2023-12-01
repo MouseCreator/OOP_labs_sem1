@@ -222,6 +222,11 @@ public class GamePanel extends JPanel implements Runnable{
     private class SwordGameMode extends GameMode {
         private boolean activated = false;
         private int timer = 0;
+        private int measureTime = 0;
+        private boolean timedEnded = false;
+        private boolean timedStarted = false;
+
+        private boolean dead = false;
         private void customTimer() {
             if (activated) {
                 timer++;
@@ -238,10 +243,25 @@ public class GamePanel extends JPanel implements Runnable{
 
         @Override
         public void update() {
-            ninja.update();
             ninjaManager.update(ninja, symbol);
+            ninja.update();
+            if (ninja.isCentralized() && !timedStarted) {
+                timedStarted = true;
+                messageProcessor.send(7);
+            }
+            if (timedStarted && !timedEnded) {
+                measureTime++;
+                if (measureTime > 120) {
+                    timedEnded = true;
+                }
+            }
+            if (timedEnded && !dead) {
+                customTimer();
+                dead = true;
+            }
+
             symbol.update();
-            customTimer();
+
         }
 
         @Override

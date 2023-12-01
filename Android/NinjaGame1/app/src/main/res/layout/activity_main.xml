@@ -11,13 +11,13 @@
         android:id="@+id/shurikenIm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="44dp"
+        android:layout_marginBottom="90dp"
+        android:contentDescription="@string/imageSh"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/sprite"
-        android:contentDescription="@string/imageSh" />
+        app:srcCompat="@drawable/sprite" />
 
     <Button
         android:id="@+id/pauseButton"

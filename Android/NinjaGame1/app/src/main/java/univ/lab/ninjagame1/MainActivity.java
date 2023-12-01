@@ -1,5 +1,7 @@
 package univ.lab.ninjagame1;
 
+import android.content.Context;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -31,15 +33,17 @@ public class MainActivity extends AppCompatActivity {
     private RecordingManager recordingManager;
     private Button recordButton;
     private Button pauseButton;
+    private SensorManager sensorManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        sensorManager = (SensorManager) getApplicationContext().getSystemService(Context.SENSOR_SERVICE);
         super.onCreate(savedInstanceState);
         initModeManager();
         switchRecordingActivity();
         initRecordingManager();
         initOrientationManager();
         initCommunicator();
-        modeManager.postConstruct(communicator, recordingManager, orientationManager);
+        modeManager.postConstruct(sensorManager, communicator, recordingManager, orientationManager);
     }
 
     private void initModeManager() {
@@ -80,11 +84,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void toggleRecording() {
         if (recordingManager.isRecording()) {
-            List<Vector3> recordedVector = recordingManager.summarize(orientationManager.sensorManager());
+            List<Vector3> recordedVector = recordingManager.summarize(sensorManager);
             communicator.sendMessageType(recordedVector);
             recordButton.setText(R.string.button_record);
         } else {
-            recordingManager.start(orientationManager.sensorManager());
+            recordingManager.start(sensorManager);
             recordButton.setText(R.string.button_stop);
         }
     }
@@ -127,18 +131,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initPauseButton() {
-
         pauseButton = findViewById(R.id.pauseButton);
-        recordButton.setOnClickListener(v -> togglePause());
+        pauseButton.setOnClickListener(v -> togglePause());
     }
 
     private void togglePause() {
         if (modeManager.getCurrentMode()==3) {
             communicator.sendMessageType(4);
-            recordButton.setText(R.string.continueTxt);
+            pauseButton.setText(R.string.continueTxt);
         } else {
             communicator.sendMessageType(3);
-            recordButton.setText(R.string.pauseTxt);
+            pauseButton.setText(R.string.pauseTxt);
         }
     }
 }
