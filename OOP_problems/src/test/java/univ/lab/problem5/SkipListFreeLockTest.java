@@ -117,11 +117,7 @@ class SkipListFreeLockTest {
 
     @Test
     void evenOdd() {
-        List<Integer> list = createList(100);
         SkipListFreeLock<Integer> skipList = new SkipListFreeLock<>(Integer::compareTo);
-        for (int p : list) {
-            skipList.add(p);
-        }
         Random random = new Random();
         int N = 200;
         Thread writer = new Thread(()->{
