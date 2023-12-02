@@ -1,6 +1,10 @@
 package org.example.game.modes;
 
 import org.example.dto.MobileDTO;
+import org.example.game.event.Event;
+import org.example.game.event.EventType;
+import org.example.game.event.Handler;
+import org.example.game.event.MessageEvent;
 import org.example.gamestate.GameState;
 import org.example.model.Ninja;
 import org.example.model.Symbol;
@@ -55,10 +59,7 @@ public class SwordGameMode implements GameMode{
     }
 
     @Override
-    public void processMessage(MobileDTO mobileDTO) {
-        if (mobileDTO.getMessageType() == 1) {
-            boolean isRecognized = swordManager.process(symbol.getTag(), mobileDTO.getVectorData());
-            symbol.setStatus(isRecognized);
-        }
+    public void handleEvent(Event event) {
+
     }
 }

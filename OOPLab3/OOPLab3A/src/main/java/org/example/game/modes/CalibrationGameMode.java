@@ -1,6 +1,11 @@
 package org.example.game.modes;
 
 import org.example.dto.MobileDTO;
+import org.example.game.event.Event;
+import org.example.game.event.EventType;
+import org.example.game.event.Handler;
+import org.example.game.event.MessageEvent;
+import org.example.server.SimpleMessageProcessor;
 
 import java.awt.*;
 
@@ -21,10 +26,8 @@ public class CalibrationGameMode implements GameMode {
     }
 
     @Override
-    public void processMessage(MobileDTO mobileDTO) {
-        if (mobileDTO.getMessageType() == 4) {
-            //switchToMode(GameState.SHOOTING);
-        }
+    public void handleEvent(Event event) {
+
     }
 
     @Override

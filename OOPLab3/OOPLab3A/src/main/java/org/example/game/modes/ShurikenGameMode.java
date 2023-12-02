@@ -2,6 +2,10 @@ package org.example.game.modes;
 
 import org.example.collision.CollisionDetector;
 import org.example.dto.MobileDTO;
+import org.example.game.drawable.SpriteBuffer;
+import org.example.game.event.*;
+import org.example.game.event.Event;
+import org.example.game.helper.GameUtils;
 import org.example.gamestate.GameState;
 import org.example.model.Enemies;
 import org.example.model.ShurikenManager;
@@ -14,6 +18,7 @@ public class ShurikenGameMode implements GameMode {
     private ShurikenManager shurikenManager;
     private CollisionDetector collisionDetector;
     private SimpleMessageProcessor messageProcessor;
+    private GameUtils gameUtils;
 
     @Override
     public void draw(Graphics2D g2d) {
@@ -26,7 +31,7 @@ public class ShurikenGameMode implements GameMode {
         shurikenManager.update();
         enemies.update();
         if (enemies.destroyedAll()) {
-          //  switchToMode(1);
+            gameUtils.getEventProducer().createEvent(new ModeSwitchEvent(GameState.FIGHTING));
         }
     }
 
@@ -49,9 +54,15 @@ public class ShurikenGameMode implements GameMode {
     }
 
     @Override
-    public void processMessage(MobileDTO mobileDTO) {
-        if (mobileDTO.getMessageType() == 0) { //shooting
-            //shurikenManager.spawn(spriteBuffer, SimpleMessageProcessor.toMovement(mobileDTO.getVectorData()));
-        }
+    public void handleEvent(Event event) {
+        Handler.forType(EventType.MESSAGE_RECEIVED, event).run(()->{
+            MessageEvent messageEvent = (MessageEvent) event;
+            MobileDTO mobileDTO = messageEvent.getMessage();
+            if (mobileDTO.getMessageType() == 0) {
+                shurikenManager.spawn(gameUtils.getSpriteBuffer(), SimpleMessageProcessor.toMovement(mobileDTO.getVectorData()));
+                event.handle();
+            }
+        });
+
     }
 }
