@@ -1,4 +1,4 @@
-package org.example;
+package org.example.game;
 
 import org.example.collision.CollisionDetector;
 import org.example.dto.MobileDTO;

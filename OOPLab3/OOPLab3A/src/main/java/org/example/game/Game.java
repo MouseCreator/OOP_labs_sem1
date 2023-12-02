@@ -1,4 +1,4 @@
 package org.example.game;
 
-public class Timer {
+public class Game {
 }
