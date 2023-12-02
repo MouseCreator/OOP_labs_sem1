@@ -1,11 +1,6 @@
 package org.example.game.modes;
 
-import org.example.dto.MobileDTO;
 import org.example.game.event.Event;
-import org.example.game.event.EventType;
-import org.example.game.event.Handler;
-import org.example.game.event.MessageEvent;
-import org.example.server.SimpleMessageProcessor;
 
 import java.awt.*;
 

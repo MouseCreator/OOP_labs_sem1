@@ -2,7 +2,6 @@ package org.example.game.model;
 
 import org.example.model.DimTranslator;
 import org.example.vector.Vector2I;
-import org.example.vector.Vector3D;
 
 public class StaticUIObject {
     protected Vector2I position;
@@ -23,7 +22,6 @@ public class StaticUIObject {
     public void setSize(Vector2I size) {
         this.size = size;
     }
-
     public Vector2I origin() {
         return DimTranslator.get().toCenter(position, size);
     }

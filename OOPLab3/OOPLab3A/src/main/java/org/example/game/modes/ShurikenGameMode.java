@@ -1,8 +1,8 @@
 package org.example.game.modes;
 
 import org.example.collision.CollisionDetector;
+import org.example.dto.DesktopDTO;
 import org.example.dto.MobileDTO;
-import org.example.game.drawable.SpriteBuffer;
 import org.example.game.event.*;
 import org.example.game.event.Event;
 import org.example.game.helper.GameUtils;
@@ -37,7 +37,7 @@ public class ShurikenGameMode implements GameMode {
 
     @Override
     public void onStart() {
-        messageProcessor.send(GameState.SHOOTING);
+        gameUtils.getEventProducer().createEvent(new SendMessageEvent(new DesktopDTO(GameState.SHOOTING)));
         shurikenManager.reset();
         enemies.reset();
     }
@@ -56,7 +56,7 @@ public class ShurikenGameMode implements GameMode {
     @Override
     public void handleEvent(Event event) {
         Handler.forType(EventType.MESSAGE_RECEIVED, event).run(()->{
-            MessageEvent messageEvent = (MessageEvent) event;
+            ReceiveMessageEvent messageEvent = (ReceiveMessageEvent) event;
             MobileDTO mobileDTO = messageEvent.getMessage();
             if (mobileDTO.getMessageType() == 0) {
                 shurikenManager.spawn(gameUtils.getSpriteBuffer(), SimpleMessageProcessor.toMovement(mobileDTO.getVectorData()));

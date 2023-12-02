@@ -1,10 +1,6 @@
 package org.example.game.modes;
 
-import org.example.dto.MobileDTO;
 import org.example.game.event.Event;
-import org.example.game.event.EventType;
-import org.example.game.event.Handler;
-import org.example.game.event.MessageEvent;
 import org.example.gamestate.GameState;
 import org.example.model.Ninja;
 import org.example.model.Symbol;
