@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class GameDraw implements GameModelSubscriber, GameService<Void, Graphics2D> {
+public class ModelDraw implements GameModelSubscriber, GameService<Void, Graphics2D> {
     private final List<GameModel> models = new ArrayList<>();
     private final Comparator<GameModel> zOrderComparator = (a, b) -> {
         double az = a.getEntity().getPosition().z();

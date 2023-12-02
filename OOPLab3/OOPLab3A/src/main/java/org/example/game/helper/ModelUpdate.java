@@ -5,7 +5,7 @@ import org.example.model.Updatable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameUpdate implements GameModelSubscriber, GameService<Void, Void> {
+public class ModelUpdate implements GameModelSubscriber, GameService<Void, Void> {
     private final List<GameModel> models = new ArrayList<>();
     @Override
     public void onAdd(GameModel entity) {
