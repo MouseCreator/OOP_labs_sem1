@@ -3,19 +3,25 @@ package org.example.model;
 import org.example.collision.Collidable;
 import org.example.collision.Collision;
 import org.example.collision.Sizes;
-import org.example.sprite.ScalableSprite;
+import org.example.game.drawable.Drawable;
+import org.example.game.drawable.Sprite;
+import org.example.game.entity.Entity;
+import org.example.game.entity.EntityImpl;
+import org.example.game.helper.SizeComponent;
+import org.example.game.model.GameModel;
 import org.example.vector.Vector2I;
 import org.example.vector.Vector3D;
 
 import java.awt.*;
 
-public class Enemy extends Entity implements DrawUpdatable, Collidable {
+public class Enemy implements GameModel, Collidable {
     public static final Vector2I enemySize = Vector2I.get(128, 128);
-    private ScalableSprite sprite = null;
+    private Sprite sprite = null;
     private Vector3D position3D = Vector3D.zero();
     private Collision collision;
     private boolean destroyed = false;
-    public static Enemy withOrigin(Vector3D position3D, ScalableSprite sprite) {
+    private final Entity entity;
+    public static Enemy withOrigin(Vector3D position3D, Sprite sprite) {
         Enemy enemy = new Enemy();
         enemy.initSprite(sprite);
         enemy.moveTo(position3D);
@@ -29,30 +35,30 @@ public class Enemy extends Entity implements DrawUpdatable, Collidable {
 
     private void moveTo(Vector3D position3D) {
         this.position3D = position3D;
-        updatePosition();
-    }
-
-    private void updatePosition() {
-        position = DimTranslator.get().translate(sprite, position3D);
     }
 
     private Enemy() {
-        position = Vector2I.zero();
-        size = Vector2I.from(enemySize);
+        entity = new EntityImpl(Vector3D.zero(), enemySize);
     }
-    public void initSprite(ScalableSprite sprite) {
+
+    @Override
+    public Entity getEntity() {
+        return entity;
+    }
+
+    @Override
+    public Drawable getDrawable() {
+        return sprite;
+    }
+
+    public void initSprite(Sprite sprite) {
         this.sprite = sprite;
-        this.size = sprite.getCurrentSize();
     }
     public void update() {
-    }
-    public void draw(Graphics2D g2d) {
-        sprite.draw(g2d, position);
     }
     public Vector3D position3d() {
         return position3D;
     }
-
     @Override
     public Collision getCollision() {
         return collision;

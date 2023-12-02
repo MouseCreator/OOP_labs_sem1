@@ -4,29 +4,29 @@ import org.example.collision.Collidable;
 import org.example.collision.Collision;
 import org.example.collision.Sizes;
 import org.example.engine.ConstUtils;
-import org.example.sprite.ScalableSprite;
+import org.example.game.drawable.Drawable;
+import org.example.game.drawable.Sprite;
+import org.example.game.entity.Entity;
+import org.example.game.entity.MovingEntity;
+import org.example.game.entity.MovingEntityImpl;
+import org.example.game.model.GameModel;
+import org.example.game.movement.Movement;
+import org.example.game.movement.ParabolaMovement;
 import org.example.vector.Vector2I;
 import org.example.vector.Vector3D;
 
-import java.awt.*;
-
-public class Shuriken extends Entity implements DrawUpdatable, Collidable {
+public class Shuriken implements GameModel, Collidable {
     private static final Vector2I shurikenSize =Vector2I.get(320, 128);
-    private ScalableSprite sprite = null;
-    private Vector3D position3D;
-    private Vector3D speed3D;
+    private Sprite sprite = null;
     private boolean destroyed = false;
-    private Vector3D acceleration3d;
-    public static Shuriken withOrigin(Vector2I originPosition) {
-        Vector2I newPosition = originPosition.subtract(shurikenSize.multiply(0.5));
-        return new Shuriken(newPosition);
+    private final MovingEntity entity;
+    public static Shuriken withOrigin(Vector3D origin) {
+        return new Shuriken(origin);
     }
-
     public void initFromMovement(MovementParams movementParams) {
-        this.position3D = Vector3D.get(ConstUtils.worldWidth / 2.0, 120, -10);
+        entity.setPosition(Vector3D.get(ConstUtils.worldWidth / 2.0, 120, -10));
         initSpeed(movementParams);
-        this.acceleration3d = Vector3D.get(0,-0.4, 0);
-        collision = new Collision(position3D, Sizes.shurikenSize());
+        collision = new Collision(entity.getPosition(), Sizes.shurikenSize());
     }
 
     private void initSpeed(MovementParams movementParams) {
@@ -34,65 +34,32 @@ public class Shuriken extends Entity implements DrawUpdatable, Collidable {
         double x = -movementParams.getZAngle() * speed * ConstUtils.X_MULTIPLIER;
         double y = movementParams.getXAngle() * speed * ConstUtils.Y_MULTIPLIER;
         double z = speed * ConstUtils.Z_MULTIPLIER;
-        this.speed3D = Vector3D.get(x, y, z);
+        Vector3D speed3D = Vector3D.get(x, y, z);
+        Vector3D acceleration3d = Vector3D.get(0,-0.4, 0);
+        Movement movement = new ParabolaMovement(acceleration3d, speed3D);
+        entity.setMovement(movement);
     }
 
-    public Shuriken(Vector2I pos) {
-        super(pos, shurikenSize);
+    public Shuriken(Vector3D pos) {
+        entity = new MovingEntityImpl(pos, shurikenSize);
     }
-    public void initSprite(ScalableSprite sprite) {
+    public void initSprite(Sprite sprite) {
         this.sprite = sprite;
-        position = DimTranslator.get().translate(sprite, position3D);
     }
-
-    @Override
-    public void draw(Graphics2D g2d) {
-        sprite.draw(g2d, position);
-    }
-
     @Override
     public void update() {
-        speed3D = speed3D.add(acceleration3d);
-        position3D = position3D.add(speed3D);
-        collision.moveTo(position3D);
-        position = DimTranslator.get().translate(sprite, position3D);
+        entity.updatePosition();
+        collision.moveTo(entity.getPosition());
         if (isOutOfBounds()) {
             destroyed = true;
         }
     }
-
-    //OLD
-    private void oldUpdate() {
-        speed3D = speed3D.add(acceleration3d);
-        position3D = position3D.add(speed3D);
-        modifyScaleAndPosition();
-        System.out.println(position3D);
-        if (isOutOfBounds()) {
-            destroyed = true;
-        }
-    }
-
     public void markToDestroy() {
         destroyed = true;
     }
-
     private boolean isOutOfBounds() {
-        return position3D.z() > ConstUtils.depth || position3D.y() < -10;
+        return entity.getPosition().z() > ConstUtils.depth || entity.getPosition().y() < -10;
     }
-
-    private void modifyScaleAndPosition() {
-        double scale = 0.1 + 2 * Math.max(0, (ConstUtils.depth - position3D.z()) / ConstUtils.depth);
-        Vector2I beforeSize = Vector2I.from(sprite.getCurrentSize());
-        position = modify2DPosition();
-        sprite.setScale(scale);
-        Vector2I afterSize = Vector2I.from(sprite.getCurrentSize());
-        position = position.add(beforeSize.subtract(afterSize).multiply(0.5));
-    }
-
-    private Vector2I modify2DPosition() {
-        return position.add(Vector2I.get((int) speed3D.x(), (int) -(speed3D.z() + speed3D.y())));
-    }
-
     public boolean isDestroyed() {
         return destroyed;
     }
@@ -100,5 +67,15 @@ public class Shuriken extends Entity implements DrawUpdatable, Collidable {
     @Override
     public Collision getCollision() {
         return collision;
+    }
+
+    @Override
+    public Entity getEntity() {
+        return entity;
+    }
+
+    @Override
+    public Drawable getDrawable() {
+        return sprite;
     }
 }

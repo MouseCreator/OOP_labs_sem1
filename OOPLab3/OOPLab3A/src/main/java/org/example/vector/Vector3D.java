@@ -11,12 +11,22 @@ public class Vector3D {
         this.z = z;
     }
 
+    public Vector3D(Vector3D vector3D) {
+        this.x = vector3D.x;
+        this.y = vector3D.y;
+        this.z = vector3D.z;
+    }
+
     public static Vector3D get(double x, double y, double z) {
         return new Vector3D(x,y,z);
     }
 
     public static Vector3D zero() {
         return new Vector3D(0,0,0);
+    }
+
+    public static Vector3D from(Vector3D originalPosition) {
+        return new Vector3D(originalPosition.x, originalPosition.y, originalPosition.z);
     }
 
     public double x() {

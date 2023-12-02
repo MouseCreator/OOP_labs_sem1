@@ -1,7 +1,7 @@
 package org.example;
 
+import org.example.game.GameLoop;
 import org.example.game.GamePanel;
-import org.example.server.ServerHandler;
 
 import javax.swing.*;
 
@@ -11,16 +11,14 @@ public class Main {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(true);
         window.setTitle("Ninja game");
-
-        GamePanel gamePanel = new GamePanel();
-        gamePanel.init();
-        gamePanel.connectAndStart(new ServerHandler());
+        GameLoop gameLoop = new GameLoop();
+        GamePanel gamePanel =  gameLoop.getGamePanel();
         window.add(gamePanel);
 
         window.pack();
 
         window.setLocationRelativeTo(null);
         window.setVisible(true);
-        gamePanel.startGameThread();
+        gameLoop.startGameThread();
     }
 }

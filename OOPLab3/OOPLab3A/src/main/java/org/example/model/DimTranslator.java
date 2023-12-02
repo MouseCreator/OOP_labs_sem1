@@ -1,7 +1,7 @@
 package org.example.model;
 
 import org.example.engine.ConstUtils;
-import org.example.sprite.ScalableSprite;
+import org.example.game.helper.SizeComponent;
 import org.example.vector.Vector2I;
 import org.example.vector.Vector3D;
 
@@ -41,11 +41,11 @@ public class DimTranslator {
         minScale = 0.2;
         scaleM = (maxScale - minScale) / (double) ConstUtils.depth;
     }
-    public Vector2I translate(ScalableSprite sprite, Vector3D position3D) {
-        return translate2D(sprite, position3D);
+    public Vector2I translate(SizeComponent sizeComponent, Vector3D position3D) {
+        return translate2D(sizeComponent, position3D);
     }
 
-    private Vector2I translate2D(ScalableSprite sprite, Vector3D position3D) {
+    private Vector2I translate2D(SizeComponent sizeComponent, Vector3D position3D) {
         double extraLen = depthXCoefficient * (alphaSide + ConstUtils.depth - position3D.z()) / alphaSide;
         double x = middle + extraLen * (position3D.x() - middle);
         double y = skyline + zRatio * (position3D.z() - ConstUtils.depth);
@@ -53,13 +53,16 @@ public class DimTranslator {
         double height = depthYCoefficient * position3D.y() * (1 - zRatio);
 
         y -= height;
-        sprite.setScale(scale);
+        sizeComponent.setScale(scale);
         Vector2I position = Vector2I.get((int) x, (int) y);
-        return centralize(sprite, position);
+        return centralize(sizeComponent, position);
     }
 
-    private Vector2I centralize(ScalableSprite sprite, Vector2I position) {
-        return position.subtract(sprite.getCurrentSize().multiply(0.5));
+    private Vector2I centralize(SizeComponent sizeComponent, Vector2I position) {
+        return position.subtract(sizeComponent.getCurrentSize().multiply(0.5));
     }
 
+    public Vector2I fromCenter(Vector2I origin, Vector2I size) {
+        return origin.add(size.multiply(0.5));
+    }
 }

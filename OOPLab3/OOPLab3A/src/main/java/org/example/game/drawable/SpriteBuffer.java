@@ -1,4 +1,4 @@
-package org.example.sprite;
+package org.example.game.drawable;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

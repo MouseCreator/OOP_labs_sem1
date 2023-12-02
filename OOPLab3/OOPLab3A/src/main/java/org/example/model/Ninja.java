@@ -2,35 +2,40 @@ package org.example.model;
 
 
 import org.example.engine.ConstUtils;
-import org.example.sprite.Sprite;
+import org.example.game.drawable.Drawable;
+import org.example.game.drawable.Sprite;
+import org.example.game.drawable.SpriteImpl;
+import org.example.game.entity.Entity;
+import org.example.game.entity.MovingEntity;
+import org.example.game.entity.MovingEntityImpl;
+import org.example.game.model.GameModel;
+import org.example.game.movement.LinearMovement;
 import org.example.vector.Vector2I;
+import org.example.vector.Vector3D;
 
 import java.awt.*;
 
-public class Ninja extends Entity implements DrawUpdatable {
+public class Ninja implements GameModel, Updatable {
     private Sprite sprite;
     private static final Vector2I ninjaSize = Vector2I.get(256, 256);
-    private static final Vector2I originalPosition = Vector2I.get(1300, 500);
-    private final Vector2I speed = Vector2I.get(-5, 0);
-    public static Ninja create(Sprite sprite) {
+    private static final Vector3D originalPosition = Vector3D.get(1300, 500, 5);
+    private final MovingEntity entity;
+    public static Ninja create(SpriteImpl sprite) {
         Ninja ninja = new Ninja(ninjaSize);
         ninja.sprite = sprite;
         return ninja;
     }
 
     public Ninja(Vector2I size) {
-        super(Vector2I.from(originalPosition), size);
+        entity = new MovingEntityImpl(Vector3D.from(originalPosition), size);
+        entity.setMovement(new LinearMovement(Vector3D.get(-5, 0, 0)));
     }
 
-    @Override
-    public void draw(Graphics2D g2d) {
-        sprite.draw(g2d, position);
-    }
 
     @Override
     public void update() {
         if (!isCentralized()) {
-            position = position.add(speed);
+            entity.updatePosition();
         }
     }
 
@@ -42,10 +47,18 @@ public class Ninja extends Entity implements DrawUpdatable {
     }
 
     public boolean isCentralized() {
-        return Math.abs(DimTranslator.get().toCenter(position, size).x() - ConstUtils.worldWidth/2) < 5;
+        return Math.abs(entity.getPosition().x() - ConstUtils.worldWidth / 2.0) < 5;
     }
 
     public void resetPosition() {
-        position = Vector2I.from(originalPosition);
+        entity.setPosition(Vector3D.from(originalPosition));
+    }
+    @Override
+    public Entity getEntity() {
+        return entity;
+    }
+    @Override
+    public Drawable getDrawable() {
+        return sprite;
     }
 }

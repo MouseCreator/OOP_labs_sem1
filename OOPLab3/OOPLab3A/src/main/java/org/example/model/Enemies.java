@@ -1,7 +1,7 @@
 package org.example.model;
 
 
-import org.example.sprite.SpriteBuffer;
+import org.example.game.drawable.SpriteBuffer;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class Enemies implements DrawUpdatable {
+public class Enemies implements Updatable {
     private final List<Enemy> enemiesList = new ArrayList<>();
     private final EnemyFactory enemyFactory;
     private final int spawnFrequency = 2000;
@@ -30,9 +30,6 @@ public class Enemies implements DrawUpdatable {
 
     public void add(Enemy enemy) {
         enemiesList.add(enemy);
-    }
-    public void draw(Graphics2D g2d) {
-        enemiesList.stream().sorted(Comparator.comparingInt(e -> (int) -e.position3d().z())).forEach(b -> b.draw(g2d));
     }
     public void spawnNew() {
         enemiesList.add(enemyFactory.createEnemy());

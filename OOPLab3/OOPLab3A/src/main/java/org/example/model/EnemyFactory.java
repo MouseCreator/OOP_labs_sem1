@@ -1,7 +1,7 @@
 package org.example.model;
 
 import org.example.engine.ConstUtils;
-import org.example.sprite.ScalableSprite;
+import org.example.game.drawable.SpriteImpl;
 import org.example.vector.Vector2I;
 import org.example.vector.Vector3D;
 
@@ -33,6 +33,6 @@ public class EnemyFactory {
         double x = random.nextDouble(minX, maxX);
         double y = enemySize.y() / 2.0;
         double z = random.nextDouble(minZ, maxZ);
-        return Enemy.withOrigin(Vector3D.get(x,y,z), ScalableSprite.get(enemySprite));
+        return Enemy.withOrigin(Vector3D.get(x,y,z), SpriteImpl.get(enemySprite));
     }
 }
