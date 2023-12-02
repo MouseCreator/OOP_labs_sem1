@@ -43,6 +43,7 @@ public class Game {
         gameDraw.draw(g2d);
     }
     public void update() {
+        connectionManager.connectionEvents();
         handleEvents();
         gameUpdate.update();
         gameMode.update();

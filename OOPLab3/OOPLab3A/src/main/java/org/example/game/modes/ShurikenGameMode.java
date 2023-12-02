@@ -3,6 +3,7 @@ package org.example.game.modes;
 import org.example.collision.CollisionDetector;
 import org.example.dto.DesktopDTO;
 import org.example.dto.MobileDTO;
+import org.example.game.connection.DataTransformer;
 import org.example.game.event.*;
 import org.example.game.event.Event;
 import org.example.game.helper.GameUtils;
@@ -18,7 +19,6 @@ public class ShurikenGameMode implements GameMode {
     private ShurikenManager shurikenManager;
     private CollisionDetector collisionDetector;
     private SimpleMessageProcessor messageProcessor;
-    private GameUtils gameUtils;
 
     @Override
     public void draw(Graphics2D g2d) {
@@ -31,13 +31,13 @@ public class ShurikenGameMode implements GameMode {
         shurikenManager.update();
         enemies.update();
         if (enemies.destroyedAll()) {
-            gameUtils.getEventProducer().createEvent(new ModeSwitchEvent(GameState.FIGHTING));
+            GameUtils.get().getEventProducer().createEvent(new ModeSwitchEvent(GameState.FIGHTING));
         }
     }
 
     @Override
     public void onStart() {
-        gameUtils.getEventProducer().createEvent(new SendMessageEvent(new DesktopDTO(GameState.SHOOTING)));
+        GameUtils.get().getEventProducer().createEvent(new SendMessageEvent(new DesktopDTO(GameState.SHOOTING)));
         shurikenManager.reset();
         enemies.reset();
     }
@@ -59,7 +59,8 @@ public class ShurikenGameMode implements GameMode {
             ReceiveMessageEvent messageEvent = (ReceiveMessageEvent) event;
             MobileDTO mobileDTO = messageEvent.getMessage();
             if (mobileDTO.getMessageType() == 0) {
-                shurikenManager.spawn(gameUtils.getSpriteBuffer(), SimpleMessageProcessor.toMovement(mobileDTO.getVectorData()));
+                shurikenManager.spawn(GameUtils.get().getSpriteBuffer(),
+                        DataTransformer.toMovement(mobileDTO.getVectorData()));
                 event.handle();
             }
         });
