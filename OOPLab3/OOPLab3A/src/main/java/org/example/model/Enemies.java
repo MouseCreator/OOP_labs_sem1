@@ -27,7 +27,6 @@ public class Enemies implements Updatable {
     public void each(Consumer<Enemy> consumer) {
         enemiesList.forEach(consumer);
     }
-
     public void add(Enemy enemy) {
         enemiesList.add(enemy);
     }
