@@ -7,7 +7,6 @@ import org.example.vector.Vector2I;
 import org.example.vector.Vector3D;
 
 public class MovingEntityImpl implements MovingEntity {
-
     private final Entity entity;
     private Movement movement;
     public MovingEntityImpl(Vector3D position, Vector2I size) {
