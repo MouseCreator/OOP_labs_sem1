@@ -2,6 +2,7 @@ package org.example.game.modes;
 
 import org.example.collision.CollisionDetector;
 import org.example.dto.DesktopDTO;
+import org.example.dto.MessageType;
 import org.example.dto.MobileDTO;
 import org.example.game.connection.DataTransformer;
 import org.example.game.event.*;
@@ -18,7 +19,6 @@ public class ShurikenGameMode implements GameMode {
     private ShurikenManager shurikenManager;
     private CollisionDetector collisionDetector;
     private SimpleMessageProcessor messageProcessor;
-
     @Override
     public void update() {
         collisionDetector.processDummies(shurikenManager, enemies);
@@ -48,7 +48,7 @@ public class ShurikenGameMode implements GameMode {
         Handler.forType(EventType.MESSAGE_RECEIVED, event).run(()->{
             ReceiveMessageEvent messageEvent = (ReceiveMessageEvent) event;
             MobileDTO mobileDTO = messageEvent.getMessage();
-            if (mobileDTO.getMessageType() == 0) {
+            if (mobileDTO.getMessageType() == MessageType.SHURIKEN_DATA) {
                 shurikenManager.spawn(GameUtils.get().getSpriteBuffer(),
                         DataTransformer.toMovement(mobileDTO.getVectorData()));
                 event.handle();

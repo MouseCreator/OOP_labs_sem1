@@ -6,8 +6,13 @@ import org.example.game.helper.GameUtils;
 import org.example.server.SimpleMessageProcessor;
 
 public class ConnectionManager {
-    private SimpleMessageProcessor simpleMessageProcessor;
-    private boolean isConnected;
+    private final SimpleMessageProcessor simpleMessageProcessor;
+    private boolean isConnected = true;
+
+    public ConnectionManager(SimpleMessageProcessor simpleMessageProcessor) {
+        this.simpleMessageProcessor = simpleMessageProcessor;
+    }
+
     public void send(DesktopDTO message) {
         if (isConnected) {
             simpleMessageProcessor.send(message);

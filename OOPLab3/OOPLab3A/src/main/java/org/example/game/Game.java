@@ -9,6 +9,8 @@ import org.example.game.helper.GameUtils;
 import org.example.game.modes.CalibrationGameMode;
 import org.example.game.modes.GameMode;
 import org.example.game.update.GameUpdate;
+import org.example.server.ServerHandler;
+import org.example.server.SimpleMessageProcessor;
 
 import java.awt.*;
 
@@ -33,7 +35,9 @@ public class Game {
     }
 
     private void initConnection() {
-        connectionManager = new ConnectionManager();
+        ServerHandler server = new ServerHandler();
+        SimpleMessageProcessor processor = server.start();
+        connectionManager = new ConnectionManager(processor);
     }
 
     private void initGameMode() {
