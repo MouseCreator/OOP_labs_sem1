@@ -8,25 +8,13 @@ import org.example.ninja.NinjaManager;
 import org.example.ninja.SwordManager;
 import org.example.server.SimpleMessageProcessor;
 
-import java.awt.*;
-
 public class SwordGameMode implements GameMode{
-
     private Ninja ninja;
     private Symbol symbol;
     private NinjaManager ninjaManager;
     private SimpleMessageProcessor messageProcessor;
     private SwordManager swordManager;
-    @Override
-    public void onPause() {
-
-    }
-
     private boolean timedStarted = false;
-
-    @Override
-    public void draw(Graphics2D g2d) {
-    }
 
     @Override
     public void update() {

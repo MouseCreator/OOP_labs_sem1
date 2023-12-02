@@ -12,18 +12,12 @@ import org.example.model.Enemies;
 import org.example.model.ShurikenManager;
 import org.example.server.SimpleMessageProcessor;
 
-import java.awt.*;
 
 public class ShurikenGameMode implements GameMode {
     private Enemies enemies;
     private ShurikenManager shurikenManager;
     private CollisionDetector collisionDetector;
     private SimpleMessageProcessor messageProcessor;
-
-    @Override
-    public void draw(Graphics2D g2d) {
-
-    }
 
     @Override
     public void update() {
@@ -48,10 +42,6 @@ public class ShurikenGameMode implements GameMode {
         enemies.reset();
     }
 
-    @Override
-    public void onPause() {
-
-    }
 
     @Override
     public void handleEvent(Event event) {
