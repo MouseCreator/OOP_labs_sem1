@@ -1,16 +1,16 @@
 package org.example.game.handler;
 
+import org.example.game.connection.ConnectionManager;
 import org.example.game.event.SendMessageEvent;
-import org.example.server.SimpleMessageProcessor;
 
 public class SendMessageHandler implements EventHandler<SendMessageEvent> {
-    private final SimpleMessageProcessor messageProcessor;
-    public SendMessageHandler(SimpleMessageProcessor messageProcessor) {
-        this.messageProcessor = messageProcessor;
+    private final ConnectionManager connectionManager;
+    public SendMessageHandler(ConnectionManager connectionManager) {
+        this.connectionManager = connectionManager;
     }
-
     @Override
     public void handle(SendMessageEvent event) {
-        messageProcessor.send(event.getMessage());
+        connectionManager.send(event.getMessage());
+        event.handle();
     }
 }

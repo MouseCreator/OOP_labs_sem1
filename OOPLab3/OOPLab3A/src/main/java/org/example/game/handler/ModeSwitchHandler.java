@@ -24,5 +24,6 @@ public class ModeSwitchHandler implements EventHandler<ModeSwitchEvent> {
         };
         game.setGameMode(gameMode);
         gameMode.onStart();
+        event.handle();
     }
 }

@@ -13,5 +13,6 @@ public class DeletionHandler implements EventHandler<DeletionEvent> {
     @Override
     public void handle(DeletionEvent event) {
         publisher.removeModel(event.getModel());
+        event.handle();
     }
 }

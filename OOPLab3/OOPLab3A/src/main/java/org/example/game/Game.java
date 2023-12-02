@@ -1,48 +1,65 @@
 package org.example.game;
 
-import org.example.game.drawable.*;
+import org.example.game.connection.ConnectionManager;
+import org.example.game.draw.GameDraw;
+import org.example.game.event.Event;
+import org.example.game.factory.GameInitializer;
+import org.example.game.factory.HandlerPool;
+import org.example.game.helper.GameUtils;
 import org.example.game.modes.CalibrationGameMode;
 import org.example.game.modes.GameMode;
-import org.example.model.*;
+import org.example.game.update.GameUpdate;
+
 import java.awt.*;
 
 public class Game {
-    private Background background;
-    private SpriteBuffer spriteBuffer;
     private GameMode gameMode;
-
+    private GameUpdate gameUpdate;
+    private GameDraw gameDraw;
+    private HandlerPool handlerPool;
+    private ConnectionManager connectionManager;
     public void init() {
-        createSpriteBuffer();
-        background = Background.getBG();
-        initSprites();
+        GameUtils.create();
         initGameMode();
+        initConnection();
+        initGame();
     }
 
+    private void initGame() {
+        GameInitializer initializer = new GameInitializer();
+        gameUpdate = initializer.generateGameUpdate();
+        gameDraw = initializer.generateGameDraw();
+        handlerPool = initializer.generateHandlerPool(this, connectionManager);
+    }
+
+    private void initConnection() {
+        connectionManager = new ConnectionManager();
+    }
 
     private void initGameMode() {
         gameMode = new CalibrationGameMode();
     }
-    private void initSprites() {
-        background.initSprite(SpriteImpl.get(spriteBuffer.getBackground()));
-    }
-    private void createSpriteBuffer() {
-        spriteBuffer = new SpriteBuffer();
-        spriteBuffer.init();
-    }
-
-
     public void draw(Graphics2D g2d) {
-
+        gameDraw.draw(g2d);
+    }
+    public void update() {
+        handleEvents();
+        gameUpdate.update();
+        gameMode.update();
     }
 
-    public void update() {
+    private void handleEvents() {
+        GameUtils.get().getEventList().read(this::handleEvent);
+    }
 
+    private void handleEvent(Event event) {
+        handlerPool.handle(event);
+        gameMode.handleEvent(event);
     }
 
     public GameMode getGameMode() {
         return gameMode;
     }
-
     public void setGameMode(GameMode gameMode) {
         this.gameMode = gameMode;
     }

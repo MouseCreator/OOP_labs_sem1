@@ -8,9 +8,9 @@ public class CreationHandler implements EventHandler<CreationEvent> {
     public CreationHandler(GameModelPublisher publisher) {
         this.publisher = publisher;
     }
-
     @Override
     public void handle(CreationEvent event) {
         publisher.createModel(event.getModel());
+        event.handle();
     }
 }

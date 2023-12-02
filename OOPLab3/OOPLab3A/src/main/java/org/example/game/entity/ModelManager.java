@@ -6,19 +6,19 @@ import org.example.game.helper.ModelUpdate;
 public class ModelManager {
     private ModelDraw modelDraw;
     private ModelUpdate modelUpdate;
-    public ModelDraw getGameDraw() {
+    public ModelDraw getModelDraw() {
         return modelDraw;
     }
 
-    public void setGameDraw(ModelDraw modelDraw) {
+    public void setModelDraw(ModelDraw modelDraw) {
         this.modelDraw = modelDraw;
     }
 
-    public ModelUpdate getGameUpdate() {
+    public ModelUpdate getModelUpdate() {
         return modelUpdate;
     }
 
-    public void setGameUpdate(ModelUpdate modelUpdate) {
+    public void setModelUpdate(ModelUpdate modelUpdate) {
         this.modelUpdate = modelUpdate;
     }
 }
