@@ -2,6 +2,7 @@ package org.example.game.handler;
 
 import org.example.game.event.Event;
 
-public interface EventHandler<T extends Event> {
-    void handle(T event);
+public interface EventHandler {
+    void handle(Event event);
+    boolean canHandle(Event event);
 }

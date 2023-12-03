@@ -8,9 +8,5 @@ import org.example.game.handler.SendMessageHandler;
 
 
 public interface HandlerPool {
-    CreationHandler getCreationHandler();
-    DeletionHandler getDeletionHandler();
-    ModeSwitchHandler getModeSwitchHandler();
-    SendMessageHandler getSendMessageHandler();
     void handle(Event event);
 }

@@ -7,6 +7,7 @@ import org.example.game.draw.UIDraw;
 import org.example.game.drawable.SpriteImpl;
 import org.example.game.entity.ModelManager;
 import org.example.game.helper.*;
+import org.example.game.player.PlayerManager;
 import org.example.game.update.GameUpdate;
 import org.example.model.Background;
 
@@ -44,12 +45,13 @@ public class GameInitializer {
         return gameUpdate;
     }
 
-    public HandlerPool generateHandlerPool(Game game, ConnectionManager connectionManager) {
+    public HandlerPool generateHandlerPool(Game game, ConnectionManager connectionManager, PlayerManager playerManager) {
         HandlerPoolImpl handlerPool = new HandlerPoolImpl();
         handlerPool.initCreationHandler(modelPublisher);
         handlerPool.initDeletionHandler(modelPublisher);
         handlerPool.initModeSwitchHandler(game);
         handlerPool.initSendMessageHandler(connectionManager);
+        handlerPool.initPlayerEventHandler(playerManager);
         return handlerPool;
     }
 }

@@ -1,6 +1,8 @@
 package org.example.game.handler;
 
 import org.example.game.Game;
+import org.example.game.event.Event;
+import org.example.game.event.EventType;
 import org.example.game.event.ModeSwitchEvent;
 import org.example.game.modes.CalibrationGameMode;
 import org.example.game.modes.GameMode;
@@ -8,13 +10,15 @@ import org.example.game.modes.ShurikenGameMode;
 import org.example.game.modes.SwordGameMode;
 import org.example.gamestate.GameState;
 
-public class ModeSwitchHandler implements EventHandler<ModeSwitchEvent> {
+public class ModeSwitchHandler extends AbstractHandler<ModeSwitchEvent> {
     private final Game game;
     public ModeSwitchHandler(Game game) {
         this.game = game;
     }
+
+
     @Override
-    public void handle(ModeSwitchEvent event) {
+    protected void handleEvent(ModeSwitchEvent event) {
         if (game.getGameMode() != null) {
             game.getGameMode().onExit();
         }
@@ -26,6 +30,15 @@ public class ModeSwitchHandler implements EventHandler<ModeSwitchEvent> {
         };
         game.setGameMode(gameMode);
         gameMode.onStart();
-        event.handle();
+    }
+
+    @Override
+    protected ModeSwitchEvent cast(Event event) {
+        return (ModeSwitchEvent) event;
+    }
+
+    @Override
+    public boolean canHandle(Event event) {
+        return event.getType()== EventType.MODE_SWITCH;
     }
 }
