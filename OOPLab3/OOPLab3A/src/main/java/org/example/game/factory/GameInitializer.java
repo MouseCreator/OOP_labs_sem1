@@ -34,7 +34,7 @@ public class GameInitializer {
         background.initSprite(SpriteImpl.get(GameUtils.get().getSpriteBuffer().getBackground()));
         gameDraw.setBackground(background);
         gameDraw.setModelDraw(modelManager.getModelDraw());
-        gameDraw.setUiDraw(new UIDraw());
+        gameDraw.setUiDraw(new UIDraw(GameUtils.get().userInterface()));
         return gameDraw;
     }
 

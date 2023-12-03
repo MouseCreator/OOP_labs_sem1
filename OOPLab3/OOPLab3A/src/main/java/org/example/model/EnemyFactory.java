@@ -28,9 +28,8 @@ public class EnemyFactory {
     }
 
     public Enemy createEnemy() {
-        Vector2I enemySize = Enemy.enemySize;
         double x = random.nextDouble(minX, maxX);
-        double y = enemySize.y() / 2.0;
+        double y = 0;
         double z = ConstUtils.depth;
         Enemy enemy = Enemy.withOrigin(Vector3D.get(x,y,z), SpriteImpl.get(enemySprite));
         enemy.setMovement(createMovement(enemy.getEntity().getPosition()));
@@ -40,7 +39,7 @@ public class EnemyFactory {
     private Movement createMovement(Vector3D position) {
         double speed = 4;
         double destX = ConstUtils.worldWidth / 2.0 + random.nextDouble(-100, 100);
-        Vector3D destination = Vector3D.get(destX, Enemy.enemySize.y()/2.0,ConstUtils.PLAYER_Z);
+        Vector3D destination = Vector3D.get(destX, 0,ConstUtils.PLAYER_Z);
         Vector3D direction = destination.subtract(position);
         return new LinearMovement(direction.normalize().multiply(speed));
     }
