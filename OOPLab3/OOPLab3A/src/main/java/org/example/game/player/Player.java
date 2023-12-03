@@ -27,4 +27,8 @@ public class Player {
     public int getHealth() {
         return health;
     }
+
+    public boolean isDead() {
+        return health <= 0;
+    }
 }
