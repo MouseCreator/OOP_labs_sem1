@@ -8,7 +8,6 @@ import univ.lab.ninjagame1.dto.MobileDTO;
 import univ.lab.ninjagame1.filtered.Vector3;
 
 public class AdvancedCommunicator {
-
     private final Communicator communicator;
 
     public AdvancedCommunicator(Communicator communicator) {
@@ -51,5 +50,11 @@ public class AdvancedCommunicator {
         mobileDTO.setMessageType(MessageType.SHURIKEN_MESSAGE);
         mobileDTO.setVectorData(transformParams(movementParams));
         communicator.send(mobileDTO);
+    }
+    public void startConnection() {
+        communicator.start();
+    }
+    public void stopConnection() {
+        communicator.stopConnection();
     }
 }
