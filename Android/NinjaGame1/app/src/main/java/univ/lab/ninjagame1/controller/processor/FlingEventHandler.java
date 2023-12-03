@@ -1,7 +1,7 @@
 package univ.lab.ninjagame1.controller.processor;
 
-import univ.lab.ninjagame1.client.Communicator;
 import univ.lab.ninjagame1.client.MovementParams;
+import univ.lab.ninjagame1.client.mode.ModeManager;
 import univ.lab.ninjagame1.event.Event;
 import univ.lab.ninjagame1.event.EventType;
 import univ.lab.ninjagame1.event.FlingEvent;
@@ -9,11 +9,11 @@ import univ.lab.ninjagame1.filtered.Vector3;
 import univ.lab.ninjagame1.movement.MovementManager;
 
 public class FlingEventHandler extends AbstractEventHandler<FlingEvent> {
-    private final Communicator communicator;
+    private final ModeManager modeManager;
     private final MovementManager movementManager;
 
-    public FlingEventHandler(Communicator communicator, MovementManager movementManager) {
-        this.communicator = communicator;
+    public FlingEventHandler(ModeManager modeManager, MovementManager movementManager) {
+        this.modeManager = modeManager;
         this.movementManager = movementManager;
     }
 
@@ -22,7 +22,7 @@ public class FlingEventHandler extends AbstractEventHandler<FlingEvent> {
         int speed = calculateSpeed(event.getVelocityX(), event.getVelocityY());
         Vector3 orientation = movementManager.getCurrentOrientation();
         MovementParams movementParams = new MovementParams(speed, orientation);
-        communicator.send(movementParams);
+        modeManager.handleFling(movementParams);
     }
 
     private int calculateSpeed(double xv, double yv) {

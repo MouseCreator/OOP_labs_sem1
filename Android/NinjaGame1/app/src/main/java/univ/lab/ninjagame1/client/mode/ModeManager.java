@@ -6,6 +6,7 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import univ.lab.ninjagame1.client.Communicator;
+import univ.lab.ninjagame1.client.MovementParams;
 import univ.lab.ninjagame1.controller.GameState;
 import univ.lab.ninjagame1.filtered.OrientationManager;
 import univ.lab.ninjagame1.movement.MovementManager;
@@ -63,6 +64,10 @@ public class ModeManager {
     }
 
     public void onRecordEvent() {
+
+    }
+
+    public void handleFling(MovementParams movementParams) {
 
     }
 }
