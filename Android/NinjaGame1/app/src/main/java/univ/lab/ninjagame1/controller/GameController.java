@@ -3,23 +3,22 @@ package univ.lab.ninjagame1.controller;
 import android.content.Context;
 import android.hardware.SensorManager;
 
-import univ.lab.ninjagame1.client.Communicator;
-import univ.lab.ninjagame1.client.SocketCommunicator;
+import univ.lab.ninjagame1.client.AdvancedCommunicator;
 import univ.lab.ninjagame1.client.mode.ModeManager;
 import univ.lab.ninjagame1.controller.processor.EventProcessor;
+import univ.lab.ninjagame1.controller.processor.EventProcessorImpl;
 import univ.lab.ninjagame1.event.Event;
 import univ.lab.ninjagame1.movement.MovementManager;
 import univ.lab.ninjagame1.movement.MovementManagerImpl;
 
 public class GameController {
 
-    private Communicator communicator;
-
-    private ModeManager modeManager;
+    private AdvancedCommunicator advancedCommunicator;
     private MovementManager movementManager;
     private InputListener inputListener;
     private Context context;
     private UIManager uiManager;
+    private Thread inputThread;
     private GameController() {
 
     }
@@ -35,7 +34,11 @@ public class GameController {
         SensorManager sensorManager = (SensorManager)context.getSystemService(Context.SENSOR_SERVICE);
         movementManager = new MovementManagerImpl(sensorManager);
         inputListener = new InputListenerImpl();
-        communicator = new SocketCommunicator();
+        advancedCommunicator = new AdvancedCommunicator();
+        ModeManager modeManager = new ModeManager(movementManager, uiManager);
+        modeManager.bind(advancedCommunicator);
+        EventProcessor eventProcessor = new EventProcessorImpl(modeManager, movementManager);
+        inputThread = new Thread(new InputProcessor(inputListener, eventProcessor));
     }
 
     public InputListener getInputListener() {
@@ -44,7 +47,14 @@ public class GameController {
 
     public void run() {
         movementManager.begin();
-        communicator.start();
+        advancedCommunicator.startConnection();
+        inputThread.start();
+    }
+
+    public void terminate() {
+        advancedCommunicator.stopConnection();
+        movementManager.stop();
+        inputThread.interrupt();
     }
 
     public void onPause() {
@@ -56,8 +66,13 @@ public class GameController {
     }
 
     private static class InputProcessor implements Runnable {
-        private InputListener inputListener;
-        private EventProcessor eventProcessor;
+        private final InputListener inputListener;
+        private final EventProcessor eventProcessor;
+        public InputProcessor(InputListener inputListener, EventProcessor eventProcessor) {
+            this.inputListener = inputListener;
+            this.eventProcessor = eventProcessor;
+        }
+
         @Override
         public void run() {
             while (!Thread.interrupted()) {

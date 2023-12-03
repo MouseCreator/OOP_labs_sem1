@@ -12,8 +12,8 @@ import univ.lab.ninjagame1.filtered.Vector3;
 public class AdvancedCommunicator {
     private final Communicator communicator;
 
-    public AdvancedCommunicator(Communicator communicator) {
-        this.communicator = communicator;
+    public AdvancedCommunicator() {
+        this.communicator = new SocketCommunicator();
     }
 
     public void sendRecordedData(List<Vector3> vector) {

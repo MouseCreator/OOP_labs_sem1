@@ -9,6 +9,8 @@ import univ.lab.ninjagame1.client.AdvancedCommunicator;
 import univ.lab.ninjagame1.client.MovementParams;
 import univ.lab.ninjagame1.controller.GameState;
 import univ.lab.ninjagame1.controller.UIManager;
+import univ.lab.ninjagame1.controller.processor.EventProcessor;
+import univ.lab.ninjagame1.controller.processor.EventProcessorImpl;
 import univ.lab.ninjagame1.dto.DesktopDTO;
 import univ.lab.ninjagame1.filtered.Vector3;
 import univ.lab.ninjagame1.movement.MovementManager;
