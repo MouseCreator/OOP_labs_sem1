@@ -6,16 +6,16 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import univ.lab.ninjagame1.client.Communicator;
+import univ.lab.ninjagame1.controller.GameState;
 import univ.lab.ninjagame1.filtered.OrientationManager;
 import univ.lab.ninjagame1.movement.MovementManager;
 
 public class ModeManager {
-    private int currentMode = 3; //calibrating
+    private int currentMode = GameState.CALIBRATING; //calibrating
     private final ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
     private OrientationManager orientationManager;
     private MovementManager movementManager;
     private Communicator communicator;
-
     private SensorManager sensorManager;
     public int getCurrentMode() {
         try {
