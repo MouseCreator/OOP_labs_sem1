@@ -20,107 +20,64 @@ import univ.lab.ninjagame1.client.Communicator;
 import univ.lab.ninjagame1.client.MovementParams;
 import univ.lab.ninjagame1.client.mode.ModeManager;
 import univ.lab.ninjagame1.client.recording.RecordingManager;
+import univ.lab.ninjagame1.controller.GameController;
+import univ.lab.ninjagame1.controller.InputListener;
+import univ.lab.ninjagame1.controller.UIManager;
 import univ.lab.ninjagame1.dto.DesktopDTO;
+import univ.lab.ninjagame1.event.PauseEvent;
 import univ.lab.ninjagame1.filtered.OrientationManager;
 import univ.lab.ninjagame1.filtered.Vector3;
 
 
 public class MainActivity extends AppCompatActivity {
-    private GestureDetector gestureDetector;
-    private Communicator communicator;
-    private OrientationManager orientationManager;
-    private ModeManager modeManager;
-    private RecordingManager recordingManager;
-    private Button recordButton;
-    private Button pauseButton;
-    private SensorManager sensorManager;
+    private InputListener inputListener;
+
+    private GameController gameController;
+
+    private ImageView imageViewShuriken;
+    private UIManager uiManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        sensorManager = (SensorManager) getApplicationContext().getSystemService(Context.SENSOR_SERVICE);
         super.onCreate(savedInstanceState);
-        initModeManager();
-        switchRecordingActivity();
-        initRecordingManager();
-        initOrientationManager();
-        initCommunicator();
-        modeManager.postConstruct(sensorManager, communicator, recordingManager, orientationManager);
+        initUIManager();
+        switchRecordingActivity(false);
+        initGameController();
     }
 
-    private void initModeManager() {
-        modeManager = new ModeManager();
+    private void initUIManager() {
+        uiManager = new UIManager(this);
     }
 
-    private void initRecordingManager() {
-        recordingManager = new RecordingManager();
+    private void initGameController() {
+        GameController gameController = GameController.create(getApplicationContext(), uiManager);
+        gameController.run();
+        inputListener = gameController.getInputListener();
     }
 
     private void initImage() {
         ImageView imageViewShuriken = findViewById(R.id.shurikenIm);
-        RotateAnimation rotateAnimation = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        RotateAnimation rotateAnimation = new RotateAnimation(0, 360,
+                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         rotateAnimation.setInterpolator(new LinearInterpolator());
         rotateAnimation.setRepeatCount(Animation.INFINITE);
         rotateAnimation.setDuration(2000);
         imageViewShuriken.startAnimation(rotateAnimation);
-        gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
-            @Override
-            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-                if (modeManager.getCurrentMode()==0) {
-                    calculateAndDisplaySpeed(velocityY);
-                    return true;
-                }
-                return super.onFling(e1, e2, velocityX, velocityY);
-            }
-        });
-        imageViewShuriken.setOnTouchListener((v, event) -> {
-            gestureDetector.onTouchEvent(event);
-            return true;
-        });
     }
-
     private void initRecordButton() {
-        recordButton = findViewById(R.id.recordButton);
+        Button recordButton = findViewById(R.id.recordButton);
         recordButton.setOnClickListener(v -> toggleRecording());
+        uiManager.setRecordButton(recordButton);
     }
-
+    private void initPauseButton() {
+        Button pauseButton = findViewById(R.id.pauseButton);
+        pauseButton.setOnClickListener(v -> inputListener.putEvent(new PauseEvent()));
+        uiManager.setPauseButton(pauseButton);
+    }
     private void toggleRecording() {
-        if (recordingManager.isRecording()) {
-            List<Vector3> recordedVector = recordingManager.summarize(sensorManager);
-            communicator.sendMessageType(recordedVector);
-            recordButton.setText(R.string.button_record);
-        } else {
-            recordingManager.start(sensorManager);
-            recordButton.setText(R.string.button_stop);
-        }
+        inputListener.putEvent(new PauseEvent());
     }
-
-    private void initCommunicator() {
-        ClientManager clientManager = new ClientManager();
-        communicator = clientManager.start(this);
-        communicator.onReceive(this::onMessageReceive);
-    }
-
-    private void initOrientationManager() {
-        orientationManager = new OrientationManager(getApplicationContext());
-        orientationManager.start();
-    }
-
-    private void calculateAndDisplaySpeed(float velocityY) {
-        int speed = Math.abs((int) velocityY);
-        Vector3 vector = orientationManager.getCurrentVector();
-        Log.d("Main", "Speed: " + speed);
-        Log.d("Main", "V: " + vector);
-        communicator.send(new MovementParams(speed, vector));
-    }
-
-    private void onMessageReceive(DesktopDTO desktopDTO) {
-        if (desktopDTO.getGameState() == 4) {
-            runOnUiThread(this::switchRecordingActivity);
-        }
-        modeManager.switchToMode(desktopDTO.getGameState());
-    }
-
-    private void switchRecordingActivity() {
-        if (modeManager.isRecordMode()) {
+    public void switchRecordingActivity(boolean isRecording) {
+        if (isRecording) {
             setContentView(R.layout.activity_recorder);
             initRecordButton();
         } else {
@@ -130,18 +87,5 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void initPauseButton() {
-        pauseButton = findViewById(R.id.pauseButton);
-        pauseButton.setOnClickListener(v -> togglePause());
-    }
 
-    private void togglePause() {
-        if (modeManager.getCurrentMode()==3) {
-            communicator.sendMessageType(4);
-            pauseButton.setText(R.string.continueTxt);
-        } else {
-            communicator.sendMessageType(3);
-            pauseButton.setText(R.string.pauseTxt);
-        }
-    }
 }
