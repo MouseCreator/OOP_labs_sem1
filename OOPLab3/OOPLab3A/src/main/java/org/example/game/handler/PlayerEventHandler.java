@@ -26,6 +26,7 @@ public class PlayerEventHandler extends AbstractHandler<PlayerEvent> {
             case RESET -> playerManager.onReset();
             case SCORE -> playerManager.onScore(event.getAmount());
         }
+        event.handle();
     }
 
     @Override

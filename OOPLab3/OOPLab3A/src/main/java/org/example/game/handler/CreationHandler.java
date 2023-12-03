@@ -14,6 +14,7 @@ public class CreationHandler extends AbstractHandler<CreationEvent> {
     @Override
     protected void handleEvent(CreationEvent event) {
         publisher.createModel(event.getModel());
+        event.handle();
     }
 
     @Override

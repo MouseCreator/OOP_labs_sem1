@@ -52,6 +52,7 @@ public class GameInitializer {
         handlerPool.initModeSwitchHandler(game);
         handlerPool.initSendMessageHandler(connectionManager);
         handlerPool.initPlayerEventHandler(playerManager);
+        handlerPool.initReceiveMessageHandler();
         return handlerPool;
     }
 }

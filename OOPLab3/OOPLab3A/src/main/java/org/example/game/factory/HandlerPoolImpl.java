@@ -22,6 +22,10 @@ public class HandlerPoolImpl implements HandlerPool {
         EventHandler deletionHandler = new DeletionHandler(publisher);
         handlers.add(deletionHandler);
     }
+    public void initReceiveMessageHandler() {
+        EventHandler receiveMessageHandler = new ReceiveMessageHandler();
+        handlers.add(receiveMessageHandler);
+    }
     public void initModeSwitchHandler(Game game) {
         EventHandler modeSwitchHandler = new ModeSwitchHandler(game);
         handlers.add(modeSwitchHandler);

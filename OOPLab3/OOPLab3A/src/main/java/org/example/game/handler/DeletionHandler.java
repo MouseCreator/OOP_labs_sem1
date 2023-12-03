@@ -15,6 +15,7 @@ public class DeletionHandler extends AbstractHandler<DeletionEvent> {
     @Override
     protected void handleEvent(DeletionEvent event) {
         publisher.removeModel(event.getModel());
+        event.handle();
     }
 
     @Override

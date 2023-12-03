@@ -14,6 +14,7 @@ public class SendMessageHandler extends AbstractHandler<SendMessageEvent> {
     @Override
     protected void handleEvent(SendMessageEvent event) {
         connectionManager.send(event.getMessage());
+        event.handle();
     }
 
     @Override

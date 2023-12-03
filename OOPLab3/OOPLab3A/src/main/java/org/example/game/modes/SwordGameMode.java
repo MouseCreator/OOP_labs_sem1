@@ -19,6 +19,7 @@ public class SwordGameMode implements GameMode{
     private Symbol symbol;
     private SwordManager swordManager;
     private final Timer timer = new Timer();
+    private final Timer finalTimer = new Timer();
     @Override
     public void update() {
         if (ninja.isCentralized() && !timer.started()) {
@@ -28,7 +29,12 @@ public class SwordGameMode implements GameMode{
             timer.runFor(2000);
         }
         if (timer.finished()) {
-            GameUtils.newEvent(new SendMessageEvent(new DesktopDTO(GameState.START_RECORDING)));
+            GameUtils.newEvent(new SendMessageEvent(new DesktopDTO(GameState.STOP_RECORDING)));
+            finalTimer.runFor(2000);
+        }
+        if (finalTimer.finished()) {
+            GameUtils.newEvent(new SendMessageEvent(new DesktopDTO(GameState.CALIBRATING)));
+            GameUtils.newEvent(new ModeSwitchEvent(GameState.CALIBRATING));
         }
     }
 

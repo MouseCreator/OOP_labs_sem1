@@ -16,7 +16,6 @@ public class ModeSwitchHandler extends AbstractHandler<ModeSwitchEvent> {
         this.game = game;
     }
 
-
     @Override
     protected void handleEvent(ModeSwitchEvent event) {
         if (game.getGameMode() != null) {
