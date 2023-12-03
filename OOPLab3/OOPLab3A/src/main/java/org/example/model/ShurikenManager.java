@@ -4,6 +4,9 @@ import org.example.engine.ConstUtils;
 import org.example.game.drawable.Sprite;
 import org.example.game.drawable.SpriteBuffer;
 import org.example.game.drawable.SpriteImpl;
+import org.example.game.event.CreationEvent;
+import org.example.game.event.DeletionEvent;
+import org.example.game.helper.GameUtils;
 import org.example.vector.Vector3D;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -35,6 +38,7 @@ public class ShurikenManager implements Updatable, Iterable<Shuriken> {
         shuriken.initFromMovement(movementParams);
         shuriken.initSprite(sprite);
         shurikenList.add(shuriken);
+        GameUtils.newEvent(new CreationEvent(shuriken));
     }
 
     @Override
@@ -43,6 +47,9 @@ public class ShurikenManager implements Updatable, Iterable<Shuriken> {
     }
 
     public void reset() {
+        for (Shuriken shuriken : shurikenList) {
+            GameUtils.newEvent(new DeletionEvent(shuriken));
+        }
         shurikenList.clear();
     }
 }

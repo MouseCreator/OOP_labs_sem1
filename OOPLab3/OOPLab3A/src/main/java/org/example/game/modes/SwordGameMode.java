@@ -28,7 +28,7 @@ public class SwordGameMode implements GameMode{
             symbol.changeToRandom();
             timer.runFor(2000);
         }
-        if (timer.finished()) {
+        if (timer.finished() && !finalTimer.started()) {
             GameUtils.newEvent(new SendMessageEvent(new DesktopDTO(GameState.STOP_RECORDING)));
             finalTimer.runFor(2000);
         }

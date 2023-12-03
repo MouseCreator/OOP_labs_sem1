@@ -43,6 +43,12 @@ public class ModeManager {
                 List<Vector3> v3 = movementManager.stopAccelerometerRecording();
                 advancedCommunicator.sendRecordedData(v3);
                 break;
+            case GameState.SHOOTING:
+                currentMode = GameState.SHOOTING;
+                break;
+            case GameState.FIGHTING:
+                currentMode = GameState.FIGHTING;
+                break;
             default:
                 Log.d("MODE", "Unknown mode " + desktopDTO.getGameState());
         }

@@ -57,10 +57,10 @@ public class AdvancedDTW<T> implements DTW<T> {
     private void fillDTWMatrix(List<T> seq1,List<T>  seq2, double[][] matrix) {
         int m = seq1.size();
         int n = seq2.size();
-        for (int i = 1; i <= n; i++) {
+        for (int i = 1; i <= m; i++) {
             matrix[i][0] = Double.MAX_VALUE;
         }
-        for (int j = 1; j <= m; j++) {
+        for (int j = 1; j <= n; j++) {
             matrix[0][j] = Double.MAX_VALUE;
         }
 
