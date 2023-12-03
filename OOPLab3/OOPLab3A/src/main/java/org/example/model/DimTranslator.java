@@ -16,10 +16,8 @@ public class DimTranslator {
     private DimTranslator() {
         define();
     }
-    private double maxScale;
     private double minScale;
     private double scaleM;
-
     public Vector2I toCenter(Vector2I originPosition, Vector2I size) {
         return originPosition.add(size.multiply(0.5));
     }
@@ -29,7 +27,7 @@ public class DimTranslator {
         double middle = ConstUtils.worldWidth / 2.0;
         int midHeight = ConstUtils.worldHeight / 2;
         int skyline = 292;
-        maxScale = 2.0;
+        double maxScale = 2.0;
         minScale = 0.2;
         scaleM = (maxScale - minScale) / (double) ConstUtils.depth;
         cameraPos = Vector3D.get(middle, midHeight, -100);
