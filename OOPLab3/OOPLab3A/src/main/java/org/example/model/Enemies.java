@@ -2,10 +2,10 @@ package org.example.model;
 
 
 import org.example.game.drawable.SpriteBuffer;
-
-import java.awt.*;
+import org.example.game.event.CreationEvent;
+import org.example.game.event.DeletionEvent;
+import org.example.game.helper.GameUtils;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -31,16 +31,20 @@ public class Enemies implements Updatable {
         enemiesList.add(enemy);
     }
     public void spawnNew() {
-        enemiesList.add(enemyFactory.createEnemy());
+        Enemy enemy = enemyFactory.createEnemy();
+        GameUtils.newEvent(new CreationEvent(enemy));
+        enemiesList.add(enemy);
     }
     public void update() {
         trySpawn();
-        each(Enemy::update);
         removeDestroyed();
     }
 
     private void removeDestroyed() {
         int sizeBefore = enemiesList.size();
+         enemiesList.stream().filter(Enemy::isDestroyed).forEach(enemy -> {
+             GameUtils.newEvent(new DeletionEvent(enemy));
+         });
         enemiesList.removeIf(Enemy::isDestroyed);
         int sizeAfter = enemiesList.size();
         destroyed += (sizeBefore - sizeAfter);

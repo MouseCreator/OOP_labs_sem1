@@ -13,8 +13,7 @@ public class EnemyFactory {
     private final Random random;
     private double minX;
     private double maxX;
-    private double minZ;
-    private double maxZ;
+
     public EnemyFactory(BufferedImage enemySprite) {
         this.enemySprite = enemySprite;
         this.random = new Random();
@@ -24,15 +23,13 @@ public class EnemyFactory {
     private void init() {
         maxX = ConstUtils.worldWidth - 90;
         minX = 90;
-        minZ = 100;
-        maxZ = ConstUtils.depth - 30;
     }
 
     public Enemy createEnemy() {
         Vector2I enemySize = Enemy.enemySize;
         double x = random.nextDouble(minX, maxX);
         double y = enemySize.y() / 2.0;
-        double z = random.nextDouble(minZ, maxZ);
+        double z = ConstUtils.depth;
         return Enemy.withOrigin(Vector3D.get(x,y,z), SpriteImpl.get(enemySprite));
     }
 }

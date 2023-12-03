@@ -14,7 +14,7 @@ public class ModelDraw implements GameModelSubscriber, GameService<Void, Graphic
     private final Comparator<GameModel> zOrderComparator = (a, b) -> {
         double az = a.getEntity().getPosition().z();
         double bz = b.getEntity().getPosition().z();
-        return (int) Math.signum(az - bz);
+        return (int) Math.signum(bz - az);
     };
 
     @Override

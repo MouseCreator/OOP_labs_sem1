@@ -15,7 +15,9 @@ public class ModeSwitchHandler implements EventHandler<ModeSwitchEvent> {
     }
     @Override
     public void handle(ModeSwitchEvent event) {
-        game.getGameMode().onExit();
+        if (game.getGameMode() != null) {
+            game.getGameMode().onExit();
+        }
         GameMode gameMode = switch (event.getToMode()) {
             case GameState.SHOOTING -> new ShurikenGameMode();
             case GameState.FIGHTING -> new SwordGameMode();
