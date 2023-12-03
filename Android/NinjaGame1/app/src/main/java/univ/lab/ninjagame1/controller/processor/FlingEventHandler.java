@@ -11,7 +11,6 @@ import univ.lab.ninjagame1.movement.MovementManager;
 public class FlingEventHandler extends AbstractEventHandler<FlingEvent> {
     private final ModeManager modeManager;
     private final MovementManager movementManager;
-
     public FlingEventHandler(ModeManager modeManager, MovementManager movementManager) {
         this.modeManager = modeManager;
         this.movementManager = movementManager;

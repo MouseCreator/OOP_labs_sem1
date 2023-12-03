@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import univ.lab.ninjagame1.dto.DesktopDTO;
+import univ.lab.ninjagame1.dto.MobileDTO;
 import univ.lab.ninjagame1.filtered.Vector3;
 
 public class MockCommunicator implements Communicator {
@@ -14,8 +15,7 @@ public class MockCommunicator implements Communicator {
         Log.d("CMN", "Started!");
     }
 
-    @Override
-    public void send(MovementParams movementParams) {
+    public void send(MobileDTO mobileDTO) {
         Log.d("CMN", "Sent!");
     }
 
@@ -29,13 +29,4 @@ public class MockCommunicator implements Communicator {
         Log.d("CMN", "Received!");
     }
 
-    @Override
-    public void sendMessageType(List<Vector3> recordedVector) {
-        Log.d("CMN", "Sent!");
-    }
-
-    @Override
-    public void sendMessageType(int type) {
-        Log.d("CMN", "Sent!");
-    }
 }

@@ -2,72 +2,72 @@ package univ.lab.ninjagame1.client.mode;
 
 import android.hardware.SensorManager;
 
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+import java.util.List;
+
+import univ.lab.ninjagame1.client.AdvancedCommunicator;
 import univ.lab.ninjagame1.client.Communicator;
 import univ.lab.ninjagame1.client.MovementParams;
 import univ.lab.ninjagame1.controller.GameState;
+import univ.lab.ninjagame1.controller.UIManager;
+import univ.lab.ninjagame1.dto.DesktopDTO;
 import univ.lab.ninjagame1.filtered.OrientationManager;
+import univ.lab.ninjagame1.filtered.Vector3;
 import univ.lab.ninjagame1.movement.MovementManager;
 
 public class ModeManager {
     private int currentMode = GameState.CALIBRATING; //calibrating
-    private final ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
+
     private OrientationManager orientationManager;
     private MovementManager movementManager;
-    private Communicator communicator;
-    private SensorManager sensorManager;
+    private AdvancedCommunicator advancedCommunicator;
+    private UIManager uiManager;
     public int getCurrentMode() {
-        try {
-            readWriteLock.readLock().lock();
-            return currentMode;
-        } finally {
-            readWriteLock.readLock().unlock();
+        return currentMode;
+    }
+
+    public void setCurrentMode(int mode) {
+        this.currentMode = mode;
+    }
+    public void onReceiveMessage(DesktopDTO desktopDTO) {
+        if (desktopDTO.getGameState() == GameState.CALIBRATING) {
+            currentMode = GameState.CALIBRATING;
+        }
+        if (desktopDTO.getGameState() == GameState.RECORDING) {
+            currentMode = GameState.RECORDING;
         }
     }
-    public void postConstruct(SensorManager sensorManager, Communicator communicator, MovementManager movementManager, OrientationManager orientationManager) {
-        this.communicator = communicator;
-        this.sensorManager = sensorManager;
-        this.movementManager = movementManager;
-        this.orientationManager = orientationManager;
-    }
-    public boolean isRecordMode() {
-        try {
-            readWriteLock.readLock().lock();
-            return currentMode == 4;
-        } finally {
-            readWriteLock.readLock().unlock();
-        }
-    }
-
-    public void switchToMode(int mode) {
-        int prev = this.currentMode;
-        try {
-            readWriteLock.writeLock().lock();
-            this.currentMode = mode;
-            if (currentMode == prev) {
-                return;
-            }
-            updateMode();
-        } finally {
-            readWriteLock.writeLock().unlock();
-        }
-    }
-
-    private void updateMode() {
-
-    }
-
     public void onPauseEvent() {
-
+        if (currentMode != GameState.CALIBRATING) {
+            currentMode = GameState.CALIBRATING;
+        } else {
+            currentMode = GameState.SHOOTING;
+        }
+        advancedCommunicator.sendModeSwitch(currentMode);
+    }
+    private boolean recording = false;
+    public void onRecordEvent() {
+        if (!isRecordingMode())
+            return;
+        if (recording) {
+            uiManager.startRecording();
+            movementManager.startAccelerometerRecording();
+        } else {
+            uiManager.stopRecording();
+            List<Vector3> v3 = movementManager.stopAccelerometerRecording();
+            advancedCommunicator.sendRecordedData(v3);
+        }
+        recording = !recording;
     }
 
-    public void onRecordEvent() {
-
+    private boolean isRecordingMode() {
+        return currentMode == GameState.RECORDING;
     }
 
     public void handleFling(MovementParams movementParams) {
-
+        if (currentMode != GameState.SHOOTING) {
+            return;
+        }
+        advancedCommunicator.sendMovementParams(movementParams);
     }
 }
