@@ -22,13 +22,13 @@ public class SwordGameMode implements GameMode{
     @Override
     public void update() {
         if (ninja.isCentralized() && !timer.started()) {
-            GameUtils.newEvent(new SendMessageEvent(new DesktopDTO(GameState.WAITS_DATA)));
+            GameUtils.newEvent(new SendMessageEvent(new DesktopDTO(GameState.START_RECORDING)));
             symbol.show();
             symbol.changeToRandom();
             timer.runFor(2000);
         }
         if (timer.finished()) {
-            GameUtils.newEvent(new SendMessageEvent(new DesktopDTO(GameState.COLLECTS_SWORD_DATA)));
+            GameUtils.newEvent(new SendMessageEvent(new DesktopDTO(GameState.START_RECORDING)));
         }
     }
 
