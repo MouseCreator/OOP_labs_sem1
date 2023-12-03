@@ -21,8 +21,8 @@ public class EnemyFactory {
     }
 
     private void init() {
-        maxX = ConstUtils.worldWidth - 90;
-        minX = 90;
+        maxX = ConstUtils.worldWidth + 256;
+        minX = -256;
     }
 
     public Enemy createEnemy() {
