@@ -6,6 +6,7 @@ import org.example.game.event.Event;
 import org.example.game.factory.GameInitializer;
 import org.example.game.factory.HandlerPool;
 import org.example.game.helper.GameUtils;
+import org.example.game.modes.CalibrationGameMode;
 import org.example.game.modes.GameMode;
 import org.example.game.modes.ShurikenGameMode;
 import org.example.game.player.PlayerManager;
@@ -44,7 +45,7 @@ public class Game {
     }
 
     private void initGameMode() {
-        gameMode = new ShurikenGameMode();
+        gameMode = new CalibrationGameMode();
         gameMode.onStart();
     }
     public void draw(Graphics2D g2d) {

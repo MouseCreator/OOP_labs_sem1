@@ -4,6 +4,7 @@ public class MobileDTO {
     private int messageType;
     private String vectorData;
     private String details;
+    private int gameMode;
     public String getDetails() {
         return details;
     }
@@ -25,5 +26,13 @@ public class MobileDTO {
 
     public void setVectorData(String vectorData) {
         this.vectorData = vectorData;
+    }
+
+    public int getGameMode() {
+        return gameMode;
+    }
+
+    public void setGameMode(int gameMode) {
+        this.gameMode = gameMode;
     }
 }
