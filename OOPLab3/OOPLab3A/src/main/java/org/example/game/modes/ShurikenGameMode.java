@@ -11,14 +11,12 @@ import org.example.game.helper.GameUtils;
 import org.example.gamestate.GameState;
 import org.example.model.Enemies;
 import org.example.model.ShurikenManager;
-import org.example.server.SimpleMessageProcessor;
 
 
 public class ShurikenGameMode implements GameMode {
     private Enemies enemies;
     private ShurikenManager shurikenManager;
     private CollisionDetector collisionDetector;
-    private SimpleMessageProcessor messageProcessor;
     @Override
     public void update() {
         collisionDetector.processDummies(shurikenManager, enemies);
@@ -31,9 +29,14 @@ public class ShurikenGameMode implements GameMode {
 
     @Override
     public void onStart() {
-        GameUtils.get().getEventProducer().createEvent(new SendMessageEvent(new DesktopDTO(GameState.SHOOTING)));
-        shurikenManager.reset();
-        enemies.reset();
+        initSelf();
+        GameUtils.newEvent(new SendMessageEvent(new DesktopDTO(GameState.SHOOTING)));
+    }
+
+    private void initSelf() {
+        enemies = Enemies.create(GameUtils.get().getSpriteBuffer());
+        shurikenManager = ShurikenManager.create();
+        collisionDetector = new CollisionDetector();
     }
 
     @Override

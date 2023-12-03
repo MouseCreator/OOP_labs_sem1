@@ -1,39 +1,48 @@
 package org.example.game.modes;
 
-import org.example.game.event.Event;
+import org.example.dto.DesktopDTO;
+import org.example.dto.MessageType;
+import org.example.dto.MobileDTO;
+import org.example.game.drawable.SpriteImpl;
+import org.example.game.event.*;
+import org.example.game.helper.GameUtils;
+import org.example.game.timer.Timer;
 import org.example.gamestate.GameState;
 import org.example.model.Ninja;
 import org.example.model.Symbol;
-import org.example.ninja.NinjaManager;
 import org.example.ninja.SwordManager;
-import org.example.server.SimpleMessageProcessor;
 
 public class SwordGameMode implements GameMode{
     private Ninja ninja;
     private Symbol symbol;
-    private NinjaManager ninjaManager;
-    private SimpleMessageProcessor messageProcessor;
     private SwordManager swordManager;
-    private boolean timedStarted = false;
-
+    private final Timer timer = new Timer();
     @Override
     public void update() {
-        ninjaManager.update(ninja, symbol);
         ninja.update();
-        if (ninja.isCentralized() && !timedStarted) {
-            messageProcessor.send(7);
-            timedStarted = true;
+        if (ninja.isCentralized() && !timer.started()) {
+            GameUtils.newEvent(new SendMessageEvent(new DesktopDTO(GameState.WAITS_DATA)));
+            symbol.show();
+            symbol.changeToRandom();
+            timer.runFor(2000);
         }
-
-        symbol.update();
-
+        if (timer.finished()) {
+            GameUtils.newEvent(new SendMessageEvent(new DesktopDTO(GameState.COLLECTS_SWORD_DATA)));
+        }
     }
 
     @Override
     public void onStart() {
+        initSelf();
         ninja.show();
         ninja.resetPosition();
-        messageProcessor.send(GameState.FIGHTING);
+        GameUtils.newEvent(new SendMessageEvent(new DesktopDTO(GameState.FIGHTING)));
+    }
+
+    private void initSelf() {
+        ninja = Ninja.create(SpriteImpl.get(GameUtils.get().getSpriteBuffer().getNinja()));
+        symbol = null;
+        swordManager = new SwordManager();
     }
 
     @Override
@@ -44,6 +53,19 @@ public class SwordGameMode implements GameMode{
 
     @Override
     public void handleEvent(Event event) {
+        Handler.forType(EventType.MESSAGE_RECEIVED, event).run(()->{
+            ReceiveMessageEvent messageEvent = (ReceiveMessageEvent) event;
+            MobileDTO mobileDTO = messageEvent.getMessage();
+            if (mobileDTO.getMessageType() == MessageType.SWORD_DATA) {
+                boolean isRecognized = swordManager.process(symbol.getTag(), mobileDTO.getVectorData());
+                updateSymbol(isRecognized);
+                event.handle();
+            }
+        });
 
+    }
+
+    private void updateSymbol(boolean isRecognized) {
+        symbol.setStatus(isRecognized);
     }
 }

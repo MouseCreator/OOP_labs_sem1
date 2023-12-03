@@ -1,6 +1,7 @@
 package org.example.game.helper;
 
 import org.example.game.drawable.SpriteBuffer;
+import org.example.game.event.Event;
 import org.example.game.event.EventList;
 import org.example.game.event.EventProducer;
 
@@ -16,28 +17,21 @@ public class GameUtils {
         return gameUtils;
     }
 
+    public static void newEvent(Event event) {
+        gameUtils.eventList.add(event);
+    }
+    private GameUtils() {
+
+    }
     public SpriteBuffer getSpriteBuffer() {
         return spriteBuffer;
     }
-
-    public void setSpriteBuffer(SpriteBuffer buffer) {
-        this.spriteBuffer = buffer;
-    }
-
     public EventList getEventList() {
         return eventList;
     }
 
-    public void setEventList(EventList eventList) {
-        this.eventList = eventList;
-    }
-
     public EventProducer getEventProducer() {
         return eventProducer;
-    }
-
-    public void setEventProducer(EventProducer eventProducer) {
-        this.eventProducer = eventProducer;
     }
     public static void create() {
         gameUtils = new GameUtils();
