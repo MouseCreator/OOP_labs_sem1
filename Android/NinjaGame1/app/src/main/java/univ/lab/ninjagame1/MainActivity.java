@@ -1,11 +1,6 @@
 package univ.lab.ninjagame1;
 
-import android.content.Context;
-import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
@@ -13,20 +8,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.List;
-
-import univ.lab.ninjagame1.client.ClientManager;
-import univ.lab.ninjagame1.client.Communicator;
-import univ.lab.ninjagame1.client.MovementParams;
-import univ.lab.ninjagame1.client.mode.ModeManager;
-import univ.lab.ninjagame1.client.recording.RecordingManager;
 import univ.lab.ninjagame1.controller.GameController;
 import univ.lab.ninjagame1.controller.InputListener;
 import univ.lab.ninjagame1.controller.UIManager;
-import univ.lab.ninjagame1.dto.DesktopDTO;
 import univ.lab.ninjagame1.event.PauseEvent;
-import univ.lab.ninjagame1.filtered.OrientationManager;
-import univ.lab.ninjagame1.filtered.Vector3;
 
 
 public class MainActivity extends AppCompatActivity {

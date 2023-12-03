@@ -2,20 +2,18 @@ package univ.lab.ninjagame1.client.mode;
 
 import android.hardware.SensorManager;
 
-import java.util.List;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import univ.lab.ninjagame1.client.Communicator;
-import univ.lab.ninjagame1.client.recording.RecordingManager;
 import univ.lab.ninjagame1.filtered.OrientationManager;
-import univ.lab.ninjagame1.filtered.Vector3;
+import univ.lab.ninjagame1.movement.MovementManager;
 
 public class ModeManager {
     private int currentMode = 3; //calibrating
     private final ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
     private OrientationManager orientationManager;
-    private RecordingManager recordingManager;
+    private MovementManager movementManager;
     private Communicator communicator;
 
     private SensorManager sensorManager;
@@ -27,10 +25,10 @@ public class ModeManager {
             readWriteLock.readLock().unlock();
         }
     }
-    public void postConstruct(SensorManager sensorManager, Communicator communicator, RecordingManager recordingManager, OrientationManager orientationManager) {
+    public void postConstruct(SensorManager sensorManager, Communicator communicator, MovementManager movementManager, OrientationManager orientationManager) {
         this.communicator = communicator;
         this.sensorManager = sensorManager;
-        this.recordingManager = recordingManager;
+        this.movementManager = movementManager;
         this.orientationManager = orientationManager;
     }
     public boolean isRecordMode() {
@@ -50,30 +48,13 @@ public class ModeManager {
             if (currentMode == prev) {
                 return;
             }
-            exitMode(prev);
             updateMode();
         } finally {
             readWriteLock.writeLock().unlock();
         }
     }
 
-    private void exitMode(int prev) {
-        if (prev == 0) {
-            orientationManager.stop();
-        } else if (prev == 1) {
-            List<Vector3> values = recordingManager.summarize(sensorManager);
-            communicator.sendMessageType(values);
-        }
-    }
-
     private void updateMode() {
-        switch (currentMode) {
-            case 0:
-                orientationManager.start();
-                break;
-            case 7:
-                recordingManager.start(sensorManager);
-                break;
-        }
+
     }
 }

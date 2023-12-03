@@ -56,6 +56,8 @@ public class SensorCommunicator implements SensorPublisher {
     public void init() {
         createSensors();
         createListeners();
+    }
+    public void start() {
         register();
     }
     private void sendAll(Topic topic, SensorEvent sensorEvent) {

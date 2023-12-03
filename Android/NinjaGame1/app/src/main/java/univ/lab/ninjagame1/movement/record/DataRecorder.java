@@ -12,6 +12,8 @@ public class DataRecorder implements SensorSubscriber {
     private final SensorCommunicator sensorCommunicator;
     private final List<Vector3> currentRecording = new ArrayList<>();
 
+    private boolean isRecording = false;
+
     public DataRecorder(SensorCommunicator sensorCommunicator) {
         this.sensorCommunicator = sensorCommunicator;
     }
@@ -28,12 +30,18 @@ public class DataRecorder implements SensorSubscriber {
     }
 
     public void startRecording() {
+        if (isRecording)
+            return;
         sensorCommunicator.acceptSubscriber(this);
+        isRecording = true;
     }
     public List<Vector3> finishRecording() {
+        if (!isRecording)
+            return new ArrayList<>();
         sensorCommunicator.deleteSubscriber(this);
         List<Vector3> result = new ArrayList<>(currentRecording);
         currentRecording.clear();
+        isRecording = false;
         return result;
     }
 }

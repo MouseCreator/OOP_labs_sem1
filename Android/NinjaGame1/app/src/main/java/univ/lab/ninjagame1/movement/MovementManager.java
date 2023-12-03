@@ -8,5 +8,8 @@ public interface MovementManager {
     Vector3 getCurrentOrientation();
     void resetOrientation();
     void startAccelerometerRecording() ;
-    List<Vector3> stopAccelerometerRecording() ;
+    List<Vector3> stopAccelerometerRecording();
+    void begin();
+    void stop();
+
 }

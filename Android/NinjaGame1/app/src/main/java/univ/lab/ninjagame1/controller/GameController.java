@@ -6,15 +6,15 @@ import android.view.GestureDetector;
 
 import univ.lab.ninjagame1.client.Communicator;
 import univ.lab.ninjagame1.client.mode.ModeManager;
-import univ.lab.ninjagame1.client.recording.RecordingManager;
 import univ.lab.ninjagame1.filtered.OrientationManager;
+import univ.lab.ninjagame1.movement.MovementManager;
 
 public class GameController {
     private GestureDetector gestureDetector;
     private Communicator communicator;
     private OrientationManager orientationManager;
     private ModeManager modeManager;
-    private RecordingManager recordingManager;
+    private MovementManager movementManager;
     private SensorManager sensorManager;
     private InputListener inputListener;
     private Context context;

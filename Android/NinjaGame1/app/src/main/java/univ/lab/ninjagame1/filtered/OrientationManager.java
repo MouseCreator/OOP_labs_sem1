@@ -21,7 +21,7 @@ public class OrientationManager implements SensorSubscriber {
         currentVector.set(null);
         orientationCalculator.resetVectors();
     }
-    private void start(SensorCommunicator sensorCommunicator) {
+    public void start(SensorCommunicator sensorCommunicator) {
         this.sensorCommunicator = sensorCommunicator;
         if (sensorCommunicator.magneticAvailable()) {
             orientationCalculator = new MagneticOrientationCalculator();
