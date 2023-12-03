@@ -76,7 +76,12 @@ public class GameController {
         @Override
         public void run() {
             while (!Thread.interrupted()) {
-                Event event = inputListener.get();
+                Event event;
+                try {
+                    event = inputListener.get();
+                } catch (InterruptedException e) {
+                    return;
+                }
                 eventProcessor.process(event);
             }
         }

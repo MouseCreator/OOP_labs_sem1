@@ -35,6 +35,6 @@ public class FlingEventHandler extends AbstractEventHandler<FlingEvent> {
 
     @Override
     public boolean canHandle(Event event) {
-        return event.getType()== EventType.FLING;
+        return event.getType ()== EventType.FLING;
     }
 }

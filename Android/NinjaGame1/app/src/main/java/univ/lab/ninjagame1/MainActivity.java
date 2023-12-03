@@ -16,10 +16,7 @@ import univ.lab.ninjagame1.event.PauseEvent;
 
 public class MainActivity extends AppCompatActivity {
     private InputListener inputListener;
-
     private GameController gameController;
-
-    private ImageView imageViewShuriken;
     private UIManager uiManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
         initUIManager();
         switchRecordingActivity(false);
         initGameController();
+        initImage();
     }
 
     private void initUIManager() {
@@ -34,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initGameController() {
-        GameController gameController = GameController.create(getApplicationContext(), uiManager);
+        gameController = GameController.create(getApplicationContext(), uiManager);
         gameController.run();
         inputListener = gameController.getInputListener();
     }

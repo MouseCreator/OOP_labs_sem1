@@ -18,7 +18,7 @@ public class InputListenerImpl implements InputListener {
     }
 
     @Override
-    public Event get() {
-        return queue.poll();
+    public Event get() throws InterruptedException {
+        return queue.take();
     }
 }
