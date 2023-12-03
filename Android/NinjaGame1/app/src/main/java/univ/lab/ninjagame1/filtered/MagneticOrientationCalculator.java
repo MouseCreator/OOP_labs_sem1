@@ -1,7 +1,5 @@
 package univ.lab.ninjagame1.filtered;
 
-import android.hardware.SensorEvent;
-
 public class MagneticOrientationCalculator implements OrientationCalculator {
     private final double TRUST_CONST;
     public MagneticOrientationCalculator() {
@@ -15,14 +13,11 @@ public class MagneticOrientationCalculator implements OrientationCalculator {
         this.magWrapper = magWrapper;
         this.gyroWrapper = gyroWrapper;
     }
-    /*
+    private void processAccelerometerMagnetometer(Vector3 accValues, Vector3 magValues, double estimateYaw) {
+        double ax = accValues.x();
+        double ay = accValues.y();
+        double az = accValues.z();
 
-     */
-    private void processAccelerometerMagnetometer(SensorEvent accValues, SensorEvent magValues, double estimateYaw) {
-        float[] acc = accValues.values;
-        float ax = acc[0];
-        float ay = acc[1];
-        float az = acc[2];
         double pitch = Math.atan2(ay, Math.sqrt(ax*ax + az*az));
         double roll = Math.atan2(-ax, az);
 
@@ -32,10 +27,9 @@ public class MagneticOrientationCalculator implements OrientationCalculator {
         double cosPitch = Math.cos(pitch);
         double yaw;
         try {
-            float[] mag = magValues.values;
-            float mx = mag[0];
-            float my = mag[1];
-            float mz = mag[2];
+            double mx = magValues.x();
+            double my = magValues.y();
+            double mz = magValues.z();
 
             yaw = Math.atan2(sinRoll * mx - cosRoll * my,
                     cosPitch * mx + sinPitch * sinRoll * my + sinPitch * cosPitch + mz);
@@ -50,10 +44,10 @@ public class MagneticOrientationCalculator implements OrientationCalculator {
     private Vector3 currentMagnetic = Vector3.zero();
     private long lastGyroUpdate = 0;
 
-    private void processGyroscope(float[] gyroValues) {
-        float gx = gyroValues[0];
-        float gy = gyroValues[1];
-        float gz = gyroValues[2];
+    private void processGyroscope(Vector3 gyroValues) {
+        double gx = gyroValues.x();
+        double gy = gyroValues.y();
+        double gz = gyroValues.z();
         double gXNew, gYNew, gZNew;
         if (lastGyroUpdate == 0) {
             gXNew = currentGyro.x();
@@ -82,8 +76,8 @@ public class MagneticOrientationCalculator implements OrientationCalculator {
 
     public Vector3 updateAndGet() {
         try {
-            processAccelerometerMagnetometer(accWrapper.get(), magWrapper.get(), gyroWrapper.get().values[2]);
-            processGyroscope(gyroWrapper.get().values);
+            processAccelerometerMagnetometer(accWrapper.get(), magWrapper.get(), gyroWrapper.get().z());
+            processGyroscope(gyroWrapper.get());
             return getOrientation();
         } catch (NullPointerException e) {
             return new Vector3(-1, -2, -3);

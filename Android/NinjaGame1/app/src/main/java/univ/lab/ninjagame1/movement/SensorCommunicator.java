@@ -16,7 +16,6 @@ import univ.lab.ninjagame1.movement.subs.Topic;
 
 public class SensorCommunicator implements SensorPublisher {
     private final HashMap<Topic, List<SensorSubscriber>> topicSubsMap;
-
     private Sensor accelerometer;
     private Sensor gyroscope;
     private Sensor magneticField;
@@ -24,7 +23,6 @@ public class SensorCommunicator implements SensorPublisher {
     private SensorEventListener gyroscopeListener;
     private SensorEventListener magneticListener;
     private final SensorManager sensorManager;
-
     public SensorCommunicator(SensorManager sensorManager) {
         this.sensorManager = sensorManager;
         topicSubsMap = new HashMap<>();
@@ -35,12 +33,26 @@ public class SensorCommunicator implements SensorPublisher {
 
     @Override
     public void acceptSubscriber(SensorSubscriber sensorSubscriber) {
-        List<SensorSubscriber> sensorSubscribers = topicSubsMap.get(sensorSubscriber.getTopic());
-        if (sensorSubscribers == null) {
-            return;
+        for (Topic topic : sensorSubscriber.getTopics()) {
+            List<SensorSubscriber> sensorSubscribers = topicSubsMap.get(topic);
+            if (sensorSubscribers == null) {
+                return;
+            }
+            sensorSubscribers.add(sensorSubscriber);
         }
-        sensorSubscribers.add(sensorSubscriber);
     }
+
+    @Override
+    public void deleteSubscriber(SensorSubscriber sensorSubscriber) {
+        for (Topic topic : sensorSubscriber.getTopics()) {
+            List<SensorSubscriber> sensorSubscribers = topicSubsMap.get(topic);
+            if (sensorSubscribers == null) {
+                return;
+            }
+            sensorSubscribers.remove(sensorSubscriber);
+        }
+    }
+
     public void init() {
         createSensors();
         createListeners();
@@ -53,13 +65,15 @@ public class SensorCommunicator implements SensorPublisher {
             return;
         }
         for (SensorSubscriber sensorSubscriber : sensorSubscribers) {
-            sensorSubscriber.onUpdate(v);
+            sensorSubscriber.onUpdate(topic, v);
         }
     }
     private void createListeners() {
-        magneticListener = createListenerForTopic(Topic.MAGNETIC_FIELD);
         accelerometerListener = createListenerForTopic(Topic.ACCELEROMETER);
         gyroscopeListener = createListenerForTopic(Topic.GYROSCOPE);
+        if (magneticAvailable()) {
+            magneticListener = createListenerForTopic(Topic.MAGNETIC_FIELD);
+        }
     }
 
     private SensorEventListener createListenerForTopic(Topic topic) {
@@ -87,12 +101,20 @@ public class SensorCommunicator implements SensorPublisher {
     private void register() {
         sensorManager.registerListener(gyroscopeListener, gyroscope, SensorManager.SENSOR_DELAY_GAME);
         sensorManager.registerListener(accelerometerListener, accelerometer, SensorManager.SENSOR_DELAY_GAME);
-        sensorManager.registerListener(magneticListener, magneticField, SensorManager.SENSOR_DELAY_GAME);
+        if (magneticAvailable()) {
+            sensorManager.registerListener(magneticListener, magneticField, SensorManager.SENSOR_DELAY_GAME);
+        }
     }
 
     private void unregister() {
         sensorManager.unregisterListener(gyroscopeListener);
         sensorManager.unregisterListener(accelerometerListener);
-        sensorManager.unregisterListener(magneticListener);
+        if (magneticAvailable()) {
+            sensorManager.unregisterListener(magneticListener);
+        }
+    }
+
+    public boolean magneticAvailable() {
+        return magneticField != null;
     }
 }

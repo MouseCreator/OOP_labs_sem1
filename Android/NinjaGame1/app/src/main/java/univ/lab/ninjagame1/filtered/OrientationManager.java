@@ -1,139 +1,84 @@
 package univ.lab.ninjagame1.filtered;
 
-import android.content.Context;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
-public class OrientationManager {
-    private Vector3 currentVector = null;
+import univ.lab.ninjagame1.movement.SensorCommunicator;
+import univ.lab.ninjagame1.movement.subs.SensorSubscriber;
+import univ.lab.ninjagame1.movement.subs.Topic;
+
+public class OrientationManager implements SensorSubscriber {
+    private final AtomicReference<Vector3> currentVector = new AtomicReference<>(null);
+    private SensorCommunicator sensorCommunicator;
     public Vector3 getCurrentVector() {
-        return currentVector;
+        return currentVector.get();
     }
-    private final Context context;
+    public OrientationManager() {
 
-    public OrientationManager(Context context) {
-        this.context = context;
     }
-
-    private void recalibrate() {
-        currentVector = null;
+    public void recalibrate() {
+        currentVector.set(null);
         orientationCalculator.resetVectors();
     }
-
-    public void start() {
-        create();
-        resumeSensors();
+    private void start(SensorCommunicator sensorCommunicator) {
+        this.sensorCommunicator = sensorCommunicator;
+        if (sensorCommunicator.magneticAvailable()) {
+            orientationCalculator = new MagneticOrientationCalculator();
+        } else {
+            orientationCalculator = new RegularOrientationCalculator();
+        }
+        initWrappers();
+        sensorCommunicator.acceptSubscriber(this);
     }
+
+    private void initWrappers() {
+        magneticWrapper = new SensorWrapper();
+        accelerometerWrapper = new SensorWrapper();
+        gyroscopeWrapper = new SensorWrapper();
+    }
+
     public void stop() {
-        pauseSensors();
+        destroyAll();
+        sensorCommunicator.deleteSubscriber(this);
     }
     private void destroyAll() {
-        mGyroscope = null;
-        mAccelerometer = null;
-        mMagnetic = null;
         orientationCalculator = null;
-        mSensorManager = null;
-        magneticWrapper = null;
-        accelerometerWrapper = null;
-        gyroscopeWrapper = null;
-        magneticEventListener = null;
-        accelerometerEventListener = null;
-        gyroscopeEventListener = null;
-        currentVector = null;
+        magneticWrapper.reset();
+        accelerometerWrapper.reset();
+        gyroscopeWrapper.reset();
+        currentVector.set(null);
     }
-    private Sensor mGyroscope;
-    private Sensor mAccelerometer;
-    private Sensor mMagnetic;
+
     private OrientationCalculator orientationCalculator;
-    private SensorManager mSensorManager;
     private SensorWrapper magneticWrapper;
     private SensorWrapper accelerometerWrapper;
     private SensorWrapper gyroscopeWrapper;
-    private SensorEventListener magneticEventListener;
-    private SensorEventListener accelerometerEventListener;
-    private SensorEventListener gyroscopeEventListener;
 
-    private void create() {
-        mSensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
-        advancedGyroListener();
-    }
 
-    private void initAccelerometerEventListener() {
-        accelerometerEventListener = new SensorEventListener() {
-            @Override
-            public void onSensorChanged(SensorEvent sensorEvent) {
-                accelerometerWrapper.update(sensorEvent);
-            }
+    @Override
+    public void onUpdate(Topic topic, Vector3 newData) {
+        switch (topic) {
+            case GYROSCOPE:
+                gyroscopeWrapper.update(newData);
+                currentVector.set(orientationCalculator.updateAndGet());
+                break;
+            case ACCELEROMETER:
+                accelerometerWrapper.update(newData);
+                break;
+            case MAGNETIC_FIELD:
+                magneticWrapper.update(newData);
+                break;
 
-            @Override
-            public void onAccuracyChanged(Sensor sensor, int i) {
-
-            }
-        };
-    }
-
-    private void initGyroscopeEventListener() {
-        gyroscopeEventListener = new SensorEventListener() {
-            @Override
-            public void onSensorChanged(SensorEvent sensorEvent) {
-                gyroscopeWrapper.update(sensorEvent);
-                currentVector = orientationCalculator.updateAndGet();
-            }
-
-            @Override
-            public void onAccuracyChanged(Sensor sensor, int i) {
-
-            }
-        };
-    }
-
-    private void advancedGyroListener() {
-
-        mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        mMagnetic = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
-        mGyroscope = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
-        accelerometerWrapper = new SensorWrapper(null);
-        magneticWrapper = new SensorWrapper(null);
-        gyroscopeWrapper = new SensorWrapper(null);
-        initAccelerometerEventListener();
-        initGyroscopeEventListener();
-        if (mMagnetic == null) {
-            initMagneticEventListener();
-            orientationCalculator = new MagneticOrientationCalculator();
-            orientationCalculator.init(accelerometerWrapper, magneticWrapper, gyroscopeWrapper);
-        } else {
-            orientationCalculator = new RegularOrientationCalculator();
-            orientationCalculator.init(accelerometerWrapper, magneticWrapper, gyroscopeWrapper);
         }
-
-    }
-    private void initMagneticEventListener() {
-        magneticEventListener = new SensorEventListener() {
-            @Override
-            public void onSensorChanged(SensorEvent sensorEvent) {
-                magneticWrapper.update(sensorEvent);
-            }
-            @Override
-            public void onAccuracyChanged(Sensor sensor, int i) {
-
-            }
-        };
     }
 
-    public void resumeSensors() {
-        mSensorManager.registerListener(gyroscopeEventListener, mGyroscope, SensorManager.SENSOR_DELAY_GAME);
-        mSensorManager.registerListener(accelerometerEventListener, mAccelerometer, SensorManager.SENSOR_DELAY_GAME);
-        mSensorManager.registerListener(magneticEventListener, mMagnetic, SensorManager.SENSOR_DELAY_GAME);
-    }
-    private void pauseSensors() {
-        mSensorManager.unregisterListener(accelerometerEventListener);
-        mSensorManager.unregisterListener(gyroscopeEventListener);
-        mSensorManager.unregisterListener(magneticEventListener);
-    }
-
-    public SensorManager sensorManager() {
-        return mSensorManager;
+    @Override
+    public List<Topic> getTopics() {
+        List<Topic> topics = new ArrayList<>();
+        topics.add(Topic.GYROSCOPE);
+        topics.add(Topic.ACCELEROMETER);
+        topics.add(Topic.MAGNETIC_FIELD);
+        return topics;
     }
 }

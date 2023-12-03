@@ -1,16 +1,19 @@
 package univ.lab.ninjagame1.filtered;
 
-import android.hardware.SensorEvent;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class SensorWrapper {
-    private SensorEvent lastEvent;
-    public SensorWrapper(SensorEvent lastEvent) {
-        this.lastEvent = lastEvent;
+    private final AtomicReference<Vector3> lastEvent;
+    public SensorWrapper() {
+        lastEvent = new AtomicReference<>(null);
     }
-    public void update(SensorEvent event) {
-        this.lastEvent = event;
+    public void update(Vector3 event) {
+        this.lastEvent.set(event);
     }
-    public SensorEvent get() {
-        return lastEvent;
+    public Vector3 get() {
+        return lastEvent.get();
+    }
+    public void reset() {
+        lastEvent.set(null);
     }
 }

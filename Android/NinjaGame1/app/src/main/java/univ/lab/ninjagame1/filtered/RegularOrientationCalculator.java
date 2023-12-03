@@ -1,7 +1,5 @@
 package univ.lab.ninjagame1.filtered;
 
-import android.hardware.SensorEvent;
-
 public class RegularOrientationCalculator implements OrientationCalculator {
     private final double TRUST_CONST;
     public RegularOrientationCalculator() {
@@ -16,11 +14,10 @@ public class RegularOrientationCalculator implements OrientationCalculator {
     /*
     if vector is pointing (x,y), then angle theta = atan2(y,x)
      */
-    private void processAccelerometerMagnetometer(SensorEvent accValues, double estimateYaw) {
-        float[] acc = accValues.values;
-        float ax = acc[0];
-        float ay = acc[1];
-        float az = acc[2];
+    private void processAccelerometerMagnetometer(Vector3 vector3, double estimateYaw) {
+        double ax = vector3.x();
+        double ay = vector3.y();
+        double az = vector3.z();
         double pitch = Math.atan2(ay, Math.sqrt(ax*ax + az*az));
         double roll = Math.atan2(-ax, az);
         currentMagnetic = new Vector3(pitch, roll, estimateYaw);
@@ -29,10 +26,10 @@ public class RegularOrientationCalculator implements OrientationCalculator {
     private Vector3 currentGyro = Vector3.zero();
     private Vector3 currentMagnetic = Vector3.zero();
     private long lastGyroUpdate = 0;
-    private void processGyroscope(float[] gyroValues) {
-        float gx = gyroValues[0];
-        float gy = gyroValues[1];
-        float gz = gyroValues[2];
+    private void processGyroscope(Vector3 vector3) {
+        double gx = vector3.x();
+        double gy = vector3.y();
+        double gz = vector3.z();
         double gXNew, gYNew, gZNew;
         if (lastGyroUpdate == 0) {
             gXNew = currentGyro.x();
@@ -56,8 +53,8 @@ public class RegularOrientationCalculator implements OrientationCalculator {
     @Override
     public Vector3 updateAndGet() {
         try {
-            processAccelerometerMagnetometer(accWrapper.get(), gyroWrapper.get().values[2]);
-            processGyroscope(gyroWrapper.get().values);
+            processAccelerometerMagnetometer(accWrapper.get(), gyroWrapper.get().z());
+            processGyroscope(gyroWrapper.get());
             return getOrientation();
         } catch (NullPointerException e) {
             return new Vector3(-1, -2, -3);
