@@ -2,16 +2,16 @@ package univ.lab.ninjagame1.filtered;
 
 public class MagneticOrientationCalculator implements OrientationCalculator {
     private final double TRUST_CONST;
-    public MagneticOrientationCalculator() {
+
+    private final SensorWrapper accWrapper;
+    private final SensorWrapper magWrapper;
+    private final SensorWrapper gyroWrapper;
+
+    public MagneticOrientationCalculator(SensorWrapper accelerometerWrapper, SensorWrapper magneticWrapper, SensorWrapper gyroscopeWrapper) {
+        this.accWrapper = accelerometerWrapper;
+        this.magWrapper = magneticWrapper;
         TRUST_CONST = 0.8;
-    }
-    private SensorWrapper accWrapper;
-    private SensorWrapper magWrapper;
-    private SensorWrapper gyroWrapper;
-    public void init(SensorWrapper accWrapper, SensorWrapper magWrapper, SensorWrapper gyroWrapper) {
-        this.accWrapper = accWrapper;
-        this.magWrapper = magWrapper;
-        this.gyroWrapper = gyroWrapper;
+        this.gyroWrapper = gyroscopeWrapper;
     }
     private void processAccelerometerMagnetometer(Vector3 accValues, Vector3 magValues, double estimateYaw) {
         double ax = accValues.x();
@@ -65,13 +65,7 @@ public class MagneticOrientationCalculator implements OrientationCalculator {
         currentGyro = new Vector3(gXNew, gYNew, gZNew);
     }
     public Vector3 getOrientation() {
-        return currentGyro.multiply(TRUST_CONST).add(currentMagnetic.multiply(1-TRUST_CONST));
-    }
-    public Vector3 getMagnetic() {
-        return currentMagnetic;
-    }
-    public Vector3 getGyro() {
-        return currentGyro;
+        return currentGyro.multiply(TRUST_CONST).add(currentMagnetic.multiply(1 - TRUST_CONST));
     }
 
     public Vector3 updateAndGet() {

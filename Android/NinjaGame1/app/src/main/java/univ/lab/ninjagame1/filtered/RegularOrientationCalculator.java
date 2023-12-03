@@ -2,15 +2,15 @@ package univ.lab.ninjagame1.filtered;
 
 public class RegularOrientationCalculator implements OrientationCalculator {
     private final double TRUST_CONST;
-    public RegularOrientationCalculator() {
+    private final SensorWrapper accWrapper;
+    private final SensorWrapper gyroWrapper;
+
+    public RegularOrientationCalculator(SensorWrapper accelerometerWrapper, SensorWrapper gyroscopeWrapper) {
         TRUST_CONST = 0.8;
+        this.accWrapper = accelerometerWrapper;
+        this.gyroWrapper = gyroscopeWrapper;
     }
-    private SensorWrapper accWrapper;
-    private SensorWrapper gyroWrapper;
-    public void init(SensorWrapper accWrapper, SensorWrapper magWrapper, SensorWrapper gyroWrapper) {
-        this.accWrapper = accWrapper;
-        this.gyroWrapper = gyroWrapper;
-    }
+
     /*
     if vector is pointing (x,y), then angle theta = atan2(y,x)
      */

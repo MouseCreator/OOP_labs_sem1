@@ -24,9 +24,10 @@ public class OrientationManager implements SensorSubscriber {
     public void start(SensorCommunicator sensorCommunicator) {
         this.sensorCommunicator = sensorCommunicator;
         if (sensorCommunicator.magneticAvailable()) {
-            orientationCalculator = new MagneticOrientationCalculator();
+            orientationCalculator = new MagneticOrientationCalculator(accelerometerWrapper, magneticWrapper, gyroscopeWrapper);
         } else {
-            orientationCalculator = new RegularOrientationCalculator();
+            orientationCalculator = new RegularOrientationCalculator(accelerometerWrapper, gyroscopeWrapper);
+
         }
         initWrappers();
         sensorCommunicator.acceptSubscriber(this);

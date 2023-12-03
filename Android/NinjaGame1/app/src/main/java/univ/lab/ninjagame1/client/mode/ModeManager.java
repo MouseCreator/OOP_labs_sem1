@@ -2,15 +2,12 @@ package univ.lab.ninjagame1.client.mode;
 
 import android.util.Log;
 
-
 import java.util.List;
 
 import univ.lab.ninjagame1.client.AdvancedCommunicator;
 import univ.lab.ninjagame1.client.MovementParams;
 import univ.lab.ninjagame1.controller.GameState;
 import univ.lab.ninjagame1.controller.UIManager;
-import univ.lab.ninjagame1.controller.processor.EventProcessor;
-import univ.lab.ninjagame1.controller.processor.EventProcessorImpl;
 import univ.lab.ninjagame1.dto.DesktopDTO;
 import univ.lab.ninjagame1.filtered.Vector3;
 import univ.lab.ninjagame1.movement.MovementManager;
@@ -29,6 +26,7 @@ public class ModeManager {
         advancedCommunicator.setOnReceive(this::onReceiveMessage);
     }
     public void onReceiveMessage(DesktopDTO desktopDTO) {
+        onLeave();
         switch (desktopDTO.getGameState()) {
             case GameState.CALIBRATING:
                 currentMode = GameState.CALIBRATING;
@@ -53,6 +51,13 @@ public class ModeManager {
                 Log.d("MODE", "Unknown mode " + desktopDTO.getGameState());
         }
     }
+
+    private void onLeave() {
+        if (currentMode == GameState.CALIBRATING) {
+            movementManager.resetOrientation();
+        }
+    }
+
     public void onPauseEvent() {
         if (currentMode != GameState.CALIBRATING) {
             currentMode = GameState.CALIBRATING;
