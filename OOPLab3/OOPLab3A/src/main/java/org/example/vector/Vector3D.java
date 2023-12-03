@@ -55,4 +55,13 @@ public class Vector3D {
     public Vector3D subtract(Vector3D v2) {
         return new Vector3D(x - v2.x, y - v2.y, z - v2.z);
     }
+
+    public Vector3D normalize() {
+        double m = magnitude();
+        return get(x / m, y / m, z / m);
+    }
+
+    public Vector3D multiply(double scalar) {
+        return get(x * scalar, y * scalar, z * scalar);
+    }
 }

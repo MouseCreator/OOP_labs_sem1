@@ -37,7 +37,8 @@ public class DimTranslator {
         double cameraHeight = Math.abs(cameraPos.y());
         double cameraDepth = Math.abs(cameraPos.z());
         double yAdd = skyline - ConstUtils.worldWidth + (ConstUtils.depth * cameraHeight) / (cameraDepth + ConstUtils.depth);
-        windowOffset = Vector2I.get(0, - (int) yAdd - ConstUtils.worldHeight);
+        int ySubs = ConstUtils.worldWidth + (int) yAdd;
+        windowOffset = Vector2I.get(0, ySubs);
 
     }
     public Vector2I translate(SizeComponent sizeComponent, Vector3D position3D) {
@@ -50,14 +51,20 @@ public class DimTranslator {
         double scale = minScale + scaleM * (ConstUtils.depth - position3D.z());
         sizeComponent.setScale(scale);
         Vector2I position = Vector2I.get((int) x, (int) y);
-        return position.add(windowOffset);
+        return toCamera(position, sizeComponent);
     }
 
-    private double calculateX(Vector3D p, Vector3D c) {
-        return p.x() - (p.z() / (c.z() - p.z())) * (c.x() - p.x());
+    private Vector2I toCamera(Vector2I position, SizeComponent sizeComponent) {
+        Vector2I v = Vector2I.get(position.x(), -position.y());
+        Vector2I r = v.add(windowOffset);
+        return fromCenter(r, sizeComponent.getCurrentSize());
     }
-    private double calculateY(Vector3D p, Vector3D c) {
-        return p.y() - (p.z() / (c.z() - p.z())) * (c.y() - p.y());
+
+    private double calculateX(Vector3D a, Vector3D c) {
+        return a.x() - (a.z() / (c.z() - a.z())) * (c.x() - a.x());
+    }
+    private double calculateY(Vector3D a, Vector3D c) {
+        return a.y() - (a.z() / (c.z() - a.z())) * (c.y() - a.y());
     }
 
     public Vector2I fromCenter(Vector2I origin, Vector2I size) {

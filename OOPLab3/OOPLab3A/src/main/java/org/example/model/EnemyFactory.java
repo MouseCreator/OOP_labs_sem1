@@ -2,6 +2,8 @@ package org.example.model;
 
 import org.example.engine.ConstUtils;
 import org.example.game.drawable.SpriteImpl;
+import org.example.game.movement.LinearMovement;
+import org.example.game.movement.Movement;
 import org.example.vector.Vector2I;
 import org.example.vector.Vector3D;
 
@@ -30,6 +32,16 @@ public class EnemyFactory {
         double x = random.nextDouble(minX, maxX);
         double y = enemySize.y() / 2.0;
         double z = ConstUtils.depth;
-        return Enemy.withOrigin(Vector3D.get(x,y,z), SpriteImpl.get(enemySprite));
+        Enemy enemy = Enemy.withOrigin(Vector3D.get(x,y,z), SpriteImpl.get(enemySprite));
+        enemy.setMovement(createMovement(enemy.getEntity().getPosition()));
+        return enemy;
+    }
+
+    private Movement createMovement(Vector3D position) {
+        double speed = 4;
+        double destX = ConstUtils.worldWidth / 2.0 + random.nextDouble(-100, 100);
+        Vector3D destination = Vector3D.get(destX, Enemy.enemySize.y()/2.0,ConstUtils.PLAYER_Z);
+        Vector3D direction = destination.subtract(position);
+        return new LinearMovement(direction.normalize().multiply(speed));
     }
 }
