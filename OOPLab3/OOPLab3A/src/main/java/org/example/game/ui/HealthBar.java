@@ -31,6 +31,11 @@ public class HealthBar implements UIObject {
         return 0;
     }
 
+    @Override
+    public String tag() {
+        return "HEALTH";
+    }
+
     public void updateView(int healthPoints) {
         if (healthPoints < 1) {
             animatedSprite.getAnimation().setFrame(4);

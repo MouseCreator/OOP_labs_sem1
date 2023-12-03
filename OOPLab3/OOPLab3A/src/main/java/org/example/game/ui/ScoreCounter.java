@@ -34,4 +34,9 @@ public class ScoreCounter implements UIObject {
     public int zOrder() {
         return 1;
     }
+
+    @Override
+    public String tag() {
+        return "SCORE";
+    }
 }

@@ -7,4 +7,5 @@ public interface UIObject {
     StaticUIObject root();
     Drawable getGraphic();
     int zOrder();
+    String tag();
 }
