@@ -1,12 +1,11 @@
 package univ.lab.ninjagame1.client.mode;
 
-import android.hardware.SensorManager;
+import android.util.Log;
 
 
 import java.util.List;
 
 import univ.lab.ninjagame1.client.AdvancedCommunicator;
-import univ.lab.ninjagame1.client.Communicator;
 import univ.lab.ninjagame1.client.MovementParams;
 import univ.lab.ninjagame1.controller.GameState;
 import univ.lab.ninjagame1.controller.UIManager;
@@ -30,11 +29,22 @@ public class ModeManager {
         this.currentMode = mode;
     }
     public void onReceiveMessage(DesktopDTO desktopDTO) {
-        if (desktopDTO.getGameState() == GameState.CALIBRATING) {
-            currentMode = GameState.CALIBRATING;
-        }
-        if (desktopDTO.getGameState() == GameState.RECORDING) {
-            currentMode = GameState.RECORDING;
+        switch (desktopDTO.getGameState()) {
+            case GameState.CALIBRATING:
+                currentMode = GameState.CALIBRATING;
+                break;
+            case GameState.RECORDING:
+                currentMode = GameState.RECORDING;
+                break;
+            case GameState.START_RECORDING:
+                movementManager.startAccelerometerRecording();
+                break;
+            case GameState.STOP_RECORDING:
+                List<Vector3> v3 = movementManager.stopAccelerometerRecording();
+                advancedCommunicator.sendRecordedData(v3);
+                break;
+            default:
+                Log.d("MODE", "Unknown mode " + desktopDTO.getGameState());
         }
     }
     public void onPauseEvent() {
