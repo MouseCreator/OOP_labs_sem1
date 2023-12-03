@@ -4,7 +4,10 @@ import android.content.Context;
 import android.hardware.SensorManager;
 
 import univ.lab.ninjagame1.client.Communicator;
+import univ.lab.ninjagame1.client.SocketCommunicator;
 import univ.lab.ninjagame1.client.mode.ModeManager;
+import univ.lab.ninjagame1.controller.processor.EventProcessor;
+import univ.lab.ninjagame1.event.Event;
 import univ.lab.ninjagame1.movement.MovementManager;
 import univ.lab.ninjagame1.movement.MovementManagerImpl;
 
@@ -32,6 +35,7 @@ public class GameController {
         SensorManager sensorManager = (SensorManager)context.getSystemService(Context.SENSOR_SERVICE);
         movementManager = new MovementManagerImpl(sensorManager);
         inputListener = new InputListenerImpl();
+        communicator = new SocketCommunicator();
     }
 
     public InputListener getInputListener() {
@@ -40,6 +44,7 @@ public class GameController {
 
     public void run() {
         movementManager.begin();
+        communicator.start();
     }
 
     public void onPause() {
@@ -48,5 +53,17 @@ public class GameController {
 
     public void onResume() {
         movementManager.begin();
+    }
+
+    private static class InputProcessor implements Runnable {
+        private InputListener inputListener;
+        private EventProcessor eventProcessor;
+        @Override
+        public void run() {
+            while (!Thread.interrupted()) {
+                Event event = inputListener.get();
+                eventProcessor.process(event);
+            }
+        }
     }
 }

@@ -7,5 +7,5 @@ import univ.lab.ninjagame1.event.Event;
 
 public interface InputListener {
     void putEvent(Event event);
-    void ifAny(Consumer<Event> consumer);
+    Event get();
 }

@@ -17,10 +17,8 @@ public class InputListenerImpl implements InputListener {
         queue.add(event);
     }
 
-    public void ifAny(Consumer<Event> consumer) {
-        Event e;
-        while ((e = queue.poll()) != null) {
-            consumer.accept(e);
-        }
+    @Override
+    public Event get() {
+        return queue.poll();
     }
 }
