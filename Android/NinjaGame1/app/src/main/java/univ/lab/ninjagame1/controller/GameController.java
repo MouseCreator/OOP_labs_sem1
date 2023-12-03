@@ -2,20 +2,18 @@ package univ.lab.ninjagame1.controller;
 
 import android.content.Context;
 import android.hardware.SensorManager;
-import android.view.GestureDetector;
 
 import univ.lab.ninjagame1.client.Communicator;
 import univ.lab.ninjagame1.client.mode.ModeManager;
-import univ.lab.ninjagame1.filtered.OrientationManager;
 import univ.lab.ninjagame1.movement.MovementManager;
+import univ.lab.ninjagame1.movement.MovementManagerImpl;
 
 public class GameController {
-    private GestureDetector gestureDetector;
+
     private Communicator communicator;
-    private OrientationManager orientationManager;
+
     private ModeManager modeManager;
     private MovementManager movementManager;
-    private SensorManager sensorManager;
     private InputListener inputListener;
     private Context context;
     private UIManager uiManager;
@@ -31,6 +29,9 @@ public class GameController {
     }
 
     private void initialize() {
+        SensorManager sensorManager = (SensorManager)context.getSystemService(Context.SENSOR_SERVICE);
+        movementManager = new MovementManagerImpl(sensorManager);
+        inputListener = new InputListenerImpl();
     }
 
     public InputListener getInputListener() {
@@ -38,6 +39,14 @@ public class GameController {
     }
 
     public void run() {
+        movementManager.begin();
+    }
 
+    public void onPause() {
+        movementManager.stop();
+    }
+
+    public void onResume() {
+        movementManager.begin();
     }
 }
