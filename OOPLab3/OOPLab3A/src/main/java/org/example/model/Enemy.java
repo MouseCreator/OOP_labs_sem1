@@ -39,7 +39,6 @@ public class Enemy implements GameModel, Collidable {
     private Enemy() {
         entity = new MovingEntityImpl(Vector3D.zero(), enemySize);
     }
-
     @Override
     public Entity getEntity() {
         return entity;

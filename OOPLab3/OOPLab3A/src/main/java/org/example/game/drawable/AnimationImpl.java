@@ -72,7 +72,7 @@ public class AnimationImpl implements Animation {
 
     @Override
     public void draw(Graphics2D g2d, Vector2I position, Vector2I size) {
-        g2d.drawImage(image, position.x(), position.y(), position.x() + tileSize.x(), position.y() + tileSize.y(),
+        g2d.drawImage(image, position.x(), position.y(), position.x() + size.x(), position.y() + size.y(),
                 currentPosition.x(), currentPosition.y(), currentPosition.x() + tileSize.x(),
                 currentPosition.y() + tileSize.y(), null);
     }

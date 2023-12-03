@@ -10,11 +10,10 @@ import java.awt.image.BufferedImage;
 
 public class HealthBar implements UIObject {
     private final StaticUIObject root;
-    public static final Vector2I size = Vector2I.zero();
-
+    public static final Vector2I size = Vector2I.get(192, 64);
     private final AnimatedSprite animatedSprite;
     public HealthBar(BufferedImage hearts) {
-        root = new StaticUIObject(Vector2I.get(10, 10), size);
+        root = StaticUIObject.on(Vector2I.get(10, 10), size);
         animatedSprite = AnimatedSpriteImpl.get(hearts, 4);
     }
     @Override

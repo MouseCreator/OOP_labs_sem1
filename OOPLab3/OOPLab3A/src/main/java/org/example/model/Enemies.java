@@ -1,9 +1,11 @@
 package org.example.model;
 
 
+import org.example.engine.ConstUtils;
 import org.example.game.drawable.SpriteBuffer;
 import org.example.game.event.CreationEvent;
 import org.example.game.event.DeletionEvent;
+import org.example.game.event.PlayerEvent;
 import org.example.game.helper.GameUtils;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,14 +39,22 @@ public class Enemies implements Updatable {
     }
     public void update() {
         trySpawn();
+        handlePlayerCollision();
         removeDestroyed();
+    }
+
+    private void handlePlayerCollision() {
+        each(enemy->{
+            if (enemy.getEntity().getPosition().z() < ConstUtils.PLAYER_Z) {
+                enemy.toDestroy();
+                GameUtils.newEvent(new PlayerEvent(PlayerEvent.Type.DAMAGE));
+            }
+        });
     }
 
     private void removeDestroyed() {
         int sizeBefore = enemiesList.size();
-         enemiesList.stream().filter(Enemy::isDestroyed).forEach(enemy -> {
-             GameUtils.newEvent(new DeletionEvent(enemy));
-         });
+        enemiesList.stream().filter(Enemy::isDestroyed).forEach(enemy -> GameUtils.newEvent(new DeletionEvent(enemy)));
         enemiesList.removeIf(Enemy::isDestroyed);
         int sizeAfter = enemiesList.size();
         destroyed += (sizeBefore - sizeAfter);

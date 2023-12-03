@@ -6,10 +6,17 @@ import org.example.vector.Vector2I;
 public class StaticUIObject {
     protected Vector2I position;
     protected Vector2I size;
-    public StaticUIObject(Vector2I origin, Vector2I size) {
-        position = DimTranslator.get().fromCenter(origin, size);
-        this.size = size;
+    public StaticUIObject() {
+
     }
+
+    public static StaticUIObject on(Vector2I vector2I, Vector2I size) {
+        StaticUIObject staticUIObject = new StaticUIObject();
+        staticUIObject.position = vector2I;
+        staticUIObject.size = size;
+        return staticUIObject;
+    }
+
     public Vector2I getPosition() {
         return position;
     }
