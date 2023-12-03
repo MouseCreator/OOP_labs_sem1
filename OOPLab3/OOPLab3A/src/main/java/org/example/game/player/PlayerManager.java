@@ -13,6 +13,8 @@ public class PlayerManager {
         playerManager.player = new Player();
         playerManager.healthBar = new HealthBar(GameUtils.get().getSpriteBuffer().getHearts());
         GameUtils.get().userInterface().addElement(playerManager.healthBar);
+        playerManager.scoreCounter = new ScoreCounter();
+        GameUtils.get().userInterface().addElement(playerManager.scoreCounter);
         return playerManager;
     }
 
@@ -32,6 +34,7 @@ public class PlayerManager {
 
     public void onScore(int count) {
         player.addScore(count);
+        scoreCounter.update(player.getScore());
     }
 
     public boolean isPlayerDead() {
