@@ -3,6 +3,7 @@ package org.example.game.handler;
 import org.example.game.event.Event;
 import org.example.game.event.EventType;
 import org.example.game.event.PlayerEvent;
+import org.example.game.helper.GameUtils;
 import org.example.game.player.PlayerManager;
 
 public class PlayerEventHandler extends AbstractHandler<PlayerEvent> {
@@ -16,7 +17,12 @@ public class PlayerEventHandler extends AbstractHandler<PlayerEvent> {
     @Override
     protected void handleEvent(PlayerEvent event) {
         switch (event.getActionType()) {
-            case DAMAGE -> playerManager.onDamage();
+            case DAMAGE -> {
+                playerManager.onDamage();
+                if (playerManager.isPlayerDead()) {
+                    //handle death
+                }
+            }
             case RESET -> playerManager.onReset();
             case SCORE -> playerManager.onScore(event.getAmount());
         }

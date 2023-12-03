@@ -33,4 +33,8 @@ public class PlayerManager {
     public void onScore(int count) {
         player.addScore(count);
     }
+
+    public boolean isPlayerDead() {
+        return player.isDead();
+    }
 }
