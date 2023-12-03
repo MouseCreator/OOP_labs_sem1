@@ -57,4 +57,12 @@ public class ModeManager {
     private void updateMode() {
 
     }
+
+    public void onPauseEvent() {
+
+    }
+
+    public void onRecordEvent() {
+
+    }
 }
