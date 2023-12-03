@@ -14,6 +14,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.function.Consumer;
 
 import univ.lab.ninjagame1.dto.DesktopDTO;
+import univ.lab.ninjagame1.dto.MessageType;
 import univ.lab.ninjagame1.dto.MobileDTO;
 import univ.lab.ninjagame1.filtered.Vector3;
 import univ.lab.ninjagame1.util.JSONUtil;
@@ -87,11 +88,10 @@ public class SocketCommunicator implements Communicator {
             Thread.currentThread().interrupt();
         }
     }
-    public static final int SHURIKEN_MESSAGE = 0;
-    public static final int RECORD_MESSAGE = 1;
+
     public void send(MovementParams movementParams) {
         MobileDTO mobileDTO = new MobileDTO();
-        mobileDTO.setMessageType(SHURIKEN_MESSAGE);
+        mobileDTO.setMessageType(MessageType.SHURIKEN_MESSAGE);
         mobileDTO.setVectorData(transformParams(movementParams));
         toJson(mobileDTO);
     }
@@ -129,7 +129,7 @@ public class SocketCommunicator implements Communicator {
     @Override
     public void sendMessageType(List<Vector3> recordedVector) {
         MobileDTO mobileDTO = new MobileDTO();
-        mobileDTO.setMessageType(RECORD_MESSAGE);
+        mobileDTO.setMessageType(MessageType.RECORD_MESSAGE);
         mobileDTO.setVectorData(transformRecords(recordedVector));
         toJson(mobileDTO);
     }
