@@ -10,18 +10,14 @@ public class Background {
     private static final Vector2I bgSize = Vector2I.get(ConstUtils.worldWidth, ConstUtils.worldHeight);
     private SpriteImpl sprite = null;
     public static Background getBG() {
-        Vector2I newPosition = Vector2I.zero();
-        return new Background(newPosition);
+        return new Background();
     }
-    private Background(Vector2I pos) {
-
+    private Background() {
     }
     public void initSprite(SpriteImpl sprite) {
         this.sprite = sprite;
     }
-    public void update() {
-    }
     public void draw(Graphics2D g2d) {
-        //sprite.draw(g2d);
+        sprite.draw(g2d, Vector2I.zero(), bgSize);
     }
 }

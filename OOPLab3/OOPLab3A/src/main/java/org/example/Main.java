@@ -12,6 +12,7 @@ public class Main {
         window.setResizable(true);
         window.setTitle("Ninja game");
         GameLoop gameLoop = new GameLoop();
+        gameLoop.init();
         GamePanel gamePanel =  gameLoop.getGamePanel();
         window.add(gamePanel);
 

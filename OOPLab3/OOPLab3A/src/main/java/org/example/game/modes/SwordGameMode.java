@@ -3,6 +3,7 @@ package org.example.game.modes;
 import org.example.dto.DesktopDTO;
 import org.example.dto.MessageType;
 import org.example.dto.MobileDTO;
+import org.example.game.drawable.AnimatedSpriteImpl;
 import org.example.game.drawable.SpriteImpl;
 import org.example.game.event.*;
 import org.example.game.helper.GameUtils;
@@ -11,6 +12,7 @@ import org.example.gamestate.GameState;
 import org.example.model.Ninja;
 import org.example.model.Symbol;
 import org.example.ninja.SwordManager;
+import org.example.vector.Vector3D;
 
 public class SwordGameMode implements GameMode{
     private Ninja ninja;
@@ -19,7 +21,6 @@ public class SwordGameMode implements GameMode{
     private final Timer timer = new Timer();
     @Override
     public void update() {
-        ninja.update();
         if (ninja.isCentralized() && !timer.started()) {
             GameUtils.newEvent(new SendMessageEvent(new DesktopDTO(GameState.WAITS_DATA)));
             symbol.show();
@@ -41,8 +42,11 @@ public class SwordGameMode implements GameMode{
 
     private void initSelf() {
         ninja = Ninja.create(SpriteImpl.get(GameUtils.get().getSpriteBuffer().getNinja()));
-        symbol = null;
+        symbol = Symbol.createSymbol(Vector3D.get(400, 200, 0), AnimatedSpriteImpl.get(
+                GameUtils.get().getSpriteBuffer().getSymbols(), 5));
         swordManager = new SwordManager();
+        GameUtils.newEvent(new CreationEvent(ninja));
+        GameUtils.newEvent(new CreationEvent(symbol));
     }
 
     @Override

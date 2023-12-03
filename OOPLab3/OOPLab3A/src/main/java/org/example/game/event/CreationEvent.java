@@ -3,6 +3,11 @@ package org.example.game.event;
 import org.example.game.model.GameModel;
 
 public class CreationEvent implements Event{
+
+    public CreationEvent(GameModel model) {
+        this.model = model;
+    }
+
     @Override
     public EventType getType() {
         return EventType.MODEL_CREATION;
@@ -22,13 +27,9 @@ public class CreationEvent implements Event{
         handled = true;
     }
 
-    private GameModel model;
-
+    private final GameModel model;
     public GameModel getModel() {
         return model;
     }
 
-    public void setModel(GameModel model) {
-        this.model = model;
-    }
 }

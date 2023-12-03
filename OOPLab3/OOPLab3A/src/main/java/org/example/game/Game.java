@@ -8,6 +8,7 @@ import org.example.game.factory.HandlerPool;
 import org.example.game.helper.GameUtils;
 import org.example.game.modes.CalibrationGameMode;
 import org.example.game.modes.GameMode;
+import org.example.game.modes.SwordGameMode;
 import org.example.game.update.GameUpdate;
 import org.example.server.ServerHandler;
 import org.example.server.SimpleMessageProcessor;
@@ -41,7 +42,8 @@ public class Game {
     }
 
     private void initGameMode() {
-        gameMode = new CalibrationGameMode();
+        gameMode = new SwordGameMode();
+        gameMode.onStart();
     }
     public void draw(Graphics2D g2d) {
         gameDraw.draw(g2d);

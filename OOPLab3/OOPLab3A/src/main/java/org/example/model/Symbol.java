@@ -4,13 +4,14 @@ import org.example.game.drawable.AnimatedSprite;
 import org.example.game.drawable.Drawable;
 import org.example.game.entity.Entity;
 import org.example.game.entity.EntityImpl;
+import org.example.game.model.GameModel;
 import org.example.game.model.GameStaticObject;
 import org.example.vector.Vector2I;
 import org.example.vector.Vector3D;
 
 import java.util.Random;
 
-public class Symbol implements GameStaticObject, Updatable {
+public class Symbol implements GameModel, Updatable {
     private String tag;
     private final Random random = new Random();
     private static final Vector2I symbolSize = Vector2I.get(256, 256);
@@ -18,6 +19,11 @@ public class Symbol implements GameStaticObject, Updatable {
     private final Entity entity;
     public Symbol(Vector3D position, Vector2I symbolSize) {
         entity = new EntityImpl(position, symbolSize);
+    }
+
+    @Override
+    public Entity getEntity() {
+        return entity;
     }
 
     @Override

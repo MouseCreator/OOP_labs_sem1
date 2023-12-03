@@ -21,6 +21,7 @@ public class GameLoop implements Runnable {
 
     public void init() {
         initGamePanel();
+        game.init();
     }
 
     private void initGamePanel() {
