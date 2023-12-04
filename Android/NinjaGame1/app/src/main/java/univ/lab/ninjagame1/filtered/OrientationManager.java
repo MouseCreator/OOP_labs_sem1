@@ -15,7 +15,7 @@ public class OrientationManager implements SensorSubscriber {
         return currentVector.get();
     }
     public OrientationManager() {
-
+        initWrappers();
     }
     public void recalibrate() {
         currentVector.set(null);
@@ -29,7 +29,7 @@ public class OrientationManager implements SensorSubscriber {
             orientationCalculator = new RegularOrientationCalculator(accelerometerWrapper, gyroscopeWrapper);
 
         }
-        initWrappers();
+
         sensorCommunicator.acceptSubscriber(this);
     }
 
@@ -55,7 +55,6 @@ public class OrientationManager implements SensorSubscriber {
     private SensorWrapper magneticWrapper;
     private SensorWrapper accelerometerWrapper;
     private SensorWrapper gyroscopeWrapper;
-
 
     @Override
     public void onUpdate(Topic topic, Vector3 newData) {

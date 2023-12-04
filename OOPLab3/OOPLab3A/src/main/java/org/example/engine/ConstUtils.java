@@ -7,7 +7,7 @@ public class ConstUtils {
     public static final double X_MULTIPLIER = 3.7;
     public static final double Y_MULTIPLIER = 0.8;
     public static final double Z_MULTIPLIER = 0.8;
-    public static final double DISTANCE_BAND = 500;
+    public static final double DISTANCE_BAND = 1000;
     public static final int FPS = 60;
     public static double PLAYER_Z = -30;
 }

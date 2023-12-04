@@ -4,7 +4,8 @@ public class RegularOrientationCalculator implements OrientationCalculator {
     private final double TRUST_CONST;
     private final SensorWrapper accWrapper;
     private final SensorWrapper gyroWrapper;
-
+    private Vector3 currentGyro = Vector3.zero();
+    private Vector3 currentMagnetic = Vector3.zero();
     public RegularOrientationCalculator(SensorWrapper accelerometerWrapper, SensorWrapper gyroscopeWrapper) {
         TRUST_CONST = 0.8;
         this.accWrapper = accelerometerWrapper;
@@ -22,9 +23,6 @@ public class RegularOrientationCalculator implements OrientationCalculator {
         double roll = Math.atan2(-ax, az);
         currentMagnetic = new Vector3(pitch, roll, estimateYaw);
     }
-
-    private Vector3 currentGyro = Vector3.zero();
-    private Vector3 currentMagnetic = Vector3.zero();
     private long lastGyroUpdate = 0;
     private void processGyroscope(Vector3 vector3) {
         double gx = vector3.x();
@@ -63,7 +61,8 @@ public class RegularOrientationCalculator implements OrientationCalculator {
 
     @Override
     public void resetVectors() {
-        currentMagnetic = null;
-        currentGyro = null;
+        lastGyroUpdate = 0;
+        currentMagnetic = Vector3.zero();
+        currentGyro = Vector3.zero();
     }
 }
