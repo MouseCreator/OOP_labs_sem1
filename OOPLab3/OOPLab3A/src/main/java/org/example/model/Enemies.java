@@ -75,6 +75,7 @@ public class Enemies implements Updatable {
         lastSpawn = System.currentTimeMillis();
         spawned = 0;
         destroyed = 0;
+        enemiesList.forEach(enemy -> GameUtils.newEvent(new DeletionEvent(enemy)));
         enemiesList.clear();
     }
 }
