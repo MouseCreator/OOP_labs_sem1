@@ -3,11 +3,13 @@ package univ.lab.ninjagame1.client.mode;
 import android.util.Log;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import univ.lab.ninjagame1.client.AdvancedCommunicator;
 import univ.lab.ninjagame1.client.MovementParams;
 import univ.lab.ninjagame1.controller.GameState;
 import univ.lab.ninjagame1.controller.UIManager;
+import univ.lab.ninjagame1.controller.timer.TimedAction;
 import univ.lab.ninjagame1.dto.DesktopDTO;
 import univ.lab.ninjagame1.filtered.Vector3;
 import univ.lab.ninjagame1.movement.MovementManager;
@@ -33,6 +35,7 @@ public class ModeManager {
                 break;
             case GameState.RECORDING:
                 currentMode = GameState.RECORDING;
+                uiManager.changeActivity(true);
                 break;
             case GameState.START_RECORDING:
                 movementManager.startAccelerometerRecording();
@@ -61,24 +64,29 @@ public class ModeManager {
     public void onPauseEvent() {
         if (currentMode != GameState.CALIBRATING) {
             currentMode = GameState.CALIBRATING;
+            uiManager.onPause();
         } else {
             currentMode = GameState.SHOOTING;
+            uiManager.onContinue();
         }
         advancedCommunicator.sendModeSwitch(currentMode);
     }
-    private boolean recording = false;
+    private final AtomicBoolean recording = new AtomicBoolean(false);
     public void onRecordEvent() {
         if (!isRecordingMode())
             return;
-        if (recording) {
-            uiManager.startRecording();
-            movementManager.startAccelerometerRecording();
-        } else {
+        if (recording.get()) {
+            return;
+        }
+        uiManager.startRecording();
+        movementManager.startAccelerometerRecording();
+        recording.set(true);
+        TimedAction.executeAfter(2000, ()->{
             uiManager.stopRecording();
             List<Vector3> v3 = movementManager.stopAccelerometerRecording();
             advancedCommunicator.sendRecordedData(v3);
-        }
-        recording = !recording;
+            recording.set(false);
+        });
     }
 
     private boolean isRecordingMode() {

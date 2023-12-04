@@ -34,8 +34,7 @@ public class ShurikenManager implements Updatable, Iterable<Shuriken> {
 
     public void spawn(SpriteBuffer spriteBuffer, MovementParams movementParams) {
         Sprite sprite = SpriteImpl.get(spriteBuffer.getShuriken());
-        Vector3D origin = Vector3D.get(ConstUtils.worldWidth/2.0, ConstUtils.worldHeight, 0);
-        Shuriken shuriken = Shuriken.withOrigin(origin);
+        Shuriken shuriken = Shuriken.newInstance();
         shuriken.initFromMovement(movementParams);
         shuriken.initSprite(sprite);
         shurikenList.add(shuriken);

@@ -15,6 +15,7 @@ import univ.lab.ninjagame1.controller.InputListener;
 import univ.lab.ninjagame1.controller.UIManager;
 import univ.lab.ninjagame1.event.FlingEvent;
 import univ.lab.ninjagame1.event.PauseEvent;
+import univ.lab.ninjagame1.event.RecordingEvent;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -74,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         uiManager.setPauseButton(pauseButton);
     }
     private void toggleRecording() {
-        inputListener.putEvent(new PauseEvent());
+        inputListener.putEvent(new RecordingEvent());
     }
     public void switchRecordingActivity(boolean isRecording) {
         if (isRecording) {

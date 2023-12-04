@@ -18,7 +18,7 @@ import java.awt.*;
 public class Ninja implements GameModel, Updatable {
     private Sprite sprite;
     private static final Vector2I ninjaSize = Vector2I.get(256, 256);
-    private static final Vector3D originalPosition = Vector3D.get(1300, 500, 5);
+    private static final Vector3D originalPosition = Vector3D.get(1300, 0, 15);
     private final MovingEntity entity;
     public static Ninja create(SpriteImpl sprite) {
         Ninja ninja = new Ninja(ninjaSize);

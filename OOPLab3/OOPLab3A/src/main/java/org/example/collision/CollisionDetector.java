@@ -1,6 +1,7 @@
 package org.example.collision;
 
 import org.example.game.event.DeletionEvent;
+import org.example.game.event.PlayerEvent;
 import org.example.game.helper.GameUtils;
 import org.example.game.model.GameModel;
 import org.example.model.Enemies;
@@ -18,6 +19,7 @@ public class CollisionDetector {
                     destroyEntity(enemy);
                     destroyEntity(shuriken);
                     System.out.println("COLLIDE");
+                    GameUtils.newEvent(new PlayerEvent(PlayerEvent.Type.SCORE));
                     return;
                 }
             }

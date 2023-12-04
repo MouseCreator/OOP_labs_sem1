@@ -17,7 +17,7 @@ public class Enemies implements Updatable {
     private final int spawnFrequency = 2000;
     private int spawned = 0;
     private int destroyed = 0;
-    private final int limit = 3;
+    private final int limit = 5;
     private long lastSpawn;
     public Enemies(SpriteBuffer spriteBuffer) {
         this.enemyFactory = new EnemyFactory(spriteBuffer.getDummy());

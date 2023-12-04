@@ -42,7 +42,7 @@ public class UIManager {
     public void onPause() {
         onUI(() -> {
             if (pauseButton != null) {
-                recordButton.setText(R.string.continueTxt);
+                pauseButton.setText(R.string.continueTxt);
             }
         });
     }
