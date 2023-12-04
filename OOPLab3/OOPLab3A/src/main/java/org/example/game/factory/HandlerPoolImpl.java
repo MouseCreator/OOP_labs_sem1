@@ -26,8 +26,8 @@ public class HandlerPoolImpl implements HandlerPool {
         EventHandler receiveMessageHandler = new ReceiveMessageHandler();
         handlers.add(receiveMessageHandler);
     }
-    public void initModeSwitchHandler(Game game) {
-        EventHandler modeSwitchHandler = new ModeSwitchHandler(game);
+    public void initModeSwitchHandler(Game game, PlayerManager playerManager) {
+        EventHandler modeSwitchHandler = new ModeSwitchHandler(game, playerManager);
         handlers.add(modeSwitchHandler);
     }
     public void initSendMessageHandler(ConnectionManager connectionManager) {
@@ -39,6 +39,11 @@ public class HandlerPoolImpl implements HandlerPool {
         EventHandler playerEventHandler = new PlayerEventHandler(playerManager);
         handlers.add(playerEventHandler);
     }
+    public void initConnectionEventHandler() {
+        ConnectionEventHandler playerEventHandler = new ConnectionEventHandler();
+        handlers.add(playerEventHandler);
+    }
+
 
     @Override
     public void handle(Event event) {

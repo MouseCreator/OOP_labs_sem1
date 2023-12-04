@@ -22,4 +22,18 @@ public class UserInterface {
     public void removeElement(UIObject uiObject) {
         uiObjects.remove(uiObject);
     }
+
+    public void hide(String tag) {
+        List<UIObject> byTag = getByTag(tag);
+        for (UIObject object : byTag) {
+            object.hide();
+        }
+    }
+
+    public void show(String tag) {
+        List<UIObject> byTag = getByTag(tag);
+        for (UIObject object : byTag) {
+            object.show();
+        }
+    }
 }

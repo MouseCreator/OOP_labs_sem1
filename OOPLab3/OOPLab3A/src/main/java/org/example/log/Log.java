@@ -6,7 +6,11 @@ public class Log {
     static {
         uLogger.onStart();
     }
-    public static void write(Object message) {
-        uLogger.write(message);
+    public static void write(Object... messages) {
+        StringBuilder builder = new StringBuilder();
+        for (Object message : messages) {
+            builder.append(message);
+        }
+        uLogger.write(builder);
     }
 }

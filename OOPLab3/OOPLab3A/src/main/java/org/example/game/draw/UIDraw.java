@@ -21,7 +21,9 @@ public class UIDraw implements DrawManager {
     }
     private void draw(Graphics2D g2d, UIObject e) {
         Drawable graphic = e.getGraphic();
-        graphic.draw(g2d, e.root().getPosition(), e.root().getSize());
+        if (e.isVisible()) {
+            graphic.draw(g2d, e.root().getPosition(), e.root().getSize());
+        }
     }
 
 }

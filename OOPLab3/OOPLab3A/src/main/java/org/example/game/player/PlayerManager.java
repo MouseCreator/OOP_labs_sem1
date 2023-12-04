@@ -40,4 +40,8 @@ public class PlayerManager {
     public boolean isPlayerDead() {
         return player.isDead();
     }
+
+    public int getScore() {
+        return player.getScore();
+    }
 }

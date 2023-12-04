@@ -39,4 +39,19 @@ public class ScoreCounter implements UIObject {
     public String tag() {
         return "SCORE";
     }
+    public boolean visible = false;
+    @Override
+    public void hide() {
+        visible = false;
+    }
+
+    @Override
+    public void show() {
+        visible = true;
+    }
+
+    @Override
+    public boolean isVisible() {
+        return visible;
+    }
 }

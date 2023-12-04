@@ -2,6 +2,9 @@ package org.example.server;
 
 import org.example.dto.DesktopDTO;
 import org.example.dto.MobileDTO;
+import org.example.game.event.ConnectionEvent;
+import org.example.game.helper.GameUtils;
+import org.example.log.Log;
 import org.example.utils.JSONUtil;
 
 import java.io.BufferedReader;
@@ -25,15 +28,21 @@ public class GameServer {
             return;
         running = true;
         try (ServerSocket serverSocket = new ServerSocket(port)) {
-            client = serverSocket.accept();
-            synchronized (object) {
-                object.notifyAll();
+            while (!Thread.currentThread().isInterrupted()) {
+                connectAndPlay(serverSocket);
             }
-            ClientHandler clientHandler = new ClientHandler(client, messageQueue);
-            clientHandler.process();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void connectAndPlay(ServerSocket serverSocket) throws IOException {
+        client = serverSocket.accept();
+        synchronized (object) {
+            object.notifyAll();
+        }
+        ClientHandler clientHandler = new ClientHandler(client, messageQueue);
+        clientHandler.process();
     }
 
     public void stop() {
@@ -62,11 +71,16 @@ public class GameServer {
             try {
                 in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                 String inputLine;
+                GameUtils.newEvent(new ConnectionEvent(ConnectionEvent.CONNECTED));
                 while ((inputLine = in.readLine()) != null) {
                     messageQueue.offer(JSONUtil.fromJSON(inputLine));
-                    System.out.println(inputLine);
+                    Log.write(inputLine);
                 }
             } catch (IOException e) {
+                if (clientSocket.isClosed() || !clientSocket.isConnected()) {
+                    GameUtils.newEvent(new ConnectionEvent(ConnectionEvent.DISCONNECTED));
+                    return;
+                }
                 e.printStackTrace();
             } finally {
                 try {
@@ -76,7 +90,7 @@ public class GameServer {
                     e.printStackTrace();
                 }
             }
-            System.out.println("Exited receiver");
+            Log.write("Exited receiver");
         }
     }
 

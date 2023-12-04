@@ -69,6 +69,11 @@ public class SwordGameMode implements GameMode{
             if (mobileDTO.getMessageType() == MessageType.SWORD_DATA) {
                 boolean isRecognized = swordManager.process(symbol.getTag(), mobileDTO.getVectorData());
                 updateSymbol(isRecognized);
+                if (isRecognized) {
+                    GameUtils.newEvent(new PlayerEvent(PlayerEvent.Type.SCORE));
+                } else {
+                    GameUtils.newEvent(new PlayerEvent(PlayerEvent.Type.DAMAGE));
+                }
                 event.handle();
             }
         });

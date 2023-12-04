@@ -8,7 +8,6 @@ public class ReceiveMessageEvent implements Event {
     public ReceiveMessageEvent(MobileDTO dto) {
         this.message = dto;
     }
-
     @Override
     public EventType getType() {
         return type;

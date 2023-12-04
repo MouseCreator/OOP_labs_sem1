@@ -49,10 +49,11 @@ public class GameInitializer {
         HandlerPoolImpl handlerPool = new HandlerPoolImpl();
         handlerPool.initCreationHandler(modelPublisher);
         handlerPool.initDeletionHandler(modelPublisher);
-        handlerPool.initModeSwitchHandler(game);
+        handlerPool.initModeSwitchHandler(game, playerManager);
         handlerPool.initSendMessageHandler(connectionManager);
         handlerPool.initPlayerEventHandler(playerManager);
         handlerPool.initReceiveMessageHandler();
+        handlerPool.initConnectionEventHandler();
         return handlerPool;
     }
 }

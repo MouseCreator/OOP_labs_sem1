@@ -36,6 +36,21 @@ public class HealthBar implements UIObject {
         return "HEALTH";
     }
 
+    @Override
+    public void hide() {
+        animatedSprite.setVisible(false);
+    }
+
+    @Override
+    public void show() {
+        animatedSprite.setVisible(true);
+    }
+
+    @Override
+    public boolean isVisible() {
+        return animatedSprite.isVisible();
+    }
+
     public void updateView(int healthPoints) {
         if (healthPoints < 1) {
             animatedSprite.getAnimation().setFrame(4);

@@ -12,6 +12,7 @@ public class ReceiveMessageHandler extends AbstractHandler<ReceiveMessageEvent> 
     protected void handleEvent(ReceiveMessageEvent event) {
         if (event.getMessage().getMessageType() == MessageType.MODE_SWITCH) {
             GameUtils.newEvent(new ModeSwitchEvent(event.getMessage().getGameMode()));
+            event.handle();
         }
     }
 

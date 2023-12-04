@@ -18,7 +18,6 @@ public class CollisionDetector {
                     shuriken.markToDestroy();
                     destroyEntity(enemy);
                     destroyEntity(shuriken);
-                    System.out.println("COLLIDE");
                     GameUtils.newEvent(new PlayerEvent(PlayerEvent.Type.SCORE));
                     return;
                 }

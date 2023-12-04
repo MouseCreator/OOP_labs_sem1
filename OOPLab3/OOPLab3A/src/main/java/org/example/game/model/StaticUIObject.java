@@ -6,7 +6,7 @@ import org.example.vector.Vector2I;
 public class StaticUIObject {
     protected Vector2I position;
     protected Vector2I size;
-    public StaticUIObject() {
+    private StaticUIObject() {
 
     }
 
@@ -16,6 +16,7 @@ public class StaticUIObject {
         staticUIObject.size = size;
         return staticUIObject;
     }
+
 
     public Vector2I getPosition() {
         return position;

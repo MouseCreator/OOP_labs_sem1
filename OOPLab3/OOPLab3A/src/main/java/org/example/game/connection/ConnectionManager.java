@@ -8,7 +8,6 @@ import org.example.server.SimpleMessageProcessor;
 public class ConnectionManager {
     private final SimpleMessageProcessor simpleMessageProcessor;
     private boolean isConnected = true;
-
     public ConnectionManager(SimpleMessageProcessor simpleMessageProcessor) {
         this.simpleMessageProcessor = simpleMessageProcessor;
     }

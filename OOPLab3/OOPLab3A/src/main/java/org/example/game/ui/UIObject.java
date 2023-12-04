@@ -8,4 +8,7 @@ public interface UIObject {
     Drawable getGraphic();
     int zOrder();
     String tag();
+    void hide();
+    void show();
+    boolean isVisible();
 }
