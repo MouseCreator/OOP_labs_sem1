@@ -20,11 +20,14 @@ public class Shuriken implements GameModel, Collidable {
     private Sprite sprite = null;
     private boolean destroyed = false;
     private final MovingEntity entity;
-    public static Shuriken withOrigin(Vector3D origin) {
-        return new Shuriken(origin);
+
+    public static Shuriken newInstance() {
+        Vector3D spawnPos = Vector3D.get(ConstUtils.worldWidth / 2.0, 120, -10);
+        return new Shuriken(spawnPos);
     }
+
     public void initFromMovement(MovementParams movementParams) {
-        entity.setPosition(Vector3D.get(ConstUtils.worldWidth / 2.0, 120, -10));
+
         initSpeed(movementParams);
         collision = new Collision(entity.getPosition(), Sizes.shurikenSize());
     }
@@ -49,6 +52,7 @@ public class Shuriken implements GameModel, Collidable {
     @Override
     public void update() {
         entity.updatePosition();
+        System.out.println(entity.getPosition());
         collision.moveTo(entity.getPosition());
         if (isOutOfBounds()) {
             destroyed = true;
