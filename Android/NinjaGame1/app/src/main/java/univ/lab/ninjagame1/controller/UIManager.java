@@ -49,7 +49,7 @@ public class UIManager {
     public void onContinue() {
         onUI(() -> {
             if (pauseButton != null) {
-                recordButton.setText(R.string.pauseTxt);
+                pauseButton.setText(R.string.pauseTxt);
             }
         });
     }
