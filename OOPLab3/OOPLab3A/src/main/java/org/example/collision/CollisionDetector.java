@@ -17,6 +17,7 @@ public class CollisionDetector {
                     shuriken.markToDestroy();
                     destroyEntity(enemy);
                     destroyEntity(shuriken);
+                    System.out.println("COLLIDE");
                     return;
                 }
             }
@@ -25,6 +26,6 @@ public class CollisionDetector {
     }
 
     private void destroyEntity(GameModel gameModel) {
-        GameUtils.get().getEventList().add(new DeletionEvent(gameModel));
+        GameUtils.newEvent(new DeletionEvent(gameModel));
     }
 }

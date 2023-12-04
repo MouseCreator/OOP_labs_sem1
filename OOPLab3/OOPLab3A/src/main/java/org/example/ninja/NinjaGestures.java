@@ -24,12 +24,16 @@ public class NinjaGestures {
         String tag = "";
         double min = ConstUtils.DISTANCE_BAND;
         for (Recording r : recordings) {
+            System.out.println(r);
             double distance = dtw.dtwNormalizedDistance(recording.getValues(), r.getValues());
+            System.out.println(distance);
             if (distance < min) {
                 min = distance;
                 tag = r.getTag();
             }
         }
+        System.out.println(tag);
+        System.out.println(min);
         return tag;
     }
 }

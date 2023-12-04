@@ -12,7 +12,6 @@ public class Recording {
         return values;
     }
 
-
     public String getTag() {
         return tag;
     }
@@ -20,5 +19,13 @@ public class Recording {
     public Recording(String tag, List<Vector3D> vectors) {
         this.tag = tag;
         this.values = vectors;
+    }
+
+    @Override
+    public String toString() {
+        return "Recording{" +
+                "values=" + values + '\n' +
+                ", tag='" + tag + '\'' +
+                '}';
     }
 }

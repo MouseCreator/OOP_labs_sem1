@@ -28,6 +28,7 @@ public class ShurikenManager implements Updatable, Iterable<Shuriken> {
     }
 
     private void removeDestroyed() {
+        shurikenList.stream().filter(Shuriken::isDestroyed).forEach(shuriken -> GameUtils.newEvent(new DeletionEvent(shuriken)));
         shurikenList.removeIf(Shuriken::isDestroyed);
     }
 

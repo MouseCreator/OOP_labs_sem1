@@ -23,9 +23,9 @@ public class Collision {
 
     private void calculatePosition() {
         double xD = size.x() / 2;
-        double yD = size.y() / 2;
+        double yD = size.y();
         double zD = size.z() / 2;
-        collisionStart = Vector3D.get(position.x() - xD, position.y() - yD, position.z() - zD);
+        collisionStart = Vector3D.get(position.x() - xD, position.y(), position.z() - zD);
         collisionEnd = Vector3D.get(position.x() + xD, position.y() + yD, position.z() + zD);
     }
 

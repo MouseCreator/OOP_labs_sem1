@@ -17,6 +17,10 @@ public class SwordManager {
     public boolean process(String expected, String input) {
         Recorder recorder = new Recorder();
         Optional<Recording> record = recorder.record(input);
+        if (record.isEmpty()) {
+            return false;
+        }
+        System.out.println(record.get());
         return record.filter(recording -> gestures.isClosestTo(expected, recording)).isPresent();
     }
 }

@@ -15,7 +15,7 @@ import org.example.vector.Vector2I;
 import org.example.vector.Vector3D;
 
 public class Enemy implements GameModel, Collidable {
-    public static final Vector2I enemySize = Vector2I.get(128, 128);
+    public static final Vector2I enemySize = Vector2I.get(256, 256);
     private Sprite sprite = null;
     private Collision collision;
     private boolean destroyed = false;
@@ -55,6 +55,7 @@ public class Enemy implements GameModel, Collidable {
     public void update() {
         if (entity.getPosition().z() > ConstUtils.PLAYER_Z) {
             entity.updatePosition();
+            collision.moveTo(entity.getPosition());
         }
     }
     @Override
