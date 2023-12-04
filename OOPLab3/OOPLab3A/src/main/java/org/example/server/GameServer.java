@@ -77,10 +77,6 @@ public class GameServer {
                     Log.write(inputLine);
                 }
             } catch (IOException e) {
-                if (clientSocket.isClosed() || !clientSocket.isConnected()) {
-                    GameUtils.newEvent(new ConnectionEvent(ConnectionEvent.DISCONNECTED));
-                    return;
-                }
                 e.printStackTrace();
             } finally {
                 try {
@@ -89,6 +85,7 @@ public class GameServer {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                GameUtils.newEvent(new ConnectionEvent(ConnectionEvent.DISCONNECTED));
             }
             Log.write("Exited receiver");
         }

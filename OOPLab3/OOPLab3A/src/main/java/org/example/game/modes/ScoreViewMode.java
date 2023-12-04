@@ -10,7 +10,6 @@ public class ScoreViewMode implements GameMode{
 
     private UIText scoreText;
     private final PlayerManager playerManager;
-
     public ScoreViewMode(PlayerManager playerManager) {
         this.playerManager = playerManager;
     }
