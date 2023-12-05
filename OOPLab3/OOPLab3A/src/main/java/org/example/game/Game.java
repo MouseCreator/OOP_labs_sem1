@@ -6,8 +6,8 @@ import org.example.game.event.Event;
 import org.example.game.factory.GameInitializer;
 import org.example.game.factory.HandlerPool;
 import org.example.game.helper.GameUtils;
-import org.example.game.modes.ConnectingMode;
 import org.example.game.modes.GameMode;
+import org.example.game.modes.ShurikenGameMode;
 import org.example.game.player.PlayerManager;
 import org.example.game.update.GameUpdate;
 import org.example.server.ServerHandler;
@@ -21,7 +21,6 @@ public class Game {
     private GameDraw gameDraw;
     private HandlerPool handlerPool;
     private ConnectionManager connectionManager;
-    private PlayerManager playerManager;
     public void init() {
         GameUtils.create();
         initConnection();
@@ -33,7 +32,7 @@ public class Game {
         GameInitializer initializer = new GameInitializer();
         gameUpdate = initializer.generateGameUpdate();
         gameDraw = initializer.generateGameDraw();
-        playerManager = PlayerManager.create();
+        PlayerManager playerManager = PlayerManager.create();
         handlerPool = initializer.generateHandlerPool(this, connectionManager, playerManager);
     }
 
@@ -44,7 +43,7 @@ public class Game {
     }
 
     private void initGameMode() {
-        gameMode = new ConnectingMode();
+        gameMode = new ShurikenGameMode();
         gameMode.onStart();
     }
     public void draw(Graphics2D g2d) {

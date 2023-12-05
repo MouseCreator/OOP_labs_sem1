@@ -12,6 +12,7 @@ public class SpriteBuffer {
     private BufferedImage ninja = null;
     private BufferedImage symbols = null;
     private BufferedImage hearts = null;
+    private BufferedImage bat = null;
     public void init() {
         try {
             background = loadImage("gfx/GameBackground.png");
@@ -20,6 +21,7 @@ public class SpriteBuffer {
             ninja = loadImage("gfx/Ninja.png");
             symbols = loadImage("gfx/Symbols.png");
             hearts = loadImage("gfx/Hearts.png");
+            bat = loadImage("gfx/Bat.png");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -51,5 +53,9 @@ public class SpriteBuffer {
     }
     public BufferedImage getHearts() {
         return hearts;
+    }
+
+    public BufferedImage getBat() {
+        return bat;
     }
 }

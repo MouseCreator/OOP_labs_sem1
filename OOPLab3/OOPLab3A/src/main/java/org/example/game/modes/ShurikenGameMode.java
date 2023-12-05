@@ -34,7 +34,7 @@ public class ShurikenGameMode implements GameMode {
     }
 
     private void initSelf() {
-        enemies = Enemies.create(GameUtils.get().getSpriteBuffer());
+        enemies = Enemies.create();
         shurikenManager = ShurikenManager.create();
         collisionDetector = new CollisionDetector();
     }

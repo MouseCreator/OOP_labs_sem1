@@ -2,7 +2,6 @@ package org.example.model;
 
 
 import org.example.engine.ConstUtils;
-import org.example.game.drawable.SpriteBuffer;
 import org.example.game.event.CreationEvent;
 import org.example.game.event.DeletionEvent;
 import org.example.game.event.PlayerEvent;
@@ -19,21 +18,21 @@ public class Enemies implements Updatable {
     private int destroyed = 0;
     private final int limit = 5;
     private long lastSpawn;
-    public Enemies(SpriteBuffer spriteBuffer) {
-        this.enemyFactory = new EnemyFactory(spriteBuffer.getDummy());
+    public Enemies() {
+        this.enemyFactory = new EnemyFactory();
         lastSpawn = System.currentTimeMillis();
     }
-    public static Enemies create(SpriteBuffer spriteBuffer) {
-        return new Enemies(spriteBuffer);
+    public static Enemies create() {
+        return new Enemies();
     }
     public void each(Consumer<Enemy> consumer) {
         enemiesList.forEach(consumer);
     }
-    public void add(Enemy enemy) {
+    public void add(DummyEnemy enemy) {
         enemiesList.add(enemy);
     }
     public void spawnNew() {
-        Enemy enemy = enemyFactory.createEnemy();
+        Enemy enemy = enemyFactory.randomEnemy();
         GameUtils.newEvent(new CreationEvent(enemy));
         enemiesList.add(enemy);
     }
