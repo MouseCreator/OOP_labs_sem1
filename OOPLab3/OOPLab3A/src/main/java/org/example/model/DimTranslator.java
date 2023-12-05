@@ -29,7 +29,7 @@ public class DimTranslator {
 
         double cameraHeight = Math.abs(cameraPos.y());
         double cameraDepth = Math.abs(cameraPos.z());
-        double yAdd = skyline - ConstUtils.worldWidth + (ConstUtils.depth * cameraHeight) / (cameraDepth + ConstUtils.depth);
+        double yAdd = skyline - ConstUtils.worldWidth + (ConstUtils.worldDepth * cameraHeight) / (cameraDepth + ConstUtils.worldDepth);
         int ySubs = ConstUtils.worldWidth + (int) yAdd;
         windowOffset = Vector2I.get(0, ySubs);
 

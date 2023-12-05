@@ -39,7 +39,7 @@ public class EnemyFactory {
     public DummyEnemy createDummy() {
         double x = random.nextDouble(minX, maxX);
         double y = 0;
-        double z = ConstUtils.depth;
+        double z = ConstUtils.worldDepth;
         DummyEnemy enemy = DummyEnemy.withOrigin(Vector3D.get(x,y,z), SpriteImpl.get(dummySprite));
         enemy.setMovement(createDummyMovement(enemy.getEntity().getPosition()));
         return enemy;
@@ -48,7 +48,7 @@ public class EnemyFactory {
     public BatEnemy createBat() {
         double x = random.nextDouble(minX, maxX);
         double y = 300;
-        double z = ConstUtils.depth;
+        double z = ConstUtils.worldDepth;
         BatEnemy enemy = BatEnemy.withOrigin(Vector3D.get(x,y,z), SpriteImpl.get(batSprite));
         enemy.setMovement(createBatMovement(enemy.getEntity().getPosition()));
         return enemy;

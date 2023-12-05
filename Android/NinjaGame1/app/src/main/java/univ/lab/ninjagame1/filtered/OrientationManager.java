@@ -29,7 +29,6 @@ public class OrientationManager implements SensorSubscriber {
             orientationCalculator = new RegularOrientationCalculator(accelerometerWrapper, gyroscopeWrapper);
 
         }
-
         sensorCommunicator.acceptSubscriber(this);
     }
 

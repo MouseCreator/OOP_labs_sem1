@@ -32,6 +32,7 @@ public class ModeManager {
         switch (desktopDTO.getGameState()) {
             case GameState.CALIBRATING:
                 currentMode = GameState.CALIBRATING;
+                uiManager.onPause();
                 break;
             case GameState.RECORDING:
                 currentMode = GameState.RECORDING;
@@ -46,6 +47,7 @@ public class ModeManager {
                 break;
             case GameState.SHOOTING:
                 currentMode = GameState.SHOOTING;
+                uiManager.onContinue();
                 break;
             case GameState.FIGHTING:
                 currentMode = GameState.FIGHTING;

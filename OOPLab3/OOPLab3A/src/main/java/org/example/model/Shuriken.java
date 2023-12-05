@@ -61,7 +61,7 @@ public class Shuriken implements GameModel, Collidable {
         destroyed = true;
     }
     private boolean isOutOfBounds() {
-        return entity.getPosition().z() > ConstUtils.depth || entity.getPosition().y() < 0
+        return entity.getPosition().z() > ConstUtils.worldDepth || entity.getPosition().y() < 0
                 || entity.getPosition().z() < -40;
     }
     public boolean isDestroyed() {
