@@ -23,7 +23,7 @@ public class DimTranslator {
     private static Vector2I windowOffset = Vector2I.zero();
     private void define() {
         double middle = ConstUtils.worldWidth / 2.0;
-        int midHeight = 100;
+        int midHeight = 128;
         int skyline = 292;
         cameraPos = Vector3D.get(middle, midHeight, -100);
 
