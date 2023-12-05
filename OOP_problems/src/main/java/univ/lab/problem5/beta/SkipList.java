@@ -6,14 +6,14 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicMarkableReference;
 
-public final class SkipList2<T> {
+public final class SkipList<T> {
     private final int MAX_LEVEL;
     private Node<T> head;
     private Comparator<T> comparator = (Comparator.comparingInt(Object::hashCode));
     public void setComparator(Comparator<T> comparator) {
         this.comparator = comparator;
     }
-    public SkipList2() {
+    public SkipList() {
         MAX_LEVEL = 3;
         initNodes();
     }
@@ -25,7 +25,7 @@ public final class SkipList2<T> {
             head.next[i] = new AtomicMarkableReference<>(tail, false);
         }
     }
-    public SkipList2(int maxLevel) {
+    public SkipList(int maxLevel) {
         MAX_LEVEL = maxLevel;
         initNodes();
     }

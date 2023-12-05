@@ -11,7 +11,7 @@ public class ConstUtils {
     public static final double Z_MULTIPLIER = 0.7;
     public static final double DISTANCE_BAND = 5;
     public static final int FPS = 60;
-    public static final int ENEMY_LIMIT = 10;
+    public static final int ENEMY_LIMIT = 3;
     public static double PLAYER_Z = -30;
     public static Vector2I center = Vector2I.get(worldWidth/2, worldHeight/2);
 }

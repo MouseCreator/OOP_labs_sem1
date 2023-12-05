@@ -1,12 +1,10 @@
 package univ.lab.problem5.beta;
 
 import org.junit.jupiter.api.Test;
-import univ.lab.problem5.SkipListFreeLock;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -33,7 +31,7 @@ class SkipList2Test {
     @Test
     void add() {
         for (int iter = 0; iter < 5; iter++) {
-            SkipList2<Integer> skipList = new SkipList2<>();
+            SkipList<Integer> skipList = new SkipList<>();
             skipList.setComparator(Integer::compareTo);
             int N = 500;
             int M = 3;
@@ -77,7 +75,7 @@ class SkipList2Test {
     @Test
     void remove() {
         for (int iter = 0; iter < 5; iter++) {
-            SkipList2<Integer> skipList = new SkipList2<>();
+            SkipList<Integer> skipList = new SkipList<>();
             skipList.setComparator(Integer::compareTo);
             int N = 500;
             int M = 2;

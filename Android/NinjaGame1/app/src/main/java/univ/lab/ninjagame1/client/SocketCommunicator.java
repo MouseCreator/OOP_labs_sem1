@@ -59,7 +59,7 @@ public class SocketCommunicator implements Communicator {
 
     private void prepareAndProcess() {
         try {
-            socket = new Socket("192.168.1.102", 6666);
+            socket = new Socket("#", 6666);
             out = new PrintWriter(socket.getOutputStream(), true);
             synchronized (obj) {
                 obj.notifyAll();
