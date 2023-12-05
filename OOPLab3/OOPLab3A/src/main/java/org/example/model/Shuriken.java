@@ -22,7 +22,7 @@ public class Shuriken implements GameModel, Collidable {
     private final MovingEntity entity;
 
     public static Shuriken newInstance() {
-        Vector3D spawnPos = Vector3D.get(ConstUtils.worldWidth / 2.0, 120, -10);
+        Vector3D spawnPos = Vector3D.get(ConstUtils.worldWidth / 2.0, 80, -10);
         return new Shuriken(spawnPos);
     }
 

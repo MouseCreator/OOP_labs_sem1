@@ -47,10 +47,10 @@ public class EnemyFactory {
 
     public BatEnemy createBat() {
         double x = random.nextDouble(minX, maxX);
-        double y = 150;
+        double y = 300;
         double z = ConstUtils.worldDepth;
         BatEnemy enemy = BatEnemy.withOrigin(Vector3D.get(x,y,z), SpriteImpl.get(batSprite));
-        enemy.setMovement(createBatMovement(enemy.getEntity().getPosition()));
+        enemy.setMovement(createDummyMovement(enemy.getEntity().getPosition()));
         return enemy;
     }
 

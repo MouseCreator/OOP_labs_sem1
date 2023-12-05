@@ -112,7 +112,7 @@ public class GameServer {
                 out = new PrintWriter(client.getOutputStream(), true);
                 while (!Thread.currentThread().isInterrupted()) {
                     String json = JSONUtil.toJSON(sendQueue.take());
-                    System.out.println(json);
+                    Log.write(json);
                     out.println(json);
                 }
             } catch (IOException e) {
@@ -127,7 +127,7 @@ public class GameServer {
                     e.printStackTrace();
                 }
             }
-            System.out.println("Exited sender");
+            Log.write("Exited sender");
         }
     }
 

@@ -8,6 +8,7 @@ import org.example.game.factory.HandlerPool;
 import org.example.game.helper.GameUtils;
 import org.example.game.modes.ConnectingMode;
 import org.example.game.modes.GameMode;
+import org.example.game.modes.ShurikenGameMode;
 import org.example.game.player.PlayerManager;
 import org.example.game.update.GameUpdate;
 import org.example.server.ServerHandler;

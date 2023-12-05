@@ -24,13 +24,6 @@ public class SimpleMessageProcessor {
         }
     }
 
-    public void send(int state) {
-        DesktopDTO desktopDTO = new DesktopDTO();
-        desktopDTO.setGameState(state);
-        desktopDTO.setDetails("");
-        sendQueue.add(desktopDTO);
-    }
-
     public void send(DesktopDTO desktopDTO) {
         sendQueue.add(desktopDTO);
     }

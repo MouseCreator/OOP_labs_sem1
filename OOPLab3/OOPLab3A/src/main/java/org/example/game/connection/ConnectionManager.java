@@ -7,15 +7,12 @@ import org.example.server.SimpleMessageProcessor;
 
 public class ConnectionManager {
     private final SimpleMessageProcessor simpleMessageProcessor;
-    private boolean isConnected = true;
     public ConnectionManager(SimpleMessageProcessor simpleMessageProcessor) {
         this.simpleMessageProcessor = simpleMessageProcessor;
     }
 
     public void send(DesktopDTO message) {
-        if (isConnected) {
-            simpleMessageProcessor.send(message);
-        }
+        simpleMessageProcessor.send(message);
     }
 
     public void connectionEvents() {
