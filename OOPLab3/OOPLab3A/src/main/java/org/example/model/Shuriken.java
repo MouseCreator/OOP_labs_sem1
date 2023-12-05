@@ -56,6 +56,7 @@ public class Shuriken implements GameModel, Collidable {
         if (isOutOfBounds()) {
             destroyed = true;
         }
+        System.out.println(collision.getCollisionEnd());
     }
     public void markToDestroy() {
         destroyed = true;

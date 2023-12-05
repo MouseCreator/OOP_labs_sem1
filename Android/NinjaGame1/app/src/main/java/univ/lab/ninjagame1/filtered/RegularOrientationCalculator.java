@@ -15,7 +15,7 @@ public class RegularOrientationCalculator implements OrientationCalculator {
     /*
     if vector is pointing (x,y), then angle theta = atan2(y,x)
      */
-    private void processAccelerometerMagnetometer(Vector3 vector3, double estimateYaw) {
+    private void processAccelerometer(Vector3 vector3, double estimateYaw) {
         double ax = vector3.x();
         double ay = vector3.y();
         double az = vector3.z();
@@ -51,7 +51,7 @@ public class RegularOrientationCalculator implements OrientationCalculator {
     @Override
     public Vector3 updateAndGet() {
         try {
-            processAccelerometerMagnetometer(accWrapper.get(), gyroWrapper.get().z());
+            processAccelerometer(accWrapper.get(), gyroWrapper.get().z());
             processGyroscope(gyroWrapper.get());
             return getOrientation();
         } catch (NullPointerException e) {

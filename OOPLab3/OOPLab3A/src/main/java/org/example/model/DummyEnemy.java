@@ -34,7 +34,6 @@ public class DummyEnemy implements Enemy{
         this.entity.setPosition(position3D);
     }
     private DummyEnemy() {
-        entity = new MovingEntityImpl(Vector3D.zero(), enemySize);
     }
     @Override
     public Entity getEntity() {

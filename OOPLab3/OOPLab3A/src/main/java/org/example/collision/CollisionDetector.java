@@ -4,6 +4,7 @@ import org.example.game.event.DeletionEvent;
 import org.example.game.event.PlayerEvent;
 import org.example.game.helper.GameUtils;
 import org.example.game.model.GameModel;
+import org.example.log.Log;
 import org.example.model.Enemies;
 import org.example.model.Shuriken;
 import org.example.model.ShurikenManager;
@@ -15,6 +16,7 @@ public class CollisionDetector {
             for (Shuriken shuriken : shurikenManager) {
                 if (collisionManager.interacts(enemy, shuriken)) {
                     enemy.toDestroy();
+                    Log.write("COLLISION detected");
                     shuriken.markToDestroy();
                     destroyEntity(enemy);
                     destroyEntity(shuriken);

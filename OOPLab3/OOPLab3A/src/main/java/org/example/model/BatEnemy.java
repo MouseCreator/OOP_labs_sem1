@@ -15,6 +15,7 @@ public class BatEnemy implements Enemy{
     private MovingEntity entity;
     private Collision collision;
     private Sprite sprite;
+
     public static Vector2I size = new Vector2I(160, 100);
     public static BatEnemy withOrigin(Vector3D position, Sprite image) {
         BatEnemy enemy = new BatEnemy();
