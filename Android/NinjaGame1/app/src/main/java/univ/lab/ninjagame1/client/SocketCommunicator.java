@@ -118,7 +118,6 @@ public class SocketCommunicator implements Communicator {
 
     private void toJson(MobileDTO mobileDTO) {
         String s = JSONUtil.toJson(mobileDTO);
-        System.out.println(s);
         sendInput(s);
     }
 

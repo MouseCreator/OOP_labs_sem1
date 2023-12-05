@@ -1,13 +1,14 @@
 package univ.lab.problem5.beta;
 
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicMarkableReference;
 
 public final class SkipList2<T> {
     private final int MAX_LEVEL;
-    Node<T> head;
-    Node<T> tail;
+    private Node<T> head;
     private Comparator<T> comparator = (Comparator.comparingInt(Object::hashCode));
     public void setComparator(Comparator<T> comparator) {
         this.comparator = comparator;
@@ -19,7 +20,7 @@ public final class SkipList2<T> {
 
     private void initNodes() {
         head = new Node<>(true, MAX_LEVEL);
-        tail = new Node<>(false, MAX_LEVEL);
+        Node<T> tail = new Node<>(false, MAX_LEVEL);
         for (int i = 0; i < head.next.length; i++) {
             head.next[i] = new AtomicMarkableReference<>(tail, false);
         }
@@ -66,8 +67,12 @@ public final class SkipList2<T> {
     public boolean add(T x) {
         int topLevel = randomLevel();
         int bottomLevel = 0;
-        Node<T>[] preds = (Node<T>[]) new Node[MAX_LEVEL + 1];
-        Node<T>[] succs = (Node<T>[]) new Node[MAX_LEVEL + 1];
+        List<Node<T>> preds = new ArrayList<>(MAX_LEVEL+1);
+        List<Node<T>> succs = new ArrayList<>(MAX_LEVEL+1);
+        for (int i = 0; i <= MAX_LEVEL; i++) {
+            preds.add(null);
+            succs.add(null);
+        }
         while (true) {
             boolean found = find(x, preds, succs);
             if (found) {
@@ -75,11 +80,11 @@ public final class SkipList2<T> {
             } else {
                 Node<T> newNode = new Node<>(x, topLevel);
                 for (int level = bottomLevel; level <= topLevel; level++) {
-                    Node<T> succ = succs[level];
+                    Node<T> succ = succs.get(level);
                     newNode.next[level].set(succ, false);
                 }
-                Node<T> pred = preds[bottomLevel];
-                Node<T> succ = succs[bottomLevel];
+                Node<T> pred = preds.get(bottomLevel);
+                Node<T> succ = succs.get(bottomLevel);
                 newNode.next[bottomLevel].set(succ, false);
                 if (!pred.next[bottomLevel].compareAndSet(succ, newNode,
                         false, false)) {
@@ -87,8 +92,8 @@ public final class SkipList2<T> {
                 }
                 for (int level = bottomLevel + 1; level <= topLevel; level++) {
                     while (true) {
-                        pred = preds[level];
-                        succ = succs[level];
+                        pred = preds.get(level);
+                        succ = succs.get(level);
                         if (pred.next[level].compareAndSet(succ, newNode, false, false))
                             break;
                         find(x, preds, succs);
@@ -111,14 +116,18 @@ public final class SkipList2<T> {
 
     public boolean remove(T x) {
         int bottomLevel = 0;
-        Node<T>[] preds = (Node<T>[]) new Node[MAX_LEVEL + 1];
-        Node<T>[] succs = (Node<T>[]) new Node[MAX_LEVEL + 1];
+        List<Node<T>> preds = new ArrayList<>(MAX_LEVEL+1);
+        List<Node<T>> succs = new ArrayList<>(MAX_LEVEL+1);
+        for (int i = 0; i <= MAX_LEVEL; i++) {
+            preds.add(null);
+            succs.add(null);
+        }
         Node<T> succ;
         boolean found = find(x, preds, succs);
         if (!found) {
             return false;
         } else {
-            Node<T> nodeToRemove = succs[bottomLevel];
+            Node<T> nodeToRemove = succs.get(bottomLevel);
             for (int level = nodeToRemove.topLevel;
                  level >= bottomLevel + 1; level--) {
                 boolean[] marked = {false};
@@ -134,7 +143,7 @@ public final class SkipList2<T> {
                 boolean iMarkedIt =
                         nodeToRemove.next[bottomLevel].compareAndSet(succ, succ,
                                 false, true);
-                succ = succs[bottomLevel].next[bottomLevel].get(marked);
+                succ = succs.get(bottomLevel).next[bottomLevel].get(marked);
                 if (iMarkedIt) {
                     find(x, preds, succs);
                     return true;
@@ -143,7 +152,7 @@ public final class SkipList2<T> {
         }
     }
 
-    boolean find(T x, Node<T>[] preds, Node<T>[] succs) {
+    boolean find(T x, List<Node<T>> preds, List<Node<T>> succs) {
         int bottomLevel = 0;
         boolean[] marked = {false};
         boolean snip;
@@ -183,8 +192,8 @@ public final class SkipList2<T> {
                     break;
                 }
 
-                preds[level] = pred;
-                succs[level] = curr;
+                preds.set(level, pred);
+                succs.set(level, curr);
             }
         } while (retryNeeded);
 
@@ -260,5 +269,27 @@ public final class SkipList2<T> {
             }
         }
         return general.toString();
+    }
+
+    public int rawSize() {
+        int count = 0;
+        boolean[] marked = {false};
+        Node<T> pred = head, curr, succ;
+        Node<T> initial = pred;
+        curr = initial.next[0].getReference();
+        while (true) {
+            succ = curr.next[0].get(marked);
+            while (marked[0]) {
+                curr = pred.next[0].getReference();
+                succ = curr.next[0].get(marked);
+            }
+            if (!curr.MAX_NODE){
+                pred = curr;
+                curr = succ;
+                count++;
+            } else {
+                return count;
+            }
+        }
     }
 }

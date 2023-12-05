@@ -69,6 +69,44 @@ class SkipList2Test {
             for (int i = 0; i < N * M; i++) {
                 assertTrue(skipList.contains(i), "Skip list does not contain value: " + i);
             }
+            assertEquals(N*M, skipList.rawSize());
+            System.out.println(skipList.print() + "\n\n");
+        }
+    }
+
+    @Test
+    void remove() {
+        for (int iter = 0; iter < 5; iter++) {
+            SkipList2<Integer> skipList = new SkipList2<>();
+            skipList.setComparator(Integer::compareTo);
+            int N = 500;
+            int M = 2;
+            for (int i = 0; i < M * N; i++) {
+                skipList.add(i);
+            }
+            Thread writer = new Thread(() -> {
+                List<Integer> even = createList(0, N, M);
+                for (int i = 0; i < N; i++) {
+                    skipList.remove(even.get(i));
+                }
+            });
+            Thread writer2 = new Thread(() -> {
+                List<Integer> odd = createList(1, N, M);
+                for (int i = 0; i < N; i++) {
+                    skipList.remove(odd.get(i));
+                }
+            });
+
+            writer.start();
+            writer2.start();
+
+            try {
+                writer.join();
+                writer2.join();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            assertEquals(0, skipList.rawSize());
             System.out.println(skipList.print() + "\n\n");
         }
     }
