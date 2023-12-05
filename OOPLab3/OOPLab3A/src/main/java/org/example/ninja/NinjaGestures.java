@@ -5,7 +5,7 @@ import org.example.dtw.DTW;
 import org.example.dtw.distance.EuclideanDistance;
 import org.example.dtw.recorder.GestureManager;
 import org.example.dtw.recorder.Recording;
-import org.example.engine.ConstUtils;
+import org.example.utils.ConstUtils;
 import org.example.log.Log;
 import org.example.vector.Vector3D;
 

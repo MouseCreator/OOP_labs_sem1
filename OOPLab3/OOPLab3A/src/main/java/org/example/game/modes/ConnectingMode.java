@@ -1,6 +1,6 @@
 package org.example.game.modes;
 
-import org.example.engine.ConstUtils;
+import org.example.utils.ConstUtils;
 import org.example.game.event.Event;
 import org.example.game.helper.GameUtils;
 import org.example.game.ui.UIText;

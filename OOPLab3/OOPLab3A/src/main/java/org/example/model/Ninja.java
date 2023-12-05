@@ -1,7 +1,7 @@
 package org.example.model;
 
 
-import org.example.engine.ConstUtils;
+import org.example.utils.ConstUtils;
 import org.example.game.drawable.Drawable;
 import org.example.game.drawable.Sprite;
 import org.example.game.drawable.SpriteImpl;
@@ -12,8 +12,6 @@ import org.example.game.model.GameModel;
 import org.example.game.movement.LinearMovement;
 import org.example.vector.Vector2I;
 import org.example.vector.Vector3D;
-
-import java.awt.*;
 
 public class Ninja implements GameModel, Updatable {
     private Sprite sprite;

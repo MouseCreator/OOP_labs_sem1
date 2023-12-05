@@ -1,4 +1,4 @@
-package org.example.engine;
+package org.example.utils;
 
 import org.example.vector.Vector2I;
 
@@ -6,9 +6,9 @@ public class ConstUtils {
     public static final int worldWidth = 1280;
     public static final int worldHeight = 720;
     public static final int depth = 356;
-    public static final double X_MULTIPLIER = 3.7;
+    public static final double X_MULTIPLIER = 3.2;
     public static final double Y_MULTIPLIER = 0.8;
-    public static final double Z_MULTIPLIER = 0.8;
+    public static final double Z_MULTIPLIER = 1.0;
     public static final double DISTANCE_BAND = 5;
     public static final int FPS = 60;
     public static double PLAYER_Z = -30;

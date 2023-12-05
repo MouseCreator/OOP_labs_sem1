@@ -1,6 +1,6 @@
 package org.example.game;
 
-import org.example.engine.ConstUtils;
+import org.example.utils.ConstUtils;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,6 +1,6 @@
 package org.example.game.drawable;
 
-import org.example.engine.ConstUtils;
+import org.example.utils.ConstUtils;
 import org.example.vector.Vector2I;
 
 import java.awt.*;

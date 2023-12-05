@@ -2,7 +2,7 @@ package org.example.model;
 
 import org.example.collision.Collision;
 import org.example.collision.Sizes;
-import org.example.engine.ConstUtils;
+import org.example.utils.ConstUtils;
 import org.example.game.drawable.Drawable;
 import org.example.game.drawable.Sprite;
 import org.example.game.entity.Entity;

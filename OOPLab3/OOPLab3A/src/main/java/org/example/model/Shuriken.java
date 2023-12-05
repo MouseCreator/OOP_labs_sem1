@@ -3,7 +3,7 @@ package org.example.model;
 import org.example.collision.Collidable;
 import org.example.collision.Collision;
 import org.example.collision.Sizes;
-import org.example.engine.ConstUtils;
+import org.example.utils.ConstUtils;
 import org.example.game.drawable.Drawable;
 import org.example.game.drawable.Sprite;
 import org.example.game.entity.Entity;
@@ -52,7 +52,6 @@ public class Shuriken implements GameModel, Collidable {
     @Override
     public void update() {
         entity.updatePosition();
-        System.out.println(entity.getPosition());
         collision.moveTo(entity.getPosition());
         if (isOutOfBounds()) {
             destroyed = true;

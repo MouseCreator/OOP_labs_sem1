@@ -1,7 +1,7 @@
 package org.example.model;
 
 
-import org.example.engine.ConstUtils;
+import org.example.utils.ConstUtils;
 import org.example.game.event.CreationEvent;
 import org.example.game.event.DeletionEvent;
 import org.example.game.event.PlayerEvent;
@@ -32,7 +32,7 @@ public class Enemies implements Updatable {
         enemiesList.add(enemy);
     }
     public void spawnNew() {
-        Enemy enemy = enemyFactory.randomEnemy();
+        Enemy enemy = enemyFactory.createBat();
         GameUtils.newEvent(new CreationEvent(enemy));
         enemiesList.add(enemy);
     }

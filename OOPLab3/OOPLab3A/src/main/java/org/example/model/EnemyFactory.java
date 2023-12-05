@@ -1,6 +1,6 @@
 package org.example.model;
 
-import org.example.engine.ConstUtils;
+import org.example.utils.ConstUtils;
 import org.example.game.drawable.SpriteImpl;
 import org.example.game.helper.GameUtils;
 import org.example.game.movement.LinearMovement;
@@ -63,7 +63,7 @@ public class EnemyFactory {
     }
 
     private Movement createBatMovement(Vector3D position) {
-        double xSpeed = 3;
+        double xSpeed = 2;
         double pi = Math.PI;
         double phase = (-pi + 2 * pi * (position.x() - minX) / (maxX - minX));
         double ampl = (maxX - minX) / 5;
