@@ -47,10 +47,10 @@ public class EnemyFactory {
 
     public BatEnemy createBat() {
         double x = random.nextDouble(minX, maxX);
-        double y = 300;
+        double y = 200;
         double z = ConstUtils.worldDepth;
         BatEnemy enemy = BatEnemy.withOrigin(Vector3D.get(x,y,z), SpriteImpl.get(batSprite));
-        enemy.setMovement(createDummyMovement(enemy.getEntity().getPosition()));
+        enemy.setMovement(createBatMovement(enemy.getEntity().getPosition()));
         return enemy;
     }
 
@@ -63,9 +63,9 @@ public class EnemyFactory {
     }
 
     private Movement createBatMovement(Vector3D position) {
-        double xSpeed = 2;
+        double xSpeed = 1.5;
         double pi = Math.PI;
-        double phase = (-pi + 2 * pi * (position.x() - minX) / (maxX - minX));
+        double phase = (-pi/2 + pi * (position.x() - minX) / (maxX - minX));
         double ampl = (maxX - minX) / 5;
         double freq = 1;
         double step = 0.1;

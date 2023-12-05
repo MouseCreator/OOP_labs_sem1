@@ -24,6 +24,7 @@ public class PlayerManager {
     }
     private void updateView() {
         healthBar.updateView(player.getHealth());
+        scoreCounter.update(player.getScore());
     }
 
 

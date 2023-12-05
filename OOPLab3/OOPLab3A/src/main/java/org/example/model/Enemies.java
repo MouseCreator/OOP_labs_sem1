@@ -13,7 +13,6 @@ import java.util.function.Consumer;
 public class Enemies implements Updatable {
     private final List<Enemy> enemiesList = new ArrayList<>();
     private final EnemyFactory enemyFactory;
-    private final int spawnFrequency = 2000;
     private int spawned = 0;
     private int destroyed = 0;
     private final int limit = ConstUtils.ENEMY_LIMIT;
@@ -32,7 +31,7 @@ public class Enemies implements Updatable {
         enemiesList.add(enemy);
     }
     public void spawnNew() {
-        Enemy enemy = enemyFactory.createBat();
+        Enemy enemy = enemyFactory.randomEnemy();
         GameUtils.newEvent(new CreationEvent(enemy));
         enemiesList.add(enemy);
     }
@@ -63,6 +62,7 @@ public class Enemies implements Updatable {
     }
     private void trySpawn() {
         long currentTime = System.currentTimeMillis();
+        int spawnFrequency = 2000;
         if (spawned < limit && currentTime - lastSpawn > spawnFrequency) {
             spawnNew();
             spawned++;

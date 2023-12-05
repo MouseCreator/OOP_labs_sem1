@@ -2,8 +2,11 @@ package org.example.game.handler;
 
 import org.example.game.event.Event;
 import org.example.game.event.EventType;
+import org.example.game.event.ModeSwitchEvent;
 import org.example.game.event.PlayerEvent;
+import org.example.game.helper.GameUtils;
 import org.example.game.player.PlayerManager;
+import org.example.gamestate.GameState;
 
 public class PlayerEventHandler extends AbstractHandler<PlayerEvent> {
 
@@ -19,7 +22,7 @@ public class PlayerEventHandler extends AbstractHandler<PlayerEvent> {
             case DAMAGE -> {
                 playerManager.onDamage();
                 if (playerManager.isPlayerDead()) {
-                    //GameUtils.newEvent(new ModeSwitchEvent(GameState.GAME_OVER));
+                    GameUtils.newEvent(new ModeSwitchEvent(GameState.GAME_OVER));
                 }
             }
             case RESET -> playerManager.onReset();
