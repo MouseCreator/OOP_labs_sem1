@@ -1,5 +1,8 @@
 package org.example.collision;
 
-public interface Collidable {
+import org.example.game.movement.Movement;
+
+public interface Collidable  {
     Collision getCollision();
+    Movement getMovement();
 }

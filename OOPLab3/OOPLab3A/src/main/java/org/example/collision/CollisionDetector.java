@@ -10,7 +10,7 @@ import org.example.model.Shuriken;
 import org.example.model.ShurikenManager;
 
 public class CollisionDetector {
-    private final CollisionManager collisionManager = new CollisionManager();
+    private final CollisionM collisionManager = new AdvancedCollisionManager();
     public void processDummies(ShurikenManager shurikenManager, Enemies enemies) {
         enemies.each(enemy -> {
             for (Shuriken shuriken : shurikenManager) {

@@ -58,6 +58,9 @@ public class Vector3D {
 
     public Vector3D normalize() {
         double m = magnitude();
+        if (m == 0) {
+            return Vector3D.zero();
+        }
         return get(x / m, y / m, z / m);
     }
 

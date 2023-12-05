@@ -1,6 +1,6 @@
 package org.example.collision;
 
-public class CollisionManager {
+public class CollisionManager implements CollisionM {
     public boolean interacts(Collidable collidable, Collidable collidable2) {
         return interacts(collidable.getCollision(), collidable2.getCollision());
     }
@@ -14,4 +14,6 @@ public class CollisionManager {
 
         return xOverlap && yOverlap && zOverlap;
     }
+
+
 }

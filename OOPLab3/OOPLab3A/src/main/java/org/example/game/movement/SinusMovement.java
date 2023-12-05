@@ -21,8 +21,15 @@ public class SinusMovement implements Movement{
 
     @Override
     public Vector3D nextPosition(Vector3D cp) {
+        Vector3D pos = estimate(cp);
         phase += step;
+        return pos;
+    }
+
+    @Override
+    public Vector3D estimate(Vector3D currentPosition) {
+        double p = phase + step;
         double newX = originX + amplitude * Math.sin(frequency * phase);
-        return new Vector3D(newX, cp.y(), cp.z() - zSpeed);
+        return new Vector3D(newX, currentPosition.y(), currentPosition.z() - zSpeed);
     }
 }

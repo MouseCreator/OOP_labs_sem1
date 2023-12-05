@@ -15,4 +15,10 @@ public class ParabolaMovement implements Movement{
         speed = speed.add(acceleration);
         return currentPosition.add(speed);
     }
+
+    @Override
+    public Vector3D estimate(Vector3D currentPosition) {
+        Vector3D s = speed.add(acceleration);
+        return currentPosition.add(s);
+    }
 }

@@ -12,4 +12,9 @@ public class LinearMovement implements Movement{
     public Vector3D nextPosition(Vector3D currentPosition) {
         return currentPosition.add(speed);
     }
+
+    @Override
+    public Vector3D estimate(Vector3D currentPosition) {
+        return nextPosition(currentPosition);
+    }
 }

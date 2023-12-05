@@ -58,6 +58,12 @@ public class DummyEnemy implements Enemy{
     public Collision getCollision() {
         return collision;
     }
+
+    @Override
+    public Movement getMovement() {
+        return entity.getMovement();
+    }
+
     public void toDestroy() {
         destroyed = true;
     }

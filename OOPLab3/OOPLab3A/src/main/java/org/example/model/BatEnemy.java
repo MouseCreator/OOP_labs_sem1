@@ -30,6 +30,11 @@ public class BatEnemy implements Enemy{
     }
 
     @Override
+    public Movement getMovement() {
+        return entity.getMovement();
+    }
+
+    @Override
     public Entity getEntity() {
         return entity;
     }

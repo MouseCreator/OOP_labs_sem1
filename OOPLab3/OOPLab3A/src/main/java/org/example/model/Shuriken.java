@@ -75,6 +75,11 @@ public class Shuriken implements GameModel, Collidable {
     }
 
     @Override
+    public Movement getMovement() {
+        return entity.getMovement();
+    }
+
+    @Override
     public Entity getEntity() {
         return entity;
     }

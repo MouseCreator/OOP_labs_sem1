@@ -7,6 +7,7 @@ public class Collision {
     private Vector3D collisionEnd;
     private Vector3D size;
     private Vector3D position;
+
     public Vector3D getCollisionStart() {
         return collisionStart;
     }

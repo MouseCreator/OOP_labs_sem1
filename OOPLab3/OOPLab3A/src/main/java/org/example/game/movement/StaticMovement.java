@@ -7,4 +7,9 @@ public class StaticMovement implements Movement{
     public Vector3D nextPosition(Vector3D currentPosition) {
         return currentPosition;
     }
+
+    @Override
+    public Vector3D estimate(Vector3D currentPosition) {
+        return null;
+    }
 }
