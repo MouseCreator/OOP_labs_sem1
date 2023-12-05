@@ -5,7 +5,7 @@ import org.example.vector.Vector3D;
 public class Collision {
     private Vector3D collisionStart;
     private Vector3D collisionEnd;
-    private Vector3D size;
+    private final Vector3D size;
     private Vector3D position;
 
     public Vector3D getCollisionStart() {
@@ -32,10 +32,6 @@ public class Collision {
 
     public void moveTo(Vector3D position) {
         this.position = position;
-        calculatePosition();
-    }
-    public void changeSize(Vector3D size) {
-        this.size = size;
         calculatePosition();
     }
 }
