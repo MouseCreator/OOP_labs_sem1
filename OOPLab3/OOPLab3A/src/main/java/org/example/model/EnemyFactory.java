@@ -64,7 +64,8 @@ public class EnemyFactory {
 
     private Movement createBatMovement(Vector3D position) {
         double xSpeed = 3;
-        double phase = Math.asin((maxX - position.z()) / (maxX - minX));
+        double pi = Math.PI;
+        double phase = (-pi + 2 * pi * (position.x() - minX) / (maxX - minX));
         double ampl = (maxX - minX) / 5;
         double freq = 1;
         double step = 0.1;
