@@ -4,7 +4,6 @@ import org.example.game.movement.Movement;
 import org.example.vector.Vector3D;
 
 public class AdvancedCollisionManager implements CollisionM{
-    private final CollisionManager collisionManager = new CollisionManager();
     @Override
     public boolean interacts(Collidable collidable, Collidable collidable2) {
         Movement movement1 = collidable.getMovement();
@@ -24,7 +23,7 @@ public class AdvancedCollisionManager implements CollisionM{
 
         double iterations = Math.min(c1Speed / c1Size, c2Speed / c2Size);
         if (iterations == 0 || Double.isInfinite(iterations)) {
-            return collisionManager.interacts(collidable, collidable2);
+            return interacts(collidable.getCollision(), collidable2.getCollision());
         }
         Vector3D d1 = v1D.multiply(1.0 / iterations);
         Vector3D d2 = v1D.multiply(1.0 / iterations);
@@ -43,7 +42,8 @@ public class AdvancedCollisionManager implements CollisionM{
 
     @Override
     public boolean interacts(Collision c1, Collision c2) {
-        return collisionManager.interacts(c1, c2);
+        return interacts(c1.getCollisionStart(), c1.getCollisionEnd(),
+                c2.getCollisionStart(), c2.getCollisionEnd());
     }
 
     public boolean interacts(Vector3D c1, Vector3D c2, Vector3D c3, Vector3D c4) {
