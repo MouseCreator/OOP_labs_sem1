@@ -3,7 +3,6 @@ package org.example.game.movement;
 import org.example.vector.Vector3D;
 
 public class SinusMovement implements Movement{
-
     private final double xSpeed;
     private final double amplitude;
     private final double frequency;
