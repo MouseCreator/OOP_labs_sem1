@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="papers">
+        <xs:complexType>
+        <xs:sequence>
+            <xs:element name="paper" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="title" type="xs:string"/>
+                        <xs:element name="type" type="PaperType"/>
+                        <xs:element name="monthly" type="xs:boolean"/>
+                        <xs:element name="characteristics" type="characteristic" minOccurs="0" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                    <xs:attribute name="id" type="xs:string" use="required"/>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="characteristic">
+        <xs:sequence>
+            <xs:element name="colored" type="xs:boolean"/>
+            <xs:element name="volume" type="xs:int"/>
+            <xs:element name="glossy" type="xs:boolean"/>
+            <xs:element name="subscription_index" type="xs:boolean"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:simpleType name="PaperType" final="restriction">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Newspaper"/>
+            <xs:enumeration value="Booklet"/>
+            <xs:enumeration value="Magazine"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>
