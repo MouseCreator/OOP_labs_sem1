@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Ninja Game 1</string>
+    <string name="shuriken_image_desc">Suriken image</string>
+    <string name="button_stop">Recording</string>
+    <string name="button_record">Record</string>
+    <string name="continueTxt">Continue</string>
+    <string name="imageSh">Image</string>
+    <string name="pauseTxt">Pause</string>
+</resources>

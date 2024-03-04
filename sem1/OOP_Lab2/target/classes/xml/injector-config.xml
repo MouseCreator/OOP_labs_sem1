@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configurations>
+    <injections>
+        <injection interface="univ.lab.fill.Filler" class="univ.lab.fill.FillerImpl"/>
+        <injection interface="univ.lab.parser.Parser" class="univ.lab.parser.DOMParser"/>
+    </injections>
+    <creations>
+        <creation>univ.lab.model.Papers</creation>
+        <creation>univ.lab.model.Paper</creation>
+        <creation>univ.lab.model.Characteristics</creation>
+    </creations>
+</configurations>

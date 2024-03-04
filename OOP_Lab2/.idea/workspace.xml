@@ -1,0 +1,1353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="9f626f8a-ef75-4b94-99d7-bd742f045c7c" name="Changes" comment="added enumeration types">
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/DTWTest/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/DTWTest/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/DTWTest/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/DTWTest/.idea/gradle.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/DTWTest/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/DTWTest/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/DTWTest/app/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/DTWTest/app/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/DTWTest/app/proguard-rules.pro" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/DTWTest/app/src/androidTest/java/univ/lab/dtwtest/ExampleInstrumentedTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/DTWTest/app/src/main/AndroidManifest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/DTWTest/app/src/main/java/univ/lab/dtwtest/MainActivity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/DTWTest/app/src/main/java/univ/lab/dtwtest/dtw/AdvancedDTW.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/DTWTest/app/src/main/java/univ/lab/dtwtest/dtw/DTW.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/DTWTest/app/src/main/java/univ/lab/dtwtest/dtw/GenericDTW.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/DTWTest/app/src/main/java/univ/lab/dtwtest/dtw/Vector3.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/DTWTest/app/src/main/java/univ/lab/dtwtest/dtw/distance/CosineDistance.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/DTWTest/app/src/main/java/univ/lab/dtwtest/dtw/distance/DistanceCalculator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/DTWTest/app/src/main/java/univ/lab/dtwtest/dtw/distance/EuclideanDistance.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/DTWTest/app/src/main/java/univ/lab/dtwtest/dtw/distance/IntegerDistanceCalculator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/DTWTest/app/src/main/java/univ/lab/dtwtest/dtw/distance/ManhattanDistance.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/DTWTest/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/DTWTest/app/src/main/res/drawable/ic_launcher_background.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/DTWTest/app/src/main/res/layout/activity_main.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/DTWTest/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/DTWTest/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/DTWTest/app/src/main/res/mipmap-anydpi-v33/ic_launcher.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/DTWTest/app/src/main/res/mipmap-hdpi/ic_launcher.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/DTWTest/app/src/main/res/mipmap-hdpi/ic_launcher_round.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/DTWTest/app/src/main/res/mipmap-mdpi/ic_launcher.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/DTWTest/app/src/main/res/mipmap-mdpi/ic_launcher_round.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/DTWTest/app/src/main/res/mipmap-xhdpi/ic_launcher.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/DTWTest/app/src/main/res/mipmap-xhdpi/ic_launcher_round.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/DTWTest/app/src/main/res/mipmap-xxhdpi/ic_launcher.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/DTWTest/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/DTWTest/app/src/main/res/mipmap-xxxhdpi/ic_launcher.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/DTWTest/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/DTWTest/app/src/main/res/values-night/themes.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/DTWTest/app/src/main/res/values/colors.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/DTWTest/app/src/main/res/values/strings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/DTWTest/app/src/main/res/values/themes.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/DTWTest/app/src/main/res/xml/backup_rules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/DTWTest/app/src/main/res/xml/data_extraction_rules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/DTWTest/app/src/test/java/univ/lab/dtwtest/ExampleUnitTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/DTWTest/app/src/test/java/univ/lab/dtwtest/dtw/GenericDTWTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/DTWTest/app/src/test/java/univ/lab/dtwtest/dtw/IntegerDistanceCalculatorTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/DTWTest/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/DTWTest/gradle.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/DTWTest/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/DTWTest/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/DTWTest/gradlew" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/DTWTest/gradlew.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/DTWTest/settings.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/.idea/deploymentTargetDropDown.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/.idea/gradle.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/proguard-rules.pro" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/androidTest/java/univ/lab/ninjagame1/ExampleInstrumentedTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/AndroidManifest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/java/univ/lab/ninjagame1/GFX/Sprite.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/java/univ/lab/ninjagame1/GFX/SpriteSheet.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/java/univ/lab/ninjagame1/MainActivity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/java/univ/lab/ninjagame1/client/AdvancedCommunicator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/java/univ/lab/ninjagame1/client/ClientManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/java/univ/lab/ninjagame1/client/Communicator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/java/univ/lab/ninjagame1/client/MockCommunicator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/java/univ/lab/ninjagame1/client/MovementParams.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/java/univ/lab/ninjagame1/client/SocketCommunicator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/java/univ/lab/ninjagame1/client/mode/ModeManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/java/univ/lab/ninjagame1/controller/GameController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/java/univ/lab/ninjagame1/controller/GameState.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/java/univ/lab/ninjagame1/controller/InputListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/java/univ/lab/ninjagame1/controller/InputListenerImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/java/univ/lab/ninjagame1/controller/UIManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/java/univ/lab/ninjagame1/controller/processor/AbstractEventHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/java/univ/lab/ninjagame1/controller/processor/EventHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/java/univ/lab/ninjagame1/controller/processor/EventProcessor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/java/univ/lab/ninjagame1/controller/processor/EventProcessorImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/java/univ/lab/ninjagame1/controller/processor/FlingEventHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/java/univ/lab/ninjagame1/controller/processor/PauseEventHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/java/univ/lab/ninjagame1/controller/processor/RecordEventHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/java/univ/lab/ninjagame1/controller/timer/TimedAction.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/java/univ/lab/ninjagame1/dto/DesktopDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/java/univ/lab/ninjagame1/dto/MessageType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/java/univ/lab/ninjagame1/dto/MobileDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/java/univ/lab/ninjagame1/event/Event.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/java/univ/lab/ninjagame1/event/EventType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/java/univ/lab/ninjagame1/event/FlingEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/java/univ/lab/ninjagame1/event/PauseEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/java/univ/lab/ninjagame1/event/RecordingEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/java/univ/lab/ninjagame1/filtered/MagneticOrientationCalculator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/java/univ/lab/ninjagame1/filtered/OrientationCalculator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/java/univ/lab/ninjagame1/filtered/OrientationManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/java/univ/lab/ninjagame1/filtered/RegularOrientationCalculator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/java/univ/lab/ninjagame1/filtered/SensorWrapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/java/univ/lab/ninjagame1/filtered/Vector3.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/java/univ/lab/ninjagame1/movement/MovementManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/java/univ/lab/ninjagame1/movement/MovementManagerImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/java/univ/lab/ninjagame1/movement/SensorCommunicator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/java/univ/lab/ninjagame1/movement/record/DataRecorder.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/java/univ/lab/ninjagame1/movement/subs/SensorPublisher.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/java/univ/lab/ninjagame1/movement/subs/SensorSubscriber.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/java/univ/lab/ninjagame1/movement/subs/Topic.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/java/univ/lab/ninjagame1/touch/CustomTouchListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/java/univ/lab/ninjagame1/util/JSONUtil.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/res/drawable/bg1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/res/drawable/ic_launcher_background.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/res/drawable/sprite.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/res/layout/activity_main.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/res/layout/activity_recorder.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/res/mipmap-anydpi-v33/ic_launcher.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/res/mipmap-hdpi/ic_launcher.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/res/mipmap-hdpi/ic_launcher_round.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/res/mipmap-mdpi/ic_launcher.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/res/mipmap-mdpi/ic_launcher_round.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/res/mipmap-xhdpi/ic_launcher.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/res/mipmap-xhdpi/ic_launcher_round.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/res/mipmap-xxhdpi/ic_launcher.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/res/mipmap-xxxhdpi/ic_launcher.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/res/values-night/themes.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/res/values/colors.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/res/values/strings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/res/values/themes.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/res/xml/backup_rules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/res/xml/data_extraction_rules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/main/res/xml/network_security_config.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/app/src/test/java/univ/lab/ninjagame1/ExampleUnitTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/gradle.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/gradlew" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/gradlew.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/Android/NinjaGame1/settings.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/.idea/jarRepositories.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/collision/AdvancedCollisionManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/collision/Collidable.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/collision/Collision.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/collision/CollisionDetector.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/collision/CollisionM.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/collision/CollisionManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/collision/Sizes.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/dto/DesktopDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/dto/MessageType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/dto/MobileDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/dtw/AdvancedDTW.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/dtw/DTW.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/dtw/GenericDTW.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/dtw/distance/CosineDistance.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/dtw/distance/DistanceCalculator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/dtw/distance/EuclideanDistance.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/dtw/distance/IntegerDistanceCalculator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/dtw/distance/ManhattanDistance.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/dtw/recorder/GestureManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/dtw/recorder/Recorder.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/dtw/recorder/RecorderApp.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/dtw/recorder/RecorderServer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/dtw/recorder/Recording.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/Game.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/GameLoop.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/GamePanel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/connection/ConnectionManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/connection/DataTransformer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/draw/GameDraw.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/draw/UIDraw.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/drawable/Animated.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/drawable/AnimatedSprite.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/drawable/AnimatedSpriteImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/drawable/Animation.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/drawable/AnimationImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/drawable/DrawManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/drawable/DrawUpdatable.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/drawable/Drawable.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/drawable/Sprite.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/drawable/SpriteBuffer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/drawable/SpriteImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/drawable/TextGraphic.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/entity/Entity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/entity/EntityImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/entity/ModelManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/entity/MovingEntity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/entity/MovingEntityImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/event/ConnectionEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/event/CreationEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/event/DeletionEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/event/Event.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/event/EventList.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/event/EventProducer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/event/EventType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/event/Handler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/event/ModeSwitchEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/event/PlayerEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/event/ReceiveMessageEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/event/SendMessageEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/factory/GameInitializer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/factory/HandlerPool.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/factory/HandlerPoolImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/handler/AbstractHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/handler/ConnectionEventHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/handler/CreationHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/handler/DeletionHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/handler/EventHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/handler/ModeSwitchHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/handler/PlayerEventHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/handler/ReceiveMessageHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/handler/SendMessageHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/helper/GameModelPublisher.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/helper/GameModelPublisherImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/helper/GameModelSubscriber.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/helper/GameService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/helper/GameUtils.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/helper/ModelDraw.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/helper/ModelUpdate.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/helper/SizeComponent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/model/GameModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/model/GameStaticObject.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/model/StaticUIObject.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/modes/CalibrationGameMode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/modes/ConnectingMode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/modes/GameMode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/modes/ScoreViewMode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/modes/ShurikenGameMode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/modes/SwordGameMode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/movement/LinearMovement.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/movement/Movement.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/movement/ParabolaMovement.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/movement/SinusMovement.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/movement/StaticMovement.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/player/Player.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/player/PlayerManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/timer/Timer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/ui/HealthBar.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/ui/ScoreCounter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/ui/UIObject.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/ui/UIText.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/ui/UserInterface.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/game/update/GameUpdate.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/gamestate/GameState.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/gamestate/GameStateManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/log/ConsoleLogger.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/log/FileLogger.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/log/Log.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/log/MockLogger.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/log/ULogger.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/model/Background.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/model/BatEnemy.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/model/DimTranslator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/model/DummyEnemy.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/model/Enemies.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/model/Enemy.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/model/EnemyFactory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/model/MoveableBody.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/model/MovementParams.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/model/Ninja.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/model/Shuriken.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/model/ShurikenManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/model/Symbol.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/model/Updatable.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/ninja/NinjaGestures.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/ninja/SwordManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/server/GameServer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/server/MockMessageProcessor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/server/ServerHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/server/SimpleMessageProcessor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/subscription/Subscription.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/utils/ConstUtils.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/utils/FileManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/utils/JSONUtil.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/utils/ResizableT.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/vector/Vector2I.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/java/org/example/vector/Vector3D.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/resources/gestures/gestures.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/resources/gfx/Bat.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/resources/gfx/Drams.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/resources/gfx/Dummy.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/resources/gfx/GameBackground.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/resources/gfx/Hearts.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/resources/gfx/Ninja.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/resources/gfx/ShurikenSmall.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/resources/gfx/SimpleBolt.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/resources/gfx/Symbols.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/src/main/resources/logs/log.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/gestures/gestures.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/gfx/Bat.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/gfx/Drams.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/gfx/Dummy.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/gfx/GameBackground.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/gfx/Hearts.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/gfx/Ninja.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/gfx/ShurikenSmall.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/gfx/SimpleBolt.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/gfx/Symbols.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/logs/log.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/Main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/collision/AdvancedCollisionManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/collision/Collidable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/collision/Collision.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/collision/CollisionDetector.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/collision/CollisionM.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/collision/CollisionManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/collision/Sizes.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/dto/DesktopDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/dto/MessageType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/dto/MobileDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/dtw/AdvancedDTW.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/dtw/DTW.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/dtw/GenericDTW.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/dtw/distance/CosineDistance.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/dtw/distance/DistanceCalculator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/dtw/distance/EuclideanDistance.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/dtw/distance/IntegerDistanceCalculator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/dtw/distance/ManhattanDistance.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/dtw/recorder/GestureManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/dtw/recorder/Recorder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/dtw/recorder/RecorderApp.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/dtw/recorder/RecorderServer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/dtw/recorder/Recording.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/Game.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/GameLoop.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/GamePanel$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/GamePanel.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/connection/ConnectionManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/connection/DataTransformer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/draw/GameDraw.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/draw/UIDraw.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/drawable/Animated.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/drawable/AnimatedSprite.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/drawable/AnimatedSpriteImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/drawable/Animation.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/drawable/AnimationImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/drawable/DrawManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/drawable/DrawUpdatable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/drawable/Drawable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/drawable/Sprite.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/drawable/SpriteBuffer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/drawable/SpriteImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/drawable/TextGraphic.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/entity/Entity.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/entity/EntityImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/entity/ModelManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/entity/MovingEntity.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/entity/MovingEntityImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/event/ConnectionEvent$ConnectionState.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/event/ConnectionEvent.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/event/CreationEvent.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/event/DeletionEvent.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/event/Event.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/event/EventList.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/event/EventProducer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/event/EventType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/event/Handler$EventConsumer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/event/Handler$EventRunner.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/event/Handler$EventRunnerImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/event/Handler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/event/ModeSwitchEvent.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/event/PlayerEvent$Type.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/event/PlayerEvent.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/event/ReceiveMessageEvent.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/event/SendMessageEvent.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/factory/GameInitializer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/factory/HandlerPool.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/factory/HandlerPoolImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/handler/AbstractHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/handler/ConnectionEventHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/handler/CreationHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/handler/DeletionHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/handler/EventHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/handler/ModeSwitchHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/handler/PlayerEventHandler$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/handler/PlayerEventHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/handler/ReceiveMessageHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/handler/SendMessageHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/helper/GameModelPublisher.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/helper/GameModelPublisherImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/helper/GameModelSubscriber.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/helper/GameService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/helper/GameUtils.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/helper/ModelDraw.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/helper/ModelUpdate.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/helper/SizeComponent.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/model/GameModel.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/model/GameStaticObject.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/model/StaticUIObject.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/modes/CalibrationGameMode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/modes/ConnectingMode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/modes/GameMode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/modes/ScoreViewMode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/modes/ShurikenGameMode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/modes/SwordGameMode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/movement/LinearMovement.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/movement/Movement.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/movement/ParabolaMovement.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/movement/SinusMovement.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/movement/StaticMovement.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/player/Player.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/player/PlayerManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/timer/Timer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/ui/HealthBar.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/ui/ScoreCounter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/ui/UIObject.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/ui/UIText.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/ui/UserInterface.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/game/update/GameUpdate.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/gamestate/GameState.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/gamestate/GameStateManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/log/ConsoleLogger.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/log/FileLogger.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/log/Log.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/log/MockLogger.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/log/ULogger.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/model/Background.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/model/BatEnemy.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/model/DimTranslator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/model/DummyEnemy.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/model/Enemies.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/model/Enemy.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/model/EnemyFactory.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/model/MoveableBody.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/model/MovementParams.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/model/Ninja.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/model/Shuriken.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/model/ShurikenManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/model/Symbol.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/model/Updatable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/ninja/NinjaGestures.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/ninja/SwordManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/server/GameServer$ClientHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/server/GameServer$ClientSender.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/server/GameServer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/server/MockMessageProcessor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/server/ServerHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/server/SimpleMessageProcessor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/subscription/Subscription.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/utils/ConstUtils.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/utils/FileManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/utils/JSONUtil.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/utils/ResizableT$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/utils/ResizableT$BackgroundPanel.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/utils/ResizableT.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/vector/Vector2I.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOPLab3/OOPLab3A/target/classes/org/example/vector/Vector3D.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/.idea/dataSources.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/.idea/jarRepositories.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/src/main/java/univ/lab/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/src/main/java/univ/lab/controller/DatabaseController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/src/main/java/univ/lab/controller/UserInputProcessor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/src/main/java/univ/lab/controller/UserInputProcessorImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/src/main/java/univ/lab/dao/CrudDaoManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/src/main/java/univ/lab/dao/CrudDaoManagerImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/src/main/java/univ/lab/dao/DerivativeDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/src/main/java/univ/lab/dao/DerivativeDaoImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/src/main/java/univ/lab/dao/InsuranceDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/src/main/java/univ/lab/dao/InsuranceDaoImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/src/main/java/univ/lab/factory/DerivativeFactory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/src/main/java/univ/lab/factory/DerivativeFactoryImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/src/main/java/univ/lab/factory/InsuranceFactory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/src/main/java/univ/lab/factory/InsuranceFactoryImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/src/main/java/univ/lab/model/CarInsurance.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/src/main/java/univ/lab/model/Derivative.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/src/main/java/univ/lab/model/HouseInsurance.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/src/main/java/univ/lab/model/Insurance.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/src/main/java/univ/lab/model/LifeInsurance.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/src/main/java/univ/lab/service/CrudService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/src/main/java/univ/lab/service/DerivativeService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/src/main/java/univ/lab/service/DerivativeServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/src/main/java/univ/lab/service/InsuranceService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/src/main/java/univ/lab/service/InsuranceServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/src/main/java/univ/lab/util/HibernateUtil.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/src/main/resources/db_config.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/src/main/resources/hibernate.cfg.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/src/main/resources/how_to_use.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/src/test/java/univ/lab/dao/DerivativeDaoImplTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/src/test/java/univ/lab/dao/InMemoryDatabaseTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/src/test/java/univ/lab/dao/InsuranceDaoImplTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/src/test/java/univ/lab/factory/DerivativeFactoryImplTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/src/test/java/univ/lab/factory/InsuranceFactoryImplTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/src/test/java/univ/lab/service/DerivativeServiceImplTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/src/test/java/univ/lab/service/InsuranceServiceImplTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/src/test/java/univ/lab/util/HibernateUtilTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/target/classes/db_config.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/target/classes/hibernate.cfg.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/target/classes/how_to_use.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/target/classes/univ/lab/Main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/target/classes/univ/lab/controller/DatabaseController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/target/classes/univ/lab/controller/UserInputProcessor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/target/classes/univ/lab/controller/UserInputProcessorImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/target/classes/univ/lab/dao/CrudDaoManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/target/classes/univ/lab/dao/CrudDaoManagerImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/target/classes/univ/lab/dao/DerivativeDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/target/classes/univ/lab/dao/DerivativeDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/target/classes/univ/lab/dao/InsuranceDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/target/classes/univ/lab/dao/InsuranceDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/target/classes/univ/lab/factory/DerivativeFactory.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/target/classes/univ/lab/factory/DerivativeFactoryImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/target/classes/univ/lab/factory/InsuranceFactory.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/target/classes/univ/lab/factory/InsuranceFactoryImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/target/classes/univ/lab/model/CarInsurance.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/target/classes/univ/lab/model/Derivative.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/target/classes/univ/lab/model/HouseInsurance.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/target/classes/univ/lab/model/Insurance.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/target/classes/univ/lab/model/LifeInsurance.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/target/classes/univ/lab/service/CrudService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/target/classes/univ/lab/service/DerivativeService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/target/classes/univ/lab/service/DerivativeServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/target/classes/univ/lab/service/InsuranceService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/target/classes/univ/lab/service/InsuranceServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/target/classes/univ/lab/util/HibernateUtil.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/target/test-classes/univ/lab/dao/DerivativeDaoImplTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/target/test-classes/univ/lab/dao/InMemoryDatabaseTest$DataSourceProvider$Database.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/target/test-classes/univ/lab/dao/InMemoryDatabaseTest$DataSourceProvider$IdentifierStrategy.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/target/test-classes/univ/lab/dao/InMemoryDatabaseTest$DataSourceProvider.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/target/test-classes/univ/lab/dao/InMemoryDatabaseTest$HsqldbDataSourceProvider.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/target/test-classes/univ/lab/dao/InMemoryDatabaseTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/target/test-classes/univ/lab/dao/InsuranceDaoImplTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/target/test-classes/univ/lab/factory/DerivativeFactoryImplTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/target/test-classes/univ/lab/factory/InsuranceFactoryImplTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/target/test-classes/univ/lab/service/DerivativeServiceImplTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/target/test-classes/univ/lab/service/InsuranceServiceImplTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_Lab1/target/test-classes/univ/lab/util/HibernateUtilTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/univ/lab/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/univ/lab/demo/Demonstration.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/univ/lab/demo/SimpleDemonstration.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/univ/lab/factory/FillableCreatorFactory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/univ/lab/fill/Fill.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/univ/lab/fill/FillList.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/univ/lab/fill/Fillable.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/univ/lab/fill/FillableCreator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/univ/lab/fill/Filler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/univ/lab/fill/FillerImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/univ/lab/inject/ConfigurationManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/univ/lab/inject/Inject.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/univ/lab/inject/Injector.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/univ/lab/inject/InjectorFactory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/univ/lab/inject/InjectorImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/univ/lab/inject/InjectorInitializer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/univ/lab/inject/InjectorUtil.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/univ/lab/model/Characteristics.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/univ/lab/model/Paper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/univ/lab/model/Papers.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/univ/lab/parser/CustomSAXParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/univ/lab/parser/DOMParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/univ/lab/parser/Parser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/univ/lab/parser/ReflectParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/univ/lab/parser/SAXPaperHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/univ/lab/parser/StAXParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/univ/lab/regular/ConfigurationReader.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/univ/lab/regular/RegularDOMParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/univ/lab/regular/RegularParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/univ/lab/regular/RegularSAXHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/univ/lab/regular/RegularSAXParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/univ/lab/regular/RegularSTAXParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/univ/lab/validator/XSDValidator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/xml/injector-config.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/xml/paper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/xsd/injector-config.xsd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/xsd/paper.xsd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/univ/lab/fill/FillerImplTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/univ/lab/inject/GetIntegerImplementation.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/univ/lab/inject/GetIntegerInterface.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/univ/lab/inject/InjectorImplTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/univ/lab/inject/InjectorInitializerTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/univ/lab/inject/SecondGetImplementation.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/univ/lab/parser/AbstractParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/univ/lab/parser/CustomSAXParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/univ/lab/parser/DOMParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/univ/lab/parser/StAXParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/univ/lab/regular/RegularDOMParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/univ/lab/regular/RegularSAXParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/univ/lab/regular/RegularSTAXParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/univ/lab/validator/XSDValidatorTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/test-injector.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/test-paper-2.xsd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/test-paper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/test-paper.xsd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/univ/lab/Main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/univ/lab/demo/Demonstration.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/univ/lab/demo/SimpleDemonstration.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/univ/lab/factory/FillableCreatorFactory.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/univ/lab/fill/Fill.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/univ/lab/fill/FillList.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/univ/lab/fill/Fillable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/univ/lab/fill/FillableCreator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/univ/lab/fill/Filler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/univ/lab/fill/FillerImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/univ/lab/inject/ConfigurationManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/univ/lab/inject/Inject.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/univ/lab/inject/Injector.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/univ/lab/inject/InjectorFactory.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/univ/lab/inject/InjectorImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/univ/lab/inject/InjectorInitializer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/univ/lab/inject/InjectorUtil.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/univ/lab/model/Characteristics.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/univ/lab/model/Paper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/univ/lab/model/Papers.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/univ/lab/parser/CustomSAXParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/univ/lab/parser/DOMParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/univ/lab/parser/Parser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/univ/lab/parser/ReflectParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/univ/lab/parser/SAXPaperHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/univ/lab/parser/StAXParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/univ/lab/regular/ConfigurationReader.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/univ/lab/regular/RegularDOMParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/univ/lab/regular/RegularParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/univ/lab/regular/RegularSAXHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/univ/lab/regular/RegularSAXParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/univ/lab/regular/RegularSTAXParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/univ/lab/validator/XSDValidator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/xml/injector-config.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/xml/paper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/xsd/injector-config.xsd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/xsd/paper.xsd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/test-injector.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/test-paper-2.xsd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/test-paper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/test-paper.xsd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/univ/lab/fill/FillerImplTest$ClassWithList.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/univ/lab/fill/FillerImplTest$ClassWithSet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/univ/lab/fill/FillerImplTest$ToFill.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/univ/lab/fill/FillerImplTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/univ/lab/inject/GetIntegerImplementation.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/univ/lab/inject/GetIntegerInterface.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/univ/lab/inject/InjectorImplTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/univ/lab/inject/InjectorInitializerTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/univ/lab/inject/SecondGetImplementation.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/univ/lab/parser/AbstractParserTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/univ/lab/parser/CustomSAXParserTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/univ/lab/parser/DOMParserTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/univ/lab/parser/StAXParserTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/univ/lab/regular/RegularDOMParserTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/univ/lab/regular/RegularSAXParserTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/univ/lab/regular/RegularSTAXParserTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/univ/lab/validator/XSDValidatorTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/.idea/artifacts/OOP_problems_jar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/.idea/jarRepositories.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/out/artifacts/OOP_problems_jar/OOP_problems.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/src/main/java/univ/lab/problem1/client/Client.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/src/main/java/univ/lab/problem1/client/ClientMain.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/src/main/java/univ/lab/problem1/model/Model.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/src/main/java/univ/lab/problem1/model/ModelGenerator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/src/main/java/univ/lab/problem1/server/FileManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/src/main/java/univ/lab/problem1/server/ProcessCreator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/src/main/java/univ/lab/problem1/server/Server.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/src/main/java/univ/lab/problem1/server/ServerMain.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/src/main/java/univ/lab/problem10/ThreadPool.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/src/main/java/univ/lab/problem10/ThreadPoolImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/src/main/java/univ/lab/problem2/solver/Gaussian.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/src/main/java/univ/lab/problem2/solver/Generator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/src/main/java/univ/lab/problem2/solver/Solver.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/src/main/java/univ/lab/problem2/solver/SolverWorker.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/src/main/java/univ/lab/problem2/solver/ThomasAlgorithmSolver.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/src/main/java/univ/lab/problem2/solver/TridiagonaMatrixSolver.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/src/main/java/univ/lab/problem2/solver/VectorComparator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/src/main/java/univ/lab/problem2/solver/VectorComparatorSimple.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/src/main/java/univ/lab/problem4/CustomClassDescriptor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/src/main/java/univ/lab/problem4/CustomClassLoader.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/src/main/java/univ/lab/problem4/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/src/main/java/univ/lab/problem4/model/Animal.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/src/main/java/univ/lab/problem4/model/Bird.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/src/main/java/univ/lab/problem4/model/Flyable.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/src/main/java/univ/lab/problem5/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/src/main/java/univ/lab/problem5/beta/SkipList.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/src/main/java/univ/lab/problem6/CustomMichaelScottQueue.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/src/main/java/univ/lab/problem6/OneWayList.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/src/main/java/univ/lab/problem8/ReentrantLock.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/src/main/java/univ/lab/problem9/CustomPhaser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/src/main/resources/META-INF/MANIFEST.MF" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/src/main/resources/filebase/database.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/src/test/java/univ/lab/problem1/client/ClientTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/src/test/java/univ/lab/problem1/model/ModelGeneratorTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/src/test/java/univ/lab/problem1/server/FileManagerTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/src/test/java/univ/lab/problem10/ThreadPoolImplTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/src/test/java/univ/lab/problem2/solver/SolverWorkerTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/src/test/java/univ/lab/problem2/solver/ThomasAlgorithmSolverTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/src/test/java/univ/lab/problem2/solver/TridiagonalMatrixSolverTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/src/test/java/univ/lab/problem4/CustomClassDescriptorTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/src/test/java/univ/lab/problem4/CustomClassLoaderTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/src/test/java/univ/lab/problem5/beta/SkipList2Test.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/src/test/java/univ/lab/problem6/CustomMichaelScottQueueTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/src/test/java/univ/lab/problem9/CustomPhaserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/src/test/resources/file.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/target/classes/META-INF/MANIFEST.MF" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/target/classes/filebase/database.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/target/classes/univ/lab/problem1/client/Client.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/target/classes/univ/lab/problem1/client/ClientMain.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/target/classes/univ/lab/problem1/model/Model.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/target/classes/univ/lab/problem1/model/ModelGenerator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/target/classes/univ/lab/problem1/server/FileManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/target/classes/univ/lab/problem1/server/ProcessCreator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/target/classes/univ/lab/problem1/server/Server.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/target/classes/univ/lab/problem1/server/ServerMain.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/target/classes/univ/lab/problem10/ThreadPool.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/target/classes/univ/lab/problem10/ThreadPoolImpl$WorkerThread.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/target/classes/univ/lab/problem10/ThreadPoolImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/target/classes/univ/lab/problem2/solver/Gaussian.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/target/classes/univ/lab/problem2/solver/Generator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/target/classes/univ/lab/problem2/solver/Solver.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/target/classes/univ/lab/problem2/solver/SolverWorker.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/target/classes/univ/lab/problem2/solver/ThomasAlgorithmSolver.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/target/classes/univ/lab/problem2/solver/TridiagonaMatrixSolver.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/target/classes/univ/lab/problem2/solver/TridiagonalMatrixHelper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/target/classes/univ/lab/problem2/solver/VectorComparator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/target/classes/univ/lab/problem2/solver/VectorComparatorSimple.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/target/classes/univ/lab/problem4/CustomClassDescriptor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/target/classes/univ/lab/problem4/CustomClassLoader.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/target/classes/univ/lab/problem4/Main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/target/classes/univ/lab/problem4/model/Animal.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/target/classes/univ/lab/problem4/model/Bird.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/target/classes/univ/lab/problem4/model/Flyable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/target/classes/univ/lab/problem5/Main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/target/classes/univ/lab/problem5/beta/SkipList$Node.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/target/classes/univ/lab/problem5/beta/SkipList.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/target/classes/univ/lab/problem6/CustomMichaelScottQueue$Node.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/target/classes/univ/lab/problem6/CustomMichaelScottQueue.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/target/classes/univ/lab/problem6/OneWayList$Node.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/target/classes/univ/lab/problem6/OneWayList.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/target/classes/univ/lab/problem8/ReentrantLock.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/target/classes/univ/lab/problem9/CustomPhaser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/target/test-classes/file.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/target/test-classes/univ/lab/problem1/client/ClientTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/target/test-classes/univ/lab/problem1/model/ModelGeneratorTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/target/test-classes/univ/lab/problem1/server/FileManagerTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/target/test-classes/univ/lab/problem10/ThreadPoolImplTest$InterruptedTask.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/target/test-classes/univ/lab/problem10/ThreadPoolImplTest$SimpleTask.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/target/test-classes/univ/lab/problem10/ThreadPoolImplTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/target/test-classes/univ/lab/problem2/solver/SolverWorkerTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/target/test-classes/univ/lab/problem2/solver/ThomasAlgorithmSolverTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/target/test-classes/univ/lab/problem2/solver/TridiagonalMatrixSolverTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/target/test-classes/univ/lab/problem4/CustomClassDescriptorTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/target/test-classes/univ/lab/problem4/CustomClassLoaderTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/target/test-classes/univ/lab/problem5/beta/SkipList2Test.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/target/test-classes/univ/lab/problem6/CustomMichaelScottQueueTest$Consumer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/target/test-classes/univ/lab/problem6/CustomMichaelScottQueueTest$Producer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/target/test-classes/univ/lab/problem6/CustomMichaelScottQueueTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/target/test-classes/univ/lab/problem9/CustomPhaserTest$Worker.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OOP_problems/target/test-classes/univ/lab/problem9/CustomPhaserTest.class" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="AnnotationType" />
+        <option value="JUnit5 Test Class" />
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="workspaceImportEnabled" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="2WXexWQ9vWdNQWHtkRJzYhwXkJd" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/tempRepo/sem5/OOP/Labs/OOP_labs_sem1/OOP_Lab2/src/test/resources&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="univ.lab.inject" />
+      <recent name="univ.lab.fill" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\tempRepo\sem5\OOP\Labs\OOP_labs_sem1\OOP_Lab2\src\test\resources" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\tempRepo\sem5\OOP\Labs\OOP_labs_sem1\OOP_Lab2\src\test\resources" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="univ.lab.regular" />
+      <recent name="univ.lab.validator" />
+      <recent name="univ.lab.parser" />
+      <recent name="univ.lab.inject" />
+      <recent name="univ.lab.fill" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.Demonstraion">
+    <configuration name="Demonstraion" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="univ.lab.Main" />
+      <module name="OOP_Lab2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RegularDOMParserTest.parse" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="OOP_Lab2" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="univ.lab.regular.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="univ.lab.regular" />
+      <option name="MAIN_CLASS_NAME" value="univ.lab.regular.RegularDOMParserTest" />
+      <option name="METHOD_NAME" value="parse" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RegularSAXParserTest.parse" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="OOP_Lab2" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="univ.lab.regular.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="univ.lab.regular" />
+      <option name="MAIN_CLASS_NAME" value="univ.lab.regular.RegularSAXParserTest" />
+      <option name="METHOD_NAME" value="parse" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RegularSTAXParserTest.parse" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="OOP_Lab2" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="univ.lab.regular.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="univ.lab.regular" />
+      <option name="MAIN_CLASS_NAME" value="univ.lab.regular.RegularSTAXParserTest" />
+      <option name="METHOD_NAME" value="parse" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="XSDValidatorTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="OOP_Lab2" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="univ.lab.validator.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="univ.lab.validator" />
+      <option name="MAIN_CLASS_NAME" value="univ.lab.validator.XSDValidatorTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="XSDValidatorTest.validate" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="OOP_Lab2" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="univ.lab.validator.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="univ.lab.validator" />
+      <option name="MAIN_CLASS_NAME" value="univ.lab.validator.XSDValidatorTest" />
+      <option name="METHOD_NAME" value="validate" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.Demonstraion" />
+      <item itemvalue="JUnit.RegularDOMParserTest.parse" />
+      <item itemvalue="JUnit.RegularSAXParserTest.parse" />
+      <item itemvalue="JUnit.RegularSTAXParserTest.parse" />
+      <item itemvalue="JUnit.XSDValidatorTest" />
+      <item itemvalue="JUnit.XSDValidatorTest.validate" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.RegularSTAXParserTest.parse" />
+        <item itemvalue="JUnit.RegularDOMParserTest.parse" />
+        <item itemvalue="JUnit.RegularSAXParserTest.parse" />
+        <item itemvalue="JUnit.XSDValidatorTest" />
+        <item itemvalue="JUnit.XSDValidatorTest.validate" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="9f626f8a-ef75-4b94-99d7-bd742f045c7c" name="Changes" comment="" />
+      <created>1696883599724</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1696883599724</updated>
+      <workItem from="1696883600864" duration="40773000" />
+      <workItem from="1696973015346" duration="23000" />
+      <workItem from="1698108337426" duration="6299000" />
+      <workItem from="1698114653580" duration="164000" />
+      <workItem from="1698123795824" duration="7644000" />
+      <workItem from="1698131482011" duration="4000" />
+      <workItem from="1698132350178" duration="3590000" />
+      <workItem from="1698539385188" duration="3273000" />
+      <workItem from="1698574248138" duration="639000" />
+      <workItem from="1698960194660" duration="1208000" />
+      <workItem from="1699000685884" duration="33000" />
+      <workItem from="1699585184663" duration="2365000" />
+      <workItem from="1699608907478" duration="15000" />
+      <workItem from="1700563490077" duration="436000" />
+      <workItem from="1703519360153" duration="627000" />
+      <workItem from="1704152917752" duration="638000" />
+      <workItem from="1704184012335" duration="476000" />
+      <workItem from="1709576473453" duration="74000" />
+      <workItem from="1709576556727" duration="258000" />
+      <workItem from="1709576831983" duration="64000" />
+    </task>
+    <task id="LOCAL-00001" summary="created lab2 project">
+      <created>1696883623628</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1696883623628</updated>
+    </task>
+    <task id="LOCAL-00002" summary="added lombok and junit dependencies">
+      <created>1696883683975</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1696883683975</updated>
+    </task>
+    <task id="LOCAL-00003" summary="added xml and xsd files, temp versions">
+      <created>1696885295096</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1696885295096</updated>
+    </task>
+    <task id="LOCAL-00004" summary="added required ID attribute">
+      <created>1696887400578</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1696887400578</updated>
+    </task>
+    <task id="LOCAL-00005" summary="defined Characteristics model">
+      <created>1696887977968</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1696887977968</updated>
+    </task>
+    <task id="LOCAL-00006" summary="added parser interface">
+      <created>1696888138933</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1696888138933</updated>
+    </task>
+    <task id="LOCAL-00007" summary="created inject annotation">
+      <created>1696888911356</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1696888911356</updated>
+    </task>
+    <task id="LOCAL-00008" summary="added fill annotation">
+      <created>1696890085143</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1696890085143</updated>
+    </task>
+    <task id="LOCAL-00009" summary="implemented filler">
+      <created>1696891419070</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1696891419070</updated>
+    </task>
+    <task id="LOCAL-00010" summary="added find implementation method">
+      <created>1696891649306</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1696891649306</updated>
+    </task>
+    <task id="LOCAL-00011" summary="removed extra casting in injector">
+      <created>1696894737784</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1696894737784</updated>
+    </task>
+    <task id="LOCAL-00012" summary="added injector initializer from xml file">
+      <created>1696895575860</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1696895575860</updated>
+    </task>
+    <task id="LOCAL-00013" summary="added injector util">
+      <created>1696895831142</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1696895831142</updated>
+    </task>
+    <task id="LOCAL-00014" summary="added filler test">
+      <created>1696896579646</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1696896579646</updated>
+    </task>
+    <task id="LOCAL-00015" summary="added injector initializer test">
+      <created>1696898001458</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1696898001458</updated>
+    </task>
+    <task id="LOCAL-00016" summary="added injector test">
+      <created>1696898559781</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1696898559781</updated>
+    </task>
+    <task id="LOCAL-00017" summary="added exception details, optimized imports">
+      <created>1696898738051</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1696898738051</updated>
+    </task>
+    <task id="LOCAL-00018" summary="added fillable interface">
+      <created>1696900701457</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1696900701457</updated>
+    </task>
+    <task id="LOCAL-00019" summary="added fillable creator">
+      <created>1696906696219</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1696906696219</updated>
+    </task>
+    <task id="LOCAL-00020" summary="added xsd validator">
+      <created>1696908464485</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1696908464485</updated>
+    </task>
+    <task id="LOCAL-00021" summary="added dom parser, implemented primitives cast">
+      <created>1696910578112</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1696910578112</updated>
+    </task>
+    <task id="LOCAL-00022" summary="implemented fill list annotation processor">
+      <created>1696913248245</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1696913248245</updated>
+    </task>
+    <task id="LOCAL-00023" summary="tested filler with lists">
+      <created>1696914015819</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1696914015819</updated>
+    </task>
+    <task id="LOCAL-00024" summary="added papers model">
+      <created>1696914440826</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1696914440826</updated>
+    </task>
+    <task id="LOCAL-00025" summary="fixed boolean passed bug">
+      <created>1696920480105</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1696920480105</updated>
+    </task>
+    <task id="LOCAL-00026" summary="tested custom SAX parser">
+      <created>1696921074772</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1696921074772</updated>
+    </task>
+    <task id="LOCAL-00027" summary="added fill list documentation">
+      <created>1696921709581</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1696921709581</updated>
+    </task>
+    <task id="LOCAL-00028" summary="removed write method">
+      <created>1696921886435</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1696921886435</updated>
+    </task>
+    <task id="LOCAL-00029" summary="fixed DOM parser">
+      <created>1696922456485</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1696922456485</updated>
+    </task>
+    <task id="LOCAL-00030" summary="added stax parser class">
+      <created>1696923868816</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1696923868816</updated>
+    </task>
+    <task id="LOCAL-00031" summary="added stax parser basic implementation">
+      <created>1698110883116</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1698110883116</updated>
+    </task>
+    <task id="LOCAL-00032" summary="implemented STAX parser">
+      <created>1698112170454</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1698112170454</updated>
+    </task>
+    <task id="LOCAL-00033" summary="added reflect parser interface">
+      <created>1698112525637</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1698112525637</updated>
+    </task>
+    <task id="LOCAL-00034" summary="fixed empty attribute in dom bug">
+      <created>1698113467243</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1698113467243</updated>
+    </task>
+    <task id="LOCAL-00035" summary="added xsd parser">
+      <created>1698114530364</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1698114530364</updated>
+    </task>
+    <task id="LOCAL-00036" summary="added regular parsers classes">
+      <created>1698114628126</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1698114628126</updated>
+    </task>
+    <task id="LOCAL-00037" summary="added more configuration parameters">
+      <created>1698124414203</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1698124414203</updated>
+    </task>
+    <task id="LOCAL-00038" summary="implemented regular SAX Parser">
+      <created>1698125594827</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1698125594827</updated>
+    </task>
+    <task id="LOCAL-00039" summary="added regular SAX parser test">
+      <created>1698125673907</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1698125673907</updated>
+    </task>
+    <task id="LOCAL-00040" summary="Implemented regular dom parser">
+      <created>1698126347083</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1698126347083</updated>
+    </task>
+    <task id="LOCAL-00041" summary="added regular DOM parser test">
+      <created>1698126421335</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1698126421335</updated>
+    </task>
+    <task id="LOCAL-00042" summary="added regular stax parser implementation">
+      <created>1698127279541</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1698127279541</updated>
+    </task>
+    <task id="LOCAL-00043" summary="added regular stax parser test">
+      <created>1698127624740</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1698127624740</updated>
+    </task>
+    <task id="LOCAL-00044" summary="added configuration reader">
+      <created>1698128644670</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1698128644670</updated>
+    </task>
+    <task id="LOCAL-00045" summary="added simple demonstration">
+      <created>1698130548808</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1698130548808</updated>
+    </task>
+    <task id="LOCAL-00046" summary="added inject annotations, inserted new data in xml">
+      <created>1698131200614</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1698131200614</updated>
+    </task>
+    <task id="LOCAL-00047" summary="added enumeration types">
+      <created>1698134419177</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1698134419177</updated>
+    </task>
+    <option name="localTasksCounter" value="48" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="added papers model" />
+    <MESSAGE value="fixed boolean passed bug" />
+    <MESSAGE value="tested custom SAX parser" />
+    <MESSAGE value="added fill list documentation" />
+    <MESSAGE value="removed write method" />
+    <MESSAGE value="fixed DOM parser" />
+    <MESSAGE value="added stax parser class" />
+    <MESSAGE value="added stax parser basic implementation" />
+    <MESSAGE value="implemented STAX parser" />
+    <MESSAGE value="added reflect parser interface" />
+    <MESSAGE value="fixed empty attribute in dom bug" />
+    <MESSAGE value="added xsd parser" />
+    <MESSAGE value="added regular parsers classes" />
+    <MESSAGE value="created auxiliary classes" />
+    <MESSAGE value="added more configuration parameters" />
+    <MESSAGE value="implemented regular SAX Parser" />
+    <MESSAGE value="added regular SAX parser test" />
+    <MESSAGE value="Implemented regular dom parser" />
+    <MESSAGE value="added regular DOM parser test" />
+    <MESSAGE value="added regular stax parser implementation" />
+    <MESSAGE value="added regular stax parser test" />
+    <MESSAGE value="added configuration reader" />
+    <MESSAGE value="added simple demonstration" />
+    <MESSAGE value="added inject annotations, inserted new data in xml" />
+    <MESSAGE value="added enumeration types" />
+    <option name="LAST_COMMIT_MESSAGE" value="added enumeration types" />
+  </component>
+</project>

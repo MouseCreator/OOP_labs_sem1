@@ -1,0 +1,13 @@
+"exit", "close" -> exits program
+"add_insurance", "ai" -> adds insurance to database
+    Type: "car", "house" or "life"
+"add_derivative", "ad" -> adds derivative to database
+"show_insurances", "si" -> gets all insurances
+"show_derivatives", "sd" -> gets all derivatives
+"delete_insurance", "di" -> deletes the derivative by id
+"delete_derivative", "dd" -> deletes the insurance by id
+"put", "p" -> puts insurance in derivative
+"remove", "r" -> removes insurance from derivative
+"sum", "s" -> calculates total price of all insurances in derivative
+"sort", "st" -> gets all insurances from derivative in sorted order
+"get", "g" -> gets all insurances from derivative by set of parameters ("any" - no parameter)
