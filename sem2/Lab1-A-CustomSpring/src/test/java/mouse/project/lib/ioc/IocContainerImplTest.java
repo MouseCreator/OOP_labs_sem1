@@ -6,6 +6,10 @@ import mouse.project.lib.exception.IOCException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Stream;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class IocContainerImplTest {
@@ -62,10 +66,37 @@ class IocContainerImplTest {
     @Name(name = "notPrimaryNamed")
     private static class NotPrimaryNamed implements InterfaceWithNamedImplementation {
     }
+
+    private interface InterfaceWithDuplicateNames {
+    }
+    @Name(name = "name")
+    private static class NamedTheSame1 implements InterfaceWithDuplicateNames {
+    }
+    @Name(name = "name")
+    private static class NamedTheSame2 implements InterfaceWithDuplicateNames {
+    }
+
+    private interface InterfaceWithManyImplementations {
+        String method();
+    }
+
+    private static class ImplementationOneOfMany1 implements InterfaceWithManyImplementations {
+        @Override
+        public String method() {
+            return "one";
+        }
+    }
+    private static class ImplementationOneOfMany2 implements InterfaceWithManyImplementations {
+        @Override
+        public String method() {
+            return "two";
+        }
+    }
     @BeforeEach
     void setUp() {
         iocContainer = new IocContainerImpl();
     }
+
 
     @Test
     void getSingle_noConflict() {
@@ -106,7 +137,7 @@ class IocContainerImplTest {
     }
 
     @Test
-    void getNamed() {
+    void getNamed_Ok() {
         iocContainer.addImplementation(new PrimaryNotNamed());
         iocContainer.addImplementation(new NotPrimaryNamed());
 
@@ -119,10 +150,36 @@ class IocContainerImplTest {
     }
 
     @Test
+    void getNamed_Duplicate() {
+        iocContainer.addImplementation(new NamedTheSame1());
+        iocContainer.addImplementation(new NamedTheSame2());
+        assertThrows(IOCException.class, () -> iocContainer.getNamed(InterfaceWithDuplicateNames.class, "name"));
+    }
+
+    @Test
     void getList() {
+        iocContainer.addImplementation(new ImplementationOneOfMany1());
+        iocContainer.addImplementation(new ImplementationOneOfMany2());
+
+        List<InterfaceWithManyImplementations> impls = iocContainer.getList(InterfaceWithManyImplementations.class);
+        assertEquals(2, impls.size());
+        validateContainsBothImplementations(impls.stream());
     }
 
     @Test
     void getSet() {
+        iocContainer.addImplementation(new ImplementationOneOfMany1());
+        iocContainer.addImplementation(new ImplementationOneOfMany2());
+
+        Set<InterfaceWithManyImplementations> impls = iocContainer.getSet(InterfaceWithManyImplementations.class);
+        assertEquals(2, impls.size());
+        validateContainsBothImplementations(impls.stream());
+    }
+
+    private static void validateContainsBothImplementations(Stream<InterfaceWithManyImplementations> impls) {
+        assertTrue(impls
+                .map(InterfaceWithManyImplementations::method)
+                .toList()
+                .containsAll(List.of("one", "two")));
     }
 }
