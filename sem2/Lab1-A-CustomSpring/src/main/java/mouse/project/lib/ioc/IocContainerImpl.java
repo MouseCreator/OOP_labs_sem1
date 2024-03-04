@@ -2,6 +2,7 @@ package mouse.project.lib.ioc;
 
 import mouse.project.lib.annotation.Name;
 import mouse.project.lib.annotation.Primary;
+import mouse.project.lib.exception.IOCException;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -22,7 +23,7 @@ public class IocContainerImpl implements IocContainer {
         }
         Optional<Object> primaryImplementation = choosePrimary(objects, targetClass);
         Object obj = primaryImplementation.orElseThrow(()->
-                new IllegalArgumentException("Multiple implementations are provided for " + targetClass
+                new IOCException("Multiple implementations are provided for " + targetClass
                         + ". Cannot choose between: "+ objects));
         return targetClass.cast(obj);
     }
@@ -42,7 +43,7 @@ public class IocContainerImpl implements IocContainer {
         if (primaries.size()==0) {
             return Optional.empty();
         }
-        throw new IllegalArgumentException("Multiple primary implementations found for class " + target.getName()
+        throw new IOCException("Multiple primary implementations found for class " + target.getName()
         + ". No primary. Cannot choose between: " + primaries);
     }
 
@@ -61,11 +62,11 @@ public class IocContainerImpl implements IocContainer {
         }
 
         if (namedObjects.size() == 1) {
-            return targetClass.cast(objects.get(0));
+            return targetClass.cast(namedObjects.get(0));
         }
         Optional<Object> primaryImplementation = choosePrimary(objects, targetClass);
         Object obj = primaryImplementation.orElseThrow(()->
-                new IllegalArgumentException("Multiple named as " + name + " implementations are provided for "
+                new IOCException("Multiple named as " + name + " implementations are provided for "
                         + targetClass
                         + ". No primary. Cannot choose between: "+ namedObjects));
 
@@ -75,7 +76,7 @@ public class IocContainerImpl implements IocContainer {
     private List<Object> getImplementationList(Class<?> target) {
         List<Object> objects = implementations.get(target);
         if (objects == null) {
-            throw new IllegalArgumentException("No implementation provided for " + target.getName());
+            throw new IOCException("No implementation provided for " + target.getName());
         }
         return objects;
     }
