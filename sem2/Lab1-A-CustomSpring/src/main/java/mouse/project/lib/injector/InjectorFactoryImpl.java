@@ -10,6 +10,8 @@ import org.reflections.Reflections;
 import org.reflections.scanners.Scanners;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.*;
@@ -62,16 +64,52 @@ public class InjectorFactoryImpl implements InjectorFactory {
         method.setAccessible(true);
         Class<?> returnType = method.getReturnType();
         Parameter[] parameters = method.getParameters();
+        return createFromParametersAndReturnType(parameters, returnType);
+
+    }
+    private <T> ClassDescriptor createDescriptorFromConstructor(Constructor<T> constructor, Class<T> clazz) {
+        constructor.setAccessible(true);
+        Parameter[] parameters = constructor.getParameters();
+        return createFromParametersAndReturnType(parameters, clazz);
+
+    }
+
+    private ClassDescriptor createFromParametersAndReturnType(Parameter[] parameters, Class<?> returnType) {
         List<RequiredClass> requirements = new ArrayList<>();
         for (Parameter parameter : parameters) {
-            UseNamed annotation = parameter.getAnnotation(UseNamed.class);
-            String named = annotation == null ? null : annotation.named();
-            Class<?> requiredType = parameter.getType();
-            RequiredClass requiredClass = new RequiredClass(requiredType, named);
+            RequiredClass requiredClass = inspectParameter(parameter);
             requirements.add(requiredClass);
         }
         return new ClassDescriptor(returnType, requirements);
+    }
 
+    private RequiredClass inspectParameter(Parameter parameter) {
+        UseNamed annotation = parameter.getAnnotation(UseNamed.class);
+        String named = annotation == null ? null : annotation.named();
+        Class<?> requiredType = parameter.getType();
+        return new RequiredClass(requiredType, named);
+    }
+
+    private void appendFromSetters(ClassDescriptor descriptor, List<Method> methods) {
+        for (Method method : methods) {
+            method.setAccessible(true);
+            Parameter[] parameters = method.getParameters();
+            for (Parameter parameter : parameters) {
+                RequiredClass requiredClass = inspectParameter(parameter);
+                descriptor.addRequired(requiredClass);
+            }
+        }
+    }
+
+    private void appendFromFields(ClassDescriptor descriptor, List<Field> fields) {
+        for (Field field : fields) {
+            field.setAccessible(true);
+            Class<?> requireType = field.getType();
+            UseNamed annotation = field.getAnnotation(UseNamed.class);
+            String named = annotation == null ? null : annotation.named();
+            RequiredClass requiredClass = new RequiredClass(requireType, named);
+            descriptor.addRequired(requiredClass);
+        }
     }
 
 
