@@ -6,7 +6,6 @@ import lombok.Data;
 public class RequiredClass {
     private final Class<?> requiredClass;
     private final String named;
-
     public RequiredClass(Class<?> required, String named) {
         this.requiredClass = required;
         this.named = named;
