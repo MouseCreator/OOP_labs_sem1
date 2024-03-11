@@ -3,18 +3,29 @@ package mouse.project.lib.injector.sources.constructor;
 import mouse.project.lib.annotation.UseNamed;
 import mouse.project.lib.injector.sources.RequiredClass;
 
+import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ConstructorHelper {
-    private RequiredClass inspectParameter(Parameter parameter) {
+    public RequiredClass inspectParameter(Parameter parameter) {
         UseNamed annotation = parameter.getAnnotation(UseNamed.class);
         String named = annotation == null ? null : annotation.named();
         Class<?> requiredType = parameter.getType();
         return new RequiredClass(requiredType, named);
     }
 
-    private ConstructorHelper() {
+    public List<RequiredClass> inspectParameters(Parameter[] parameters) {
+        List<RequiredClass> result = new ArrayList<>();
+        for (Parameter parameter : parameters) {
+            RequiredClass requiredClass = inspectParameter(parameter);
+            result.add(requiredClass);
+        }
+        return result;
+    }
 
+    private ConstructorHelper() {
     }
     private static ConstructorHelper instance = null;
 
