@@ -21,7 +21,7 @@ public class ConstructorRequirementImpl<T> implements ConstructorRequirement<T> 
         helper = ConstructorHelper.get();
     }
 
-    ConstructorRequirementImpl<T> get(Constructor<T> constructor) {
+    static <T> ConstructorRequirementImpl<T> get(Constructor<T> constructor) {
         ConstructorRequirementImpl<T> instance = new ConstructorRequirementImpl<>();
         instance.initWith(constructor);
         return instance;
