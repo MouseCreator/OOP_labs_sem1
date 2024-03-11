@@ -1,9 +1,11 @@
 package mouse.project.lib.injector.sources.constructor;
 
 import mouse.project.lib.injector.sources.annotation.Construct;
+import mouse.project.lib.injector.sources.annotation.GetMethod;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.NoSuchElementException;
 
 public class RequirementTestHelper {
@@ -37,5 +39,20 @@ public class RequirementTestHelper {
         } catch (NoSuchFieldException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public Method getMethod(Class<?> clazz, String key) {
+        Method[] methods = clazz.getMethods();
+        for (Method method : methods) {
+            GetMethod annotation = method.getAnnotation(GetMethod.class);
+            if (annotation == null) {
+                continue;
+            }
+            if(annotation.key().equals(key)) {
+                method.setAccessible(true);
+                return method;
+            }
+        }
+        throw new NoSuchElementException("No method with key " + key + " in class " + clazz);
     }
 }
