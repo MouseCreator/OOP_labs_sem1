@@ -1,11 +1,11 @@
 package mouse.project.lib.injector.sources.constructor;
 
+import mouse.project.lib.exception.IOCException;
 import mouse.project.lib.injector.sources.RequiredClass;
 import mouse.project.lib.injector.sources.annotation.GetMethod;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -67,5 +67,22 @@ class SetterRequirementImplTest {
         assertFalse(setter.isFullySatisfied());
         setter.satisfy(new RequiredClass(String.class), "New");
         assertTrue(setter.isFullySatisfied());
+    }
+
+    @Test
+    void testManual() {
+        SampleClass sampleClass = new SampleClass();
+        sampleClass.setText("Hello");
+        assertEquals("Hello", sampleClass.text);
+
+        String prev = sampleClass.setText("Bye");
+        assertEquals("Hello", prev);
+    }
+
+    @Test
+    void testIllegal() {
+        Method method = helper.getMethod(SampleClass.class, "text");
+        SetterRequirement setter = requirementProvider.getSetter(method);
+        assertThrows(IOCException.class, () -> setter.satisfy(0, 100));
     }
 }
