@@ -25,14 +25,14 @@ public class FieldRequirementImpl implements FieldRequirement {
     }
 
     @Override
-    public void inject(Object toInject) {
+    public void injectInto(Object toInject) {
         if (field == null) {
             throw new IOCException("Field injector is not initialized");
         }
         Object impl = requirementsSet.validateAndGet(0);
         try {
-            field.set(impl, toInject);
-        } catch (IllegalAccessException e) {
+            field.set(toInject, impl);
+        } catch (Exception e) {
             throw new IOCException(e);
         }
     }

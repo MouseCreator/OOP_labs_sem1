@@ -3,6 +3,7 @@ package mouse.project.lib.injector.sources.constructor;
 import mouse.project.lib.injector.sources.annotation.Construct;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.util.NoSuchElementException;
 
 public class RequirementTestHelper {
@@ -26,5 +27,15 @@ public class RequirementTestHelper {
             }
         }
         throw new NoSuchElementException("No constructor with key " + key + " for class " + clazz);
+    }
+
+    public Field getField(Class<?> clazz, String fieldName) {
+        try {
+            Field field = clazz.getDeclaredField(fieldName);
+            field.setAccessible(true);
+            return field;
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
