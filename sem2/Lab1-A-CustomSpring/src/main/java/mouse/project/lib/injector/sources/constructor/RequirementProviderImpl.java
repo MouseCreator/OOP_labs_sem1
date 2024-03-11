@@ -2,6 +2,7 @@ package mouse.project.lib.injector.sources.constructor;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 public class RequirementProviderImpl implements RequirementProvider {
     @Override
@@ -14,5 +15,12 @@ public class RequirementProviderImpl implements RequirementProvider {
         FieldRequirement fieldRequirement = new FieldRequirementImpl();
         fieldRequirement.initWith(field);
         return fieldRequirement;
+    }
+
+    @Override
+    public SetterRequirement getSetter(Method method) {
+        SetterRequirement setterRequirement = new SetterRequirementImpl();
+        setterRequirement.initWith(method);
+        return setterRequirement;
     }
 }
