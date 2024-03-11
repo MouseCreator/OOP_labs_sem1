@@ -1,4 +1,4 @@
-package mouse.project.lib.injector.sources.constructor;
+package mouse.project.lib.injector.sources.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

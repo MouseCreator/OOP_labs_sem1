@@ -2,6 +2,7 @@ package mouse.project.lib.injector.sources.constructor;
 
 import mouse.project.lib.exception.IOCException;
 import mouse.project.lib.injector.sources.RequiredClass;
+import mouse.project.lib.injector.sources.annotation.Construct;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

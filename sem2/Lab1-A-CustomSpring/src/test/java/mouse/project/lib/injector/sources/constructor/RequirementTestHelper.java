@@ -1,5 +1,7 @@
 package mouse.project.lib.injector.sources.constructor;
 
+import mouse.project.lib.injector.sources.annotation.Construct;
+
 import java.lang.reflect.Constructor;
 import java.util.NoSuchElementException;
 
