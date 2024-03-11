@@ -1,5 +1,7 @@
 package mouse.project.lib.injector.sources.constructor;
 
+import mouse.project.lib.exception.IOCException;
+import mouse.project.lib.injector.sources.RequiredClass;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -43,6 +45,12 @@ class ConstructorRequirementImplTest {
             this.text = text;
             this.number = number;
         }
+
+        @Construct(key = "4")
+        public SampleClass(int number) {
+            this.text = TEXT_DEFAULT;
+            this.number = number;
+        }
     }
 
     @Test
@@ -55,25 +63,59 @@ class ConstructorRequirementImplTest {
     }
 
     @Test
-    void satisfy() {
+    void testSatisfyClass() {
         Constructor<SampleClass> constructor = helper.getConstructor(SampleClass.class, "1");
-        requirementProvider.getConstructor(constructor);
+        ConstructorRequirement<SampleClass> cr = requirementProvider.getConstructor(constructor);
+        cr.satisfy(new RequiredClass(String.class), "Hello");
+        SampleClass construct = cr.construct();
+        assertEquals("Hello", construct.text);
     }
 
     @Test
-    void testSatisfy() {
+    void testSatisfyArgument() {
+        Constructor<SampleClass> constructor = helper.getConstructor(SampleClass.class, "2");
+        ConstructorRequirement<SampleClass> cr = requirementProvider.getConstructor(constructor);
+        cr.satisfy(0, 100);
+        SampleClass construct = cr.construct();
+        assertEquals(100, construct.number);
+    }
+
+    @Test
+    void testSatisfyIllegal() {
+        Constructor<SampleClass> stringConstructor = helper.getConstructor(SampleClass.class, "1");
+        ConstructorRequirement<SampleClass> strCr = requirementProvider.getConstructor(stringConstructor);
+        assertThrows(IOCException.class, () -> strCr.satisfy(new RequiredClass(String.class), 100),
+                "Expected to throw if object is not a String");
+        assertThrows(IOCException.class, () -> strCr.satisfy(new RequiredClass(Integer.class), 100),
+                "Expected to throw if no integer argument type in constructor");
+        assertThrows(IOCException.class, () -> strCr.satisfy(0, 100),
+                "Expected to throw if the first argument is not a String.");
     }
 
     @Test
     void isFullySatisfied() {
+        Constructor<SampleClass> constructor = helper.getConstructor(SampleClass.class, "3");
+        ConstructorRequirement<SampleClass> cr = requirementProvider.getConstructor(constructor);
+        assertFalse(cr.isFullySatisfied());
+        assertThrows(IOCException.class, cr::construct);
 
+        cr.satisfy(0, "Hello");
+        assertFalse(cr.isFullySatisfied());
+        assertThrows(IOCException.class, cr::construct);
+
+        cr.satisfy(1, 1);
+        assertTrue(cr.isFullySatisfied());
+        SampleClass construct = cr.construct();
+        assertEquals("Hello", construct.text);
+        assertEquals(1, construct.number);
     }
 
     @Test
-    void initWith() {
-    }
-
-    @Test
-    void construct() {
+    void testPrimitives() {
+        Constructor<SampleClass> constructor = helper.getConstructor(SampleClass.class, "4");
+        ConstructorRequirement<SampleClass> cr = requirementProvider.getConstructor(constructor);
+        assertThrows(IOCException.class, () -> cr.satisfy(0, 1L),
+                "Expected to throw, since int != long");
+        assertDoesNotThrow(() -> cr.satisfy(0, 1));
     }
 }

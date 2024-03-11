@@ -3,6 +3,7 @@ package mouse.project.lib.injector.sources.constructor;
 import lombok.Getter;
 import mouse.project.lib.exception.IOCException;
 import mouse.project.lib.injector.sources.RequiredClass;
+import mouse.project.lib.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -43,6 +44,14 @@ public class RequirementsSet {
 
         public void use(Object satisfyWith) {
             Class<?> clazz = requiredClass.getRequiredClass();
+            if (clazz.isPrimitive()) {
+                handlePrimitive(satisfyWith, clazz);
+            } else {
+                handleObject(satisfyWith, clazz);
+            }
+        }
+
+        private void handleObject(Object satisfyWith, Class<?> clazz) {
             try {
                 clazz.cast(satisfyWith);
                 impl = satisfyWith;
@@ -50,6 +59,14 @@ public class RequirementsSet {
                 throw new IOCException("Cannot cast to required class " +
                         clazz + " implementation of type "
                         + satisfyWith.getClass());
+            }
+        }
+
+        private void handlePrimitive(Object satisfyWith, Class<?> clazz) {
+            try {
+                impl = Utils.validatePrimitive(clazz, satisfyWith);
+            } catch (IllegalArgumentException e) {
+                throw new IOCException(e);
             }
         }
 
