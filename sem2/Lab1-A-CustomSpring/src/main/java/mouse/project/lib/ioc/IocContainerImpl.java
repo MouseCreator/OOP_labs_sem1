@@ -40,7 +40,7 @@ public class IocContainerImpl implements IocContainer {
         if (primaries.size()==1) {
             return Optional.of(primaries.get(0));
         }
-        if (primaries.size()==0) {
+        if (primaries.isEmpty()) {
             return Optional.empty();
         }
         throw new IOCException("Multiple primary implementations found for class " + target.getName()
