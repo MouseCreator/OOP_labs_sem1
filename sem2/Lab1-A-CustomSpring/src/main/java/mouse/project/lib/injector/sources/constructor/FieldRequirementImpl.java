@@ -43,11 +43,6 @@ public class FieldRequirementImpl implements FieldRequirement {
     }
 
     @Override
-    public RequiredClass getRequired() {
-        return requirementsSet.getRequirements().get(0);
-    }
-
-    @Override
     public List<RequiredClass> getRequiredClasses() {
         return requirementsSet.getRequirements();
     }
@@ -55,5 +50,16 @@ public class FieldRequirementImpl implements FieldRequirement {
     @Override
     public boolean isFullySatisfied() {
         return requirementsSet.isSatisfied();
+    }
+
+    @Override
+    public void satisfy(RequiredClass requiredClass, Object satisfyWith) {
+        RequiredClass fieldRequirement = requirementsSet.getRequirements().get(0);
+        if (fieldRequirement.equals(requiredClass)) {
+            requirementsSet.satisfy(0, satisfyWith);
+        } else {
+            throw new IOCException("Provided requirement" + requiredClass + " does not match field requirement "
+            + fieldRequirement);
+        }
     }
 }
