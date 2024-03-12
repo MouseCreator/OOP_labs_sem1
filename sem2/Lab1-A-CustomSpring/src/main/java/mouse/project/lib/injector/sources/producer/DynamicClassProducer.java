@@ -21,6 +21,10 @@ public class DynamicClassProducer<T> implements ClassProducer<T>, ClassPreroduce
         requirementsMap = new RequirementsMapImpl();
     }
 
+    public void satisfy(RequiredClass requiredClass, Object with) {
+        requirementsMap.satisfy(requiredClass, with);
+    }
+
     public void setPrimaryConstructor(ConstructorRequirement<T> constructor) {
         if (isInitialized()) {
             throw new IOCException("Constructor is already defined: " + constructor);

@@ -1,6 +1,7 @@
 package mouse.project.lib.injector.sources.factory;
 
-public interface Factory {
-    Class<?> forClass();
-    Object create();
+import mouse.project.lib.injector.card.container.CardContainer;
+
+public interface Factory<T> {
+    T create(CardContainer cardContainer);
 }

@@ -1,17 +1,13 @@
 package mouse.project.lib.injector.sources.factory;
 
-import mouse.project.lib.ioc.IocContainer;
-public class FactoryMethod implements Factory{
-    private PreparedMethodCall preparedMethodCall;
-    private IocContainer iocContainer;
-    private Class<?> provides;
+import mouse.project.lib.injector.card.container.CardContainer;
+import mouse.project.lib.injector.sources.constructor.FactoryMethodRequirement;
+
+public class FactoryMethod<T> implements Factory<T>{
+    private FactoryMethodRequirement<T> factoryMethodRequirement;
     @Override
-    public Class<?> forClass() {
-        return provides;
+    public T create(CardContainer cardContainer) {
+        return null;
     }
 
-    @Override
-    public Object create() {
-        return preparedMethodCall.call(iocContainer);
-    }
 }
