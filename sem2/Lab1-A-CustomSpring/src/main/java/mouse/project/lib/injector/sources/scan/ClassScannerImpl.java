@@ -25,7 +25,7 @@ public class ClassScannerImpl implements ClassScanner {
     }
 
     @Override
-    public <T> ClassProducer scan(Class<T> clazz) {
+    public <T> ClassProducer<T> scan(Class<T> clazz) {
         validateCanBeProduced(clazz);
         DynamicClassProducer<T> classProducer = new DynamicClassProducer<>();
         for (Scanner scanner : scannerList) {

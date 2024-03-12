@@ -14,7 +14,10 @@ public class ConstructorRequirementImpl<T> implements ConstructorRequirement<T> 
     private RequirementsSet requirementsSet = null;
     @Override
     public List<RequiredClass> getRequiredClasses() {
-        return null;
+        if (requirementsSet == null) {
+            throw new IOCException("Construct requirement is not initialized");
+        }
+        return requirementsSet.getRequirements();
     }
     private ConstructorRequirementImpl() {
         constructor = null;

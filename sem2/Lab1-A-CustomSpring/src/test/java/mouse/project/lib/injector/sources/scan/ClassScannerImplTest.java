@@ -46,8 +46,8 @@ class ClassScannerImplTest {
     }
     @Test
     void testDefaultConstructorCalled() {
-        ClassProducer scanned = scan.scan(SampleB.class);
-        SampleB sampleB = (SampleB) scanned.produceClass();
+        ClassProducer<SampleB> scanned = scan.scan(SampleB.class);
+        SampleB sampleB = scanned.produceClass();
         assertEquals("default", sampleB.str);
     }
 }
