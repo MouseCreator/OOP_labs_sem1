@@ -12,12 +12,12 @@ public class DynamicClassProducer<T> implements ClassProducer, ClassPreroducer<T
     private ConstructorRequirement<T> constructor;
     private final List<SetterRequirement> setters;
     private final List<FieldRequirement> fieldInjections;
-    private RequirementsSet requirementsSet;
-
+    private RequirementsMap requirementsMap;
     public DynamicClassProducer() {
         constructor = null;
         setters = new ArrayList<>();
         fieldInjections = new ArrayList<>();
+        requirementsMap = new RequirementsMapImpl();
     }
 
     public void setPrimaryConstructor(ConstructorRequirement<T> constructor) {
