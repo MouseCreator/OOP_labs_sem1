@@ -56,24 +56,24 @@ public class ClassScannerImpl implements ClassScanner {
 
         @Override
         public <T> void scan(ClassPreroducer<T> producer, Class<T> toScan) {
-            Optional<Constructor<T>> optionalAnnotated = getAnnotatedConstructor(toScan);
-            if (optionalAnnotated.isPresent()) {
-                Constructor<T> classConstructor = optionalAnnotated.get();
+            Optional<Constructor<T>> annotated = getAnnotatedConstructor(toScan);
+            if (annotated.isPresent()) {
+                Constructor<T> classConstructor = annotated.get();
                 ConstructorRequirement<T> cr = requirementProvider.getConstructor(classConstructor);
                 producer.setPrimaryConstructor(cr);
                 return;
             }
-            try {
-                Constructor<T> constructor = toScan.getConstructor();
-                ConstructorRequirement<T> cr = requirementProvider.getConstructor(constructor);
+            Optional<Constructor<T>> noArgsConstructor = getNoArgsConstructor(toScan);
+            if (noArgsConstructor.isPresent()) {
+                ConstructorRequirement<T> cr = requirementProvider.getConstructor(noArgsConstructor.get());
                 producer.setPrimaryConstructor(cr);
-            } catch (NoSuchMethodException e) {
-                throw new IOCException("Neither @Auto, nor no-args constructor found for class: " + toScan);
+                return;
             }
+            throw new IOCException("Neither @Auto, nor no-args constructor found for class: " + toScan);
         }
 
         private <T> Optional<Constructor<T>> getAnnotatedConstructor(Class<T> clazz) {
-            Constructor<?>[] constructors = clazz.getConstructors();
+            Constructor<?>[] constructors = clazz.getDeclaredConstructors();
             Constructor<T> result = null;
             for (Constructor<?> constructor : constructors) {
                 Auto annotation = constructor.getAnnotation(Auto.class);
@@ -83,14 +83,29 @@ public class ClassScannerImpl implements ClassScanner {
                 if (result != null) {
                     throw new IOCException("More than one @Auto-constructor found for: " + clazz);
                 }
-                Class<?>[] parameterTypes = constructor.getParameterTypes();
-                try {
-                    result = clazz.getConstructor(parameterTypes);
-                } catch (NoSuchMethodException e) {
-                    throw new IOCException(e);
-                }
+                result = toConstructor(clazz, constructor);
             }
             return Optional.ofNullable(result);
+        }
+
+        private <T> Optional<Constructor<T>> getNoArgsConstructor(Class<T> clazz) {
+            try {
+                Constructor<T> declaredConstructor = clazz.getDeclaredConstructor();
+                return Optional.of(declaredConstructor);
+            } catch (NoSuchMethodException e) {
+                return Optional.empty();
+            }
+        }
+
+        private <T> Constructor<T> toConstructor(Class<T> clazz, Constructor<?> constructor) {
+            Constructor<T> result;
+            Class<?>[] parameterTypes = constructor.getParameterTypes();
+            try {
+                result = clazz.getConstructor(parameterTypes);
+            } catch (NoSuchMethodException e) {
+                throw new IOCException(e);
+            }
+            return result;
         }
     }
 
