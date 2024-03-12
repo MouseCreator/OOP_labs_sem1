@@ -42,7 +42,7 @@ public class SetterRequirementImpl implements SetterRequirement {
     public void initWith(Method method) {
         this.method = method;
         List<RequiredClass> requiredClasses = helper.inspectParameters(method.getParameters());
-        requirementsSet = new RequirementsSet();
+        requirementsSet = new ReqSet();
         requirementsSet.addAll(requiredClasses);
     }
 

@@ -52,7 +52,7 @@ public class ConstructorRequirementImpl<T> implements ConstructorRequirement<T> 
         }
         Parameter[] parameters = constructor.getParameters();
         List<RequiredClass> requiredClasses = helper.inspectParameters(parameters);
-        requirementsSet = new RequirementsSet();
+        requirementsSet = new ReqSet();
         requirementsSet.addAll(requiredClasses);
         this.constructor = constructor;
     }

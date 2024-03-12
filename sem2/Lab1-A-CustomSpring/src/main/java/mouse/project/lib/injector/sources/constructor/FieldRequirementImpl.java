@@ -20,7 +20,7 @@ public class FieldRequirementImpl implements FieldRequirement {
         this.field = field;
         field.setAccessible(true);
         RequiredClass requiredClass = helper.inspectField(field);
-        requirementsSet = new RequirementsSet();
+        requirementsSet = new ReqSet();
         requirementsSet.add(requiredClass);
     }
 
@@ -40,6 +40,11 @@ public class FieldRequirementImpl implements FieldRequirement {
     @Override
     public void satisfy(Object with) {
         requirementsSet.satisfy(0, with);
+    }
+
+    @Override
+    public RequiredClass getRequired() {
+        return requirementsSet.getRequirements().get(0);
     }
 
     @Override

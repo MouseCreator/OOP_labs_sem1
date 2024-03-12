@@ -2,20 +2,19 @@ package mouse.project.lib.injector.sources.producer;
 
 import mouse.project.lib.exception.IOCException;
 import mouse.project.lib.injector.sources.RequiredClass;
-import mouse.project.lib.injector.sources.constructor.ConstructorRequirement;
-import mouse.project.lib.injector.sources.constructor.FieldRequirement;
-import mouse.project.lib.injector.sources.constructor.SetterRequirement;
+import mouse.project.lib.injector.sources.constructor.*;
 import mouse.project.lib.injector.sources.scan.ClassPreroducer;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClassProducerImpl<T> implements ClassProducer, ClassPreroducer<T> {
+public class DynamicClassProducer<T> implements ClassProducer, ClassPreroducer<T> {
     private ConstructorRequirement<T> constructor;
     private final List<SetterRequirement> setters;
     private final List<FieldRequirement> fieldInjections;
+    private RequirementsSet requirementsSet;
 
-    public ClassProducerImpl() {
+    public DynamicClassProducer() {
         constructor = null;
         setters = new ArrayList<>();
         fieldInjections = new ArrayList<>();

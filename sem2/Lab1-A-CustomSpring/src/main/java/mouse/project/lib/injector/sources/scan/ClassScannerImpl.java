@@ -4,7 +4,7 @@ import mouse.project.lib.annotation.Auto;
 import mouse.project.lib.exception.IOCException;
 import mouse.project.lib.injector.sources.constructor.*;
 import mouse.project.lib.injector.sources.producer.ClassProducer;
-import mouse.project.lib.injector.sources.producer.ClassProducerImpl;
+import mouse.project.lib.injector.sources.producer.DynamicClassProducer;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -27,7 +27,7 @@ public class ClassScannerImpl implements ClassScanner {
     @Override
     public <T> ClassProducer scan(Class<T> clazz) {
         validateCanBeProduced(clazz);
-        ClassProducerImpl<T> classProducer = new ClassProducerImpl<>();
+        DynamicClassProducer<T> classProducer = new DynamicClassProducer<>();
         for (Scanner scanner : scannerList) {
             scanner.scan(classProducer, clazz);
         }

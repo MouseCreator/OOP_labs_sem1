@@ -6,6 +6,5 @@ import java.util.List;
 
 public interface Requirement {
     List<RequiredClass> getRequiredClasses();
-
     boolean isFullySatisfied();
 }
