@@ -50,9 +50,9 @@ public class Builder {
         definedProducer.setConstructor(fromConstructor(constructor));
 
         List<SetterDefinition> setters = cardDefinition.getSetters();
-        setters.forEach(s -> definedProducer.addSetter(fromSetter(s)));
+        setters.forEach(s -> definedProducer.addSetter(s.toProducer()));
         List<FieldDefinition> fields = cardDefinition.getFields();
-        fields.forEach(f -> definedProducer.addFieldInjection(fromField(f)));
+        fields.forEach(f -> definedProducer.addFieldInjection(f.toProducer()));
 
         return definedProducer;
     }
