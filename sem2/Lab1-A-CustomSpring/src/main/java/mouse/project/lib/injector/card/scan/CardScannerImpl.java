@@ -1,12 +1,10 @@
 package mouse.project.lib.injector.card.scan;
 
 import mouse.project.lib.annotation.Auto;
-import mouse.project.lib.exception.IOCException;
-import mouse.project.lib.injector.card.definition.CardDefinition;
-import mouse.project.lib.injector.card.definition.DefinedCard;
-import mouse.project.lib.injector.card.definition.DefinedCardImpl;
-import mouse.project.lib.injector.sources.constructor.*;
-import mouse.project.lib.injector.sources.scan.ClassPreroducer;
+import mouse.project.lib.exception.CardException;
+import mouse.project.lib.injector.card.definition.*;
+import mouse.project.lib.injector.card.helper.DefinitionHelper;
+import mouse.project.lib.injector.card.helper.DefinitionHelperImpl;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -27,46 +25,48 @@ public class CardScannerImpl implements CardScanner {
     }
     private final List<Scanner> scannerList;
     public CardScannerImpl() {
-        RequirementProvider requirementProvider = new RequirementProviderImpl();
+        DefinitionHelper definitionHelper = new DefinitionHelperImpl();
         scannerList = new ArrayList<>();
-        scannerList.add(new ConstructorScanner(requirementProvider));
-        scannerList.add(new MethodScanner(requirementProvider));
-        scannerList.add(new FieldScanner(requirementProvider));
+        scannerList.add(new ConstructorScanner(definitionHelper));
+        scannerList.add(new MethodScanner(definitionHelper));
+        scannerList.add(new FieldScanner(definitionHelper));
     }
     private void validateCanBeProduced(Class<?> clazz) {
         if(Modifier.isAbstract(clazz.getModifiers())) {
-            throw new IOCException("Cannot produce an abstract class: " + clazz);
+            throw new CardException("Cannot produce an abstract class: " + clazz);
         }
         if (clazz.isInterface()) {
-            throw new IOCException("Cannot produce an interface: " + clazz);
+            throw new CardException("Cannot produce an interface: " + clazz);
         }
         if (clazz.isMemberClass() && !Modifier.isStatic(clazz.getModifiers())) {
-            throw new IOCException("Cannot produce inner non-static class:" + clazz);
+            throw new CardException("Cannot produce inner non-static class:" + clazz);
         }
     }
     private interface Scanner {
         <T> void scan(DefinedCard<T> producer, Class<T> toScan);
     }
     private static class ConstructorScanner implements Scanner {
-        private final RequirementProvider requirementProvider;
-        public ConstructorScanner(RequirementProvider requirementProvider) {
-            this.requirementProvider = requirementProvider;
+        private final DefinitionHelper definitionHelper;
+        public ConstructorScanner(DefinitionHelper definitionHelper) {
+            this.definitionHelper = definitionHelper;
         }
 
         @Override
-        public <T> void scan(DefinedCard<T> producer, Class<T> toScan) {
+        public <T> void scan(DefinedCard<T> card, Class<T> toScan) {
             Optional<Constructor<T>> annotated = getAnnotatedConstructor(toScan);
             if (annotated.isPresent()) {
                 Constructor<T> classConstructor = annotated.get();
-               // producer.setPrimaryConstructor(cr);
+                ConstructorDefinition<T> constructor = definitionHelper.getConstructor(classConstructor);
+                card.setPrimaryConstructor(constructor);
                 return;
             }
             Optional<Constructor<T>> noArgsConstructor = getNoArgsConstructor(toScan);
             if (noArgsConstructor.isPresent()) {
-                //producer.setPrimaryConstructor(cr);
+                ConstructorDefinition<T> constructor = definitionHelper.getConstructor(noArgsConstructor.get());
+                card.setPrimaryConstructor(constructor);
                 return;
             }
-            throw new IOCException("Neither @Auto, nor no-args constructor found for class: " + toScan);
+            throw new CardException("Neither @Auto, nor no-args constructor found for class: " + toScan);
         }
 
         private <T> Optional<Constructor<T>> getAnnotatedConstructor(Class<T> clazz) {
@@ -78,7 +78,7 @@ public class CardScannerImpl implements CardScanner {
                     continue;
                 }
                 if (result != null) {
-                    throw new IOCException("More than one @Auto-constructor found for: " + clazz);
+                    throw new CardException("More than one @Auto-constructor found for: " + clazz);
                 }
                 result = toConstructor(clazz, constructor);
             }
@@ -100,23 +100,24 @@ public class CardScannerImpl implements CardScanner {
             try {
                 result = clazz.getConstructor(parameterTypes);
             } catch (NoSuchMethodException e) {
-                throw new IOCException(e);
+                throw new CardException(e);
             }
             return result;
         }
     }
 
     private static class FieldScanner implements Scanner {
-        private final RequirementProvider requirementProvider;
-        public FieldScanner(RequirementProvider requirementProvider) {
-            this.requirementProvider = requirementProvider;
+        private final DefinitionHelper definitionHelper;
+        public FieldScanner(DefinitionHelper definitionHelper) {
+            this.definitionHelper = definitionHelper;
         }
 
         @Override
-        public <T> void scan(DefinedCard<T> producer, Class<T> toScan) {
+        public <T> void scan(DefinedCard<T> card, Class<T> toScan) {
             List<Field> annotatedFields = getAnnotatedFields(toScan);
             for (Field field : annotatedFields) {
-
+                FieldDefinition fieldDef = definitionHelper.getField(field);
+                card.addField(fieldDef);
             }
         }
 
@@ -133,16 +134,17 @@ public class CardScannerImpl implements CardScanner {
         }
     }
     private static class MethodScanner implements Scanner {
-        private final RequirementProvider requirementProvider;
-        public MethodScanner(RequirementProvider requirementProvider) {
-            this.requirementProvider = requirementProvider;
+        private final DefinitionHelper definitionHelper;
+        public MethodScanner(DefinitionHelper definitionHelper) {
+            this.definitionHelper = definitionHelper;
         }
 
         @Override
-        public <T> void scan(DefinedCard<T> producer, Class<T> toScan) {
+        public <T> void scan(DefinedCard<T> card, Class<T> toScan) {
             List<Method> annotatedFields = getAnnotatedSetters(toScan);
             for (Method method : annotatedFields) {
-
+                SetterDefinition setter = definitionHelper.getSetter(method);
+                card.addSetter(setter);
             }
         }
 

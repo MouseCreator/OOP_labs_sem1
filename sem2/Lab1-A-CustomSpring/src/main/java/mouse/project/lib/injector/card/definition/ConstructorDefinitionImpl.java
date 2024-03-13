@@ -2,15 +2,19 @@ package mouse.project.lib.injector.card.definition;
 
 import mouse.project.lib.injector.card.builder.Builder;
 import mouse.project.lib.injector.card.container.Implementation;
+import mouse.project.lib.injector.card.invoke.Parameters;
 import mouse.project.lib.injector.card.producer.ConstructorProducer;
-import mouse.project.lib.injector.card.requirement.RequirementSet;
 
 import java.lang.reflect.Constructor;
 import java.util.List;
 
 public class ConstructorDefinitionImpl<T> implements ConstructorDefinition<T> {
-    private Constructor<T> constructor;
-    private RequirementSet requirementSet;
+    private final Constructor<T> constructor;
+    private final Parameters parameters;
+    public ConstructorDefinitionImpl(Constructor<T> constructor, Parameters parameters) {
+        this.constructor = constructor;
+        this.parameters = parameters;
+    }
     @Override
     public ConstructorProducer<T> toProducer() {
         Builder builder = Builder.getInstance();
@@ -24,6 +28,11 @@ public class ConstructorDefinitionImpl<T> implements ConstructorDefinition<T> {
 
     @Override
     public List<Implementation<?>> requiredImplementations() {
-        return requirementSet.getRequirements();
+        return parameters.toRequirements();
+    }
+
+    @Override
+    public Parameters getParameters() {
+        return parameters;
     }
 }

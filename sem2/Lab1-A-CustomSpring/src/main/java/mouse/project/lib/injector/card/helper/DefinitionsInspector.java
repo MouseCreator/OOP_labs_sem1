@@ -1,4 +1,4 @@
-package mouse.project.lib.injector.card.builder;
+package mouse.project.lib.injector.card.helper;
 
 import mouse.project.lib.annotation.UseNamed;
 import mouse.project.lib.injector.card.container.Implementation;
@@ -11,8 +11,10 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.util.Set;
+import java.util.stream.Collectors;
 
-public class BuilderHelper {
+public class DefinitionsInspector {
 
     public Implementation<?> inspectField(Field field) {
         Class<?> requiredType = field.getType();
@@ -46,5 +48,11 @@ public class BuilderHelper {
 
     public Parameters inspectMethod(Method method) {
         return inspectParameters(method.getParameters());
+    }
+
+    public Set<Implementation<?>> toRequirements(Parameters parameters) {
+        return parameters.getParameterDefinitions()
+                .stream()
+                .map(ParameterDefinition::type).collect(Collectors.toSet());
     }
 }

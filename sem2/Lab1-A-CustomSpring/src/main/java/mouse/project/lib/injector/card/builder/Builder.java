@@ -11,9 +11,6 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 public class Builder {
-
-    private final BuilderHelper builderHelper;
-
     private static Builder instance = null;
 
     public static Builder getInstance() {
@@ -24,26 +21,25 @@ public class Builder {
     }
 
     private Builder() {
-        this.builderHelper = new BuilderHelper();
     }
 
     public <T> ConstructorProducer<T> fromConstructor(ConstructorDefinition<T> definition) {
         Constructor<T> constructor = definition.getConstructor();
-        Parameters parameters = builderHelper.inspectConstructor(constructor);
+        Parameters parameters = definition.getParameters();
         ConstructorInvoker<T> constructorInvoker = new ConstructorInvokerImpl<>(constructor, parameters);
         return new ConstructorProducerImpl<>(constructorInvoker);
     }
 
     public SetterProducer fromSetter(SetterDefinition definition) {
         Method method = definition.getMethod();
-        Parameters parameters = builderHelper.inspectMethod(method);
+        Parameters parameters = definition.getParameters();
         MethodInvoker methodInvoker = new MethodInvokerImpl(method, parameters);
         return new SetterProducerImpl(methodInvoker);
     }
 
     public FieldProducer fromField(FieldDefinition definition) {
         Field field = definition.getField();
-        Implementation<?> implementation = builderHelper.inspectField(field);
+        Implementation<?> implementation = definition.getImplementation();
         FieldInjection fieldInjection = new FieldInjectionImpl(field, implementation);
         return new FieldProducerImpl(fieldInjection);
     }

@@ -41,11 +41,13 @@ public class DefinedCardImpl<T> implements DefinedCard<T> {
 
     @Override
     public void addSetter(SetterDefinition setterDefinition) {
+        requirementSet.addAll(setterDefinition.requiredImplementations());
         setterDefinitions.add(setterDefinition);
     }
 
     @Override
     public void addField(FieldDefinition fieldDefinition) {
+        requirementSet.add(fieldDefinition.getImplementation());
         fieldDefinitions.add(fieldDefinition);
     }
 
@@ -55,6 +57,7 @@ public class DefinedCardImpl<T> implements DefinedCard<T> {
             throw new CardException("Primary constructor is already defined for " + origin);
         }
         this.primaryConstructor = constructor;
+        requirementSet.addAll(constructor.requiredImplementations());
     }
 
     @Override
