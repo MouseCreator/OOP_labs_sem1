@@ -18,6 +18,12 @@ public class MethodInvokerImpl implements MethodInvoker{
         this.origin = origin;
     }
 
+    public MethodInvokerImpl(Method method, Parameters parameters) {
+        this.method = method;
+        this.parameters = parameters;
+        this.origin = null;
+    }
+
     @Override
     public Object invoke(Object invokeOn, List<Object> parameters) {
         method.setAccessible(true);
@@ -35,6 +41,9 @@ public class MethodInvokerImpl implements MethodInvoker{
 
     @Override
     public Implementation<?> getOrigin() {
+        if (origin == null) {
+            throw new CardException("No origin defined");
+        }
         return origin;
     }
 }

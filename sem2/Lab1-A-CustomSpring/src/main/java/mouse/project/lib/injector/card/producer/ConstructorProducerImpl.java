@@ -12,7 +12,12 @@ import java.util.List;
 import java.util.Optional;
 
 public class ConstructorProducerImpl<T> implements ConstructorProducer<T> {
-    private ConstructorInvoker<T> invoker;
+    private final ConstructorInvoker<T> invoker;
+
+    public ConstructorProducerImpl(ConstructorInvoker<T> invoker) {
+        this.invoker = invoker;
+    }
+
     @Override
     public T construct(CardContainer container) {
         Parameters parameters = invoker.getParameters();
