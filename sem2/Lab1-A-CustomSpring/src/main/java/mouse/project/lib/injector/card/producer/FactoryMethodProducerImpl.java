@@ -4,7 +4,7 @@ import mouse.project.lib.exception.CardException;
 import mouse.project.lib.injector.card.container.CardContainer;
 
 public class FactoryMethodProducerImpl<T> implements FactoryMethodProducer<T> {
-    private MethodProducer<T> methodProducer;
+    private MethodProducer methodProducer;
     private final Class<T> clazz;
 
     public FactoryMethodProducerImpl(Class<T> clazz) {
@@ -22,7 +22,7 @@ public class FactoryMethodProducerImpl<T> implements FactoryMethodProducer<T> {
     }
 
     @Override
-    public void setMethod(MethodProducer<T> method) {
+    public void setMethod(MethodProducer method) {
         this.methodProducer = method;
     }
 }
