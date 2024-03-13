@@ -1,5 +1,6 @@
 package mouse.project.lib.injector.card.scan;
 
+import mouse.project.lib.annotation.Auto;
 import mouse.project.lib.exception.CardException;
 import mouse.project.lib.injector.card.definition.CardDefinition;
 import mouse.project.lib.injector.card.definition.DefinedCardImpl;
@@ -18,8 +19,7 @@ class CardScannerImplTest {
     private interface InterfaceA {
 
     }
-    private abstract class AbstractA {
-
+    private static abstract class AbstractA {
     }
     private class NotStaticA {
     }
@@ -53,5 +53,47 @@ class CardScannerImplTest {
 
         Constructor<EmptyClass> constructor1 = helper.getConstructor(EmptyClass.class, "1");
         assertEquals(constructor1, constructor);
+    }
+
+    private static class MultipleConstructors {
+        @Auto
+        public MultipleConstructors() {
+        }
+        @Auto
+        public MultipleConstructors(String s) {}
+
+    }
+    @Test
+    void testMultipleConstructors() {
+        assertThrows(CardException.class, () -> scan.scan(MultipleConstructors.class));
+    }
+    private static class Pair {
+        private String str;
+        private Integer i;
+        @Auto
+        public Pair() {
+            str = "DEF";
+            i = 0;
+        }
+        public Pair(String s, int i) {
+            this.str = s;
+            this.i = i;
+        }
+        @Auto
+        public void setStr(String str) {
+            this.str = str;
+        }
+
+        @Auto
+        public void setI(Integer i) {
+            this.i = i;
+        }
+    }
+
+    @Test
+    void testPair() {
+        CardDefinition<Pair> cardDefinition = scan.scan(Pair.class);
+        DefinedCardImpl<Pair> definedCard = (DefinedCardImpl<Pair>) cardDefinition;
+        assertNotNull(definedCard.getConstructor());
     }
 }
