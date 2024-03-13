@@ -33,7 +33,7 @@ public class FieldDefinitionImpl implements FieldDefinition {
     }
 
     @Override
-    public Implementation<?> getImplementation() {
+    public Implementation<?> getType() {
         return required;
     }
 }

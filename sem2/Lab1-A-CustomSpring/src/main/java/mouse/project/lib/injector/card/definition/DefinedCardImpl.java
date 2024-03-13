@@ -47,7 +47,7 @@ public class DefinedCardImpl<T> implements DefinedCard<T> {
 
     @Override
     public void addField(FieldDefinition fieldDefinition) {
-        requirementSet.add(fieldDefinition.getImplementation());
+        requirementSet.add(fieldDefinition.getType());
         fieldDefinitions.add(fieldDefinition);
     }
 

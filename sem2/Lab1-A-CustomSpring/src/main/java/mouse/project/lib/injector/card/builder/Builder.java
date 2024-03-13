@@ -39,7 +39,7 @@ public class Builder {
 
     public FieldProducer fromField(FieldDefinition definition) {
         Field field = definition.getField();
-        Implementation<?> implementation = definition.getImplementation();
+        Implementation<?> implementation = definition.getType();
         FieldInjection fieldInjection = new FieldInjectionImpl(field, implementation);
         return new FieldProducerImpl(fieldInjection);
     }
@@ -55,5 +55,21 @@ public class Builder {
         fields.forEach(f -> definedProducer.addFieldInjection(fromField(f)));
 
         return definedProducer;
+    }
+
+    public MethodProducer fromMethod(MethodDefinition methodDefinition) {
+        Method method = methodDefinition.getMethod();
+        Parameters parameters = methodDefinition.getParameters();
+        Implementation<?> origin = methodDefinition.getOrigin();
+        MethodInvoker methodInvoker = new MethodInvokerImpl(method, parameters, origin);
+        return new MethodProducerImpl(methodInvoker);
+    }
+
+    public <T> CardProducer<T> fromFactory(FactoryCard<T> factoryCard) {
+        MethodDefinition factoryMethod = factoryCard.getFactoryMethod();
+        Implementation<T> type = factoryCard.getType();
+        FactoryMethodProducerImpl<T> factoryMethodProducer = new FactoryMethodProducerImpl<>(type.getClazz());
+        factoryMethodProducer.setMethod(factoryMethod.toProducer());
+        return factoryMethodProducer;
     }
 }

@@ -5,8 +5,7 @@ import mouse.project.lib.injector.card.producer.FieldProducer;
 
 import java.lang.reflect.Field;
 
-public interface FieldDefinition extends Definition {
+public interface FieldDefinition extends DefinitionWithType {
     Field getField();
     FieldProducer toProducer();
-    Implementation<?> getImplementation();
 }
