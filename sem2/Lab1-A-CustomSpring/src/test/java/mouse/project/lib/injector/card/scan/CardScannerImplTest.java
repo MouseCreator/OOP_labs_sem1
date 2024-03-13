@@ -3,12 +3,15 @@ package mouse.project.lib.injector.card.scan;
 import mouse.project.lib.annotation.Auto;
 import mouse.project.lib.exception.CardException;
 import mouse.project.lib.injector.card.definition.CardDefinition;
+import mouse.project.lib.injector.card.definition.ConstructorDefinition;
 import mouse.project.lib.injector.card.definition.DefinedCardImpl;
+import mouse.project.lib.injector.card.definition.SetterDefinition;
 import mouse.project.lib.injector.sources.annotation.Construct;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Constructor;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -94,6 +97,60 @@ class CardScannerImplTest {
     void testPair() {
         CardDefinition<Pair> cardDefinition = scan.scan(Pair.class);
         DefinedCardImpl<Pair> definedCard = (DefinedCardImpl<Pair>) cardDefinition;
-        assertNotNull(definedCard.getConstructor());
+        ConstructorDefinition<Pair> constructor = definedCard.getConstructor();
+        assertNotNull(constructor);
+        assertEquals(0, constructor.getParameters().size());
+
+        List<SetterDefinition> setters = definedCard.getSetters();
+        assertEquals(2, setters.size());
+        assertEquals(0, definedCard.getFields().size());
     }
+
+    private static class WithFields {
+        @Auto
+        public WithFields(String d) {
+        }
+        @Auto
+        private Integer bit;
+    }
+
+    @Test
+    void testWithFields() {
+        CardDefinition<WithFields> cardDefinition = scan.scan(WithFields.class);
+        DefinedCardImpl<WithFields> definedCard = (DefinedCardImpl<WithFields>) cardDefinition;
+        ConstructorDefinition<WithFields> constructor = definedCard.getConstructor();
+        assertNotNull(constructor);
+        assertEquals(1, constructor.getParameters().size());
+        assertEquals(1, definedCard.getFields().size());
+        assertEquals(0, definedCard.getSetters().size());
+    }
+
+    private static class WithoutDefaultConstructor {
+        public WithoutDefaultConstructor(Long id) {
+
+        }
+    }
+
+    @Test
+    void testWithoutDefaultConstructor() {
+        assertThrows(CardException.class, () -> scan.scan(WithoutDefaultConstructor.class));
+    }
+
+    private static abstract class Parent {
+        @Auto
+        protected String t;
+        private Integer v;
+    }
+    private static class Child extends Parent {
+    }
+
+    @Test
+    void testInheritance() {
+        CardDefinition<Child> cardDefinition = scan.scan(Child.class);
+        DefinedCardImpl<Child> definedCard = (DefinedCardImpl<Child>) cardDefinition;
+        ConstructorDefinition<Child> constructor = definedCard.getConstructor();
+        assertEquals(0, constructor.getParameters().size());
+        assertEquals(1, definedCard.getFields().size());
+    }
+
 }

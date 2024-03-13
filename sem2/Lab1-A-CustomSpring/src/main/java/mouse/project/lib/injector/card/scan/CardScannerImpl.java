@@ -2,6 +2,8 @@ package mouse.project.lib.injector.card.scan;
 
 import mouse.project.lib.annotation.Auto;
 import mouse.project.lib.exception.CardException;
+import mouse.project.lib.injector.card.container.Implementation;
+import mouse.project.lib.injector.card.container.Implementations;
 import mouse.project.lib.injector.card.definition.*;
 import mouse.project.lib.injector.card.helper.DefinitionHelper;
 import mouse.project.lib.injector.card.helper.DefinitionHelperImpl;
@@ -15,22 +17,40 @@ import java.util.List;
 import java.util.Optional;
 
 public class CardScannerImpl implements CardScanner {
-    @Override
-    public <T> CardDefinition<T> scan(Class<T> tClass) {
-        DefinedCard<T> cardDefinition = new DefinedCardImpl<>(tClass);
-        for (Scanner scanner : scannerList) {
-            scanner.scan(cardDefinition, tClass);
-        }
-        return cardDefinition;
-    }
-    private final List<Scanner> scannerList;
+
+    private final ConstructorScanner constructorScanner;
+    private final MethodScanner methodScanner;
+    private final FieldScanner fieldScanner;
     public CardScannerImpl() {
         DefinitionHelper definitionHelper = new DefinitionHelperImpl();
-        scannerList = new ArrayList<>();
-        scannerList.add(new ConstructorScanner(definitionHelper));
-        scannerList.add(new MethodScanner(definitionHelper));
-        scannerList.add(new FieldScanner(definitionHelper));
+        constructorScanner = new ConstructorScanner(definitionHelper);
+        methodScanner = new MethodScanner(definitionHelper);
+        fieldScanner = new FieldScanner(definitionHelper);
     }
+    @Override
+    public <T> CardDefinition<T> scan(Class<T> tClass) {
+        validateCanBeProduced(tClass);
+        Implementation<T> implementation = Implementations.create(tClass);
+        DefinedCard<T> cardDefinition = new DefinedCardImpl<>(implementation);
+        scanGivenClass(cardDefinition, tClass);
+        scanSuperClasses(cardDefinition, tClass);
+        return cardDefinition;
+    }
+
+    private <T> void scanGivenClass(DefinedCard<T> cardDefinition, Class<T> tClass) {
+        constructorScanner.scan(cardDefinition, tClass);
+        methodScanner.scan(cardDefinition, tClass);
+        fieldScanner.scan(cardDefinition, tClass);
+    }
+
+    private <T> void scanSuperClasses(DefinedCard<T> definedCard, Class<?> tClass) {
+        while (tClass != Object.class) {
+            tClass = tClass.getSuperclass();
+            methodScanner.scan(definedCard, tClass);
+            fieldScanner.scan(definedCard, tClass);
+        }
+    }
+
     private void validateCanBeProduced(Class<?> clazz) {
         if(Modifier.isAbstract(clazz.getModifiers())) {
             throw new CardException("Cannot produce an abstract class: " + clazz);
@@ -42,16 +62,11 @@ public class CardScannerImpl implements CardScanner {
             throw new CardException("Cannot produce inner non-static class:" + clazz);
         }
     }
-    private interface Scanner {
-        <T> void scan(DefinedCard<T> producer, Class<T> toScan);
-    }
-    private static class ConstructorScanner implements Scanner {
+    private static class ConstructorScanner {
         private final DefinitionHelper definitionHelper;
         public ConstructorScanner(DefinitionHelper definitionHelper) {
             this.definitionHelper = definitionHelper;
         }
-
-        @Override
         public <T> void scan(DefinedCard<T> card, Class<T> toScan) {
             Optional<Constructor<T>> annotated = getAnnotatedConstructor(toScan);
             if (annotated.isPresent()) {
@@ -106,14 +121,13 @@ public class CardScannerImpl implements CardScanner {
         }
     }
 
-    private static class FieldScanner implements Scanner {
+    private static class FieldScanner {
         private final DefinitionHelper definitionHelper;
         public FieldScanner(DefinitionHelper definitionHelper) {
             this.definitionHelper = definitionHelper;
         }
 
-        @Override
-        public <T> void scan(DefinedCard<T> card, Class<T> toScan) {
+        public <T> void scan(DefinedCard<T> card, Class<?> toScan) {
             List<Field> annotatedFields = getAnnotatedFields(toScan);
             for (Field field : annotatedFields) {
                 FieldDefinition fieldDef = definitionHelper.getField(field);
@@ -121,8 +135,8 @@ public class CardScannerImpl implements CardScanner {
             }
         }
 
-        private <T> List<Field> getAnnotatedFields(Class<T> clazz) {
-            Field[] fields = clazz.getFields();
+        private List<Field> getAnnotatedFields(Class<?> clazz) {
+            Field[] fields = clazz.getDeclaredFields();
             List<Field> result = new ArrayList<>();
             for (Field field : fields) {
                 if (!field.isAnnotationPresent(Auto.class)) {
@@ -133,14 +147,13 @@ public class CardScannerImpl implements CardScanner {
             return result;
         }
     }
-    private static class MethodScanner implements Scanner {
+    private static class MethodScanner  {
         private final DefinitionHelper definitionHelper;
         public MethodScanner(DefinitionHelper definitionHelper) {
             this.definitionHelper = definitionHelper;
         }
 
-        @Override
-        public <T> void scan(DefinedCard<T> card, Class<T> toScan) {
+        public <T> void scan(DefinedCard<T> card, Class<?> toScan) {
             List<Method> annotatedFields = getAnnotatedSetters(toScan);
             for (Method method : annotatedFields) {
                 SetterDefinition setter = definitionHelper.getSetter(method);
@@ -149,7 +162,7 @@ public class CardScannerImpl implements CardScanner {
         }
 
         private <T> List<Method> getAnnotatedSetters(Class<T> clazz) {
-            Method[] methods = clazz.getMethods();
+            Method[] methods = clazz.getDeclaredMethods();
             List<Method> result = new ArrayList<>();
             for (Method method : methods) {
                 if (!method.isAnnotationPresent(Auto.class)) {

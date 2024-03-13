@@ -14,9 +14,9 @@ public class DefinedCardImpl<T> implements DefinedCard<T> {
     private ConstructorDefinition<T> primaryConstructor;
     private final List<SetterDefinition> setterDefinitions;
     private final List<FieldDefinition> fieldDefinitions;
-    private final Class<T> origin;
+    private final Implementation<T> origin;
     private final RequirementSet requirementSet;
-    public DefinedCardImpl(Class<T> origin) {
+    public DefinedCardImpl(Implementation<T> origin) {
         this.origin = origin;
         requirementSet = new RequirementSetImpl();
         primaryConstructor = null;
@@ -64,6 +64,11 @@ public class DefinedCardImpl<T> implements DefinedCard<T> {
     public CardProducer<T> getProducer() {
         Builder builder = Builder.getInstance();
         return builder.fromCard(this);
+    }
+
+    @Override
+    public Implementation<T> getType() {
+        return origin;
     }
 
     @Override
