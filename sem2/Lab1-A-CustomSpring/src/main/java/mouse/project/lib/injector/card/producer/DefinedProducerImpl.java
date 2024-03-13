@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 public class DefinedProducerImpl<T> implements DefinedProducer<T> {
     private ConstructorProducer<T> constructorProducer;
-    private final List<SetterProducer<T>> setterProducerList;
-    private final List<FieldProducer<T>> fieldProducerList;
+    private final List<SetterProducer> setterProducerList;
+    private final List<FieldProducer> fieldProducerList;
 
     public DefinedProducerImpl() {
         constructorProducer = null;
@@ -33,12 +33,12 @@ public class DefinedProducerImpl<T> implements DefinedProducer<T> {
     }
 
     @Override
-    public void addSetter(SetterProducer<T> setterProducer) {
+    public void addSetter(SetterProducer setterProducer) {
         this.setterProducerList.add(setterProducer);
     }
 
     @Override
-    public void addFieldInjection(FieldProducer<T> fieldProducer) {
+    public void addFieldInjection(FieldProducer fieldProducer) {
         this.fieldProducerList.add(fieldProducer);
     }
 }
