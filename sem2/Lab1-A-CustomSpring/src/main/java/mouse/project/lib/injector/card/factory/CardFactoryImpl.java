@@ -4,7 +4,7 @@ import mouse.project.lib.exception.CardException;
 import mouse.project.lib.injector.card.container.CardContainer;
 import mouse.project.lib.injector.card.container.Implementation;
 import mouse.project.lib.injector.card.definition.CardDefinition;
-import mouse.project.lib.injector.sources.factory.Factory;
+import mouse.project.lib.injector.card.producer.CardProducer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,8 +55,8 @@ public class CardFactoryImpl {
             }
             buildCard(implementation, buildStack.next(current));
         }
-        Factory<T> factory = definition.getFactory();
-        T obj = factory.create(container);
+        CardProducer<T> producer = definition.getProducer();
+        T obj = producer.produce(container);
         container.put(obj);
         return obj;
     }

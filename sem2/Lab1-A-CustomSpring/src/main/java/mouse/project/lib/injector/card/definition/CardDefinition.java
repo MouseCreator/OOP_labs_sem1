@@ -1,11 +1,7 @@
 package mouse.project.lib.injector.card.definition;
 
-import mouse.project.lib.injector.card.container.Implementation;
-import mouse.project.lib.injector.sources.factory.Factory;
+import mouse.project.lib.injector.card.producer.CardProducer;
 
-import java.util.List;
-
-public interface CardDefinition<T> {
-    List<Implementation<?>> requiredImplementations();
-    Factory<T> getFactory();
+public interface CardDefinition<T> extends Definition {
+    CardProducer<T> getProducer();
 }

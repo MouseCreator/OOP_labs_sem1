@@ -10,7 +10,7 @@ import java.lang.reflect.Constructor;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ConstructorRequirementImplTest {
+class ConstructorProducerImplTest {
 
     private final static String TEXT_DEFAULT = "default";
     private final static Integer NUM_DEFAULT = 0;
