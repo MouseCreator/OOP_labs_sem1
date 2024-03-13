@@ -1,5 +1,6 @@
 package mouse.project.lib.injector.card.factory;
 
+import lombok.Setter;
 import mouse.project.lib.exception.CardException;
 import mouse.project.lib.injector.card.container.CardContainer;
 import mouse.project.lib.injector.card.container.Implementation;
@@ -9,11 +10,17 @@ import mouse.project.lib.injector.card.producer.CardProducer;
 import java.util.ArrayList;
 import java.util.List;
 
+@Setter
 public class CardFactoryImpl {
     private CardContainer container;
     private CardDefinitions cardDefinitions;
     public <T> T buildCard(Implementation<T> implementation) {
         return buildCard(implementation, new BuildStack());
+    }
+
+    public CardFactoryImpl() {
+        container = null;
+        cardDefinitions = null;
     }
 
     private static class BuildStack {
