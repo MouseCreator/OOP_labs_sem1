@@ -14,13 +14,18 @@ import java.util.List;
 public class CardFactoryImpl {
     private CardContainer container;
     private CardDefinitions cardDefinitions;
-    public <T> T buildCard(Implementation<T> implementation) {
-        return buildCard(implementation, new BuildStack());
+
+    public CardFactoryImpl(CardContainer container, CardDefinitions cardDefinitions) {
+        this.container = container;
+        this.cardDefinitions = cardDefinitions;
     }
 
     public CardFactoryImpl() {
         container = null;
         cardDefinitions = null;
+    }
+    public <T> T buildCard(Implementation<T> implementation) {
+        return buildCard(implementation, new BuildStack());
     }
 
     private static class BuildStack {

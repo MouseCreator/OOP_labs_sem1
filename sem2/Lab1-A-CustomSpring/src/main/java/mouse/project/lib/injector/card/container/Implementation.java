@@ -1,6 +1,6 @@
 package mouse.project.lib.injector.card.container;
 
-import lombok.Data;
+import lombok.*;
 
 @Data
 public class Implementation<T> {
@@ -23,5 +23,7 @@ public class Implementation<T> {
     public boolean isNamed() {
         return name != null;
     }
+
+
 
 }
