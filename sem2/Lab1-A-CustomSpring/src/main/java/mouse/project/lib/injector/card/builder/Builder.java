@@ -41,7 +41,12 @@ public class Builder {
         Field field = definition.getField();
         Implementation<?> implementation = definition.getType();
         FieldInjection fieldInjection = new FieldInjectionImpl(field, implementation);
-        return new FieldProducerImpl(fieldInjection);
+        if (definition.isCollection()) {
+            return new FieldCollectionProducer(fieldInjection, definition.collectionType());
+        } else {
+            return new FieldProducerImpl(fieldInjection);
+        }
+
     }
 
     public <T> CardProducer<T> fromCard(DefinedCard<T> cardDefinition) {

@@ -1,12 +1,10 @@
 package mouse.project.lib.injector.card.producer;
 
 import mouse.project.lib.injector.card.access.CardAccess;
-import mouse.project.lib.injector.card.container.Implementation;
+import mouse.project.lib.injector.card.helper.ParameterCreator;
 import mouse.project.lib.injector.card.invoke.MethodInvoker;
-import mouse.project.lib.injector.card.definition.ParameterDefinition;
 import mouse.project.lib.injector.card.invoke.Parameters;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SetterProducerImpl implements SetterProducer {
@@ -18,12 +16,8 @@ public class SetterProducerImpl implements SetterProducer {
     @Override
     public void apply(Object applyTo, CardAccess container) {
         Parameters parameters = methodInvoker.getParameters();
-        List<Object> args = new ArrayList<>();
-        for (ParameterDefinition param : parameters) {
-            Implementation<?> type = param.type();
-            Object implementation = container.getImplementation(type);
-            args.add(implementation);
-        }
+        ParameterCreator parameterCreator = new ParameterCreator(container);
+        List<Object> args = parameterCreator.assignAll(parameters);
         methodInvoker.invoke(applyTo, args);
     }
 }
