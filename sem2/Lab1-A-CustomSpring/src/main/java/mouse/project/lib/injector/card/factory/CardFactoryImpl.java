@@ -58,7 +58,7 @@ public class CardFactoryImpl {
             return container.findImplementation(current);
         }
 
-        CardDefinition<T> definition = cardDefinitions.lookup(current);
+        CardDefinition<?> definition = cardDefinitions.lookup(current);
         List<Implementation<?>> implementations = definition.requiredImplementations();
 
         for (Implementation<?> implementation : implementations) {
@@ -67,9 +67,9 @@ public class CardFactoryImpl {
             }
             buildCard(implementation, buildStack.next(current));
         }
-        CardProducer<T> producer = definition.getProducer();
-        T obj = producer.produce(container);
+        CardProducer<?> producer = definition.getProducer();
+        Object obj = producer.produce(container);
         container.put(obj);
-        return obj;
+        return current.getClazz().cast(obj);
     }
 }
