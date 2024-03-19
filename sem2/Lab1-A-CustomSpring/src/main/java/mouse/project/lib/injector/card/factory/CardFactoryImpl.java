@@ -2,6 +2,7 @@ package mouse.project.lib.injector.card.factory;
 
 import lombok.Setter;
 import mouse.project.lib.exception.CardException;
+import mouse.project.lib.injector.card.access.CardAccess;
 import mouse.project.lib.injector.card.access.CardAccessImpl;
 import mouse.project.lib.injector.card.container.CardContainer;
 import mouse.project.lib.injector.card.container.Implementation;
@@ -27,7 +28,8 @@ public class CardFactoryImpl implements CardFactory {
         cardDefinitions = null;
     }
     public <T> T buildCard(Implementation<T> implementation) {
-        return buildCard(implementation, new BuildStack());
+        BuildStack buildStack = new BuildStack();
+        return buildCard(implementation, buildStack);
     }
 
 
@@ -77,6 +79,8 @@ public class CardFactoryImpl implements CardFactory {
 
     private <T> Object produceCard(Implementation<T> current, CardDefinition<?> definition, BuildStack buildStack) {
         CardProducer<?> producer = definition.getProducer();
-        return producer.produce(new CardAccessImpl(buildStack.next(current), this));
+        BuildStack nextLevelBuildStack = buildStack.next(current);
+        CardAccess cardAccess = new CardAccessImpl(nextLevelBuildStack, this);
+        return producer.produce(cardAccess);
     }
 }

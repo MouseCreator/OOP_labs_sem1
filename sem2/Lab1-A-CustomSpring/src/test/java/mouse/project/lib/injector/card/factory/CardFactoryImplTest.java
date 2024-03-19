@@ -5,6 +5,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import mouse.project.lib.annotation.Auto;
 import mouse.project.lib.annotation.Collect;
+import mouse.project.lib.annotation.Primary;
+import mouse.project.lib.exception.MissingAnnotationException;
 import mouse.project.lib.exception.NoCardDefinitionException;
 import mouse.project.lib.injector.card.container.CardContainer;
 import mouse.project.lib.injector.card.container.CardContainerImpl;
@@ -42,7 +44,7 @@ class CardFactoryImplTest {
         }
     }
 
-    private <T> T buildUnnamed(Class<T> t) {
+    private <T> T getUnnamed(Class<T> t) {
         return cardFactory.buildCard(new Implementation<>(t, null));
     }
     @EqualsAndHashCode
@@ -52,7 +54,7 @@ class CardFactoryImplTest {
     @Test
     void buildCard() {
         scanClass(SampleClass.class);
-        SampleClass sampleClass = buildUnnamed(SampleClass.class);
+        SampleClass sampleClass = getUnnamed(SampleClass.class);
         assertNotNull(sampleClass);
         assertEquals(sampleClass, new SampleClass());
     }
@@ -73,7 +75,7 @@ class CardFactoryImplTest {
     @Test
     void buildWithDependency() {
         scanAll(Dependency.class, Dependant.class);
-        Dependant dependant = buildUnnamed(Dependant.class);
+        Dependant dependant = getUnnamed(Dependant.class);
         assertNotNull(dependant);
         assertNotNull(dependant.getDependency());
         assertEquals("Text", dependant.getDependency().getStr());
@@ -82,7 +84,7 @@ class CardFactoryImplTest {
     @Test
     void buildNotLoadedDependency() {
         scanClass(Dependant.class);
-        assertThrows(NoCardDefinitionException.class, () -> buildUnnamed(Dependant.class));
+        assertThrows(NoCardDefinitionException.class, () -> getUnnamed(Dependant.class));
     }
     @Data
     private static class ListDependant {
@@ -93,7 +95,7 @@ class CardFactoryImplTest {
     @Test
     void buildWithListDependency() {
         scanAll(ListDependant.class, Dependency.class);
-        ListDependant dependant = buildUnnamed(ListDependant.class);
+        ListDependant dependant = getUnnamed(ListDependant.class);
         assertNotNull(dependant);
         List<Dependency> dependency = dependant.getDependency();
         assertEquals(1, dependency.size());
@@ -101,5 +103,66 @@ class CardFactoryImplTest {
         assertEquals(new Dependency(), dependency.get(0));
     }
 
+    private static class ListDependantIncorrect {
+        @Auto
+        private List<Dependency> dependency;
+    }
+    @Test
+    void buildWithListDependencyNoCollectAnnotation() {
+        assertThrows(MissingAnnotationException.class, () -> scanAll(ListDependantIncorrect.class, Dependency.class));
+    }
+
+    private interface InterfaceExampleA {
+        String getString();
+    }
+
+    private static class AImplementation1 implements InterfaceExampleA {
+
+        @Override
+        public String getString() {
+            return "str1";
+        }
+    }
+    @Primary
+    private static class AImplementation2 implements InterfaceExampleA {
+
+        @Override
+        public String getString() {
+            return "str2";
+        }
+    }
+    @Getter
+    private static class InterfaceDependantA {
+        @Auto
+        @Collect(InterfaceExampleA.class)
+        private List<InterfaceExampleA> list;
+        @Auto
+        private InterfaceExampleA single;
+
+        private final AImplementation1 first;
+
+        private final AImplementation2 second;
+        @Auto
+        public InterfaceDependantA(AImplementation1 first, AImplementation2 second) {
+            this.first = first;
+            this.second = second;
+        }
+    }
+
+    @Test
+    void buildWithInterfaceDependency() {
+        scanClass(InterfaceDependantA.class);
+        scanAll(AImplementation1.class, AImplementation2.class);
+        InterfaceDependantA dependant = getUnnamed(InterfaceDependantA.class);
+        assertNotNull(dependant);
+        List<InterfaceExampleA> list = dependant.getList();
+        assertEquals(2, list.size());
+
+        InterfaceExampleA interfaceExampleA = dependant.getSingle();
+        assertEquals("str2", interfaceExampleA.getString());
+
+        assertEquals("str1", dependant.getFirst().getString());
+        assertEquals("str2", dependant.getSecond().getString());
+    }
 
 }

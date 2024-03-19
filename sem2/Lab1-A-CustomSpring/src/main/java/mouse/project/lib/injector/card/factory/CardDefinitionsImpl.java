@@ -51,7 +51,7 @@ public class CardDefinitionsImpl implements CardDefinitions {
     }
 
     private CardDefinition<?> getPrimaryFromList(Class<?> clazz, String name) {
-        List<CardDefinition<?>> list = getNamedDefinitons(clazz, name);
+        List<CardDefinition<?>> list = getNamedDefinitions(clazz, name);
         List<CardDefinition<?>> primary = getPrimaryFromList(list);
         if (primary.size()==1) {
             return primary.get(0);
@@ -60,7 +60,7 @@ public class CardDefinitionsImpl implements CardDefinitions {
                 " and name " + name + ": " + primary.size());
     }
 
-    private List<CardDefinition<?>> getNamedDefinitons(Class<?> clazz, String name) {
+    private List<CardDefinition<?>> getNamedDefinitions(Class<?> clazz, String name) {
         List<CardDefinition<?>> cardDefinitions = getDefinitionsByClass(clazz);
         return cardDefinitions.stream().filter(t -> name.equals(t.getType().getName())).toList();
     }
@@ -68,7 +68,8 @@ public class CardDefinitionsImpl implements CardDefinitions {
     @Override
     public void add(CardDefinition<?> definition) {
         Implementation<?> type = definition.getType();
-        Class<?> current = type.getClazz();
+        Class<?> origin = type.getClazz();
+        Class<?> current = origin;
         while (true) {
             addToMap(current, definition);
             if (current.equals(Object.class)) {
@@ -77,11 +78,30 @@ public class CardDefinitionsImpl implements CardDefinitions {
                 current = current.getSuperclass();
             }
         }
-        Class<?>[] interfaces = current.getInterfaces();
+        Set<Class<?>> interfaces = new InterfaceUtils().getAllInterfaces(origin);
         for (Class<?> interfaceI : interfaces) {
             addToMap(interfaceI, definition);
         }
 
+    }
+
+    private static class InterfaceUtils {
+        public Set<Class<?>> getAllInterfaces(Class<?> clazz) {
+            Set<Class<?>> interfaces = new HashSet<>();
+            getAllInterfaces(clazz, interfaces);
+            return interfaces;
+        }
+        private void getAllInterfaces(Class<?> clazz, Set<Class<?>> interfaces) {
+            Class<?>[] clazzInterfaces = clazz.getInterfaces();
+            for (Class<?> interfaceI : clazzInterfaces) {
+                if (interfaces.add(interfaceI)) {
+                    getAllInterfaces(interfaceI, interfaces);
+                }
+            }
+            if (clazz.getSuperclass() != null) {
+                getAllInterfaces(clazz.getSuperclass(), interfaces);
+            }
+        }
     }
 
     private <T> void addToMap(Class<?> current, CardDefinition<T> definition) {
@@ -102,7 +122,7 @@ public class CardDefinitionsImpl implements CardDefinitions {
     }
 
     private Collection<CardDefinition<?>> getNamed(Class<?> clazz, String name) {
-        return getNamedDefinitons(clazz, name);
+        return getNamedDefinitions(clazz, name);
     }
 
 }
