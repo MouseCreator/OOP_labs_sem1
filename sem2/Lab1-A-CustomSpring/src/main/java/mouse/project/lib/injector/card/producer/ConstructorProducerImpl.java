@@ -1,6 +1,7 @@
 package mouse.project.lib.injector.card.producer;
 
 import mouse.project.lib.exception.CardException;
+import mouse.project.lib.injector.card.container.CardAccess;
 import mouse.project.lib.injector.card.container.CardContainer;
 import mouse.project.lib.injector.card.container.Implementation;
 import mouse.project.lib.injector.card.invoke.ConstructorInvoker;
@@ -19,17 +20,14 @@ public class ConstructorProducerImpl<T> implements ConstructorProducer<T> {
     }
 
     @Override
-    public T construct(CardContainer container) {
+    public T construct(CardAccess container) {
         Parameters parameters = invoker.getParameters();
         List<ParameterDefinition> params = parameters.getParameterDefinitions();
         List<Object> args = new ArrayList<>();
         for (ParameterDefinition parameter : params) {
             Implementation<?> type = parameter.type();
-            Optional<?> implementation = container.getImplementation(type);
-            if (implementation.isEmpty()) {
-                throw new CardException("No implementation found for type: " + type);
-            }
-            args.add(implementation.get());
+            Object implementation = container.getImplementation(type);
+            args.add(implementation);
         }
         return invoker.invoke(args);
     }

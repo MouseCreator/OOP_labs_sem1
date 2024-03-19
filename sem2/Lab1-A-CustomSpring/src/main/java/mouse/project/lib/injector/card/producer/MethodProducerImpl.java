@@ -1,5 +1,6 @@
 package mouse.project.lib.injector.card.producer;
 
+import mouse.project.lib.injector.card.container.CardAccess;
 import mouse.project.lib.injector.card.container.CardContainer;
 import mouse.project.lib.injector.card.container.Implementation;
 import mouse.project.lib.injector.card.invoke.MethodInvoker;
@@ -15,13 +16,13 @@ public class MethodProducerImpl implements MethodProducer {
         this.methodInvoker = methodInvoker;
     }
     @Override
-    public Object call(CardContainer container) {
+    public Object call(CardAccess container) {
         Implementation<?> origin = methodInvoker.getOrigin();
         Parameters parameters = methodInvoker.getParameters();
         List<ParameterDefinition> parameterDefinitions = parameters.getParameterDefinitions();
         List<Object> args = new ArrayList<>();
         for (ParameterDefinition param : parameterDefinitions) {
-            Object implementation = container.findImplementation(param.type());
+            Object implementation = container.getImplementation(param.type());
             args.add(implementation);
         }
         return methodInvoker.invoke(origin, args);

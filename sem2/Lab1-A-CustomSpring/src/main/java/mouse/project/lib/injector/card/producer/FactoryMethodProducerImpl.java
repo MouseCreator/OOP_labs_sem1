@@ -1,6 +1,7 @@
 package mouse.project.lib.injector.card.producer;
 
 import mouse.project.lib.exception.CardException;
+import mouse.project.lib.injector.card.container.CardAccess;
 import mouse.project.lib.injector.card.container.CardContainer;
 
 public class FactoryMethodProducerImpl<T> implements FactoryMethodProducer<T> {
@@ -12,7 +13,7 @@ public class FactoryMethodProducerImpl<T> implements FactoryMethodProducer<T> {
     }
 
     @Override
-    public T produce(CardContainer container) {
+    public T produce(CardAccess container) {
         Object obj = methodProducer.call(container);
         try {
             return clazz.cast(obj);

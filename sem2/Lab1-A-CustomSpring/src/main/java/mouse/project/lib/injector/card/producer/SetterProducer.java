@@ -1,7 +1,7 @@
 package mouse.project.lib.injector.card.producer;
 
-import mouse.project.lib.injector.card.container.CardContainer;
+import mouse.project.lib.injector.card.container.CardAccess;
 
 public interface SetterProducer {
-    void apply(Object applyTo, CardContainer container);
+    void apply(Object applyTo, CardAccess container);
 }

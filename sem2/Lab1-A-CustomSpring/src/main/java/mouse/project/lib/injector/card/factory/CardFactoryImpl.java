@@ -54,6 +54,7 @@ public class CardFactoryImpl {
         if (buildStack.contains(current)) {
             throw new CardException("Loop in card factory: " + buildStack + " looped back to " + current);
         }
+
         if (container.containsImplementation(current)) {
             return container.findImplementation(current);
         }
@@ -68,8 +69,9 @@ public class CardFactoryImpl {
             buildCard(implementation, buildStack.next(current));
         }
         CardProducer<?> producer = definition.getProducer();
-        Object obj = producer.produce(container);
-        container.put(obj);
-        return current.getClazz().cast(obj);
+        //Object obj = producer.produce(container);
+        //container.put(obj);
+        //return current.getClazz().cast(obj);
+        return null;
     }
 }

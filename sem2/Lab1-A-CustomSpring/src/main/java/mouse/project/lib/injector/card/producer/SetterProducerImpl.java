@@ -1,6 +1,6 @@
 package mouse.project.lib.injector.card.producer;
 
-import mouse.project.lib.injector.card.container.CardContainer;
+import mouse.project.lib.injector.card.container.CardAccess;
 import mouse.project.lib.injector.card.container.Implementation;
 import mouse.project.lib.injector.card.invoke.MethodInvoker;
 import mouse.project.lib.injector.card.invoke.ParameterDefinition;
@@ -16,12 +16,12 @@ public class SetterProducerImpl implements SetterProducer {
     }
 
     @Override
-    public void apply(Object applyTo, CardContainer container) {
+    public void apply(Object applyTo, CardAccess container) {
         Parameters parameters = methodInvoker.getParameters();
         List<Object> args = new ArrayList<>();
         for (ParameterDefinition param : parameters) {
             Implementation<?> type = param.type();
-            Object implementation = container.findImplementation(type);
+            Object implementation = container.getImplementation(type);
             args.add(implementation);
         }
         methodInvoker.invoke(applyTo, args);

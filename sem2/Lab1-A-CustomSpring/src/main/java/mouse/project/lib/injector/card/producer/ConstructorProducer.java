@@ -1,7 +1,8 @@
 package mouse.project.lib.injector.card.producer;
 
-import mouse.project.lib.injector.card.container.CardContainer;
+
+import mouse.project.lib.injector.card.container.CardAccess;
 
 public interface ConstructorProducer<T> {
-    T construct(CardContainer container);
+    T construct(CardAccess container);
 }

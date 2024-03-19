@@ -1,7 +1,7 @@
 package mouse.project.lib.injector.card.producer;
 
-import mouse.project.lib.injector.card.container.CardContainer;
+import mouse.project.lib.injector.card.container.CardAccess;
 
 public interface FieldProducer {
-    void setField(Object obj, CardContainer container);
+    void setField(Object obj, CardAccess container);
 }
