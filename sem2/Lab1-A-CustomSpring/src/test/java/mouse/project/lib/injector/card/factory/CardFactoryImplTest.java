@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import mouse.project.lib.annotation.Auto;
 import mouse.project.lib.annotation.Collect;
+import mouse.project.lib.exception.NoCardDefinitionException;
 import mouse.project.lib.injector.card.container.CardContainer;
 import mouse.project.lib.injector.card.container.CardContainerImpl;
 import mouse.project.lib.injector.card.container.Implementation;
@@ -77,6 +78,12 @@ class CardFactoryImplTest {
         assertNotNull(dependant.getDependency());
         assertEquals("Text", dependant.getDependency().getStr());
     }
+
+    @Test
+    void buildNotLoadedDependency() {
+        scanClass(Dependant.class);
+        assertThrows(NoCardDefinitionException.class, () -> buildUnnamed(Dependant.class));
+    }
     @Data
     private static class ListDependant {
         @Auto
@@ -85,7 +92,7 @@ class CardFactoryImplTest {
     }
     @Test
     void buildWithListDependency() {
-        scanAll(ListDependant.class, Dependant.class);
+        scanAll(ListDependant.class, Dependency.class);
         ListDependant dependant = buildUnnamed(ListDependant.class);
         assertNotNull(dependant);
         List<Dependency> dependency = dependant.getDependency();

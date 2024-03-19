@@ -50,12 +50,11 @@ public class CardFactoryImpl implements CardFactory {
 
     @Override
     public <T> Collection<T> buildAllCards(Implementation<T> current, BuildStack buildStack) {
-        assertNotLopped(current, buildStack);
         Collection<CardDefinition<?>> definitions = cardDefinitions.lookupAll(current);
         List<T> implementations = new ArrayList<>();
         for (CardDefinition<?> definition : definitions) {
             Implementation<?> type = definition.getType();
-            Object card = buildCard(type, buildStack.next(current));
+            Object card = buildCard(type, buildStack);
             T cast = current.getClazz().cast(card);
             implementations.add(cast);
         }

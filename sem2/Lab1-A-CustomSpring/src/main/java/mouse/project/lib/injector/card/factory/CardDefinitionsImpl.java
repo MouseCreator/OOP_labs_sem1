@@ -1,10 +1,9 @@
 package mouse.project.lib.injector.card.factory;
 
 import mouse.project.lib.exception.MultipleImplementationsException;
+import mouse.project.lib.exception.NoCardDefinitionException;
 import mouse.project.lib.injector.card.container.Implementation;
 import mouse.project.lib.injector.card.definition.CardDefinition;
-
-import java.lang.annotation.Annotation;
 import java.util.*;
 
 public class CardDefinitionsImpl implements CardDefinitions {
@@ -46,20 +45,24 @@ public class CardDefinitionsImpl implements CardDefinitions {
     private <T> List<CardDefinition<?>> getDefinitionsByClass(Class<T> clazz) {
         List<CardDefinition<?>> cardDefinitions = map.get(clazz);
         if (cardDefinitions == null || cardDefinitions.isEmpty()) {
-            throw new NoSuchElementException("No card definition for class " + clazz);
+            throw new NoCardDefinitionException("No card definition for " + clazz);
         }
         return cardDefinitions;
     }
 
     private CardDefinition<?> getPrimaryFromList(Class<?> clazz, String name) {
-        List<CardDefinition<?>> cardDefinitions = getDefinitionsByClass(clazz);
-        List<CardDefinition<?>> list = cardDefinitions.stream().filter(t -> name.equals(t.getType().getName())).toList();
+        List<CardDefinition<?>> list = getNamedDefinitons(clazz, name);
         List<CardDefinition<?>> primary = getPrimaryFromList(list);
         if (primary.size()==1) {
             return primary.get(0);
         }
         throw new MultipleImplementationsException("Found multiple definitions for " + clazz +
                 " and name " + name + ": " + primary.size());
+    }
+
+    private List<CardDefinition<?>> getNamedDefinitons(Class<?> clazz, String name) {
+        List<CardDefinition<?>> cardDefinitions = getDefinitionsByClass(clazz);
+        return cardDefinitions.stream().filter(t -> name.equals(t.getType().getName())).toList();
     }
 
     @Override
@@ -88,11 +91,18 @@ public class CardDefinitionsImpl implements CardDefinitions {
 
     @Override
     public Collection<CardDefinition<?>> lookupAll(Implementation<?> implementation) {
-        return null;
+        if (implementation.isNamed()) {
+            return getNamed(implementation.getClazz(), implementation.getName());
+        }
+        return getAll(implementation.getClazz());
     }
 
-    @Override
-    public Collection<CardDefinition<?>> getAnnotatedWith(Class<? extends Annotation> annotation) {
-        return null;
+    private Collection<CardDefinition<?>> getAll(Class<?> clazz) {
+        return getDefinitionsByClass(clazz);
     }
+
+    private Collection<CardDefinition<?>> getNamed(Class<?> clazz, String name) {
+        return getNamedDefinitons(clazz, name);
+    }
+
 }

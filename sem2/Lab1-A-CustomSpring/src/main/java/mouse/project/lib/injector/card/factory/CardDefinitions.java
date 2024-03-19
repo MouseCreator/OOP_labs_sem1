@@ -10,5 +10,4 @@ public interface CardDefinitions {
     CardDefinition<?> lookup(Implementation<?> implementation);
     void add(CardDefinition<?> definition);
     Collection<CardDefinition<?>> lookupAll(Implementation<?> implementation);
-    Collection<CardDefinition<?>> getAnnotatedWith(Class<? extends Annotation> annotation);
 }
