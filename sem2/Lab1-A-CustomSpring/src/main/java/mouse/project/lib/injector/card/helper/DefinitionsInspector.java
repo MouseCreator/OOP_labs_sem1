@@ -2,6 +2,7 @@ package mouse.project.lib.injector.card.helper;
 
 import mouse.project.lib.annotation.Collect;
 import mouse.project.lib.annotation.UseNamed;
+import mouse.project.lib.exception.MissingAnnotationException;
 import mouse.project.lib.injector.card.container.Implementation;
 import mouse.project.lib.injector.card.definition.ParameterDefinition;
 import mouse.project.lib.injector.card.definition.ParameterDefinitionImpl;
@@ -9,7 +10,7 @@ import mouse.project.lib.injector.card.invoke.Parameters;
 import mouse.project.lib.injector.card.invoke.ParametersImpl;
 
 import java.lang.reflect.*;
-import java.util.List;
+import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -38,38 +39,32 @@ public class DefinitionsInspector {
     }
     private FieldInfo inspectCollectionField(String named, Field field) {
         Class<?> collection = field.getType();
-        Class<?> collectionClass = collectionType(collection);
         Implementation<?> implementation = toCollectedImplementation(named, field);
-        return new FieldInfo(implementation, collectionClass);
+        return new FieldInfo(implementation, collection);
     }
 
     private Implementation<?> toCollectedImplementation(String named, AnnotatedElement el) {
         Collect collect = el.getAnnotation(Collect.class);
+        if (collect == null) {
+            throw new MissingAnnotationException("Collection field/parameter must be annotated with @Collect " +
+                    "and specify collection genetic type");
+        }
         Class<?> type = collect.collectionClass();
         return new Implementation<>(type, named);
     }
 
-    private Class<?> collectionType(Class<?> collection) {
-        Class<?> collectionClass;
-        if (collection.isAssignableFrom(Set.class)) {
-            collectionClass = Set.class;
-        } else if (collection.isAssignableFrom(List.class)) {
-            collectionClass = List.class;
-        } else {
-            throw new IllegalArgumentException("Unsupported collection type " + collection);
-        }
-        return collectionClass;
-    }
 
     private ParameterDefinition inspectCollectionParameter(String named, Parameter parameter, int order) {
         Class<?> collection = parameter.getType();
-        Class<?> collectionClass = collectionType(collection);
         Implementation<?> implementation = toCollectedImplementation(named, parameter);
-        return new ParameterDefinitionImpl(implementation, order, collectionClass);
+        return new ParameterDefinitionImpl(implementation, order, collection);
     }
 
-    private boolean isCollection(AnnotatedElement element) {
-        return element.isAnnotationPresent(Collect.class);
+    private boolean isCollection(Field field) {
+        return Collection.class.isAssignableFrom(field.getType());
+    }
+    private boolean isCollection(Parameter parameter) {
+        return Collection.class.isAssignableFrom(parameter.getType());
     }
 
     public Parameters inspectParameters(Parameter[] parameters) {
