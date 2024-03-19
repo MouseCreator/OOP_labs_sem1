@@ -49,7 +49,7 @@ public class DefinitionsInspector {
             throw new MissingAnnotationException("Collection field/parameter must be annotated with @Collect " +
                     "and specify collection genetic type");
         }
-        Class<?> type = collect.collectionClass();
+        Class<?> type = collect.value();
         return new Implementation<>(type, named);
     }
 
