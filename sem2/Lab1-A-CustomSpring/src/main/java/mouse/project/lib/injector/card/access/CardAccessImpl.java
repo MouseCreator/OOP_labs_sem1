@@ -20,6 +20,10 @@ public class CardAccessImpl implements CardAccess {
         this.allowedImplementations = new HashSet<>(allowedImplementations);
     }
 
+    public void allow(Implementation<?> implementation) {
+        allowedImplementations.add(implementation);
+    }
+
     @Override
     public <T> T getImplementation(Implementation<T> implementation) {
         assertHasAccessTo(implementation);
