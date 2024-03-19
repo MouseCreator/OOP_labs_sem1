@@ -1,7 +1,7 @@
 package mouse.project.lib.injector.card.factory;
 
 import lombok.Setter;
-import mouse.project.lib.exception.CardException;
+import mouse.project.lib.exception.CycleDependencyException;
 import mouse.project.lib.injector.card.access.CardAccess;
 import mouse.project.lib.injector.card.access.CardAccessImpl;
 import mouse.project.lib.injector.card.container.CardContainer;
@@ -46,7 +46,7 @@ public class CardFactoryImpl implements CardFactory {
 
     private static <T> void assertNotLopped(Implementation<T> current, BuildStack buildStack) {
         if (buildStack.contains(current)) {
-            throw new CardException("Loop in card factory: " + buildStack + " looped back to " + current);
+            throw new CycleDependencyException("Cycle in card factory: " + buildStack + " looped back to " + current);
         }
     }
 

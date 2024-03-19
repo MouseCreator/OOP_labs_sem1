@@ -6,6 +6,7 @@ import lombok.Getter;
 import mouse.project.lib.annotation.Auto;
 import mouse.project.lib.annotation.Collect;
 import mouse.project.lib.annotation.Primary;
+import mouse.project.lib.exception.CardException;
 import mouse.project.lib.exception.MissingAnnotationException;
 import mouse.project.lib.exception.NoCardDefinitionException;
 import mouse.project.lib.injector.card.container.CardContainer;
@@ -163,6 +164,19 @@ class CardFactoryImplTest {
 
         assertEquals("str1", dependant.getFirst().getString());
         assertEquals("str2", dependant.getSecond().getString());
+    }
+    private static class Cycle1 {
+        @Auto
+        Cycle2 cycle2;
+    }
+    private static class Cycle2 {
+        @Auto
+        Cycle1 cycle1;
+    }
+    @Test
+    void buildWithCycle() {
+        scanAll(Cycle1.class, Cycle2.class);
+        assertThrows(CardException.class, () -> getUnnamed(Cycle1.class));
     }
 
 }
