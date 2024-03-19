@@ -2,16 +2,18 @@ package mouse.project.lib.injector.card.factory;
 
 import lombok.Setter;
 import mouse.project.lib.exception.CardException;
+import mouse.project.lib.injector.card.access.CardAccessImpl;
 import mouse.project.lib.injector.card.container.CardContainer;
 import mouse.project.lib.injector.card.container.Implementation;
 import mouse.project.lib.injector.card.definition.CardDefinition;
 import mouse.project.lib.injector.card.producer.CardProducer;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Setter
-public class CardFactoryImpl {
+public class CardFactoryImpl implements CardFactory {
     private CardContainer container;
     private CardDefinitions cardDefinitions;
 
@@ -28,50 +30,54 @@ public class CardFactoryImpl {
         return buildCard(implementation, new BuildStack());
     }
 
-    private static class BuildStack {
-        private final List<Implementation<?>> stack;
 
-        public BuildStack() {
-            this.stack = new ArrayList<>();
-        }
-        public BuildStack next(Implementation<?> current) {
-            BuildStack next = new BuildStack();
-            next.stack.addAll(stack);
-            next.stack.add(current);
-            return next;
+    public <T> T buildCard(Implementation<T> current, BuildStack buildStack) {
+        assertNotLopped(current, buildStack);
+        CardDefinition<?> definition = cardDefinitions.lookup(current);
+        if (definition.getType().isPrototype()) {
+            return handlePrototype(current, definition, buildStack);
+        } else {
+            return handleSingleton(current, definition, buildStack);
         }
 
-        @Override
-        public String toString() {
-            return stack.toString();
-        }
-
-        public <T> boolean contains(Implementation<T> current) {
-            return stack.contains(current);
-        }
     }
-    private <T> T buildCard(Implementation<T> current, BuildStack buildStack) {
+
+    private static <T> void assertNotLopped(Implementation<T> current, BuildStack buildStack) {
         if (buildStack.contains(current)) {
             throw new CardException("Loop in card factory: " + buildStack + " looped back to " + current);
         }
+    }
 
+    @Override
+    public <T> Collection<T> buildAllCards(Implementation<T> current, BuildStack buildStack) {
+        assertNotLopped(current, buildStack);
+        Collection<CardDefinition<?>> definitions = cardDefinitions.lookupAll(current);
+        List<T> implementations = new ArrayList<>();
+        for (CardDefinition<?> definition : definitions) {
+            Implementation<?> type = definition.getType();
+            Object card = buildCard(type, buildStack.next(current));
+            T cast = current.getClazz().cast(card);
+            implementations.add(cast);
+        }
+        return implementations;
+    }
+
+    private  <T> T handleSingleton(Implementation<T> current, CardDefinition<?> definition, BuildStack buildStack) {
         if (container.containsImplementation(current)) {
             return container.findImplementation(current);
         }
+        Object obj = produceCard(current, definition, buildStack);
+        container.put(obj);
+        return current.getClazz().cast(obj);
+    }
 
-        CardDefinition<?> definition = cardDefinitions.lookup(current);
-        List<Implementation<?>> implementations = definition.requiredImplementations();
+    private  <T> T handlePrototype(Implementation<T> current, CardDefinition<?> definition, BuildStack buildStack) {
+        Object obj = produceCard(current, definition, buildStack);
+        return current.getClazz().cast(obj);
+    }
 
-        for (Implementation<?> implementation : implementations) {
-            if (container.containsImplementation(implementation)) {
-                continue;
-            }
-            buildCard(implementation, buildStack.next(current));
-        }
+    private <T> Object produceCard(Implementation<T> current, CardDefinition<?> definition, BuildStack buildStack) {
         CardProducer<?> producer = definition.getProducer();
-        //Object obj = producer.produce(container);
-        //container.put(obj);
-        //return current.getClazz().cast(obj);
-        return null;
+        return producer.produce(new CardAccessImpl(buildStack.next(current), this));
     }
 }
