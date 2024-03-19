@@ -19,7 +19,7 @@ public class DefinitionsInspector {
     public FieldInfo inspectField(Field field) {
         Class<?> requiredType = field.getType();
         UseNamed useNamed = field.getAnnotation(UseNamed.class);
-        String named = useNamed == null ? null : useNamed.named();
+        String named = useNamed == null ? null : useNamed.name();
         if (isCollection(field)) {
             return inspectCollectionField(named, field);
         }
@@ -28,7 +28,7 @@ public class DefinitionsInspector {
 
     public ParameterDefinition inspectParameter(Parameter parameter, int order) {
         UseNamed annotation = parameter.getAnnotation(UseNamed.class);
-        String named = annotation == null ? null : annotation.named();
+        String named = annotation == null ? null : annotation.name();
         Class<?> requiredType = parameter.getType();
         if (isCollection(parameter)) {
             return inspectCollectionParameter(named, parameter, order);

@@ -3,9 +3,7 @@ package mouse.project.lib.injector.card.factory;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import mouse.project.lib.annotation.Auto;
-import mouse.project.lib.annotation.Collect;
-import mouse.project.lib.annotation.Primary;
+import mouse.project.lib.annotation.*;
 import mouse.project.lib.exception.CardException;
 import mouse.project.lib.exception.MissingAnnotationException;
 import mouse.project.lib.exception.NoCardDefinitionException;
@@ -47,6 +45,10 @@ class CardFactoryImplTest {
 
     private <T> T getUnnamed(Class<T> t) {
         return cardFactory.buildCard(new Implementation<>(t, null));
+    }
+
+    private <T> T getNamed(Class<T> t, String name) {
+        return cardFactory.buildCard(new Implementation<>(t, name));
     }
     @EqualsAndHashCode
     private static class SampleClass {
@@ -178,5 +180,38 @@ class CardFactoryImplTest {
         scanAll(Cycle1.class, Cycle2.class);
         assertThrows(CardException.class, () -> getUnnamed(Cycle1.class));
     }
+    @Name(name = "1")
+    private static class NamedDependency1 implements InterfaceExampleA{
 
+        @Override
+        public String getString() {
+            return "Name-1";
+        }
+    }
+
+    @Name(name = "2")
+    @Primary
+    private static class NamedDependency2 implements InterfaceExampleA{
+
+        @Override
+        public String getString() {
+            return "Name-2";
+        }
+    }
+    @Getter
+    private static class NameDependant {
+        @Auto
+        @UseNamed(name = "1")
+        private InterfaceExampleA dependency;
+    }
+
+    @Test
+    void buildNamed() {
+        scanAll(NameDependant.class, NamedDependency1.class, NamedDependency2.class);
+        InterfaceExampleA named = getNamed(InterfaceExampleA.class, "2");
+        assertEquals("Name-2", named.getString());
+        NameDependant dependant = getUnnamed(NameDependant.class);
+        InterfaceExampleA dependency = dependant.getDependency();
+        assertEquals("Name-1", dependency.getString());
+    }
 }
