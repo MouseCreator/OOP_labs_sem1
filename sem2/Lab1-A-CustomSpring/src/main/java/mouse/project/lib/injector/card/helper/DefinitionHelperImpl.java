@@ -22,8 +22,8 @@ public class DefinitionHelperImpl implements DefinitionHelper {
     }
     @Override
     public FieldDefinition getField(Field field) {
-        Implementation<?> implementation = definitionsInspector.inspectField(field);
-        return new FieldDefinitionImpl(field, implementation);
+        FieldInfo info = definitionsInspector.inspectField(field);
+        return new FieldDefinitionImpl(field, info.implementation(), info.collectionType());
     }
 
     @Override

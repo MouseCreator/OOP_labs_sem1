@@ -8,12 +8,13 @@ import java.lang.reflect.Field;
 import java.util.List;
 
 public class FieldDefinitionImpl implements FieldDefinition {
-
     private final Field field;
     public final Implementation<?> required;
-    public FieldDefinitionImpl(Field field, Implementation<?> required) {
+    private final Class<?> collectionType;
+    public FieldDefinitionImpl(Field field, Implementation<?> required, Class<?> collectionType) {
         this.field = field;
         this.required = required;
+        this.collectionType = collectionType;
     }
 
     @Override
@@ -35,5 +36,15 @@ public class FieldDefinitionImpl implements FieldDefinition {
     @Override
     public Implementation<?> getType() {
         return required;
+    }
+
+    @Override
+    public Class<?> collectionType() {
+        return collectionType;
+    }
+
+    @Override
+    public boolean isCollection() {
+        return collectionType != null;
     }
 }

@@ -1,6 +1,7 @@
 package mouse.project.lib.injector.card.invoke;
 
 import mouse.project.lib.injector.card.container.Implementation;
+import mouse.project.lib.injector.card.definition.ParameterDefinition;
 
 import java.util.List;
 

@@ -1,34 +1,75 @@
 package mouse.project.lib.injector.card.helper;
 
+import mouse.project.lib.annotation.Collect;
 import mouse.project.lib.annotation.UseNamed;
 import mouse.project.lib.injector.card.container.Implementation;
-import mouse.project.lib.injector.card.invoke.ParameterDefinition;
-import mouse.project.lib.injector.card.invoke.ParameterDefinitionImpl;
+import mouse.project.lib.injector.card.definition.ParameterDefinition;
+import mouse.project.lib.injector.card.definition.ParameterDefinitionImpl;
 import mouse.project.lib.injector.card.invoke.Parameters;
 import mouse.project.lib.injector.card.invoke.ParametersImpl;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
+import java.lang.reflect.*;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public class DefinitionsInspector {
 
-    public Implementation<?> inspectField(Field field) {
+    public FieldInfo inspectField(Field field) {
         Class<?> requiredType = field.getType();
         UseNamed useNamed = field.getAnnotation(UseNamed.class);
         String named = useNamed == null ? null : useNamed.named();
-        return new Implementation<>(requiredType, named);
+        if (isCollection(field)) {
+            return inspectCollectionField(named, field);
+        }
+        return new FieldInfo(new Implementation<>(requiredType, named), null);
     }
 
     public ParameterDefinition inspectParameter(Parameter parameter, int order) {
         UseNamed annotation = parameter.getAnnotation(UseNamed.class);
         String named = annotation == null ? null : annotation.named();
         Class<?> requiredType = parameter.getType();
-        Implementation<?> implementation = new Implementation<>(requiredType, named);
-        return new ParameterDefinitionImpl(implementation, order);
+        if (isCollection(parameter)) {
+            return inspectCollectionParameter(named, parameter, order);
+        } else {
+            Implementation<?> implementation = new Implementation<>(requiredType, named);
+            return new ParameterDefinitionImpl(implementation, order, null);
+        }
+    }
+    private FieldInfo inspectCollectionField(String named, Field field) {
+        Class<?> collection = field.getType();
+        Class<?> collectionClass = collectionType(collection);
+        Implementation<?> implementation = toCollectedImplementation(named, field);
+        return new FieldInfo(implementation, collectionClass);
+    }
+
+    private Implementation<?> toCollectedImplementation(String named, AnnotatedElement el) {
+        Collect collect = el.getAnnotation(Collect.class);
+        Class<?> type = collect.collectionClass();
+        return new Implementation<>(type, named);
+    }
+
+    private Class<?> collectionType(Class<?> collection) {
+        Class<?> collectionClass;
+        if (collection.isAssignableFrom(Set.class)) {
+            collectionClass = Set.class;
+        } else if (collection.isAssignableFrom(List.class)) {
+            collectionClass = List.class;
+        } else {
+            throw new IllegalArgumentException("Unsupported collection type " + collection);
+        }
+        return collectionClass;
+    }
+
+    private ParameterDefinition inspectCollectionParameter(String named, Parameter parameter, int order) {
+        Class<?> collection = parameter.getType();
+        Class<?> collectionClass = collectionType(collection);
+        Implementation<?> implementation = toCollectedImplementation(named, parameter);
+        return new ParameterDefinitionImpl(implementation, order, collectionClass);
+    }
+
+    private boolean isCollection(AnnotatedElement element) {
+        return element.isAnnotationPresent(Collect.class);
     }
 
     public Parameters inspectParameters(Parameter[] parameters) {

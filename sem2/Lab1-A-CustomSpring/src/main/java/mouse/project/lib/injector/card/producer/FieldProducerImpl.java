@@ -1,7 +1,6 @@
 package mouse.project.lib.injector.card.producer;
 
-import mouse.project.lib.injector.card.container.CardAccess;
-import mouse.project.lib.injector.card.container.CardContainer;
+import mouse.project.lib.injector.card.access.CardAccess;
 import mouse.project.lib.injector.card.container.Implementation;
 import mouse.project.lib.injector.card.invoke.FieldInjection;
 
