@@ -1,31 +1,24 @@
 package mouse.project.lib.injector.card.invoke;
 
 import mouse.project.lib.exception.CardException;
-import mouse.project.lib.injector.card.container.Implementation;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 
-public class MethodInvokerImpl implements MethodInvoker{
-
+public class ActionInvokerImpl implements ActionInvoker {
     private final Method method;
     private final Parameters parameters;
-    private final Implementation<?> origin;
-    public MethodInvokerImpl(Method method, Parameters parameters, Implementation<?> origin) {
-        this.method = method;
-        this.parameters = parameters;
-        this.origin = origin;
-    }
+    private final Object invokeOn;
 
-    public MethodInvokerImpl(Method method, Parameters parameters) {
+    public ActionInvokerImpl(Method method, Parameters parameters, Object invokeOn) {
         this.method = method;
         this.parameters = parameters;
-        this.origin = null;
+        this.invokeOn = invokeOn;
     }
 
     @Override
-    public Object invoke(Object invokeOn, List<Object> params) {
+    public Object invoke(List<Object> params) {
         method.setAccessible(true);
         try {
             return method.invoke(invokeOn, params.toArray());
@@ -37,13 +30,5 @@ public class MethodInvokerImpl implements MethodInvoker{
     @Override
     public Parameters getParameters() {
         return parameters;
-    }
-
-    @Override
-    public Implementation<?> getOrigin() {
-        if (origin == null) {
-            throw new CardException("No origin defined");
-        }
-        return origin;
     }
 }

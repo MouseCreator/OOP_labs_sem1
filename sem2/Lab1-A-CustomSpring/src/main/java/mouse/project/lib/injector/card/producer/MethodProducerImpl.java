@@ -19,6 +19,7 @@ public class MethodProducerImpl implements MethodProducer {
         Parameters parameters = methodInvoker.getParameters();
         ParameterCreator parameterCreator = new ParameterCreator(container);
         List<Object> args = parameterCreator.assignAll(parameters);
-        return methodInvoker.invoke(origin, args);
+        Object obj = container.getImplementation(origin);
+        return methodInvoker.invoke(obj, args);
     }
 }

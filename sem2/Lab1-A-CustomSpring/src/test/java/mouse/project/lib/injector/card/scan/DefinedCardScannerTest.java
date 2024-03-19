@@ -15,7 +15,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class CardScannerImplTest {
+class DefinedCardScannerTest {
 
     private CardScanner scan;
     private ScanTestHelper helper;
@@ -28,7 +28,7 @@ class CardScannerImplTest {
     }
     @BeforeEach
     void setUp() {
-        scan = new CardScannerImpl();
+        scan = new DefinedCardScanner();
         helper = new ScanTestHelper();
     }
 

@@ -1,6 +1,7 @@
 package mouse.project.lib.injector.card.helper;
 
 import mouse.project.lib.annotation.Collect;
+import mouse.project.lib.annotation.Name;
 import mouse.project.lib.annotation.UseNamed;
 import mouse.project.lib.exception.MissingAnnotationException;
 import mouse.project.lib.injector.card.container.Implementation;
@@ -86,9 +87,10 @@ public class DefinitionsInspector {
         return inspectParameters(method.getParameters());
     }
 
-    public Set<Implementation<?>> toRequirements(Parameters parameters) {
-        return parameters.getParameterDefinitions()
-                .stream()
-                .map(ParameterDefinition::type).collect(Collectors.toSet());
+    public Implementation<?> getMethodReturnType(Method method) {
+        Class<?> returnType = method.getReturnType();
+        Name annotation = method.getAnnotation(Name.class);
+        String name = annotation == null ? null : annotation.name();
+        return new Implementation<>(returnType, name);
     }
 }

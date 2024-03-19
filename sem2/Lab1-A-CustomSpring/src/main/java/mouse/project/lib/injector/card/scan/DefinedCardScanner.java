@@ -16,12 +16,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class CardScannerImpl implements CardScanner {
+public class DefinedCardScanner implements CardScanner {
 
     private final ConstructorScanner constructorScanner;
     private final MethodScanner methodScanner;
     private final FieldScanner fieldScanner;
-    public CardScannerImpl() {
+    public DefinedCardScanner() {
         DefinitionHelper definitionHelper = new DefinitionHelperImpl();
         constructorScanner = new ConstructorScanner(definitionHelper);
         methodScanner = new MethodScanner(definitionHelper);
@@ -62,11 +62,8 @@ public class CardScannerImpl implements CardScanner {
             throw new CardException("Cannot produce inner non-static class:" + clazz);
         }
     }
-    private static class ConstructorScanner {
-        private final DefinitionHelper definitionHelper;
-        public ConstructorScanner(DefinitionHelper definitionHelper) {
-            this.definitionHelper = definitionHelper;
-        }
+
+    private record ConstructorScanner(DefinitionHelper definitionHelper) {
         public <T> void scan(DefinedCard<T> card, Class<T> toScan) {
             Optional<Constructor<T>> annotated = getAnnotatedConstructor(toScan);
             if (annotated.isPresent()) {
@@ -121,11 +118,7 @@ public class CardScannerImpl implements CardScanner {
         }
     }
 
-    private static class FieldScanner {
-        private final DefinitionHelper definitionHelper;
-        public FieldScanner(DefinitionHelper definitionHelper) {
-            this.definitionHelper = definitionHelper;
-        }
+    private record FieldScanner(DefinitionHelper definitionHelper) {
 
         public <T> void scan(DefinedCard<T> card, Class<?> toScan) {
             List<Field> annotatedFields = getAnnotatedFields(toScan);
@@ -147,11 +140,8 @@ public class CardScannerImpl implements CardScanner {
             return result;
         }
     }
-    private static class MethodScanner  {
-        private final DefinitionHelper definitionHelper;
-        public MethodScanner(DefinitionHelper definitionHelper) {
-            this.definitionHelper = definitionHelper;
-        }
+
+    private record MethodScanner(DefinitionHelper definitionHelper) {
 
         public <T> void scan(DefinedCard<T> card, Class<?> toScan) {
             List<Method> annotatedFields = getAnnotatedSetters(toScan);

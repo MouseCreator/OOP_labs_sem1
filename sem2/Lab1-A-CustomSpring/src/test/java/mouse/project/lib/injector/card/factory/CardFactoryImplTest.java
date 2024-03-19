@@ -12,7 +12,7 @@ import mouse.project.lib.injector.card.container.CardContainerImpl;
 import mouse.project.lib.injector.card.container.Implementation;
 import mouse.project.lib.injector.card.definition.CardDefinition;
 import mouse.project.lib.injector.card.scan.CardScanner;
-import mouse.project.lib.injector.card.scan.CardScannerImpl;
+import mouse.project.lib.injector.card.scan.DefinedCardScanner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -27,7 +27,7 @@ class CardFactoryImplTest {
     public CardScanner cardScanner;
     @BeforeEach
     void setUp() {
-        cardScanner = new CardScannerImpl();
+        cardScanner = new DefinedCardScanner();
         cardDefinitions = new CardDefinitionsImpl();
         CardContainer cardContainer = new CardContainerImpl();
         cardFactory = new CardFactoryImpl(cardContainer, cardDefinitions);

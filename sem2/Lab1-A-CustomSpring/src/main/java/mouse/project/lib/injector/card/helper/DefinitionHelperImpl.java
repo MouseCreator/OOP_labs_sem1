@@ -1,5 +1,6 @@
 package mouse.project.lib.injector.card.helper;
 
+import mouse.project.lib.injector.card.container.Implementation;
 import mouse.project.lib.injector.card.definition.*;
 import mouse.project.lib.injector.card.invoke.Parameters;
 
@@ -29,5 +30,12 @@ public class DefinitionHelperImpl implements DefinitionHelper {
     public SetterDefinition getSetter(Method method) {
         Parameters parameters = definitionsInspector.inspectMethod(method);
         return new SetterDefinitionImpl(method, parameters);
+    }
+
+    @Override
+    public MethodDefinition getFactoryMethod(Method method, Implementation<?> origin) {
+        Parameters parameters = definitionsInspector.inspectMethod(method);
+        Implementation<?> returnType = definitionsInspector.getMethodReturnType(method);
+        return new MethodDefinitionImpl(method, returnType, parameters, origin);
     }
 }

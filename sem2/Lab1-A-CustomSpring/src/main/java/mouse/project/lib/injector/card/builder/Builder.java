@@ -77,4 +77,11 @@ public class Builder {
         factoryMethodProducer.setMethod(factoryMethod.toProducer());
         return factoryMethodProducer;
     }
+
+    public ActionProducer fromAction(ActionDefinitionImpl actionDefinition, Object callOn) {
+        Method method = actionDefinition.getMethod();
+        Parameters parameters = actionDefinition.getParameters();
+        ActionInvoker actionInvoker = new ActionInvokerImpl(method, parameters, callOn);
+        return new ActionProducerImpl(actionInvoker);
+    }
 }
