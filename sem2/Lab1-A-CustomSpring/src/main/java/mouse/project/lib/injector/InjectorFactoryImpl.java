@@ -17,7 +17,7 @@ public class InjectorFactoryImpl implements InjectorFactory {
     private Injector createNewConfiguration(Class<?> configurationClass) {
         Configuration configuration = Utils.getAnnotation(configurationClass, Configuration.class);
         String basePackage = configuration.basePackage();
-        Class<?>[] loadHelpers = configuration.loadFrom();
+        Class<?>[] loadHelpers = configuration.includeClasses();
         return null;
     }
     private Set<Class<?>> scanBasePackage(String packageName) {

@@ -70,6 +70,9 @@ public class CardDefinitionsImpl implements CardDefinitions {
         Implementation<?> type = definition.getType();
         Class<?> origin = type.getClazz();
         Class<?> current = origin;
+        if (map.containsKey(origin)) {
+            return;
+        }
         while (true) {
             addToMap(current, definition);
             if (current.equals(Object.class)) {
