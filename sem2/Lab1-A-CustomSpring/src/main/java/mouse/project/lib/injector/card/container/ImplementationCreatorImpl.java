@@ -4,16 +4,29 @@ import mouse.project.lib.annotation.Name;
 import mouse.project.lib.annotation.Primary;
 import mouse.project.lib.annotation.Prototype;
 
+import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.Method;
+
 public class ImplementationCreatorImpl implements ImplementationCreator {
     @Override
     public <T> Implementation<T> getImplementation(Class<T> tClass) {
-        Name annotation = tClass.getAnnotation(Name.class);
+        return getForAnnotated(tClass, tClass);
+    }
+
+    @Override
+    public Implementation<?> getImplementation(Method method) {
+        Class<?> tClass = method.getReturnType();
+        return getForAnnotated(method, tClass);
+    }
+
+    private <T> Implementation<T> getForAnnotated(AnnotatedElement annotated, Class<T> tClass) {
+        Name annotation = annotated.getAnnotation(Name.class);
         String name = annotation == null ? null : annotation.name();
         Implementation<T> implementation = new Implementation<>(tClass, name);
-        if (tClass.isAnnotationPresent(Primary.class)) {
+        if (annotated.isAnnotationPresent(Primary.class)) {
             implementation.setPrimary(true);
         }
-        if (tClass.isAnnotationPresent(Prototype.class)) {
+        if (annotated.isAnnotationPresent(Prototype.class)) {
             implementation.setPrototype(true);
         }
         return implementation;

@@ -174,14 +174,14 @@ public class DefinedCardScanner implements CardScanner {
     private record ActionScanner(DefinitionHelper definitionHelper) implements GenericScanner {
 
         public <T> void scan(DefinedCard<T> card, Class<?> toScan) {
-            List<Method> methods = getFactories(toScan);
+            List<Method> methods = getActions(toScan);
             for (Method method : methods) {
                 ActionDefinition actionDefinition = definitionHelper.getAction(method);
                 card.addAction(actionDefinition);
             }
         }
 
-        private <T> List<Method> getFactories(Class<T> clazz) {
+        private <T> List<Method> getActions(Class<T> clazz) {
             return getAnnotatedMethod(clazz, After.class);
         }
     }
@@ -192,7 +192,7 @@ public class DefinedCardScanner implements CardScanner {
             List<Method> methods = getFactories(toScan);
             for (Method method : methods) {
                 MethodDefinition factoryMethod = definitionHelper.getFactoryMethod(method, card.getType());
-                card.addFactoryDefinition(new FactoryCardImpl<>(factoryMethod, factoryMethod.getType()));
+                card.addFactoryDefinition(new FactoryCardImpl<>(factoryMethod, Implementations.create(method)));
             }
         }
 
