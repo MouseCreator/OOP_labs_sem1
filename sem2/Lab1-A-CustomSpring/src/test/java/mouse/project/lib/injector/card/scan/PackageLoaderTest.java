@@ -3,7 +3,6 @@ package mouse.project.lib.injector.card.scan;
 import mouse.project.lib.annotation.Service;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
