@@ -13,7 +13,7 @@ public class Ioc {
 
     private static Ioc ioc = null;
 
-    public static Inj get(Class<?> config) {
+    public static Inj getConfiguredInjector(Class<?> config) {
         if (ioc == null) {
             ioc = new Ioc();
         }
