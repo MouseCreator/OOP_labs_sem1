@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import mouse.project.lib.injector.builder.InjectorBuilder;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -28,5 +29,10 @@ public class InjectorBase {
 
     public void include(Class<?> clazz) {
         includedClasses.add(clazz);
+    }
+
+    public Injector build() {
+        InjectorBuilder builder = new InjectorBuilder();
+        return builder.build(this);
     }
 }
