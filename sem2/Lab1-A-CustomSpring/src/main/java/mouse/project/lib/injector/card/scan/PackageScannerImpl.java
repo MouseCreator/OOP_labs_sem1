@@ -1,5 +1,6 @@
 package mouse.project.lib.injector.card.scan;
 
+import mouse.project.lib.exception.ScanException;
 import mouse.project.lib.injector.card.definition.DefinedCard;
 
 public class PackageScannerImpl {
@@ -11,10 +12,11 @@ public class PackageScannerImpl {
     }
 
     public void scanPackage(String packageName) {
-
+        throw new ScanException();
     }
     private void scanClass(Class<?> clazz) {
         DefinedCard<?> card = scanner.scan(clazz);
         definitionsManager.onAdd(card);
     }
+
 }
