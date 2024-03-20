@@ -2,7 +2,6 @@ package mouse.project.lib.injector;
 
 import lombok.AccessLevel;
 import lombok.Data;
-import lombok.Getter;
 import lombok.Setter;
 import mouse.project.lib.injector.builder.InjectorBuilder;
 
@@ -13,7 +12,6 @@ import java.util.Set;
 public class InjectorBase {
     private final String name;
     private final Class<?> configurationClass;
-    @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     private final Set<Class<?>> includedClasses;
 

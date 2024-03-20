@@ -32,6 +32,12 @@ public class CardFactoryImpl implements CardFactory {
         return buildCard(implementation, buildStack);
     }
 
+    @Override
+    public <T> Collection<T> buildAllCards(Implementation<T> implementation) {
+        BuildStack buildStack = new BuildStack();
+        return buildAllCards(implementation, buildStack);
+    }
+
 
     public <T> T buildCard(Implementation<T> current, BuildStack buildStack) {
         assertNotLopped(current, buildStack);

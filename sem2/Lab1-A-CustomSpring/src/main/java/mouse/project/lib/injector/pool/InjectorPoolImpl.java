@@ -20,7 +20,7 @@ public class InjectorPoolImpl {
         if (injector==null) {
             InjectorBase base = configurationScanner.scan(configuration);
             injector = base.build();
-            map.put(configuration, injector);
+            map.put(injector.getConfigurationClass(), injector);
         }
         return injector;
     }
