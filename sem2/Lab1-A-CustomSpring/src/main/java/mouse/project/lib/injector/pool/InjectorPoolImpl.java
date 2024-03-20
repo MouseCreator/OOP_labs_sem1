@@ -7,7 +7,7 @@ import mouse.project.lib.injector.configuration.ConfigurationScanner;
 import java.util.HashMap;
 import java.util.Map;
 
-public class InjectorPoolImpl {
+public class InjectorPoolImpl implements InjectorPool {
     private final Map<Class<?>, Injector> map;
     private final ConfigurationScanner configurationScanner;
     public InjectorPoolImpl() {
