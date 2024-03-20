@@ -60,10 +60,13 @@ public class DefinitionsInspector {
     }
 
     private boolean isCollection(Field field) {
-        return Collection.class.isAssignableFrom(field.getType());
+        return isCollection(field.getType());
     }
     private boolean isCollection(Parameter parameter) {
-        return Collection.class.isAssignableFrom(parameter.getType());
+        return isCollection(parameter.getType());
+    }
+    private boolean isCollection(Class<?> type) {
+        return Collection.class.isAssignableFrom(type);
     }
 
     public Parameters inspectParameters(Parameter[] parameters) {
@@ -89,6 +92,11 @@ public class DefinitionsInspector {
         Class<?> returnType = method.getReturnType();
         Name annotation = method.getAnnotation(Name.class);
         String name = annotation == null ? null : annotation.name();
+        if (isCollection(returnType)) {
+            return toCollectedImplementation(name, method);
+        }
         return new Implementation<>(returnType, name);
     }
+
+
 }
