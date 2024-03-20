@@ -16,12 +16,16 @@ public class DefinedCardImpl<T> implements DefinedCard<T> {
     private final List<FieldDefinition> fieldDefinitions;
     private final Implementation<T> origin;
     private final RequirementSet requirementSet;
+    private final List<FactoryCard<?>> factoryFor;
+    private final List<ActionDefinition> actionDefinitions;
     public DefinedCardImpl(Implementation<T> origin) {
         this.origin = origin;
         requirementSet = new RequirementSetImpl();
         primaryConstructor = null;
         setterDefinitions = new ArrayList<>();
         fieldDefinitions = new ArrayList<>();
+        factoryFor = new ArrayList<>();
+        actionDefinitions = new ArrayList<>();
     }
 
     @Override
@@ -37,6 +41,11 @@ public class DefinedCardImpl<T> implements DefinedCard<T> {
     @Override
     public List<FieldDefinition> getFields() {
         return new ArrayList<>(fieldDefinitions);
+    }
+
+    @Override
+    public List<ActionDefinition> getActions() {
+        return new ArrayList<>(actionDefinitions);
     }
 
     @Override
@@ -58,6 +67,22 @@ public class DefinedCardImpl<T> implements DefinedCard<T> {
         }
         this.primaryConstructor = constructor;
         requirementSet.addAll(constructor.requiredImplementations());
+    }
+
+    @Override
+    public void addFactoryDefinition(FactoryCard<?> factoryCard) {
+        factoryFor.add(factoryCard);
+    }
+
+
+    @Override
+    public List<FactoryCard<?>> getFactoryDefinitions() {
+        return new ArrayList<>(factoryFor);
+    }
+
+    @Override
+    public void addAction(ActionDefinition actionDefinition) {
+        actionDefinitions.add(actionDefinition);
     }
 
     @Override

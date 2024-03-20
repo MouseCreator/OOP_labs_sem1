@@ -9,16 +9,14 @@ import java.util.List;
 public class ActionInvokerImpl implements ActionInvoker {
     private final Method method;
     private final Parameters parameters;
-    private final Object invokeOn;
 
-    public ActionInvokerImpl(Method method, Parameters parameters, Object invokeOn) {
+    public ActionInvokerImpl(Method method, Parameters parameters) {
         this.method = method;
         this.parameters = parameters;
-        this.invokeOn = invokeOn;
     }
 
     @Override
-    public Object invoke(List<Object> params) {
+    public Object invoke(Object invokeOn, List<Object> params) {
         method.setAccessible(true);
         try {
             return method.invoke(invokeOn, params.toArray());

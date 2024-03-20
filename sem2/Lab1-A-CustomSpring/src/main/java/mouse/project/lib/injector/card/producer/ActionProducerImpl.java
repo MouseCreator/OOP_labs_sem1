@@ -10,16 +10,15 @@ import java.util.List;
 public class ActionProducerImpl implements ActionProducer {
 
     private final ActionInvoker actionInvoker;
-
     public ActionProducerImpl(ActionInvoker actionInvoker) {
         this.actionInvoker = actionInvoker;
     }
 
     @Override
-    public void call(CardAccess container) {
+    public void call(Object callOn, CardAccess container) {
         Parameters parameters = actionInvoker.getParameters();
         ParameterCreator parameterCreator = new ParameterCreator(container);
         List<Object> args = parameterCreator.assignAll(parameters);
-        actionInvoker.invoke(args);
+        actionInvoker.invoke(callOn, args);
     }
 }

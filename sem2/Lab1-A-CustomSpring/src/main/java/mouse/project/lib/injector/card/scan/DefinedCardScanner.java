@@ -1,6 +1,8 @@
 package mouse.project.lib.injector.card.scan;
 
+import mouse.project.lib.annotation.After;
 import mouse.project.lib.annotation.Auto;
+import mouse.project.lib.annotation.Factory;
 import mouse.project.lib.exception.CardException;
 import mouse.project.lib.injector.card.container.Implementation;
 import mouse.project.lib.injector.card.container.Implementations;
@@ -8,6 +10,7 @@ import mouse.project.lib.injector.card.definition.*;
 import mouse.project.lib.injector.card.helper.DefinitionHelper;
 import mouse.project.lib.injector.card.helper.DefinitionHelperImpl;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -19,16 +22,17 @@ import java.util.Optional;
 public class DefinedCardScanner implements CardScanner {
 
     private final ConstructorScanner constructorScanner;
-    private final MethodScanner methodScanner;
-    private final FieldScanner fieldScanner;
+    private final List<GenericScanner> genericScanners = new ArrayList<>();
     public DefinedCardScanner() {
         DefinitionHelper definitionHelper = new DefinitionHelperImpl();
         constructorScanner = new ConstructorScanner(definitionHelper);
-        methodScanner = new MethodScanner(definitionHelper);
-        fieldScanner = new FieldScanner(definitionHelper);
+        genericScanners.add(new MethodScanner(definitionHelper));
+        genericScanners.add(new FieldScanner(definitionHelper));
+        genericScanners.add(new FactoryScanner(definitionHelper));
+        genericScanners.add(new ActionScanner(definitionHelper));
     }
     @Override
-    public <T> CardDefinition<T> scan(Class<T> tClass) {
+    public <T> DefinedCard<T> scan(Class<T> tClass) {
         validateCanBeProduced(tClass);
         Implementation<T> implementation = Implementations.create(tClass);
         DefinedCard<T> cardDefinition = new DefinedCardImpl<>(implementation);
@@ -39,15 +43,14 @@ public class DefinedCardScanner implements CardScanner {
 
     private <T> void scanGivenClass(DefinedCard<T> cardDefinition, Class<T> tClass) {
         constructorScanner.scan(cardDefinition, tClass);
-        methodScanner.scan(cardDefinition, tClass);
-        fieldScanner.scan(cardDefinition, tClass);
+        genericScanners.forEach(s -> s.scan(cardDefinition, tClass));
     }
 
     private <T> void scanSuperClasses(DefinedCard<T> definedCard, Class<?> tClass) {
         while (tClass != Object.class) {
             tClass = tClass.getSuperclass();
-            methodScanner.scan(definedCard, tClass);
-            fieldScanner.scan(definedCard, tClass);
+            final Class<?> current = tClass;
+            genericScanners.forEach(s -> s.scan(definedCard, current));
         }
     }
 
@@ -117,8 +120,10 @@ public class DefinedCardScanner implements CardScanner {
             return result;
         }
     }
-
-    private record FieldScanner(DefinitionHelper definitionHelper) {
+    private interface GenericScanner {
+        <T> void scan(DefinedCard<T> card, Class<?> toScan);
+    }
+    private record FieldScanner(DefinitionHelper definitionHelper) implements GenericScanner {
 
         public <T> void scan(DefinedCard<T> card, Class<?> toScan) {
             List<Field> annotatedFields = getAnnotatedFields(toScan);
@@ -141,26 +146,58 @@ public class DefinedCardScanner implements CardScanner {
         }
     }
 
-    private record MethodScanner(DefinitionHelper definitionHelper) {
+    private record MethodScanner(DefinitionHelper definitionHelper) implements GenericScanner {
 
         public <T> void scan(DefinedCard<T> card, Class<?> toScan) {
-            List<Method> annotatedFields = getAnnotatedSetters(toScan);
-            for (Method method : annotatedFields) {
+            List<Method> methods = getAnnotatedSetters(toScan);
+            for (Method method : methods) {
                 SetterDefinition setter = definitionHelper.getSetter(method);
                 card.addSetter(setter);
             }
         }
 
         private <T> List<Method> getAnnotatedSetters(Class<T> clazz) {
-            Method[] methods = clazz.getDeclaredMethods();
-            List<Method> result = new ArrayList<>();
-            for (Method method : methods) {
-                if (!method.isAnnotationPresent(Auto.class)) {
-                    continue;
-                }
-                result.add(method);
+            return getAnnotatedMethod(clazz, Auto.class);
+        }
+    }
+    private static <T> List<Method> getAnnotatedMethod(Class<T> clazz, Class<? extends Annotation> annotation) {
+        Method[] methods = clazz.getDeclaredMethods();
+        List<Method> result = new ArrayList<>();
+        for (Method method : methods) {
+            if (!method.isAnnotationPresent(annotation)) {
+                continue;
             }
-            return result;
+            result.add(method);
+        }
+        return result;
+    }
+    private record ActionScanner(DefinitionHelper definitionHelper) implements GenericScanner {
+
+        public <T> void scan(DefinedCard<T> card, Class<?> toScan) {
+            List<Method> methods = getFactories(toScan);
+            for (Method method : methods) {
+                ActionDefinition actionDefinition = definitionHelper.getAction(method);
+                card.addAction(actionDefinition);
+            }
+        }
+
+        private <T> List<Method> getFactories(Class<T> clazz) {
+            return getAnnotatedMethod(clazz, After.class);
+        }
+    }
+
+    private record FactoryScanner(DefinitionHelper definitionHelper) implements GenericScanner {
+
+        public <T> void scan(DefinedCard<T> card, Class<?> toScan) {
+            List<Method> methods = getFactories(toScan);
+            for (Method method : methods) {
+                MethodDefinition factoryMethod = definitionHelper.getFactoryMethod(method, card.getType());
+                card.addFactoryDefinition(new FactoryCardImpl<>(factoryMethod, factoryMethod.getType()));
+            }
+        }
+
+        private <T> List<Method> getFactories(Class<T> clazz) {
+            return getAnnotatedMethod(clazz, Factory.class);
         }
     }
 }

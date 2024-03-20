@@ -23,9 +23,9 @@ public class ActionDefinitionImpl implements ActionDefinition {
     }
 
     @Override
-    public ActionProducer toProducer(Object callOn) {
+    public ActionProducer toProducer() {
         Builder builder = Builder.getInstance();
-        return builder.fromAction(this, callOn);
+        return builder.fromAction(this);
     }
 
     @Override

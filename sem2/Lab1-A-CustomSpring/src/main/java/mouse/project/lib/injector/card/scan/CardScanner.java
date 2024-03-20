@@ -1,7 +1,7 @@
 package mouse.project.lib.injector.card.scan;
 
-import mouse.project.lib.injector.card.definition.CardDefinition;
+import mouse.project.lib.injector.card.definition.DefinedCard;
 
 public interface CardScanner {
-    <T> CardDefinition<T> scan(Class<T> tClass);
+    <T> DefinedCard<T> scan(Class<T> tClass);
 }

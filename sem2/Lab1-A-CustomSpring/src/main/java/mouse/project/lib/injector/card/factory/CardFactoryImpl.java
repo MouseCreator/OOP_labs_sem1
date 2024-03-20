@@ -81,6 +81,13 @@ public class CardFactoryImpl implements CardFactory {
         CardProducer<?> producer = definition.getProducer();
         BuildStack nextLevelBuildStack = buildStack.next(current);
         CardAccess cardAccess = new CardAccessImpl(nextLevelBuildStack, this);
-        return producer.produce(cardAccess);
+        Object result = producer.produce(cardAccess);
+        CardAccess newCardAccess = getNewCardAccess();
+        producer.afterConstruction(result, newCardAccess);
+        return result;
+    }
+
+    private CardAccess getNewCardAccess() {
+        return new CardAccessImpl(new BuildStack(), this);
     }
 }

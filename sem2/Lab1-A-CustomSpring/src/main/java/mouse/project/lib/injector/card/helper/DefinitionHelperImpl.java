@@ -38,4 +38,10 @@ public class DefinitionHelperImpl implements DefinitionHelper {
         Implementation<?> returnType = definitionsInspector.getMethodReturnType(method);
         return new MethodDefinitionImpl(method, returnType, parameters, origin);
     }
+
+    @Override
+    public ActionDefinition getAction(Method method) {
+        Parameters parameters = definitionsInspector.inspectMethod(method);
+        return new ActionDefinitionImpl(method, parameters);
+    }
 }

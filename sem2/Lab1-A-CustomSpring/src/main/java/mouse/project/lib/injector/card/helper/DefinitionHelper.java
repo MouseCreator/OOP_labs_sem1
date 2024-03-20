@@ -1,10 +1,7 @@
 package mouse.project.lib.injector.card.helper;
 
 import mouse.project.lib.injector.card.container.Implementation;
-import mouse.project.lib.injector.card.definition.ConstructorDefinition;
-import mouse.project.lib.injector.card.definition.FieldDefinition;
-import mouse.project.lib.injector.card.definition.MethodDefinition;
-import mouse.project.lib.injector.card.definition.SetterDefinition;
+import mouse.project.lib.injector.card.definition.*;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -15,4 +12,5 @@ public interface DefinitionHelper {
     FieldDefinition getField(Field field);
     SetterDefinition getSetter(Method method);
     MethodDefinition getFactoryMethod(Method method, Implementation<?> origin);
+    ActionDefinition getAction(Method method);
 }

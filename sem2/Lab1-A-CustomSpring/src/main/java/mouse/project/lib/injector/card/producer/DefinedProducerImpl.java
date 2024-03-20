@@ -9,11 +9,13 @@ public class DefinedProducerImpl<T> implements DefinedProducer<T> {
     private ConstructorProducer<T> constructorProducer;
     private final List<SetterProducer> setterProducerList;
     private final List<FieldProducer> fieldProducerList;
+    private final List<ActionProducer> actionProducers;
 
     public DefinedProducerImpl() {
         constructorProducer = null;
         setterProducerList = new ArrayList<>();
         fieldProducerList = new ArrayList<>();
+        actionProducers = new ArrayList<>();
     }
 
     @Override
@@ -25,6 +27,11 @@ public class DefinedProducerImpl<T> implements DefinedProducer<T> {
         setterProducerList.forEach(sp -> sp.apply(object, container));
         fieldProducerList.forEach(sp -> sp.setField(object, container));
         return object;
+    }
+
+    @Override
+    public void afterConstruction(Object constructed, CardAccess container) {
+        actionProducers.forEach(a -> a.call(constructed, container));
     }
 
     @Override
@@ -40,5 +47,10 @@ public class DefinedProducerImpl<T> implements DefinedProducer<T> {
     @Override
     public void addFieldInjection(FieldProducer fieldProducer) {
         this.fieldProducerList.add(fieldProducer);
+    }
+
+    @Override
+    public void addAction(ActionProducer actionProducer) {
+        actionProducers.add(actionProducer);
     }
 }

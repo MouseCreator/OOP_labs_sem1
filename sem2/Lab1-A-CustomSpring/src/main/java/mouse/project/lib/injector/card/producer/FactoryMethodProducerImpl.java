@@ -22,6 +22,11 @@ public class FactoryMethodProducerImpl<T> implements FactoryMethodProducer<T> {
     }
 
     @Override
+    public void afterConstruction(Object constructed, CardAccess container) {
+
+    }
+
+    @Override
     public void setMethod(MethodProducer method) {
         this.methodProducer = method;
     }

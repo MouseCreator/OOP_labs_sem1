@@ -12,8 +12,6 @@ import mouse.project.lib.injector.card.invoke.ParametersImpl;
 
 import java.lang.reflect.*;
 import java.util.Collection;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 public class DefinitionsInspector {
 

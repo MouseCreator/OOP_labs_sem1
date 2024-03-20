@@ -5,6 +5,6 @@ import mouse.project.lib.injector.card.producer.ActionProducer;
 import java.lang.reflect.Method;
 
 public interface ActionDefinition extends DefinitionWithParameters {
-    ActionProducer toProducer(Object callOn);
+    ActionProducer toProducer();
     Method getMethod();
 }

@@ -214,4 +214,21 @@ class CardFactoryImplTest {
         InterfaceExampleA dependency = dependant.getDependency();
         assertEquals("Name-1", dependency.getString());
     }
+    @Getter
+    private static class AfterConstructed {
+        private InterfaceExampleA dependency = null;
+        @After
+        public void afterConstructed(InterfaceExampleA interfaceExampleA) {
+            this.dependency = interfaceExampleA;
+        }
+    }
+    @Test
+    void buildAfterConstructed() {
+        scanAll(AfterConstructed.class, AImplementation1.class, AImplementation2.class);
+        AfterConstructed afterConstructed = getUnnamed(AfterConstructed.class);
+        assertNotNull(afterConstructed);
+        InterfaceExampleA dependency = afterConstructed.getDependency();
+        assertNotNull(dependency);
+        assertEquals("str2", dependency.getString());
+    }
 }

@@ -58,6 +58,8 @@ public class Builder {
         setters.forEach(s -> definedProducer.addSetter(s.toProducer()));
         List<FieldDefinition> fields = cardDefinition.getFields();
         fields.forEach(f -> definedProducer.addFieldInjection(f.toProducer()));
+        List<ActionDefinition> actionDefinitions = cardDefinition.getActions();
+        actionDefinitions.forEach(a -> definedProducer.addAction(a.toProducer()));
 
         return definedProducer;
     }
@@ -78,10 +80,10 @@ public class Builder {
         return factoryMethodProducer;
     }
 
-    public ActionProducer fromAction(ActionDefinitionImpl actionDefinition, Object callOn) {
+    public ActionProducer fromAction(ActionDefinitionImpl actionDefinition) {
         Method method = actionDefinition.getMethod();
         Parameters parameters = actionDefinition.getParameters();
-        ActionInvoker actionInvoker = new ActionInvokerImpl(method, parameters, callOn);
+        ActionInvoker actionInvoker = new ActionInvokerImpl(method, parameters);
         return new ActionProducerImpl(actionInvoker);
     }
 }
