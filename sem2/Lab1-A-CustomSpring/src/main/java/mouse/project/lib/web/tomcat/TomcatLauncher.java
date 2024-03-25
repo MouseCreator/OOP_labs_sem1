@@ -2,6 +2,7 @@ package mouse.project.lib.web.tomcat;
 
 import mouse.project.lib.web.mapper.WebMapper;
 import org.apache.catalina.WebResourceRoot;
+import org.apache.catalina.connector.Connector;
 import org.apache.catalina.core.StandardContext;
 import org.apache.catalina.startup.Tomcat;
 import org.apache.catalina.webresources.DirResourceSet;
@@ -15,7 +16,7 @@ public class TomcatLauncher {
     private Tomcat tomcat;
     private boolean running = false;
     private static final Logger logger = LogManager.getLogger(TomcatLauncher.class);
-    public void launch() throws Exception {
+    public Connector launch() throws Exception {
         String webappDirLocation = "src/main/webapp";
         Tomcat tomcat = new Tomcat();
 
@@ -35,8 +36,9 @@ public class TomcatLauncher {
         tomcat.start();
         running = true;
         logger.debug("Web app started. Listening to post: " + webPort);
-        tomcat.getConnector();
+        Connector connector = tomcat.getConnector();
         tomcat.getServer().await();
+        return connector;
     }
     public void stop() throws Exception {
         if (running) {

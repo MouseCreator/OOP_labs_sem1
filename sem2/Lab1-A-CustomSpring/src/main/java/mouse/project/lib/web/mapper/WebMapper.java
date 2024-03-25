@@ -5,10 +5,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
-@WebServlet(
-        urlPatterns = "/"
-)
+@WebServlet(urlPatterns = "/")
 public class WebMapper extends HttpServlet {
 
     public WebMapper() {
@@ -16,25 +15,41 @@ public class WebMapper extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
-        processRequest(req, resp);
+        try {
+            processRequest(req, resp);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
-        processRequest(req, resp);
+        try {
+            processRequest(req, resp);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
-        processRequest(req, resp);
+        try {
+            processRequest(req, resp);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
-        processRequest(req, resp);
+        try {
+            processRequest(req, resp);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    private void processRequest(HttpServletRequest req, HttpServletResponse resp) {
-        System.out.println("REQUEST RECEIVED");
+    private void processRequest(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
     }
 }
