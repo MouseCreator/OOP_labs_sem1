@@ -1,6 +1,6 @@
 package mouse.project.lib.ioc;
 
-import mouse.project.lib.injector.card.Cards;
+import mouse.project.lib.ioc.injector.card.Cards;
 
 import java.util.Collection;
 

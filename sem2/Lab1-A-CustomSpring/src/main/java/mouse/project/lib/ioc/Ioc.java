@@ -1,8 +1,8 @@
 package mouse.project.lib.ioc;
 
-import mouse.project.lib.injector.card.Cards;
-import mouse.project.lib.injector.pool.InjectorPool;
-import mouse.project.lib.injector.pool.InjectorPoolImpl;
+import mouse.project.lib.ioc.injector.card.Cards;
+import mouse.project.lib.ioc.injector.pool.InjectorPool;
+import mouse.project.lib.ioc.injector.pool.InjectorPoolImpl;
 
 public class Ioc {
     private final InjectorPool injectorPool;
