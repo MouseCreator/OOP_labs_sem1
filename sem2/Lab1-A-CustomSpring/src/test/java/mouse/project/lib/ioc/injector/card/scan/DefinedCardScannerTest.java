@@ -1,6 +1,6 @@
 package mouse.project.lib.ioc.injector.card.scan;
 
-import mouse.project.lib.annotation.Auto;
+import mouse.project.lib.ioc.annotation.Auto;
 import mouse.project.lib.exception.CardException;
 import mouse.project.lib.ioc.injector.card.definition.CardDefinition;
 import mouse.project.lib.ioc.injector.card.definition.ConstructorDefinition;

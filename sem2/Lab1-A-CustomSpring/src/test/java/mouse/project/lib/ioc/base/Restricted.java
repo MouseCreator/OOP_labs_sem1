@@ -1,7 +1,7 @@
 package mouse.project.lib.ioc.base;
 
-import mouse.project.lib.annotation.Service;
-import mouse.project.lib.annotation.UseRestriction;
+import mouse.project.lib.ioc.annotation.Service;
+import mouse.project.lib.ioc.annotation.UseRestriction;
 
 @UseRestriction(usedBy = "Release")
 @Service

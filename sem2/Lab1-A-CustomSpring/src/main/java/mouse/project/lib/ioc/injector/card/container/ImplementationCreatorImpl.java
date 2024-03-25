@@ -1,9 +1,9 @@
 package mouse.project.lib.ioc.injector.card.container;
 
-import mouse.project.lib.annotation.Name;
-import mouse.project.lib.annotation.Order;
-import mouse.project.lib.annotation.Primary;
-import mouse.project.lib.annotation.Prototype;
+import mouse.project.lib.ioc.annotation.Name;
+import mouse.project.lib.ioc.annotation.Order;
+import mouse.project.lib.ioc.annotation.Primary;
+import mouse.project.lib.ioc.annotation.Prototype;
 
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;

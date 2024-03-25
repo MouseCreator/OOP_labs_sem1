@@ -1,8 +1,8 @@
 package mouse.project.lib.ioc.injector.card.scan;
 
-import mouse.project.lib.annotation.After;
-import mouse.project.lib.annotation.Auto;
-import mouse.project.lib.annotation.Factory;
+import mouse.project.lib.ioc.annotation.After;
+import mouse.project.lib.ioc.annotation.Auto;
+import mouse.project.lib.ioc.annotation.Factory;
 import mouse.project.lib.exception.CardException;
 import mouse.project.lib.ioc.injector.TypeValidator;
 import mouse.project.lib.ioc.injector.card.container.Implementation;

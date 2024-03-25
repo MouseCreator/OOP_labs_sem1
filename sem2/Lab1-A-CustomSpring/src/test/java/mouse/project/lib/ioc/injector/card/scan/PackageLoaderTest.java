@@ -1,6 +1,6 @@
 package mouse.project.lib.ioc.injector.card.scan;
 
-import mouse.project.lib.annotation.Service;
+import mouse.project.lib.ioc.annotation.Service;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;

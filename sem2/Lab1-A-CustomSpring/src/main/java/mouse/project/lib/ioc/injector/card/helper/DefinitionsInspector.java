@@ -1,8 +1,8 @@
 package mouse.project.lib.ioc.injector.card.helper;
 
-import mouse.project.lib.annotation.Collect;
-import mouse.project.lib.annotation.Name;
-import mouse.project.lib.annotation.UseNamed;
+import mouse.project.lib.ioc.annotation.Collect;
+import mouse.project.lib.ioc.annotation.Name;
+import mouse.project.lib.ioc.annotation.UseNamed;
 import mouse.project.lib.exception.MissingAnnotationException;
 import mouse.project.lib.ioc.injector.card.container.Implementation;
 import mouse.project.lib.ioc.injector.card.definition.ParameterDefinition;

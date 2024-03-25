@@ -1,4 +1,4 @@
-package mouse.project.lib.annotation;
+package mouse.project.lib.data.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,6 +7,5 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface UseRestriction {
-    String[] usedBy() default "";
+public @interface Model {
 }

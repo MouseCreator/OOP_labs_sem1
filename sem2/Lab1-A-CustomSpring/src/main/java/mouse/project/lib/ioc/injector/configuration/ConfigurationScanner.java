@@ -1,7 +1,7 @@
 package mouse.project.lib.ioc.injector.configuration;
 
-import mouse.project.lib.annotation.Configuration;
-import mouse.project.lib.annotation.UseRestriction;
+import mouse.project.lib.ioc.annotation.Configuration;
+import mouse.project.lib.ioc.annotation.UseRestriction;
 import mouse.project.lib.exception.ConfigException;
 import mouse.project.lib.ioc.injector.AnnotationManager;
 import mouse.project.lib.ioc.injector.InjectorBase;

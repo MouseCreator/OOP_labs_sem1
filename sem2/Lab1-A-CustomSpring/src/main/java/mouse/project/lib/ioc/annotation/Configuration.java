@@ -1,4 +1,4 @@
-package mouse.project.lib.annotation;
+package mouse.project.lib.ioc.annotation;
 
 import mouse.project.lib.modules.MouseModules;
 

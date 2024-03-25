@@ -1,8 +1,8 @@
 package mouse.project.lib.ioc.injector;
 
-import mouse.project.lib.annotation.Controller;
-import mouse.project.lib.annotation.Dao;
-import mouse.project.lib.annotation.Service;
+import mouse.project.lib.ioc.annotation.Controller;
+import mouse.project.lib.ioc.annotation.Dao;
+import mouse.project.lib.ioc.annotation.Service;
 import mouse.project.lib.exception.ScanException;
 
 import java.lang.annotation.Annotation;
