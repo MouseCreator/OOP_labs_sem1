@@ -1,10 +1,8 @@
 package mouse.project.lib.ioc.injector.configuration;
 
 import mouse.project.lib.annotation.Configuration;
-import mouse.project.lib.annotation.Service;
 import mouse.project.lib.annotation.UseRestriction;
 import mouse.project.lib.exception.ConfigException;
-import mouse.project.lib.exception.ScanException;
 import mouse.project.lib.ioc.injector.AnnotationManager;
 import mouse.project.lib.ioc.injector.InjectorBase;
 import mouse.project.lib.ioc.injector.card.scan.PackageLoader;
