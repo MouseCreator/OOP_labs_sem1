@@ -5,15 +5,22 @@ import mouse.project.lib.annotation.Service;
 import mouse.project.lib.annotation.UseRestriction;
 import mouse.project.lib.exception.ConfigException;
 import mouse.project.lib.exception.ScanException;
+import mouse.project.lib.ioc.injector.AnnotationManager;
 import mouse.project.lib.ioc.injector.InjectorBase;
 import mouse.project.lib.ioc.injector.card.scan.PackageLoader;
 import mouse.project.lib.modules.MouseModules;
 
+import java.lang.annotation.Annotation;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 public class ConfigurationScanner {
+    private final AnnotationManager annotationManager;
+    public ConfigurationScanner(AnnotationManager annotationManager) {
+        this.annotationManager = annotationManager;
+    }
 
     public InjectorBase scan(Class<?> configClass) {
         Configuration config = configClass.getAnnotation(Configuration.class);
@@ -48,7 +55,13 @@ public class ConfigurationScanner {
 
     private Set<Class<?>> scanPackage(String basePackage) {
         PackageLoader loader = new PackageLoader();
-        return loader.getAnnotatedClasses(basePackage, Service.class);
+        List<Class<? extends Annotation>> targetAnnotations = annotationManager.getTargetAnnotations();
+        Set<Class<?>> result = new HashSet<>();
+        for (Class<? extends Annotation> target : targetAnnotations) {
+            Set<Class<?>> annotatedClasses = loader.getAnnotatedClasses(basePackage, target);
+            result.addAll(annotatedClasses);
+        }
+        return result;
     }
 
     public void scanAndAddAll(InjectorBase injectorBase, Configuration config) {
@@ -58,10 +71,7 @@ public class ConfigurationScanner {
     }
     private void addClassesToIoc(InjectorBase injectorBase, Collection<Class<?>> classes) {
         for (Class<?> clazz : classes) {
-            Service annotation = clazz.getAnnotation(Service.class);
-            if (annotation == null) {
-                throw new ScanException("Cannot scan class with no @Service annotation");
-            }
+            annotationManager.validateService(clazz);
             if (hasUseRestriction(clazz)) {
                 addRestricted(clazz, injectorBase);
             } else {

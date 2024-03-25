@@ -1,5 +1,6 @@
 package mouse.project.lib.ioc.injector.pool;
 
+import mouse.project.lib.ioc.injector.AnnotationManagerImpl;
 import mouse.project.lib.ioc.injector.Injector;
 import mouse.project.lib.ioc.injector.InjectorBase;
 import mouse.project.lib.ioc.injector.configuration.ConfigurationScanner;
@@ -12,7 +13,7 @@ public class InjectorPoolImpl implements InjectorPool {
     private final ConfigurationScanner configurationScanner;
     public InjectorPoolImpl() {
         this.map = new HashMap<>();
-        configurationScanner = new ConfigurationScanner();
+        configurationScanner = new ConfigurationScanner(new AnnotationManagerImpl());
     }
 
     public Injector request(Class<?> configuration) {

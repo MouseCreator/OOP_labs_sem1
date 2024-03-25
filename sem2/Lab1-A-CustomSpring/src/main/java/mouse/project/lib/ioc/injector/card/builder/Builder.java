@@ -1,9 +1,6 @@
 package mouse.project.lib.ioc.injector.card.builder;
 
 import mouse.project.lib.ioc.injector.card.container.Implementation;
-import mouse.project.lib.injector.card.definition.*;
-import mouse.project.lib.injector.card.invoke.*;
-import mouse.project.lib.injector.card.producer.*;
 import mouse.project.lib.ioc.injector.card.definition.*;
 import mouse.project.lib.ioc.injector.card.invoke.*;
 import mouse.project.lib.ioc.injector.card.producer.*;
