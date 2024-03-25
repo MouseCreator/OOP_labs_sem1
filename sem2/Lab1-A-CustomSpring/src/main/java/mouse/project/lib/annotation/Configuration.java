@@ -11,7 +11,7 @@ public @interface Configuration {
      *
      * @return base package to scan
      */
-    String basePackage() default "";
+    String basePackage();
 
     /**
      *

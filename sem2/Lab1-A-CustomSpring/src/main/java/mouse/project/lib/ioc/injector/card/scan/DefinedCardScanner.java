@@ -4,6 +4,7 @@ import mouse.project.lib.annotation.After;
 import mouse.project.lib.annotation.Auto;
 import mouse.project.lib.annotation.Factory;
 import mouse.project.lib.exception.CardException;
+import mouse.project.lib.ioc.injector.TypeValidator;
 import mouse.project.lib.ioc.injector.card.container.Implementation;
 import mouse.project.lib.ioc.injector.card.container.Implementations;
 import mouse.project.lib.ioc.injector.card.definition.*;
@@ -14,7 +15,6 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -33,7 +33,8 @@ public class DefinedCardScanner implements CardScanner {
     }
     @Override
     public <T> DefinedCard<T> scan(Class<T> tClass) {
-        validateCanBeProduced(tClass);
+        TypeValidator typeValidator = new TypeValidator();
+        typeValidator.validateCanBeProduced(tClass);
         Implementation<T> implementation = Implementations.create(tClass);
         DefinedCard<T> cardDefinition = new DefinedCardImpl<>(implementation);
         scanGivenClass(cardDefinition, tClass);
@@ -51,18 +52,6 @@ public class DefinedCardScanner implements CardScanner {
             tClass = tClass.getSuperclass();
             final Class<?> current = tClass;
             genericScanners.forEach(s -> s.scan(definedCard, current));
-        }
-    }
-
-    private void validateCanBeProduced(Class<?> clazz) {
-        if(Modifier.isAbstract(clazz.getModifiers())) {
-            throw new CardException("Cannot produce an abstract class: " + clazz);
-        }
-        if (clazz.isInterface()) {
-            throw new CardException("Cannot produce an interface: " + clazz);
-        }
-        if (clazz.isMemberClass() && !Modifier.isStatic(clazz.getModifiers())) {
-            throw new CardException("Cannot produce inner non-static class:" + clazz);
         }
     }
 

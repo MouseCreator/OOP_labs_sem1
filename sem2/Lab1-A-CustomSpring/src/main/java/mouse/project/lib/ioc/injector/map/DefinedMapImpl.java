@@ -2,6 +2,7 @@ package mouse.project.lib.ioc.injector.map;
 
 import mouse.project.lib.exception.MultipleImplementationsException;
 import mouse.project.lib.exception.NoCardDefinitionException;
+import mouse.project.lib.ioc.injector.TypeValidator;
 import mouse.project.lib.ioc.injector.card.container.Implementation;
 
 import java.util.*;
@@ -67,12 +68,29 @@ public class DefinedMapImpl<E extends TypeHolder<?>> implements DefinedMap<E> {
     }
 
     public void add(E definition) {
+        TypeValidator typeValidator = new TypeValidator();
         Implementation<?> type = definition.getType();
         Class<?> origin = type.getClazz();
-        Class<?> current = origin;
         if (map.containsKey(origin)) {
             return;
         }
+        if(typeValidator.canBeProduced(origin)) {
+            addAllSuperClasses(definition, origin);
+        } else {
+            addToMap(origin, definition);
+        }
+        addAllInterfaces(definition, origin);
+    }
+
+    private void addAllInterfaces(E definition, Class<?> origin) {
+        Set<Class<?>> interfaces = new InterfaceUtils().getAllInterfaces(origin);
+        for (Class<?> interfaceI : interfaces) {
+            addToMap(interfaceI, definition);
+        }
+    }
+
+    private void addAllSuperClasses(E definition, Class<?> origin) {
+        Class<?> current = origin;
         while (true) {
             addToMap(current, definition);
             if (current.equals(Object.class)) {
@@ -81,11 +99,6 @@ public class DefinedMapImpl<E extends TypeHolder<?>> implements DefinedMap<E> {
                 current = current.getSuperclass();
             }
         }
-        Set<Class<?>> interfaces = new InterfaceUtils().getAllInterfaces(origin);
-        for (Class<?> interfaceI : interfaces) {
-            addToMap(interfaceI, definition);
-        }
-
     }
 
     private static class InterfaceUtils {
