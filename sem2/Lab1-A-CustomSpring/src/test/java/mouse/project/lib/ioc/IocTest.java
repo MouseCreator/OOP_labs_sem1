@@ -1,9 +1,7 @@
 package mouse.project.lib.ioc;
 
-import mouse.project.lib.ioc.base.ConfigClass;
-import mouse.project.lib.ioc.base.Included;
-import mouse.project.lib.ioc.base.ServiceInterface;
-import org.junit.jupiter.api.BeforeEach;
+import mouse.project.lib.exception.NoCardDefinitionException;
+import mouse.project.lib.ioc.base.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -15,6 +13,9 @@ import static org.junit.jupiter.api.Assertions.*;
 class IocTest {
     private Inj getMainConfig() {
         return Ioc.getConfiguredInjector(ConfigClass.class);
+    }
+    private Inj getOtherConfig() {
+        return Ioc.getConfiguredInjector(OtherConfig.class);
     }
 
     @Test
@@ -43,5 +44,13 @@ class IocTest {
         Included included = inj.get(Included.class);
         assertNotNull(included);
         assertTrue(included.getBoolean());
+    }
+
+    @Test
+    void testRestriction() {
+        Inj main = getMainConfig();
+        Inj other = getOtherConfig();
+        assertDoesNotThrow(() -> main.get(Restricted.class));
+        assertThrows(NoCardDefinitionException.class, () -> other.get(Restricted.class));
     }
 }
