@@ -3,7 +3,6 @@ package mouse.project.lib.ioc.injector.card.factory;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import mouse.project.lib.annotation.*;
 import mouse.project.lib.exception.CycleDependencyException;
 import mouse.project.lib.exception.MissingAnnotationException;
 import mouse.project.lib.exception.NoCardDefinitionException;
