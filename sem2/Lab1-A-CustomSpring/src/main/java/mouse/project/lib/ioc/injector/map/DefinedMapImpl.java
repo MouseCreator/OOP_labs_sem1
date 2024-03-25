@@ -71,9 +71,6 @@ public class DefinedMapImpl<E extends TypeHolder<?>> implements DefinedMap<E> {
         TypeValidator typeValidator = new TypeValidator();
         Implementation<?> type = definition.getType();
         Class<?> origin = type.getClazz();
-        if (map.containsKey(origin)) {
-            return;
-        }
         if(typeValidator.canBeProduced(origin)) {
             addAllSuperClasses(definition, origin);
         } else {
@@ -90,6 +87,9 @@ public class DefinedMapImpl<E extends TypeHolder<?>> implements DefinedMap<E> {
     }
 
     private void addAllSuperClasses(E definition, Class<?> origin) {
+        if (map.containsKey(origin)) {
+            return;
+        }
         Class<?> current = origin;
         while (true) {
             addToMap(current, definition);
