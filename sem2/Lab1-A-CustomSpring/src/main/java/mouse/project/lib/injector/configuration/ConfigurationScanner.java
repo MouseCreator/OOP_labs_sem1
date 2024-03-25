@@ -2,6 +2,7 @@ package mouse.project.lib.injector.configuration;
 
 import mouse.project.lib.annotation.Configuration;
 import mouse.project.lib.annotation.Service;
+import mouse.project.lib.annotation.UseRestriction;
 import mouse.project.lib.exception.ConfigException;
 import mouse.project.lib.exception.ScanException;
 import mouse.project.lib.injector.InjectorBase;
@@ -61,8 +62,8 @@ public class ConfigurationScanner {
             if (annotation == null) {
                 throw new ScanException("Cannot scan class with no @Service annotation");
             }
-            if (hasUseRestriction(annotation)) {
-                addRestricted(clazz, injectorBase, annotation);
+            if (hasUseRestriction(clazz)) {
+                addRestricted(clazz, injectorBase);
             } else {
                 addToInjectorBase(injectorBase, clazz);
             }
@@ -73,18 +74,24 @@ public class ConfigurationScanner {
         injectorBase.include(clazz);
     }
 
-    private void addRestricted(Class<?> clazz, InjectorBase injectorBase, Service annotation) {
+    private void addRestricted(Class<?> clazz, InjectorBase injectorBase) {
         if (!injectorBase.isNamed()) {
             return;
         }
+        UseRestriction restricted = clazz.getAnnotation(UseRestriction.class);
+        assert restricted != null;
         String name = injectorBase.getName();
-        boolean canUse = List.of(annotation.usedBy()).contains(name);
+        boolean canUse = List.of(restricted.usedBy()).contains(name);
         if (canUse) {
             addToInjectorBase(injectorBase, clazz);
         }
     }
 
-    private boolean hasUseRestriction(Service annotation) {
+    private boolean hasUseRestriction(Class<?> clazz) {
+        UseRestriction annotation = clazz.getAnnotation(UseRestriction.class);
+        if (annotation == null) {
+            return false;
+        }
         return annotation.usedBy().length > 0;
     }
 }
