@@ -146,7 +146,9 @@ public class DefinedMapImpl<E extends TypeHolder<?>> implements DefinedMap<E> {
     }
 
     private Collection<E> getAll(Class<?> clazz) {
-        return getDefinitionsByClass(clazz);
+        List<E> definitionsByClass = getDefinitionsByClass(clazz);
+        definitionsByClass.sort(Comparator.comparingInt(e -> e.getType().getOrder()));
+        return definitionsByClass;
     }
 
     private Collection<E> getNamed(Class<?> clazz, String name) {

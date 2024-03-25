@@ -1,6 +1,7 @@
 package mouse.project.lib.ioc.injector.card.container;
 
 import mouse.project.lib.annotation.Name;
+import mouse.project.lib.annotation.Order;
 import mouse.project.lib.annotation.Primary;
 import mouse.project.lib.annotation.Prototype;
 
@@ -25,6 +26,9 @@ public class ImplementationCreatorImpl implements ImplementationCreator {
         Implementation<T> implementation = new Implementation<>(tClass, name);
         if (annotated.isAnnotationPresent(Primary.class)) {
             implementation.setPrimary(true);
+        }
+        if (annotated.isAnnotationPresent(Order.class)) {
+            implementation.setOrder(annotated.getAnnotation(Order.class).value());
         }
         if (annotated.isAnnotationPresent(Prototype.class)) {
             implementation.setPrototype(true);
