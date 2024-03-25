@@ -1,11 +1,15 @@
 package mouse.project.lib.web.mapper;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-class WebMapper extends HttpServlet {
+@WebServlet(
+        urlPatterns = "/"
+)
+public class WebMapper extends HttpServlet {
 
     public WebMapper() {
     }
@@ -31,6 +35,6 @@ class WebMapper extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest req, HttpServletResponse resp) {
-        throw new UnsupportedOperationException();
+        System.out.println("REQUEST RECEIVED");
     }
 }
