@@ -1,25 +1,30 @@
 package mouse.project.lib.ioc.injector.card.container;
 
-import java.util.Optional;
+import mouse.project.lib.ioc.injector.map.BuiltHolder;
+import mouse.project.lib.ioc.injector.map.BuiltHolderImpl;
+import mouse.project.lib.ioc.injector.map.DefinedMap;
 
 public class CardContainerImpl implements CardContainer {
+
+    public CardContainerImpl(DefinedMap<BuiltHolder<?>> definedMap) {
+        this.definedMap = definedMap;
+    }
+
+    private final DefinedMap<BuiltHolder<?>> definedMap;
     @Override
     public <T> boolean containsImplementation(Implementation<T> implementation) {
-        return false;
+        return definedMap.contains(implementation);
     }
 
     @Override
     public <T> T findImplementation(Implementation<T> implementation) {
-        return null;
+        Class<T> clazz = implementation.getClazz();
+        return clazz.cast(definedMap.lookup(implementation).getBuilt());
     }
-
     @Override
-    public <T> Optional<T> getImplementation(Implementation<T> implementation) {
-        return null;
-    }
-
-    @Override
-    public void put(Object obj) {
-
+    public <T> void put( Object obj) {
+        Implementation<?> implementation = Implementations.create(obj.getClass());
+        BuiltHolder<?> builtHolder = new BuiltHolderImpl<>(implementation, obj);
+        definedMap.add(builtHolder);
     }
 }

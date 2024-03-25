@@ -6,10 +6,10 @@ import mouse.project.lib.ioc.injector.card.container.Implementation;
 
 import java.util.*;
 
-public class ImplMap<E extends TypeHolder<?>> {
+public class DefinedMapImpl<E extends TypeHolder<?>> implements DefinedMap<E> {
     private final Map<Class<?>, List<E>> map;
 
-    public ImplMap() {
+    public DefinedMapImpl() {
         map = new HashMap<>();
     }
 
@@ -59,6 +59,10 @@ public class ImplMap<E extends TypeHolder<?>> {
 
     private List<E> getNamedDefinitions(Class<?> clazz, String name) {
         List<E> cardDefinitions = getDefinitionsByClass(clazz);
+        return filterNamedOnly(name, cardDefinitions);
+    }
+
+    private List<E> filterNamedOnly(String name, List<E> cardDefinitions) {
         return cardDefinitions.stream().filter(t -> name.equals(t.getType().getName())).toList();
     }
 
@@ -113,6 +117,19 @@ public class ImplMap<E extends TypeHolder<?>> {
             return getNamed(implementation.getClazz(), implementation.getName());
         }
         return getAll(implementation.getClazz());
+    }
+
+    @Override
+    public <T> boolean contains(Implementation<T> implementation) {
+        List<E> es = map.get(implementation.getClazz());
+        if (es == null || es.isEmpty()) {
+            return false;
+        }
+        if (!implementation.isNamed()) {
+            return !es.isEmpty();
+        }
+        List<E> namedOnly = filterNamedOnly(implementation.getName(), es);
+        return !namedOnly.isEmpty();
     }
 
     private Collection<E> getAll(Class<?> clazz) {

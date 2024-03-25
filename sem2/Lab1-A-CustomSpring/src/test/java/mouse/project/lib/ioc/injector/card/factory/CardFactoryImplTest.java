@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import mouse.project.lib.annotation.*;
 import mouse.project.lib.exception.CardException;
+import mouse.project.lib.exception.CycleDependencyException;
 import mouse.project.lib.exception.MissingAnnotationException;
 import mouse.project.lib.exception.NoCardDefinitionException;
 import mouse.project.lib.ioc.injector.card.container.CardContainer;
@@ -13,6 +14,7 @@ import mouse.project.lib.ioc.injector.card.container.Implementation;
 import mouse.project.lib.ioc.injector.card.definition.CardDefinition;
 import mouse.project.lib.ioc.injector.card.scan.CardScanner;
 import mouse.project.lib.ioc.injector.card.scan.DefinedCardScanner;
+import mouse.project.lib.ioc.injector.map.DefinedMapImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -28,8 +30,8 @@ class CardFactoryImplTest {
     @BeforeEach
     void setUp() {
         cardScanner = new DefinedCardScanner();
-        cardDefinitions = new CardDefinitionsImpl();
-        CardContainer cardContainer = new CardContainerImpl();
+        cardDefinitions = new CardDefinitionsImpl(new DefinedMapImpl<>());
+        CardContainer cardContainer = new CardContainerImpl(new DefinedMapImpl<>());
         cardFactory = new CardFactoryImpl(cardContainer, cardDefinitions);
     }
 
@@ -44,7 +46,8 @@ class CardFactoryImplTest {
     }
 
     private <T> T getUnnamed(Class<T> t) {
-        return cardFactory.buildCard(new Implementation<>(t, null));
+        Implementation<T> tImplementation = new Implementation<>(t, null);
+        return cardFactory.buildCard(tImplementation);
     }
 
     private <T> T getNamed(Class<T> t, String name) {
@@ -178,7 +181,7 @@ class CardFactoryImplTest {
     @Test
     void buildWithCycle() {
         scanAll(Cycle1.class, Cycle2.class);
-        assertThrows(CardException.class, () -> getUnnamed(Cycle1.class));
+        assertThrows(CycleDependencyException.class, () -> getUnnamed(Cycle1.class));
     }
     @Name(name = "1")
     private static class NamedDependency1 implements InterfaceExampleA{

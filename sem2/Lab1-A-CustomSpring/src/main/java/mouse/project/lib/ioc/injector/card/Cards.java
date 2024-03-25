@@ -11,6 +11,7 @@ import mouse.project.lib.ioc.injector.card.factory.CardFactoryImpl;
 import mouse.project.lib.ioc.injector.card.scan.CardScanner;
 import mouse.project.lib.ioc.injector.card.scan.DefinedCardScanner;
 import mouse.project.lib.ioc.injector.card.scan.DefinitionsManager;
+import mouse.project.lib.ioc.injector.map.DefinedMapImpl;
 
 import java.util.Collection;
 
@@ -25,8 +26,8 @@ public class Cards {
     }
 
     public static Cards create() {
-        CardDefinitions definitions = new CardDefinitionsImpl();
-        CardContainer container = new CardContainerImpl();
+        CardDefinitions definitions = new CardDefinitionsImpl(new DefinedMapImpl<>());
+        CardContainer container = new CardContainerImpl(new DefinedMapImpl<>());
         CardFactory factory = new CardFactoryImpl(container, definitions);
         DefinitionsManager manager = new DefinitionsManager(definitions);
         CardScanner scanner = new DefinedCardScanner();

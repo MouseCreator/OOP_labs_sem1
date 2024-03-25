@@ -17,7 +17,7 @@ class PackageLoaderTest {
     void testOnSelf() {
         PackageLoader packageLoader = new PackageLoader();
         Set<Class<?>> classes = packageLoader.getAnnotatedClasses(
-                "mouse.project.lib.injector.card.scan",
+                "mouse.project.lib.ioc.injector.card.scan",
                 Service.class);
         assertTrue(classes.contains(PackageLoaderTest.class));
         assertTrue(classes.contains(Inner.class));
