@@ -3,7 +3,7 @@ package mouse.project.lib.web.scan;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import mouse.project.lib.web.register.ControllerInvoker;
+import mouse.project.lib.web.invoker.ControllerInvoker;
 import mouse.project.lib.web.register.RequestType;
 
 @Data

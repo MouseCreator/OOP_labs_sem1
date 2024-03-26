@@ -4,7 +4,7 @@ import mouse.project.lib.ioc.annotation.Auto;
 import mouse.project.lib.ioc.annotation.Service;
 import mouse.project.lib.web.annotation.Get;
 import mouse.project.lib.web.factory.ControllerInvokerFactory;
-import mouse.project.lib.web.register.ControllerInvoker;
+import mouse.project.lib.web.invoker.ControllerInvoker;
 import mouse.project.lib.web.register.RequestType;
 
 import java.lang.reflect.Method;

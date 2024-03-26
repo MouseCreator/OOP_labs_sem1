@@ -7,7 +7,7 @@ import mouse.project.lib.ioc.annotation.Controller;
 import mouse.project.lib.web.annotation.*;
 import mouse.project.lib.web.exception.ControllerException;
 import mouse.project.lib.web.factory.ControllerInvokerFactory;
-import mouse.project.lib.web.register.ControllerInvoker;
+import mouse.project.lib.web.invoker.ControllerInvoker;
 import mouse.project.lib.web.register.RequestType;
 import org.junit.jupiter.api.Test;
 
@@ -20,7 +20,6 @@ class ControllerScanImplTest {
     private static class Config {
 
     }
-
     private static class MockCIF implements ControllerInvokerFactory {
 
         @Override

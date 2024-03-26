@@ -1,6 +1,6 @@
 package mouse.project.lib.web.factory;
 
-import mouse.project.lib.web.register.ControllerInvoker;
+import mouse.project.lib.web.invoker.ControllerInvoker;
 
 import java.lang.reflect.Method;
 
