@@ -6,6 +6,7 @@ import mouse.project.lib.ioc.annotation.Service;
 import mouse.project.lib.web.annotation.FromURL;
 import mouse.project.lib.web.annotation.Param;
 import mouse.project.lib.web.annotation.RBody;
+import mouse.project.lib.web.endpoint.EndpointContext;
 import mouse.project.lib.web.exception.ControllerException;
 import mouse.project.lib.web.invoker.creator.DescCreator;
 import mouse.project.lib.web.invoker.desc.ArgumentDesc;
@@ -23,11 +24,11 @@ public class ArgumentFactoryImpl implements ArgumentFactory {
     }
 
     @Override
-    public ArgumentDesc createArgument(Method method, Parameter parameter) {
+    public ArgumentDesc createArgument(EndpointContext context, Parameter parameter) {
         ArgumentSource source = getSource(parameter);
         for (DescCreator descCreator : descCreatorList) {
             if (descCreator.accepts(source)) {
-                return descCreator.create(method, parameter);
+                return descCreator.create(context, parameter);
             }
         }
         throw new ControllerException("No description creator for source: " + source);
