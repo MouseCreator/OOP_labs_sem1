@@ -7,10 +7,13 @@ public class URLArgumentDescImpl implements URLArgumentDesc {
 
     private final URLArgumentProcessor processor;
     private final String pattern;
-
-    public URLArgumentDescImpl(URLArgumentProcessor processor, String pattern) {
+    private final String target;
+    private final Class<?> type;
+    public URLArgumentDescImpl(URLArgumentProcessor processor, Class<?> type, String pattern, String target) {
         this.processor = processor;
         this.pattern = pattern;
+        this.type = type;
+        this.target = target;
     }
 
     @Override
@@ -21,5 +24,15 @@ public class URLArgumentDescImpl implements URLArgumentDesc {
     @Override
     public String getPattern() {
         return pattern;
+    }
+
+    @Override
+    public Class<?> expectedType() {
+        return type;
+    }
+
+    @Override
+    public String getTarget() {
+        return target;
     }
 }

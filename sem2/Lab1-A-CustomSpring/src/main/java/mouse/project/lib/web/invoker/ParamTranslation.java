@@ -1,5 +1,4 @@
 package mouse.project.lib.web.invoker;
-@FunctionalInterface
 public interface ParamTranslation {
-    Object translate(String from);
+    Object translate(String from, Class<?> type);
 }
