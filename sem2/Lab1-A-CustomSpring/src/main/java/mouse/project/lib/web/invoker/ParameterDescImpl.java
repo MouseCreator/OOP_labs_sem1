@@ -9,18 +9,16 @@ import java.util.Optional;
 public final class ParameterDescImpl implements ParameterDesc {
     private final String name;
     private final Class<?> expectedType;
-    private final ParamTranslation translations;
 
     private final String defaultValue;
-
+    private final boolean bodySource;
     public ParameterDescImpl(String name,
                              String def,
-                             Class<?> expectedType,
-                             ParamTranslation translations) {
+                             Class<?> expectedType, boolean bodySource) {
         this.name = name;
         this.expectedType = expectedType;
-        this.translations = translations;
         this.defaultValue = def;
+        this.bodySource = bodySource;
     }
 
     @Override
@@ -39,8 +37,9 @@ public final class ParameterDescImpl implements ParameterDesc {
     }
 
     @Override
-    public ParamTranslation translations() {
-        return translations;
+    public boolean bodySource() {
+        return this.bodySource;
     }
+
 
 }

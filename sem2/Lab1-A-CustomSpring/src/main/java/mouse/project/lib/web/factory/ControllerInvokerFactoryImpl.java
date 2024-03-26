@@ -4,6 +4,7 @@ import mouse.project.lib.ioc.annotation.Auto;
 import mouse.project.lib.ioc.annotation.Service;
 import mouse.project.lib.web.annotation.DefaultValue;
 import mouse.project.lib.web.annotation.Param;
+import mouse.project.lib.web.annotation.RBody;
 import mouse.project.lib.web.factory.translations.ParamTranslationFactory;
 import mouse.project.lib.web.invoker.*;
 
@@ -16,9 +17,12 @@ import java.util.List;
 public class ControllerInvokerFactoryImpl implements ControllerInvokerFactory {
 
     private final ParamTranslationFactory paramTranslationFactory;
+    private final BodyProcessor bodyProcessor;
     @Auto
-    public ControllerInvokerFactoryImpl(ParamTranslationFactory paramTranslationFactory) {
+    public ControllerInvokerFactoryImpl(ParamTranslationFactory paramTranslationFactory,
+                                        BodyProcessor bodyProcessor) {
         this.paramTranslationFactory = paramTranslationFactory;
+        this.bodyProcessor = bodyProcessor;
     }
 
     @Override
@@ -29,15 +33,26 @@ public class ControllerInvokerFactoryImpl implements ControllerInvokerFactory {
             ParameterDesc parameterDesc = processParameter(parameter);
             paramList.add(parameterDesc);
         }
-        return new ControllerInvokerImpl(controller, method, paramList);
+        return new ControllerInvokerImpl(controller, method, paramList, bodyProcessor);
     }
 
     private ParameterDesc processParameter(Parameter parameter) {
+        if (parameter.isAnnotationPresent(RBody.class)) {
+            RBody annotation = parameter.getAnnotation(RBody.class);
+            String attribute = annotation.value();
+            Class<?> type = parameter.getType();
+            return new ParameterDescImpl(attribute, "", type, true);
+        } else {
+            return createFromRequestParameter(parameter);
+        }
+
+    }
+
+    private ParameterDescImpl createFromRequestParameter(Parameter parameter) {
         String name = getParameterName(parameter);
         String defaultValue = getParameterDefault(parameter);
         Class<?> type = parameter.getType();
-        ParamTranslation translation = createParamTranslation(type);
-        return new ParameterDescImpl(name, defaultValue, type, translation);
+        return new ParameterDescImpl(name, defaultValue, type, false);
     }
 
     private String getParameterDefault(Parameter parameter) {

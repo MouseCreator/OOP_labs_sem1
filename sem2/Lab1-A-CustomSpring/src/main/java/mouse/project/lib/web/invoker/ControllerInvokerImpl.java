@@ -17,10 +17,15 @@ public class ControllerInvokerImpl implements ControllerInvoker {
     private final List<ParameterDesc> parameterDescriptions;
     private final Object controller;
     private final Method method;
-    public ControllerInvokerImpl(Object controller, Method method, List<ParameterDesc> parameterDescriptions) {
+    private final BodyProcessor processor;
+    public ControllerInvokerImpl(Object controller,
+                                 Method method,
+                                 List<ParameterDesc> parameterDescriptions,
+                                 BodyProcessor processor) {
         this.parameterDescriptions = parameterDescriptions;
         this.controller = controller;
         this.method = method;
+        this.processor = processor;
     }
 
     @Override
@@ -40,27 +45,8 @@ public class ControllerInvokerImpl implements ControllerInvoker {
     }
 
     private Object getBodyInfo(RequestBody body, BodyDesc desc) {
-        CollectionProducer collectionProducer = new CollectionProducer();
-        String str = body.get();
-        BodyParser parser = new JacksonBodyParser();
-        String attr = desc.attributeName();
-        Object param;
-        if (attr == null || attr.isEmpty()) {
-            if (desc.isCollection()) {
-                Collection<?> parsedValues = parser.parseAll(str, desc.expectedClass());
-                param = collectionProducer.create(desc.collectionType(), parsedValues);
-            } else {
-                param = parser.parse(str, desc.expectedClass());
-            }
-        } else {
-            if (desc.isCollection()) {
-                Collection<?> parsedValues = parser.parseAllByAttribute(str, attr, desc.expectedClass());
-                param = collectionProducer.create(desc.collectionType(), parsedValues);
-            } else {
-                param = parser.parseAttribute(str, attr, desc.expectedClass());
-            }
-        }
-        return param;
+
+        return processor.getBodyInfo(body, desc);
     }
     private static class SatisfiedParams {
         private final Map<String, MethodParam> map;

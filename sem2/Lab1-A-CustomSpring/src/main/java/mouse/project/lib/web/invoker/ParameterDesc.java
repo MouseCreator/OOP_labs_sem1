@@ -4,7 +4,7 @@ import java.util.Optional;
 
 public interface ParameterDesc {
     Class<?> expectedType();
-    ParamTranslation translations();
+    boolean bodySource();
     String name();
     Optional<String> defaultValue();
 }
