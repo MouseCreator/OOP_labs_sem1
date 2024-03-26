@@ -1,7 +1,9 @@
-package mouse.project.lib.web.invoker;
+package mouse.project.lib.web.invoker.desc;
 
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import mouse.project.lib.web.invoker.processor.ParameterProcessor;
+import mouse.project.lib.web.request.RequestURL;
 
 import java.util.Optional;
 @EqualsAndHashCode
@@ -9,16 +11,14 @@ import java.util.Optional;
 public final class ParameterDescImpl implements ParameterDesc {
     private final String name;
     private final Class<?> expectedType;
-
     private final String defaultValue;
-    private final boolean bodySource;
-    public ParameterDescImpl(String name,
-                             String def,
-                             Class<?> expectedType, boolean bodySource) {
+    private final ParameterProcessor parameterProcessor;
+
+    public ParameterDescImpl(Class<?> type, String name, String defaultValue, ParameterProcessor parameterProcessor) {
+        this.expectedType = type;
         this.name = name;
-        this.expectedType = expectedType;
-        this.defaultValue = def;
-        this.bodySource = bodySource;
+        this.defaultValue = defaultValue;
+        this.parameterProcessor = parameterProcessor;
     }
 
     @Override
@@ -36,10 +36,9 @@ public final class ParameterDescImpl implements ParameterDesc {
         return expectedType;
     }
 
+
     @Override
-    public boolean bodySource() {
-        return this.bodySource;
+    public Object apply(RequestURL requestURL) {
+        return parameterProcessor.process(this, requestURL);
     }
-
-
 }

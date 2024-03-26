@@ -10,7 +10,7 @@ public class WebDispatcherImpl implements WebDispatcher {
         RequestAddress address = requestURL.getAddress();
 
         ControllerInvoker invoker = getInvoker(address);
-        Object invoked = invoker.invoke(requestURL.getParameters(), requestURL.getBody());
+        Object invoked = invoker.invoke(requestURL);
         return toResponse(invoked);
     }
 

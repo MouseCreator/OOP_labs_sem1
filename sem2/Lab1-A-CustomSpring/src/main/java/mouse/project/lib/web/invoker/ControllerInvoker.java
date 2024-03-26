@@ -1,10 +1,8 @@
 package mouse.project.lib.web.invoker;
 
-import mouse.project.lib.web.request.RequestBody;
-import mouse.project.lib.web.request.RequestParameter;
+import mouse.project.lib.web.request.RequestURL;
 
-import java.util.Collection;
 
 public interface ControllerInvoker {
-    Object invoke(Collection<RequestParameter> parameters, RequestBody body);
+    Object invoke(RequestURL requestURL);
 }

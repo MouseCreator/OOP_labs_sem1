@@ -9,6 +9,7 @@ import mouse.project.lib.ioc.injector.card.definition.ParameterDefinition;
 import mouse.project.lib.ioc.injector.card.definition.ParameterDefinitionImpl;
 import mouse.project.lib.ioc.injector.card.invoke.Parameters;
 import mouse.project.lib.ioc.injector.card.invoke.ParametersImpl;
+import mouse.project.lib.utils.TypeUtils;
 
 import java.lang.reflect.*;
 import java.util.Collection;
@@ -66,7 +67,7 @@ public class DefinitionsInspector {
         return isCollection(parameter.getType());
     }
     private boolean isCollection(Class<?> type) {
-        return Collection.class.isAssignableFrom(type);
+        return TypeUtils.isCollectionType(type);
     }
 
     public Parameters inspectParameters(Parameter[] parameters) {

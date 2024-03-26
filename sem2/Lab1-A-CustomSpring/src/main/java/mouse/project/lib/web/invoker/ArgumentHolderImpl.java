@@ -1,5 +1,8 @@
 package mouse.project.lib.web.invoker;
 
+import mouse.project.lib.web.invoker.desc.BodyDesc;
+import mouse.project.lib.web.invoker.desc.ParameterDesc;
+
 public class ArgumentHolderImpl implements ArgumentHolder {
     private final BodyDesc bodyDesc;
     private final ParameterDesc parameterDesc;
