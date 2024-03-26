@@ -8,15 +8,15 @@ import java.util.*;
 
 public class CollectionProducer {
 
-    public Collection<?> create(Class<?> clazz, Collection<?> implementations) {
+    public Collection<?> create(Class<?> clazz, Collection<?> elements) {
         if (clazz.equals(Collection.class)) {
-            return new ArrayList<>(implementations);
+            return new ArrayList<>(elements);
         }
         if (List.class.isAssignableFrom(clazz)) {
-            return createList(clazz, implementations);
+            return createList(clazz, elements);
         }
         if (Set.class.isAssignableFrom(clazz)) {
-            return createSet(clazz, implementations);
+            return createSet(clazz, elements);
         }
         throw new CollectionException("Unsupported collection type: " + clazz);
     }

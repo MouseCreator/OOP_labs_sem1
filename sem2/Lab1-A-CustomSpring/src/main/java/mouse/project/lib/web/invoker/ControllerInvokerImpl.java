@@ -1,6 +1,7 @@
 package mouse.project.lib.web.invoker;
 
 import lombok.ToString;
+import mouse.project.lib.ioc.injector.card.helper.CollectionProducer;
 import mouse.project.lib.web.exception.BadRequestException;
 import mouse.project.lib.web.exception.ControllerException;
 import mouse.project.lib.web.parse.BodyParser;
@@ -29,7 +30,6 @@ public class ControllerInvokerImpl implements ControllerInvoker {
             String name = parameter.getName();
             satisfiedParams.satisfy(name, parameter.getValue());
         }
-        getBodyInfo(body);
         Object[] res = satisfiedParams.finish();
         method.setAccessible(true);
         try {
@@ -39,11 +39,29 @@ public class ControllerInvokerImpl implements ControllerInvoker {
         }
     }
 
-    private void getBodyInfo(RequestBody body) {
+    private Object getBodyInfo(RequestBody body, BodyDesc desc) {
+        CollectionProducer collectionProducer = new CollectionProducer();
         String str = body.get();
         BodyParser parser = new JacksonBodyParser();
+        String attr = desc.attributeName();
+        Object param;
+        if (attr == null || attr.isEmpty()) {
+            if (desc.isCollection()) {
+                Collection<?> parsedValues = parser.parseAll(str, desc.expectedClass());
+                param = collectionProducer.create(desc.collectionType(), parsedValues);
+            } else {
+                param = parser.parse(str, desc.expectedClass());
+            }
+        } else {
+            if (desc.isCollection()) {
+                Collection<?> parsedValues = parser.parseAllByAttribute(str, attr, desc.expectedClass());
+                param = collectionProducer.create(desc.collectionType(), parsedValues);
+            } else {
+                param = parser.parseAttribute(str, attr, desc.expectedClass());
+            }
+        }
+        return param;
     }
-
     private static class SatisfiedParams {
         private final Map<String, MethodParam> map;
         public SatisfiedParams(List<ParameterDesc> descList) {
