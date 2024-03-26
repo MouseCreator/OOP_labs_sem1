@@ -53,4 +53,12 @@ class IocTest {
         assertDoesNotThrow(() -> main.get(Restricted.class));
         assertThrows(NoCardDefinitionException.class, () -> other.get(Restricted.class));
     }
+
+    @Test
+    void testForbidden() {
+        Inj main = getMainConfig();
+        Inj other = getOtherConfig();
+        assertThrows(NoCardDefinitionException.class, () -> main.get(ForbiddenToRelease.class));
+        assertDoesNotThrow(() -> other.get(ForbiddenToRelease.class));
+    }
 }

@@ -89,8 +89,9 @@ public class ConfigurationScanner {
         UseRestriction restricted = clazz.getAnnotation(UseRestriction.class);
         assert restricted != null;
         String name = injectorBase.getName();
-        boolean canUse = List.of(restricted.usedBy()).contains(name);
-        if (canUse) {
+        boolean isInUsedBy = restricted.usedBy().length == 0 || List.of(restricted.usedBy()).contains(name);
+        boolean inNotInForbidden = restricted.forbidden().length == 0 || !List.of(restricted.forbidden()).contains(name);
+        if (isInUsedBy && inNotInForbidden) {
             addToInjectorBase(injectorBase, clazz);
         }
     }
@@ -100,6 +101,6 @@ public class ConfigurationScanner {
         if (annotation == null) {
             return false;
         }
-        return annotation.usedBy().length > 0;
+        return annotation.usedBy().length > 0 || annotation.forbidden().length > 0;
     }
 }

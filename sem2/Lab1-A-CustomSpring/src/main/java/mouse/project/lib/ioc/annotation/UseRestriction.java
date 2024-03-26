@@ -8,5 +8,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface UseRestriction {
-    String[] usedBy() default "";
+    String[] usedBy() default {};
+    String[] forbidden() default {};
 }
