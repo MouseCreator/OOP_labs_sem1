@@ -32,9 +32,16 @@ public class DefinedMapImpl<E extends TypeHolder<?>> implements DefinedMap<E> {
     private List<E> getDefinitionsByClass(Class<?> clazz) {
         List<E> cardDefinitions = map.get(clazz);
         if (cardDefinitions == null || cardDefinitions.isEmpty()) {
-            throw new NoCardDefinitionException("No definition for " + clazz + " in map");
+            throwNoCardDefinition(clazz);
         }
         return cardDefinitions;
+    }
+
+    private static void throwNoCardDefinition(Class<?> clazz) {
+        if (clazz.isInterface()) {
+            throw new NoCardDefinitionException("Interface has no implementations: " + clazz);
+        }
+        throw new NoCardDefinitionException("No definition for " + clazz + " in map");
     }
 
     private E getPrimaryFromList(Class<?> clazz, String name) {

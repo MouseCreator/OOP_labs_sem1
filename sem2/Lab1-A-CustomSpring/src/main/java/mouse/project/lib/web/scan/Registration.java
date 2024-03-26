@@ -1,6 +1,7 @@
 package mouse.project.lib.web.scan;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import mouse.project.lib.web.register.ControllerInvoker;
 import mouse.project.lib.web.register.RequestType;
@@ -10,6 +11,7 @@ import mouse.project.lib.web.register.RequestType;
 public class Registration {
     private String url;
     private RequestType requestType;
+    @EqualsAndHashCode.Exclude
     private ControllerInvoker invoker;
 
     public Registration(String url, RequestType requestType, ControllerInvoker invoker) {

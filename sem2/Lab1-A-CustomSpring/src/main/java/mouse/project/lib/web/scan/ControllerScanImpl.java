@@ -1,0 +1,72 @@
+package mouse.project.lib.web.scan;
+
+import mouse.project.lib.ioc.annotation.Auto;
+import mouse.project.lib.ioc.annotation.Collect;
+import mouse.project.lib.ioc.annotation.Service;
+import mouse.project.lib.utils.Scanners;
+import mouse.project.lib.web.annotation.RequestPrefix;
+import mouse.project.lib.web.annotation.URL;
+import mouse.project.lib.web.exception.ControllerException;
+
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+@Service
+public class ControllerScanImpl implements ControllerScan {
+    @Auto
+    @Collect(WebAnnotationProcessor.class)
+    private List<WebAnnotationProcessor> annotationProcessors;
+    public Collection<Registration> scanControllers(Collection<Object> allControllers) {
+        List<Registration> registrations = new ArrayList<>();
+        for (Object controller : allControllers) {
+            Collection<Registration> newRegs = processController(controller);
+            registrations.addAll(newRegs);
+        }
+        return registrations;
+    }
+    public Collection<Registration> scanController(Object controller) {
+        return processController(controller);
+    }
+    private Collection<Registration> processController(Object controller) {
+        Class<?> clazz = controller.getClass();
+        String prefix = getPrefix(clazz);
+        List<Registration> result = new ArrayList<>();
+        Collection<Method> methods = Scanners.getMethodsAnnotatedWith(clazz, URL.class);
+        for (Method method : methods) {
+            String fullUrl = buildFullURL(method, prefix);
+            Collection<Registration> regs = getInvoker(fullUrl, controller, method);
+            if (regs.isEmpty()) {
+                throw new ControllerException("Method " + method + " has @URL annotation, but cannot be processed." +
+                        " Make sure at least one of CRUD annotations is present.");
+            }
+            result.addAll(regs);
+        }
+        return result;
+    }
+
+    private String getPrefix(Class<?> clazz) {
+        RequestPrefix prefixAnnotation = clazz.getAnnotation(RequestPrefix.class);
+        String prefix = "/";
+        if (prefixAnnotation != null) {
+            prefix += prefixAnnotation.value();
+        }
+        return prefix;
+    }
+
+    private String buildFullURL(Method method, String prefix) {
+        String fullUrl = prefix + "/" + method.getAnnotation(URL.class).value() + "/";
+        fullUrl = fullUrl.replaceAll("/+", "/");
+        return fullUrl;
+    }
+
+    private Collection<Registration> getInvoker(String url, Object controller, Method method) {
+        List<Registration> registrations = new ArrayList<>();
+        for (WebAnnotationProcessor processor : annotationProcessors) {
+            if (processor.canProcess(method)) {
+                registrations.add(processor.process(url, controller, method));
+            }
+        }
+        return registrations;
+    }
+}
