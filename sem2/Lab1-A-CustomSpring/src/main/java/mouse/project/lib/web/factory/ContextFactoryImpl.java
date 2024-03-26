@@ -1,8 +1,11 @@
 package mouse.project.lib.web.factory;
 
+import mouse.project.lib.web.annotation.RequestPrefix;
 import mouse.project.lib.web.context.ControllerContext;
 import mouse.project.lib.web.context.ControllerContextImpl;
 import mouse.project.lib.web.context.EndpointContext;
+import mouse.project.lib.web.exception.ControllerException;
+import mouse.project.lib.web.tool.SimpleURLTool;
 import mouse.project.lib.web.tool.URLTool;
 
 import java.lang.reflect.Method;
@@ -15,7 +18,12 @@ public class ContextFactoryImpl implements ContextFactory {
     }
 
     private URLTool createURL(Class<?> rootClass) {
-        return null;
+        RequestPrefix annotation = rootClass.getAnnotation(RequestPrefix.class);
+        if (annotation == null) {
+            throw new ControllerException("Controller " + rootClass + " has no request prefix.");
+        }
+        String value = annotation.value();
+        return SimpleURLTool.from(value);
     }
 
     @Override
