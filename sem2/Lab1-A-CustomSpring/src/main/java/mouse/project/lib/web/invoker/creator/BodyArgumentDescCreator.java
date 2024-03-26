@@ -5,6 +5,7 @@ import mouse.project.lib.ioc.annotation.Service;
 import mouse.project.lib.utils.TypeUtils;
 import mouse.project.lib.web.annotation.PType;
 import mouse.project.lib.web.annotation.RBody;
+import mouse.project.lib.web.endpoint.EndpointContext;
 import mouse.project.lib.web.exception.ControllerException;
 import mouse.project.lib.web.invoker.desc.ArgumentDesc;
 import mouse.project.lib.web.invoker.ArgumentSource;
@@ -23,7 +24,7 @@ public class BodyArgumentDescCreator implements DescCreator{
     }
 
     @Override
-    public ArgumentDesc create(Method method, Parameter parameter) {
+    public ArgumentDesc create(EndpointContext context, Parameter parameter) {
         RBody annotation = parameter.getAnnotation(RBody.class);
         String value = annotation.value();
         Class<?> type = parameter.getType();

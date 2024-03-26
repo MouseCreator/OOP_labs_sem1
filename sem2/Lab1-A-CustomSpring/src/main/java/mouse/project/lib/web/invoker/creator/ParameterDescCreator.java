@@ -3,6 +3,7 @@ package mouse.project.lib.web.invoker.creator;
 import mouse.project.lib.ioc.annotation.Service;
 import mouse.project.lib.web.annotation.DefaultValue;
 import mouse.project.lib.web.annotation.Param;
+import mouse.project.lib.web.endpoint.EndpointContext;
 import mouse.project.lib.web.invoker.desc.ArgumentDesc;
 import mouse.project.lib.web.invoker.ArgumentSource;
 import mouse.project.lib.web.invoker.desc.ParameterDescImpl;
@@ -14,7 +15,7 @@ import java.lang.reflect.Parameter;
 public class ParameterDescCreator implements DescCreator {
     private ParameterProcessor parameterProcessor;
     @Override
-    public ArgumentDesc create(Method method, Parameter parameter) {
+    public ArgumentDesc create(EndpointContext context, Parameter parameter) {
         Param annotation = parameter.getAnnotation(Param.class);
         String name = getName(parameter, annotation);
         String defaultValue = getDefault(parameter);
