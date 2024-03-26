@@ -6,9 +6,13 @@ import mouse.project.lib.web.annotation.Param;
 import mouse.project.lib.web.factory.translations.ParamTranslationFactory;
 import mouse.project.lib.web.invoker.ControllerInvoker;
 import mouse.project.lib.web.invoker.ParamTranslation;
+import mouse.project.lib.web.invoker.ParameterDesc;
+import mouse.project.lib.web.invoker.ParameterDescImpl;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ControllerInvokerFactoryImpl implements ControllerInvokerFactory {
@@ -17,15 +21,24 @@ public class ControllerInvokerFactoryImpl implements ControllerInvokerFactory {
     @Override
     public ControllerInvoker create(Object controller, Method method) {
         Parameter[] parameters = method.getParameters();
+        List<ParameterDesc> paramList = new ArrayList<>();
         for (Parameter parameter : parameters) {
-            processParameter(parameter);
+            ParameterDesc parameterDesc = processParameter(parameter);
+            paramList.add(parameterDesc);
         }
+
     }
 
-    private String processParameter(Parameter parameter) {
+    private ParameterDesc processParameter(Parameter parameter) {
         String name = getParameterName(parameter);
+        String defaultValue = getParameterDefault(parameter);
         Class<?> type = parameter.getType();
         ParamTranslation translation = createParamTranslation(type);
+        return new ParameterDescImpl(name, defaultValue, type, translation);
+    }
+
+    private String getParameterDefault(Parameter parameter) {
+
     }
 
     private ParamTranslation createParamTranslation(Class<?> type) {
