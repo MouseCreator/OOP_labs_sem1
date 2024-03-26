@@ -3,6 +3,8 @@ package mouse.project.lib.web.invoker;
 import lombok.ToString;
 import mouse.project.lib.web.exception.BadRequestException;
 import mouse.project.lib.web.exception.ControllerException;
+import mouse.project.lib.web.parse.BodyParser;
+import mouse.project.lib.web.parse.JacksonBodyParser;
 import mouse.project.lib.web.request.RequestBody;
 import mouse.project.lib.web.request.RequestParameter;
 
@@ -27,6 +29,7 @@ public class ControllerInvokerImpl implements ControllerInvoker {
             String name = parameter.getName();
             satisfiedParams.satisfy(name, parameter.getValue());
         }
+        getBodyInfo(body);
         Object[] res = satisfiedParams.finish();
         method.setAccessible(true);
         try {
@@ -34,6 +37,11 @@ public class ControllerInvokerImpl implements ControllerInvoker {
         } catch (IllegalAccessException | InvocationTargetException e) {
             throw new ControllerException(e);
         }
+    }
+
+    private void getBodyInfo(RequestBody body) {
+        String str = body.get();
+        BodyParser parser = new JacksonBodyParser();
     }
 
     private static class SatisfiedParams {
