@@ -3,7 +3,7 @@ package mouse.project.lib.web.invoker.creator;
 import mouse.project.lib.ioc.annotation.Auto;
 import mouse.project.lib.ioc.annotation.Service;
 import mouse.project.lib.web.annotation.FromURL;
-import mouse.project.lib.web.endpoint.EndpointContext;
+import mouse.project.lib.web.context.EndpointContext;
 import mouse.project.lib.web.invoker.desc.ArgumentDesc;
 import mouse.project.lib.web.invoker.ArgumentSource;
 import mouse.project.lib.web.invoker.desc.URLArgumentDescImpl;
@@ -23,7 +23,7 @@ public class UrlArgumentDescCreator implements DescCreator {
         assert annotation != null;
         String target = annotation.value();
         Class<?> type = parameter.getType();
-        String pattern = context.getUrlPattern();
+        String pattern = context.getUrl().toPattern();
         return new URLArgumentDescImpl(parameterProcessor, type, pattern, target);
     }
 
