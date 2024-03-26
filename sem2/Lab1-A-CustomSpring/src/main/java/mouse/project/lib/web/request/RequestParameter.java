@@ -1,4 +1,4 @@
-package mouse.project.lib.web.url;
+package mouse.project.lib.web.request;
 
 public interface RequestParameter {
     String getName();

@@ -3,7 +3,8 @@ package mouse.project.lib.web.invoker;
 import lombok.ToString;
 import mouse.project.lib.web.exception.BadRequestException;
 import mouse.project.lib.web.exception.ControllerException;
-import mouse.project.lib.web.url.RequestParameter;
+import mouse.project.lib.web.request.RequestBody;
+import mouse.project.lib.web.request.RequestParameter;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -20,7 +21,7 @@ public class ControllerInvokerImpl implements ControllerInvoker {
     }
 
     @Override
-    public Object invoke(Collection<RequestParameter> parameters) {
+    public Object invoke(Collection<RequestParameter> parameters, RequestBody body) {
         SatisfiedParams satisfiedParams = new SatisfiedParams(parameterDescriptions);
         for (RequestParameter parameter : parameters) {
             String name = parameter.getName();
