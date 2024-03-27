@@ -28,13 +28,18 @@ public class DispatcherMapImpl implements DispatcherMap {
 
     public void setInvoker(String url, ControllerInvoker invoker) {
         FullURL fullURL = urlService.create(url);
+        setInvoker(fullURL, invoker);
+    }
+
+    @Override
+    public void setInvoker(FullURL fullURL, ControllerInvoker invoker) {
         URLPath path = fullURL.path();
         MapNode current = rootNode;
         for (URLPathNode node : path.getNodes()) {
             String content = node.content();
             current = current.moveTo(content);
         }
-        current.set(invoker, url);
+        current.set(invoker, urlService.write(fullURL));
     }
 
     public ControllerInvoker getInvoker(String url) {
