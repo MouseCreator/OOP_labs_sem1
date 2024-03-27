@@ -1,20 +1,8 @@
 package mouse.project.lib.web.tool;
 
-public class URLFragment implements URLNode {
-    private String fragment;
+import java.util.List;
 
-    @Override
-    public String first() {
-        return "#";
-    }
-
-    @Override
-    public String write() {
-        return fragment;
-    }
-
-    @Override
-    public String next() {
-        throw new UnsupportedOperationException("URL Anchor has no next element");
-    }
+public interface URLFragment {
+    List<URLFragmentNode> getAsList();
+    URLFragmentNode getRaw();
 }

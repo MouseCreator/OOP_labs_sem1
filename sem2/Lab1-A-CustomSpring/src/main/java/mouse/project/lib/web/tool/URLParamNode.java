@@ -1,6 +1,6 @@
 package mouse.project.lib.web.tool;
 
-public class URLParam implements URLNode {
+public class URLParamNode implements URLNode {
     private String name;
     private String value;
 

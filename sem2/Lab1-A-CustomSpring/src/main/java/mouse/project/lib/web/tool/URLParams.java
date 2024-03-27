@@ -2,7 +2,7 @@ package mouse.project.lib.web.tool;
 
 import java.util.List;
 
-public interface URLPath extends Writable {
-    List<URLPathNode> getNodes();
+public interface URLParams {
+    List<URLParamNode> getNodes();
     int length();
 }
