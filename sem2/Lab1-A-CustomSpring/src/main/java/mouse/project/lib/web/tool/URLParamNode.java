@@ -1,8 +1,14 @@
 package mouse.project.lib.web.tool;
 
 public class URLParamNode implements URLNode {
-    private String name;
-    private String value;
+
+    public URLParamNode(String name, String value) {
+        this.name = name;
+        this.value = value;
+    }
+
+    private final String name;
+    private final String value;
 
     @Override
     public String first() {

@@ -3,8 +3,11 @@ package mouse.project.lib.web.tool;
 import mouse.project.lib.ioc.annotation.Service;
 import mouse.project.lib.web.exception.URLException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
+
 @Service
 public class URLService {
     public String getPathArgument(URLPath patternPath, URLPath targetPath, String id) {
@@ -26,7 +29,7 @@ public class URLService {
                 return targetNode.content();
             }
         }
-        throw new URLException("Cannot find id " + id + " in pattern " + patternPath.write());
+        throw new URLException("Cannot find id " + id + " in pattern " + write(patternPath.getNodes()));
     }
 
     public String write(List<? extends URLNode> nodes) {
@@ -71,6 +74,70 @@ public class URLService {
         return pathString + paramString + fragmentString;
     }
     public FullURL create(String url) {
+        String[] urlParts = separateURL(url);
+        String path = urlParts[0];
+        String params = urlParts[1];
+        String fragment = urlParts[2];
 
+        URLPath urlPath = new URLPathImpl();
+        List<URLPathNode> pathNodes = createPath(path);
+        urlPath.appendAll(pathNodes);
+
+        URLParams urlParams = new URLParamsImpl();
+        List<URLParamNode> paramNodes = createParams(params);
+        urlParams.appendAll(paramNodes);
+
+        URLFragmentNode fragmentNode = new URLFragmentNode(fragment);
+        URLFragment urlFragment = new URLFragmentImpl(fragmentNode);
+
+        return new FullURLImpl(urlPath, urlParams, urlFragment);
+    }
+
+    private List<URLPathNode> createPath(String path) {
+        return createFrom(path, "/", URLPathNode::new);
+    }
+
+    private List<URLParamNode> createParams(String params) {
+        return createFrom(params, "&", str ->{
+            String[] split = str.split("=");
+            if (split.length != 2) {
+                throw new URLException("Unexpected parameter structure: " + str);
+            }
+            return new URLParamNode(split[0], split[1]);
+        });
+    }
+
+    private <S> List<S> createFrom(String full, String separatedBy, Function<String, S> mapper) {
+        String[] split = full.split(separatedBy);
+        List<S> result = new ArrayList<>();
+        for (String str : split) {
+            S s = mapper.apply(str);
+            result.add(s);
+        }
+        return result;
+    }
+
+    private String[] separateURL(String url) {
+        String[] result = new String[3];
+
+        int fragmentIndex = url.indexOf('#');
+        int paramsIndex = url.indexOf('?');
+
+        if (fragmentIndex != -1) {
+            result[2] = url.substring(fragmentIndex + 1);
+            url = url.substring(0, fragmentIndex);
+        } else {
+            result[2] = "";
+        }
+
+        if (paramsIndex != -1) {
+            result[1] = url.substring(paramsIndex + 1);
+            result[0] = url.substring(0, paramsIndex);
+        } else {
+            result[1] = "";
+            result[0] = url;
+        }
+
+        return result;
     }
 }

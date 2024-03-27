@@ -1,7 +1,11 @@
 package mouse.project.lib.web.tool;
 
 public class URLFragmentNode implements URLNode {
-    private String fragment;
+    private final String fragment;
+
+    public URLFragmentNode(String fragment) {
+        this.fragment = fragment;
+    }
 
     @Override
     public String first() {

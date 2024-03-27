@@ -1,20 +1,29 @@
 package mouse.project.lib.web.tool;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class URLPathImpl implements URLPath {
+
+    private final List<URLPathNode> pathNodes;
+
+    public URLPathImpl() {
+        pathNodes = new ArrayList<>();
+    }
+
     @Override
     public List<URLPathNode> getNodes() {
-        return null;
+        return new ArrayList<>(pathNodes);
     }
 
     @Override
     public int length() {
-        return 0;
+        return pathNodes.size();
     }
 
     @Override
-    public String write() {
-        return null;
+    public void appendAll(Collection<URLPathNode> nodes) {
+        pathNodes.addAll(nodes);
     }
 }
