@@ -9,15 +9,18 @@ import java.lang.reflect.Method;
 public class ControllerInvokerImpl implements ControllerInvoker {
     private final Object controller;
     private final Method method;
+    private final MethodArguments methodArguments;
     public ControllerInvokerImpl(Object controller,
-                                 Method method) {
+                                 Method method,
+                                 MethodArguments arguments) {
         this.controller = controller;
         this.method = method;
+        this.methodArguments = arguments;
     }
 
     @Override
     public Object invoke(RequestURL requestURL) {
-        Object[] res = getMethodParams();
+        Object[] res = getMethodParams(requestURL);
         method.setAccessible(true);
         try {
             return method.invoke(controller, res);
@@ -25,9 +28,8 @@ public class ControllerInvokerImpl implements ControllerInvoker {
             throw new ControllerException("Error invoking method: ", e);
         }
     }
-
-    private Object[] getMethodParams() {
-        return new Object[0];
+    private Object[] getMethodParams(RequestURL requestURL) {
+        return methodArguments.getArguments(requestURL);
     }
 
 }

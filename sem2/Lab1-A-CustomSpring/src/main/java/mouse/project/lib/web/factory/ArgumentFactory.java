@@ -1,4 +1,4 @@
-package mouse.project.lib.web.invoker;
+package mouse.project.lib.web.factory;
 
 import mouse.project.lib.web.context.EndpointContext;
 import mouse.project.lib.web.invoker.desc.ArgumentDesc;

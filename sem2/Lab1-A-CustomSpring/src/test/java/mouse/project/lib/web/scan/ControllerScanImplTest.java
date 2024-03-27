@@ -5,6 +5,7 @@ import mouse.project.lib.ioc.Ioc;
 import mouse.project.lib.ioc.annotation.Configuration;
 import mouse.project.lib.ioc.annotation.Controller;
 import mouse.project.lib.web.annotation.*;
+import mouse.project.lib.web.context.ControllerContext;
 import mouse.project.lib.web.exception.ControllerException;
 import mouse.project.lib.web.factory.ControllerInvokerFactory;
 import mouse.project.lib.web.invoker.ControllerInvoker;
@@ -21,9 +22,8 @@ class ControllerScanImplTest {
 
     }
     private static class MockCIF implements ControllerInvokerFactory {
-
         @Override
-        public ControllerInvoker create(Object controller, Method method) {
+        public ControllerInvoker create(ControllerContext context, Object controller, Method method) {
             return null;
         }
     }
