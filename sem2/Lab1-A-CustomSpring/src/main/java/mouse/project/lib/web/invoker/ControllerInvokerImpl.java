@@ -7,7 +7,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 public class ControllerInvokerImpl implements ControllerInvoker {
-
     private final Object controller;
     private final Method method;
     public ControllerInvokerImpl(Object controller,
@@ -18,13 +17,12 @@ public class ControllerInvokerImpl implements ControllerInvoker {
 
     @Override
     public Object invoke(RequestURL requestURL) {
-
         Object[] res = getMethodParams();
         method.setAccessible(true);
         try {
             return method.invoke(controller, res);
         } catch (IllegalAccessException | InvocationTargetException e) {
-            throw new ControllerException(e);
+            throw new ControllerException("Error invoking method: ", e);
         }
     }
 
