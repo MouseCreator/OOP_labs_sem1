@@ -36,7 +36,7 @@ public class URLService {
 
     private boolean isArgument(URLPathNode node) {
         String content = node.content();
-        return (content.startsWith("[") && content.endsWith("]"));
+        return isArgument(content);
     }
     private Optional<String> getArgument(URLPathNode node) {
         if (!isArgument(node)) {
@@ -179,5 +179,9 @@ public class URLService {
         FullURL fullURL = create(nextUrl);
         fullURL.path().appendFront(parent.path().getNodes());
         return fullURL;
+    }
+
+    public boolean isArgument(String str) {
+        return (str.startsWith("[") && str.endsWith("]"));
     }
 }
