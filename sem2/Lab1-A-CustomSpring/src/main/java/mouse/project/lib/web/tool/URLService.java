@@ -32,24 +32,7 @@ public class URLService {
         throw new URLException("Cannot find id " + id + " in pattern " + write(patternPath.getNodes()));
     }
 
-    public String write(List<? extends URLNode> nodes) {
-        StringBuilder builder = new StringBuilder();
-        writeURLToBuilder(builder, nodes);
-        return builder.toString();
-    }
-    private void writeURLToBuilder(StringBuilder builder, List<? extends URLNode> nodes) {
-        int size = nodes.size();
-        if (size==0) {
-            return;
-        }
-        int nSize = size - 1;
-        builder.append( nodes.get(0).first() );
-        for (int i = 0; i < nSize; i++) {
-            builder.append( nodes.get(i).write() );
-            builder.append( nodes.get(i).next() );
-        }
-        builder.append( nodes.get(nSize).write() );
-    }
+
 
     private boolean isArgument(URLPathNode node) {
         String content = node.content();
@@ -73,7 +56,27 @@ public class URLService {
         String fragmentString = write(fragment.getAsList());
         return pathString + paramString + fragmentString;
     }
+
+    private String write(List<? extends URLNode> nodes) {
+        StringBuilder builder = new StringBuilder();
+        writeURLToBuilder(builder, nodes);
+        return builder.toString();
+    }
+    private void writeURLToBuilder(StringBuilder builder, List<? extends URLNode> nodes) {
+        int size = nodes.size();
+        if (size==0) {
+            return;
+        }
+        int nSize = size - 1;
+        builder.append( nodes.get(0).first() );
+        for (int i = 0; i < nSize; i++) {
+            builder.append( nodes.get(i).write() );
+            builder.append( nodes.get(i).next() );
+        }
+        builder.append( nodes.get(nSize).write() );
+    }
     public FullURL create(String url) {
+        url = formatURL(url);
         String[] urlParts = separateURL(url);
         String path = urlParts[0];
         String params = urlParts[1];
@@ -91,6 +94,27 @@ public class URLService {
         URLFragment urlFragment = new URLFragmentImpl(fragmentNode);
 
         return new FullURLImpl(urlPath, urlParams, urlFragment);
+    }
+
+    private String formatURL(String url) {
+        String[] split = url.split(":", 2);
+        if (split.length == 2) {
+            url = removeHost(split[1]);
+        }
+        while (url.startsWith("/")) {
+            url = url.substring(1);
+        }
+        return url;
+    }
+
+    private String removeHost(String second) {
+        String url;
+        int doubleSlash = second.indexOf("//");
+        if (doubleSlash != -1) {
+            second = second.substring(doubleSlash+2);
+        }
+        url = second.substring(second.indexOf("/"));
+        return url;
     }
 
     private List<URLPathNode> createPath(String path) {
