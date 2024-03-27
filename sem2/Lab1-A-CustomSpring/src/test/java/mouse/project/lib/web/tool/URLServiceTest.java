@@ -42,5 +42,21 @@ class URLServiceTest {
 
     @Test
     void create() {
+        String base = "some/url?a=1&b=2#fragment";
+        FullURL fullURL = service.create(base);
+
+        URLPath path = fullURL.path();
+        assertEquals(2, path.length());
+
+        Object[] pathArray = path.getNodes().stream().map(URLPathNode::content).toArray();
+        assertArrayEquals(new String[] {"some","url"}, pathArray);
+
+        Object[] paramNames = fullURL.params().getNodes().stream().map(URLParamNode::name).toArray();
+        Object[] paramValues = fullURL.params().getNodes().stream().map(URLParamNode::value).toArray();
+        assertArrayEquals(new String[] {"a","b"}, paramNames);
+        assertArrayEquals(new String[] {"1","2"}, paramValues);
+
+        URLFragmentNode fragment = fullURL.fragment().getRaw();
+        assertEquals("fragment", fragment.write());
     }
 }

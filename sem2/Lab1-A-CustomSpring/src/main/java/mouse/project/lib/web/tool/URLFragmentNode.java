@@ -1,12 +1,6 @@
 package mouse.project.lib.web.tool;
 
-public class URLFragmentNode implements URLNode {
-    private final String fragment;
-
-    public URLFragmentNode(String fragment) {
-        this.fragment = fragment;
-    }
-
+public record URLFragmentNode(String fragment) implements URLNode {
     @Override
     public String first() {
         return "#";
@@ -16,7 +10,6 @@ public class URLFragmentNode implements URLNode {
     public String write() {
         return fragment;
     }
-
     @Override
     public String next() {
         throw new UnsupportedOperationException("URL Anchor has no next element");
