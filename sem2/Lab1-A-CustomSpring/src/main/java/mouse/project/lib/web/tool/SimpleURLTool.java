@@ -19,6 +19,7 @@ public class SimpleURLTool implements URLTool {
         return null;
     }
 
+
     private static Collection<URLParam> createParams(String params) {
         return null;
     }
@@ -38,16 +39,22 @@ public class SimpleURLTool implements URLTool {
     public String toPattern() {
         return null;
     }
-    private interface URLNode {
-        String content();
-        String next();
+
+    private void writeURLToBuilder(StringBuilder builder, List<URLNode> nodes) {
+        int size = nodes.size();
+        if (size==0) {
+            return;
+        }
+        builder.append( nodes.get(0).first() );
+        for (int i = 0; i < size - 1; i++) {
+            builder.append( nodes.get(i).write() );
+            builder.append( nodes.get(i).next() );
+        }
+        builder.append( nodes.get(size-1).write() );
     }
 
-    private static record URLPath(String content) {
-    }
 
-    private static class URLParam {
-        private String name;
-        private String value;
-    }
+
+
+
 }
