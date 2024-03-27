@@ -1,15 +1,14 @@
 package mouse.project.lib.web.context;
 
-import mouse.project.lib.web.tool.URLTool;
+import mouse.project.lib.web.tool.FullURL;
 
 import java.lang.reflect.Method;
 
 public class EndpointContextImpl implements EndpointContext {
-
     private final Method method;
-    private final URLTool urlTool;
+    private final FullURL urlTool;
 
-    public EndpointContextImpl(Method method, URLTool urlTool) {
+    public EndpointContextImpl(Method method, FullURL urlTool) {
         this.method = method;
         this.urlTool = urlTool;
     }
@@ -20,7 +19,7 @@ public class EndpointContextImpl implements EndpointContext {
     }
 
     @Override
-    public URLTool getUrl() {
+    public FullURL getUrl() {
         return urlTool;
     }
 }

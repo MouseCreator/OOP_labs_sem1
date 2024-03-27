@@ -170,4 +170,10 @@ public class URLService {
 
         return result;
     }
+
+    public FullURL extend(FullURL parent, String nextUrl) {
+        FullURL fullURL = create(nextUrl);
+        fullURL.path().appendFront(parent.path().getNodes());
+        return fullURL;
+    }
 }

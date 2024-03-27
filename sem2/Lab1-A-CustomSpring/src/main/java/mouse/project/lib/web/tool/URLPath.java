@@ -7,4 +7,5 @@ public interface URLPath {
     List<URLPathNode> getNodes();
     int length();
     void appendAll(Collection<URLPathNode> pathNodes);
+    void appendFront(Collection<URLPathNode> nodes);
 }

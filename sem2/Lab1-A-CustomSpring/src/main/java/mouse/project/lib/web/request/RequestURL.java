@@ -1,11 +1,9 @@
 package mouse.project.lib.web.request;
 
 
-import java.util.Collection;
+import mouse.project.lib.web.tool.FullURL;
 
 public interface RequestURL {
-    Collection<RequestParameter> getParameters();
-    RequestAddress getAddress();
-    String getURL();
+    FullURL getURL();
     RequestBody getBody();
 }

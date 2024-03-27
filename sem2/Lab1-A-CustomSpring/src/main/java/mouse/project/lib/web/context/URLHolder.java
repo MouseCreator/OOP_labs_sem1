@@ -1,7 +1,7 @@
 package mouse.project.lib.web.context;
 
-import mouse.project.lib.web.tool.URLTool;
+import mouse.project.lib.web.tool.FullURL;
 
 public interface URLHolder {
-    URLTool getUrl();
+    FullURL getUrl();
 }

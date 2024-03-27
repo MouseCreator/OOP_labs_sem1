@@ -2,14 +2,12 @@ package mouse.project.lib.web.dispatcher;
 
 import mouse.project.lib.web.invoker.ControllerInvoker;
 import mouse.project.lib.web.response.WebResponse;
-import mouse.project.lib.web.request.RequestAddress;
 import mouse.project.lib.web.request.RequestURL;
+import mouse.project.lib.web.tool.FullURL;
 
 public class WebDispatcherImpl implements WebDispatcher {
     public WebResponse onRequest(RequestURL requestURL) {
-        RequestAddress address = requestURL.getAddress();
-
-        ControllerInvoker invoker = getInvoker(address);
+        ControllerInvoker invoker = getInvoker(requestURL.getURL());
         Object invoked = invoker.invoke(requestURL);
         return toResponse(invoked);
     }
@@ -18,7 +16,7 @@ public class WebDispatcherImpl implements WebDispatcher {
         return null;
     }
 
-    private ControllerInvoker getInvoker(RequestAddress address) {
+    private ControllerInvoker getInvoker(FullURL address) {
         return null;
     }
 }

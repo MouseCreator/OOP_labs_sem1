@@ -8,6 +8,7 @@ import mouse.project.lib.web.invoker.desc.ArgumentDesc;
 import mouse.project.lib.web.invoker.ArgumentSource;
 import mouse.project.lib.web.invoker.desc.URLArgumentDescImpl;
 import mouse.project.lib.web.invoker.processor.URLArgumentProcessor;
+import mouse.project.lib.web.tool.FullURL;
 
 import java.lang.reflect.Parameter;
 @Service
@@ -23,7 +24,7 @@ public class UrlArgumentDescCreator implements DescCreator {
         assert annotation != null;
         String target = annotation.value();
         Class<?> type = parameter.getType();
-        String pattern = context.getUrl().toPattern();
+        FullURL pattern = context.getUrl();
         return new URLArgumentDescImpl(parameterProcessor, type, pattern, target);
     }
 

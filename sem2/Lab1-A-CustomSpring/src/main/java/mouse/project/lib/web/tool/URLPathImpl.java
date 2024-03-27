@@ -26,4 +26,9 @@ public class URLPathImpl implements URLPath {
     public void appendAll(Collection<URLPathNode> nodes) {
         pathNodes.addAll(nodes);
     }
+
+    @Override
+    public void appendFront(Collection<URLPathNode> nodes) {
+        pathNodes.addAll(0, nodes);
+    }
 }

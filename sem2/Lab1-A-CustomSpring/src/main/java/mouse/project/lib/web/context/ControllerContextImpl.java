@@ -1,17 +1,17 @@
 package mouse.project.lib.web.context;
 
-import mouse.project.lib.web.tool.URLTool;
+import mouse.project.lib.web.tool.FullURL;
 
 public class ControllerContextImpl implements ControllerContext {
 
     private final Class<?> root;
-    private final URLTool urlTool;
-    public ControllerContextImpl(Class<?> root, URLTool urlTool) {
+    private final FullURL urlTool;
+    public ControllerContextImpl(Class<?> root, FullURL urlTool) {
         this.root = root;
         this.urlTool = urlTool;
     }
     @Override
-    public URLTool getUrl() {
+    public FullURL getUrl() {
         return urlTool;
     }
 
