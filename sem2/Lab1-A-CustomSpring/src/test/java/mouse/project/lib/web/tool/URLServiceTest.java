@@ -1,5 +1,6 @@
 package mouse.project.lib.web.tool;
 
+import mouse.project.lib.web.exception.URLException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -81,5 +82,24 @@ class URLServiceTest {
 
         URLFragmentNode fragment = fullURL.fragment().getRaw();
         assertEquals("fragment", fragment.write());
+    }
+
+    @Test
+    void testExtend() {
+        String base = "/url/path/";
+        String append = "/get/[id]";
+        String expected = "/url/path/get/[id]";
+        FullURL baseUrl = service.create(base);
+        FullURL appended = service.extend(baseUrl, append);
+        String fullUrl = service.write(appended);
+        assertEquals(expected, fullUrl);
+    }
+
+    @Test
+    void testInvalid() {
+        assertThrows(URLException.class, () -> service.create("host::"));
+        assertThrows(URLException.class, () -> service.create("params?i0"));
+        assertThrows(URLException.class, () -> service.create("params?i?0"));
+
     }
 }

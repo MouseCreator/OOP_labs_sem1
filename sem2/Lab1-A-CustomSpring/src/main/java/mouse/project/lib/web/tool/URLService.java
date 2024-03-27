@@ -113,7 +113,11 @@ public class URLService {
         if (doubleSlash != -1) {
             second = second.substring(doubleSlash+2);
         }
-        url = second.substring(second.indexOf("/"));
+        int singleSlash = second.indexOf("/");
+        if (singleSlash == -1) {
+            throw new URLException("Unexpected path: " + second);
+        }
+        url = second.substring(singleSlash);
         return url;
     }
 
