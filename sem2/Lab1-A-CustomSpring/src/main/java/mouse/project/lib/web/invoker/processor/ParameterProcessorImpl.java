@@ -6,6 +6,8 @@ import mouse.project.lib.web.exception.BadRequestException;
 import mouse.project.lib.web.invoker.ParamTranslation;
 import mouse.project.lib.web.invoker.desc.ParameterDesc;
 import mouse.project.lib.web.request.RequestURL;
+import mouse.project.lib.web.tool.URLParamNode;
+import mouse.project.lib.web.tool.URLParams;
 
 import java.util.Optional;
 
@@ -20,8 +22,9 @@ public class ParameterProcessorImpl implements ParameterProcessor {
 
     @Override
     public Object process(ParameterDesc parameterDesc, RequestURL requestURL) {
-        Optional<RequestParameter> param =
-                requestURL.getParameters().stream().filter(p -> p.getName().equals(parameterDesc.name())).findFirst();
+        URLParams params = requestURL.getURL().params();
+        Optional<URLParamNode> param =
+                params.getNodes().stream().filter(p -> p.name().equals(parameterDesc.name())).findFirst();
         if (param.isEmpty()) {
             Optional<String> defaultValue = parameterDesc.defaultValue();
             if (defaultValue.isEmpty()) {
@@ -29,7 +32,7 @@ public class ParameterProcessorImpl implements ParameterProcessor {
             }
             return toExpected(parameterDesc.expectedType(), defaultValue.get());
         }
-        return toExpected(parameterDesc.expectedType(), param.get().getValue());
+        return toExpected(parameterDesc.expectedType(), param.get().value());
     }
 
     private Object toExpected(Class<?> type, String value) {
