@@ -118,10 +118,16 @@ public class URLService {
     }
 
     private List<URLPathNode> createPath(String path) {
+        if (path.isEmpty()) {
+            return new ArrayList<>();
+        }
         return createFrom(path, "/", URLPathNode::new);
     }
 
     private List<URLParamNode> createParams(String params) {
+        if (params.isEmpty()) {
+            return new ArrayList<>();
+        }
         return createFrom(params, "&", str ->{
             String[] split = str.split("=");
             if (split.length != 2) {

@@ -10,6 +10,9 @@ public class URLFragmentImpl implements URLFragment {
 
     @Override
     public List<URLFragmentNode> getAsList() {
+        if (node.fragment().isEmpty()) {
+            return List.of();
+        }
         return List.of(node);
     }
 

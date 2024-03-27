@@ -18,7 +18,12 @@ class URLServiceTest {
 
     @Test
     void getPathArgument() {
-
+        String base = "path/[id]/get";
+        String input = "path/20/get?i=1";
+        FullURL baseURL = service.create(base);
+        FullURL inputURL = service.create(input);
+        String idValue = service.getPathArgument(baseURL.path(), inputURL.path(), "id");
+        assertEquals("20", idValue);
     }
 
     @Test
@@ -36,6 +41,24 @@ class URLServiceTest {
             FullURL fullURL = service.create(urlStr);
             String write = service.write(fullURL);
             assertEquals(expect, write);
+
+        });
+    }
+    private record BaseExpect(String base, String expect) {
+    }
+    @Test
+    void writeShort() {
+
+        BaseExpect[] validUrls = {
+            new BaseExpect("host?i=1", "/host?i=1"),
+            new BaseExpect("host/e", "/host/e"),
+            new BaseExpect("/host#fragment", "/host#fragment")
+        };
+        List.of(validUrls).forEach(be -> {
+
+            FullURL fullURL = service.create(be.base);
+            String write = service.write(fullURL);
+            assertEquals(be.expect, write);
 
         });
     }
