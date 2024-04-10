@@ -29,10 +29,10 @@ public class ContextFactoryImpl implements ContextFactory {
 
     private FullURL createURL(Class<?> rootClass) {
         RequestPrefix annotation = rootClass.getAnnotation(RequestPrefix.class);
-        if (annotation == null) {
-            throw new ControllerException("Controller " + rootClass + " has no request prefix.");
+        String value = "/";
+        if (annotation != null) {
+            value = annotation.value();
         }
-        String value = annotation.value();
         return urlService.create(value);
     }
 
