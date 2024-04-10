@@ -1,11 +1,19 @@
 package mouse.project.lib.ioc.injector.configuration;
 
+import mouse.project.lib.exception.MissingModuleException;
 import mouse.project.lib.modules.MouseModules;
+import mouse.project.lib.web.config.WebConfig;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Function;
 
 public class ModuleConfig {
+    private final Function<String, Set<Class<?>>> collector;
+    public ModuleConfig(Function<String, Set<Class<?>>> collector) {
+        this.collector = collector;
+    }
+
     public Set<Class<?>> getModuleClasses(MouseModules... modules) {
         Set<Class<?>> result = new HashSet<>();
         for (MouseModules module : modules) {
@@ -16,6 +24,9 @@ public class ModuleConfig {
     }
 
     private Set<Class<?>> getSingleModuleClasses(MouseModules module) {
-        return Set.of();
+        return switch (module) {
+            case WEB_MODULE -> collector.apply(WebConfig.basePackage());
+            default -> throw new MissingModuleException("No module: " + module );
+        };
     }
 }

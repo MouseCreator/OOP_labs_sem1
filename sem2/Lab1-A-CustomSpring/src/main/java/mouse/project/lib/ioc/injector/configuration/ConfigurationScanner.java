@@ -35,7 +35,7 @@ public class ConfigurationScanner {
 
     private void processModules(InjectorBase base, Configuration config) {
         MouseModules[] mouseModules = config.includeModules();
-        ModuleConfig moduleConfig = new ModuleConfig();
+        ModuleConfig moduleConfig = new ModuleConfig(this::scanPackage);
         Set<Class<?>> moduleClasses = moduleConfig.getModuleClasses(mouseModules);
         includeAll(base, moduleClasses);
     }
@@ -64,9 +64,14 @@ public class ConfigurationScanner {
 
     public void scanAndAddAll(InjectorBase injectorBase, Configuration config) {
         String basePackage = config.basePackage();
+        scanAndAddAll(injectorBase, basePackage);
+    }
+
+    private void scanAndAddAll(InjectorBase injectorBase, String basePackage) {
         Set<Class<?>> classes = scanPackage(basePackage);
         addClassesToIoc(injectorBase, classes);
     }
+
     private void addClassesToIoc(InjectorBase injectorBase, Collection<Class<?>> classes) {
         for (Class<?> clazz : classes) {
             annotationManager.validateService(clazz);
