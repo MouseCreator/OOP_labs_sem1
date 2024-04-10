@@ -15,12 +15,11 @@ public class WebDispatcherImpl implements WebDispatcher {
     private DispatcherMap dispatcherMap = null;
 
     public WebResponse onRequest(RequestURL requestURL) {
-        ControllerInvoker invoker = getInvoker(requestURL.getURL(), requestURL.method());
         int status = 200;
         Object invoked = null;
         try {
+            ControllerInvoker invoker = getInvoker(requestURL.getURL(), requestURL.method());
             invoked = invoker.invoke(requestURL);
-
         } catch (StatusException statusException) {
             status = statusException.getStatus();
         }

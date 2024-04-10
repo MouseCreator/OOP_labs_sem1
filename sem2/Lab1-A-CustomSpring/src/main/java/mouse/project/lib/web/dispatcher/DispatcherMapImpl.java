@@ -4,6 +4,7 @@ import mouse.project.lib.ioc.annotation.Auto;
 import mouse.project.lib.ioc.annotation.Prototype;
 import mouse.project.lib.ioc.annotation.Service;
 import mouse.project.lib.web.exception.ControllerException;
+import mouse.project.lib.web.exception.NotFoundException;
 import mouse.project.lib.web.invoker.ControllerInvoker;
 import mouse.project.lib.web.register.RequestMethod;
 import mouse.project.lib.web.tool.FullURL;
@@ -62,13 +63,13 @@ public class DispatcherMapImpl implements DispatcherMap {
             urlBuild.append(content).append("/");
             Optional<MapNode> mapNode = current.moveSafe(content);
             if (mapNode.isEmpty()) {
-                throw new ControllerException("No path defined: " + urlBuild);
+                throw new NotFoundException("No path defined: " + urlBuild);
             }
             current = mapNode.get();
         }
         Optional<ControllerInvoker> invoker = current.getInvoker();
         if (invoker.isEmpty()) {
-            throw new ControllerException("No invoker defined for url: " + url);
+            throw new NotFoundException("No invoker defined for url: " + url);
         }
         return invoker.get();
     }

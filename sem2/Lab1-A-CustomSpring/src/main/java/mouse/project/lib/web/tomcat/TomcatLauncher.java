@@ -24,12 +24,14 @@ public class TomcatLauncher {
 
         tomcat.setPort(webPort);
 
-        Context context = tomcat.addWebapp("/", new File(webappDirLocation).getAbsolutePath());
-        tomcat.addServlet(context.getPath(), "WebMapper", new WebMapper(configClass));
+        Context context = tomcat.addContext("", null);
+        Tomcat.addServlet(context, "WebMapper", new WebMapper(configClass));
+        context.addServletMappingDecoded("/", "WebMapper");
         logger.debug("Configuring app with basedir: " + new File("./" + webappDirLocation).getAbsolutePath());
 
         tomcat.start();
         running = true;
+
         logger.debug("Web app started. Listening to post: " + webPort);
         Connector connector = tomcat.getConnector();
         tomcat.getServer().await();

@@ -36,18 +36,33 @@ public class ReqRespContextImpl implements ReqRespContext {
 
     @Override
     public void useAndExecute(RequestMethod method, HttpServletRequest req, HttpServletResponse resp, Class<?> config) {
-        RequestURL requestURL = createRequest(req, method);
-        WebDispatcher dispatcher = webContext.getDispatcher(config);
-        WebResponse webResponse = dispatcher.onRequest(requestURL);
-        Object result = webResponse.getResult();
-        String toWrite = json.unparse(result);
-        resp.setStatus(webResponse.status());
         try {
-            resp.getWriter().write(toWrite);
-            resp.flushBuffer();
+            processAndSend(method, req, resp, config);
         } catch (IOException e) {
             throw new RequestProcessException(e);
         }
+    }
+
+    private void processAndSend(RequestMethod method,
+                                HttpServletRequest req,
+                                HttpServletResponse resp,
+                                Class<?> config) throws IOException {
+        RequestURL requestURL = createRequest(req, method);
+
+        WebDispatcher dispatcher = webContext.getDispatcher(config);
+        WebResponse webResponse = dispatcher.onRequest(requestURL);
+        Object result = webResponse.getResult();
+        int status = webResponse.status();
+        resp.setStatus(status);
+
+        if (status >= 400) {
+            resp.sendError(status);
+            return;
+        }
+
+        String toWrite = json.unparse(result);
+        resp.getWriter().write(toWrite);
+        resp.flushBuffer();
     }
 
     private RequestURL createRequest(HttpServletRequest req, RequestMethod method) {
