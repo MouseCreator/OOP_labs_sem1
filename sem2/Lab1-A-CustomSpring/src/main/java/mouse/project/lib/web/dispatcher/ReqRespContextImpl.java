@@ -35,9 +35,9 @@ public class ReqRespContextImpl implements ReqRespContext {
     }
 
     @Override
-    public void useAndExecute(RequestMethod method, HttpServletRequest req, HttpServletResponse resp) {
+    public void useAndExecute(RequestMethod method, HttpServletRequest req, HttpServletResponse resp, Class<?> config) {
         RequestURL requestURL = createRequest(req, method);
-        WebDispatcher dispatcher = webContext.getDispatcher(WebConfig.class);
+        WebDispatcher dispatcher = webContext.getDispatcher(config);
         WebResponse webResponse = dispatcher.onRequest(requestURL);
         Object result = webResponse.getResult();
         String toWrite = json.unparse(result);

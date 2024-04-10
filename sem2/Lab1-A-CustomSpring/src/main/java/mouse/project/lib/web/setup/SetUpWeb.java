@@ -1,10 +1,10 @@
 package mouse.project.lib.web.setup;
 
 import mouse.project.lib.ioc.Inj;
+import mouse.project.lib.ioc.Ioc;
 import mouse.project.lib.ioc.annotation.Controller;
 import mouse.project.lib.ioc.annotation.Service;
 import mouse.project.lib.ioc.injector.filter.CommonFilters;
-import mouse.project.lib.web.config.WebConfig;
 import mouse.project.lib.web.context.WebContext;
 import mouse.project.lib.web.dispatcher.DispatcherMap;
 import mouse.project.lib.web.dispatcher.WebDispatcher;
@@ -22,18 +22,18 @@ public class SetUpWeb {
         this.controllerScan = controllerScan;
     }
 
-    public void scanAndStart(Inj inj) {
-        prepareControllers(inj);
-
+    public void scanAndStart(Class<?> config) {
+        prepareControllers(config);
         TomcatLauncher tomcatLauncher = new TomcatLauncher();
         try {
-            tomcatLauncher.launch();
+            tomcatLauncher.launch(config);
         } catch (Exception e) {
             throw new RuntimeException("Failed to launch Tomcat", e);
         }
     }
 
-    private void prepareControllers(Inj inj) {
+    private void prepareControllers(Class<?> configClass) {
+        Inj inj = Ioc.getConfiguredInjector(configClass);
         Collection<Object> allControllers = CommonFilters.getAllAnnotatedWith(inj, Controller.class);
         Collection<Registration> registrations = controllerScan.scanControllers(allControllers);
         WebDispatcher webDispatcher = inj.get(WebDispatcher.class);
@@ -45,6 +45,6 @@ public class SetUpWeb {
         });
 
         webDispatcher.useMap(dispatcherMap);
-        webContext.setDispatcher(WebConfig.class, webDispatcher);
+        webContext.setDispatcher(configClass, webDispatcher);
     }
 }

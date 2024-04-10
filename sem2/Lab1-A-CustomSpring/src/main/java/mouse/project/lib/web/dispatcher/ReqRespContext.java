@@ -10,5 +10,5 @@ import javax.servlet.http.HttpServletResponse;
 @Service
 @Prototype
 public interface ReqRespContext {
-    void useAndExecute(RequestMethod method, HttpServletRequest req, HttpServletResponse resp);
+    void useAndExecute(RequestMethod method, HttpServletRequest req, HttpServletResponse resp, Class<?> config);
 }

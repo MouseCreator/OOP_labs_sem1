@@ -13,7 +13,7 @@ public class TomcatLauncher {
     private Tomcat tomcat;
     private boolean running = false;
     private static final Logger logger = LogManager.getLogger(TomcatLauncher.class);
-    public Connector launch() throws Exception {
+    public Connector launch(Class<?> configClass) throws Exception {
         String webappDirLocation = "src/main/webapp";
         Tomcat tomcat = new Tomcat();
 
@@ -22,7 +22,7 @@ public class TomcatLauncher {
         tomcat.setPort(webPort);
 
         Context context = tomcat.addWebapp("/home", new File(webappDirLocation).getAbsolutePath());
-        tomcat.addServlet(context.getPath(), "WebMapper", new WebMapper());
+        tomcat.addServlet(context.getPath(), "WebMapper", new WebMapper(configClass));
         logger.debug("Configuring app with basedir: " + new File("./" + webappDirLocation).getAbsolutePath());
 
         tomcat.start();

@@ -15,7 +15,10 @@ import java.io.IOException;
 @WebServlet(urlPatterns = "/")
 public class WebMapper extends HttpServlet {
 
-    public WebMapper() {
+    private final Class<?> configClass;
+
+    public WebMapper(Class<?> configClass) {
+        this.configClass = configClass;
     }
 
     @Override
@@ -58,6 +61,6 @@ public class WebMapper extends HttpServlet {
         resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
         Ioc.getConfiguredInjector(WebConfig.class)
                 .get(ReqRespContext.class)
-                .useAndExecute(method, req, resp);
+                .useAndExecute(method, req, resp, configClass);
     }
 }
