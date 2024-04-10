@@ -6,7 +6,9 @@ import mouse.project.lib.ioc.annotation.Service;
 import mouse.project.lib.utils.Scanners;
 import mouse.project.lib.web.annotation.RequestPrefix;
 import mouse.project.lib.web.annotation.URL;
+import mouse.project.lib.web.context.ControllerContext;
 import mouse.project.lib.web.exception.ControllerException;
+import mouse.project.lib.web.factory.ContextFactory;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -17,6 +19,13 @@ public class ControllerScanImpl implements ControllerScan {
     @Auto
     @Collect(WebAnnotationProcessor.class)
     private List<WebAnnotationProcessor> annotationProcessors;
+
+    private final ContextFactory contextFactory;
+    @Auto
+    public ControllerScanImpl(ContextFactory contextFactory) {
+        this.contextFactory = contextFactory;
+    }
+
     public Collection<Registration> scanControllers(Collection<Object> allControllers) {
         List<Registration> registrations = new ArrayList<>();
         for (Object controller : allControllers) {
@@ -30,12 +39,11 @@ public class ControllerScanImpl implements ControllerScan {
     }
     private Collection<Registration> processController(Object controller) {
         Class<?> clazz = controller.getClass();
-        String prefix = getPrefix(clazz);
         List<Registration> result = new ArrayList<>();
         Collection<Method> methods = Scanners.getMethodsAnnotatedWith(clazz, URL.class);
+        ControllerContext controllerContext = contextFactory.getControllerContext(controller);
         for (Method method : methods) {
-            String fullUrl = buildFullURL(method, prefix);
-            Collection<Registration> regs = getInvoker(fullUrl, controller, method);
+            Collection<Registration> regs = getInvoker(controllerContext, method);
             if (regs.isEmpty()) {
                 throw new ControllerException("Method " + method + " has @URL annotation, but cannot be processed." +
                         " Make sure at least one of CRUD annotations is present.");
@@ -60,11 +68,11 @@ public class ControllerScanImpl implements ControllerScan {
         return fullUrl;
     }
 
-    private Collection<Registration> getInvoker(String url, Object controller, Method method) {
+    private Collection<Registration> getInvoker(ControllerContext controllerContext, Method method) {
         List<Registration> registrations = new ArrayList<>();
         for (WebAnnotationProcessor processor : annotationProcessors) {
             if (processor.canProcess(method)) {
-                registrations.add(processor.process(url, controller, method));
+                registrations.add(processor.process(controllerContext, method));
             }
         }
         return registrations;

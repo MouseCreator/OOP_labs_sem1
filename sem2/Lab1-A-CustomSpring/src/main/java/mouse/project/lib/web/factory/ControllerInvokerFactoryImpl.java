@@ -24,11 +24,11 @@ public class ControllerInvokerFactoryImpl implements ControllerInvokerFactory {
     }
 
     @Override
-    public ControllerInvoker create(ControllerContext context, Object controller, Method method) {
+    public ControllerInvoker create(ControllerContext context, Method method) {
         EndpointContext endpointContext = contextFactory.getEndpointContext(context, method);
         Parameter[] parameters = method.getParameters();
         MethodArguments methodArguments = createMethodArguments(parameters, endpointContext);
-        return new ControllerInvokerImpl(controller, method, methodArguments);
+        return new ControllerInvokerImpl(context.getInstance(), method, methodArguments);
     }
 
     private MethodArguments createMethodArguments(Parameter[] parameters, EndpointContext endpointContext) {

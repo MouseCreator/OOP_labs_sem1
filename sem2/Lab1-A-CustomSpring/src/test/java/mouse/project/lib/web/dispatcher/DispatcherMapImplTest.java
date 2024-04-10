@@ -2,6 +2,7 @@ package mouse.project.lib.web.dispatcher;
 
 import mouse.project.lib.web.exception.ControllerException;
 import mouse.project.lib.web.invoker.ControllerInvoker;
+import mouse.project.lib.web.register.RequestMethod;
 import mouse.project.lib.web.request.RequestBody;
 import mouse.project.lib.web.request.RequestURL;
 import mouse.project.lib.web.tool.FullURL;
@@ -13,6 +14,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DispatcherMapImplTest {
     private DispatcherMap dispatcherMap;
+
+    private final RequestMethod getMethod = RequestMethod.GET;
     @BeforeEach
     void setUp() {
         dispatcherMap = new DispatcherMapImpl(new URLService());
@@ -25,6 +28,9 @@ class DispatcherMapImplTest {
         }
 
         @Override
+        public RequestMethod method() {return getMethod;}
+
+        @Override
         public RequestBody getBody() {
             return null;
         }
@@ -32,31 +38,38 @@ class DispatcherMapImplTest {
     @Test
     void simpleInvoker() {
         ControllerInvoker invoker = r -> "String";
-        dispatcherMap.setInvoker("path/to/invoker", invoker);
-        ControllerInvoker resultInvoker = dispatcherMap.getInvoker("path/to/invoker");
+        dispatcherMap.setInvoker("path/to/invoker", getMethod, invoker);
+        ControllerInvoker resultInvoker = dispatcherMap.getInvoker("path/to/invoker", getMethod);
         assertEquals("String", resultInvoker.invoke(emptyRequest));
     }
 
     @Test
     void parametrizedInvoker() {
         ControllerInvoker invoker = r -> "String";
-        dispatcherMap.setInvoker("path/to/invoker/[id]/get", invoker);
-        ControllerInvoker resultInvoker = dispatcherMap.getInvoker("path/to/invoker/1/get");
+        dispatcherMap.setInvoker("path/to/invoker/[id]/get", getMethod, invoker);
+        ControllerInvoker resultInvoker = dispatcherMap.getInvoker("path/to/invoker/1/get", getMethod);
         assertEquals("String", resultInvoker.invoke(emptyRequest));
     }
 
     @Test
     void testNoDuplicates() {
         ControllerInvoker invoker = r -> "String";
-        dispatcherMap.setInvoker("", invoker);
-        assertThrows(ControllerException.class, () -> dispatcherMap.setInvoker("", invoker));
+        dispatcherMap.setInvoker("", getMethod, invoker);
+        assertThrows(ControllerException.class, () -> dispatcherMap.setInvoker("", getMethod, invoker));
     }
 
     @Test
     void testNotDefined() {
-        assertThrows(ControllerException.class, () -> dispatcherMap.getInvoker(""));
+        assertThrows(ControllerException.class, () -> dispatcherMap.getInvoker("", getMethod));
         ControllerInvoker invoker = r -> "String";
-        dispatcherMap.setInvoker("/path/to", invoker);
-        assertThrows(ControllerException.class, () -> dispatcherMap.getInvoker("path/else"));
+        dispatcherMap.setInvoker("/path/to", getMethod, invoker);
+        assertThrows(ControllerException.class, () -> dispatcherMap.getInvoker("path/else", getMethod));
+    }
+
+    @Test
+    void testWrongMethod() {
+        ControllerInvoker invoker = r -> "String";
+        dispatcherMap.setInvoker("path/to/invoker", getMethod, invoker);
+        assertThrows(ControllerException.class, ()->dispatcherMap.getInvoker("path/to/invoker", RequestMethod.UPDATE));
     }
 }

@@ -6,8 +6,10 @@ public class ControllerContextImpl implements ControllerContext {
 
     private final Class<?> root;
     private final FullURL urlTool;
-    public ControllerContextImpl(Class<?> root, FullURL urlTool) {
-        this.root = root;
+    private final Object instance;
+    public ControllerContextImpl(Object instance, FullURL urlTool) {
+        this.root = instance.getClass();
+        this.instance = instance;
         this.urlTool = urlTool;
     }
     @Override
@@ -18,5 +20,10 @@ public class ControllerContextImpl implements ControllerContext {
     @Override
     public Class<?> getRoot() {
         return root;
+    }
+
+    @Override
+    public Object getInstance() {
+        return instance;
     }
 }

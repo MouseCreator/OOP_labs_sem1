@@ -9,7 +9,8 @@ import mouse.project.lib.web.context.ControllerContext;
 import mouse.project.lib.web.exception.ControllerException;
 import mouse.project.lib.web.factory.ControllerInvokerFactory;
 import mouse.project.lib.web.invoker.ControllerInvoker;
-import mouse.project.lib.web.register.RequestType;
+import mouse.project.lib.web.register.RequestMethod;
+import mouse.project.lib.web.tool.URLService;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Method;
@@ -23,7 +24,7 @@ class ControllerScanImplTest {
     }
     private static class MockCIF implements ControllerInvokerFactory {
         @Override
-        public ControllerInvoker create(ControllerContext context, Object controller, Method method) {
+        public ControllerInvoker create(ControllerContext context, Method method) {
             return null;
         }
     }
@@ -60,21 +61,22 @@ class ControllerScanImplTest {
 
     @Test
     void scanController() {
+        URLService url = new URLService();
         ControllerScan scan = getControllerScan();
         ControllerSample sample = getInj().get(ControllerSample.class);
         Collection<Registration> registrations = scan.scanController(sample);
         assertEquals(4, registrations.size());
 
-        Registration expectedPost = new Registration("/home/", RequestType.POST, null);
+        Registration expectedPost = new Registration(url.create("/home/"), RequestMethod.POST, null);
         assertTrue(registrations.contains(expectedPost));
 
-        Registration expectedGet = new Registration("/home/", RequestType.GET, null);
+        Registration expectedGet = new Registration(url.create("/home/"), RequestMethod.GET, null);
         assertTrue(registrations.contains(expectedGet));
 
-        Registration expectedDelete = new Registration("/home/delete/", RequestType.DELETE, null);
+        Registration expectedDelete = new Registration(url.create("/home/delete/"), RequestMethod.DELETE, null);
         assertTrue(registrations.contains(expectedDelete));
 
-        Registration expectedUpdate = new Registration("/home/update/", RequestType.UPDATE, null);
+        Registration expectedUpdate = new Registration(url.create("/home/update/"), RequestMethod.UPDATE, null);
         assertTrue(registrations.contains(expectedUpdate));
     }
 

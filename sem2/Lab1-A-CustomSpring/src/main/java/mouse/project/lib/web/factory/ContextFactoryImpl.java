@@ -22,9 +22,9 @@ public class ContextFactoryImpl implements ContextFactory {
     }
 
     @Override
-    public ControllerContext getControllerContext(Class<?> rootClass) {
-        FullURL urlTool = createURL(rootClass);
-        return new ControllerContextImpl(rootClass, urlTool);
+    public ControllerContext getControllerContext(Object obj) {
+        FullURL urlTool = createURL(obj.getClass());
+        return new ControllerContextImpl(obj, urlTool);
     }
 
     private FullURL createURL(Class<?> rootClass) {

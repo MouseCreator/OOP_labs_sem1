@@ -6,5 +6,5 @@ import mouse.project.lib.web.invoker.ControllerInvoker;
 import java.lang.reflect.Method;
 
 public interface ControllerInvokerFactory {
-    ControllerInvoker create(ControllerContext context, Object controller, Method method);
+    ControllerInvoker create(ControllerContext context, Method method);
 }
