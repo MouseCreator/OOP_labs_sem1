@@ -4,8 +4,10 @@ import mouse.project.lib.exception.MultipleImplementationsException;
 import mouse.project.lib.exception.NoCardDefinitionException;
 import mouse.project.lib.ioc.injector.TypeValidator;
 import mouse.project.lib.ioc.injector.card.container.Implementation;
+import mouse.project.lib.ioc.injector.filter.ImplementationFilter;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 public class DefinedMapImpl<E extends TypeHolder<?>> implements DefinedMap<E> {
     private final Map<Class<?>, List<E>> map;
@@ -152,6 +154,25 @@ public class DefinedMapImpl<E extends TypeHolder<?>> implements DefinedMap<E> {
         return !namedOnly.isEmpty();
     }
 
+    @Override
+    public Collection<E> getFiltered(Collection<ImplementationFilter> filters) {
+        Predicate<Class<?>> predicate = concatenateFilters(filters);
+        return implementations().stream().filter(t -> predicate.test(t.getType().getClazz())).toList();
+    }
+
+    private Predicate<Class<?>> concatenateFilters(Collection<ImplementationFilter> filters) {
+        Predicate<Class<?>> predicate = p -> true;
+        for (ImplementationFilter p : filters) {
+            predicate = predicate.and(p);
+        }
+        return predicate;
+    }
+
+    private List<E> implementations() {
+        List<E> all = new ArrayList<>();
+        map.values().forEach(all::addAll);
+        return all.stream().distinct().toList();
+    }
     private Collection<E> getAll(Class<?> clazz) {
         List<E> definitionsByClass = getDefinitionsByClass(clazz);
         definitionsByClass.sort(Comparator.comparingInt(e -> e.getType().getOrder()));

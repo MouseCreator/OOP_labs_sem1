@@ -11,8 +11,10 @@ import mouse.project.lib.ioc.injector.card.factory.CardFactoryImpl;
 import mouse.project.lib.ioc.injector.card.scan.CardScanner;
 import mouse.project.lib.ioc.injector.card.scan.DefinedCardScanner;
 import mouse.project.lib.ioc.injector.card.scan.DefinitionsManager;
+import mouse.project.lib.ioc.injector.filter.ImplementationFilter;
 import mouse.project.lib.ioc.injector.map.DefinedMapImpl;
 
+import java.lang.annotation.Annotation;
 import java.util.Collection;
 
 public class Cards {
@@ -51,5 +53,9 @@ public class Cards {
     }
     public <T> Collection<T> getAllNamed(Class<T> clazz, String name) {
         return cardFactory.buildAllCards(new Implementation<>(clazz, name));
+    }
+
+    public Collection<Object> getAllAnnotatedWith(Collection<ImplementationFilter> filters) {
+        return cardFactory.getFiltered(filters);
     }
 }

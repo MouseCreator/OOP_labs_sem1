@@ -8,7 +8,7 @@ import mouse.project.lib.ioc.injector.card.container.CardContainer;
 import mouse.project.lib.ioc.injector.card.container.Implementation;
 import mouse.project.lib.ioc.injector.card.definition.CardDefinition;
 import mouse.project.lib.ioc.injector.card.producer.CardProducer;
-
+import mouse.project.lib.ioc.injector.filter.ImplementationFilter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -68,6 +68,19 @@ public class CardFactoryImpl implements CardFactory {
         }
         return implementations;
     }
+
+    @Override
+    public Collection<Object> getFiltered(Collection<ImplementationFilter> filters) {
+        Collection<CardDefinition<?>> definitions = cardDefinitions.lookupFiltered(filters);
+        List<Object> result = new ArrayList<>();
+        for (CardDefinition<?> definition : definitions) {
+            Implementation<?> type = definition.getType();
+            Object obj = buildCard(type);
+            result.add(obj);
+        }
+        return result;
+    }
+
 
     private  <T> T handleSingleton(Implementation<T> current, CardDefinition<?> definition, BuildStack buildStack) {
         if (container.containsImplementation(current)) {

@@ -2,6 +2,7 @@ package mouse.project.lib.ioc.injector.card.factory;
 
 import mouse.project.lib.ioc.injector.card.container.Implementation;
 import mouse.project.lib.ioc.injector.card.definition.CardDefinition;
+import mouse.project.lib.ioc.injector.filter.ImplementationFilter;
 import mouse.project.lib.ioc.injector.map.DefinedMap;
 
 import java.util.*;
@@ -23,6 +24,11 @@ public class CardDefinitionsImpl implements CardDefinitions {
     @Override
     public Collection<CardDefinition<?>> lookupAll(Implementation<?> implementation) {
         return map.lookupAll(implementation);
+    }
+
+    @Override
+    public Collection<CardDefinition<?>> lookupFiltered(Collection<ImplementationFilter> filters) {
+        return map.getFiltered(filters);
     }
 
 }

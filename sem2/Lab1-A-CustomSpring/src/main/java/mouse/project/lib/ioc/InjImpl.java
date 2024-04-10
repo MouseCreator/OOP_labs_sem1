@@ -1,7 +1,9 @@
 package mouse.project.lib.ioc;
 
 import mouse.project.lib.ioc.injector.card.Cards;
+import mouse.project.lib.ioc.injector.filter.ImplementationFilter;
 
+import java.lang.annotation.Annotation;
 import java.util.Collection;
 
 public class InjImpl implements Inj {
@@ -22,6 +24,11 @@ public class InjImpl implements Inj {
     @Override
     public <T> Collection<T> getAll(Class<T> clazz) {
         return cards.getAll(clazz);
+    }
+
+    @Override
+    public Collection<Object> getFiltered(Collection<ImplementationFilter> filters) {
+        return cards.getAllAnnotatedWith(filters);
     }
 
     @Override
