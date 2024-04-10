@@ -13,4 +13,9 @@ public class HelloController {
     public String hello() {
         return "Hello, world!";
     }
+    @Get
+    @URL("/bye")
+    public String bye() {
+        return "Bye";
+    }
 }
