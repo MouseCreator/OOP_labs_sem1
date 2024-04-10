@@ -4,6 +4,7 @@ import mouse.project.lib.ioc.Inj;
 import mouse.project.lib.ioc.Ioc;
 import mouse.project.lib.ioc.annotation.Configuration;
 import mouse.project.lib.ioc.annotation.Controller;
+import mouse.project.lib.ioc.annotation.UseRestriction;
 import mouse.project.lib.web.annotation.*;
 import mouse.project.lib.web.context.ControllerContext;
 import mouse.project.lib.web.exception.ControllerException;
@@ -18,7 +19,7 @@ import java.util.Collection;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ControllerScanImplTest {
-    @Configuration(basePackage = "mouse.project.lib.web.scan", includeClasses = MockCIF.class)
+    @Configuration(basePackage = "mouse.project.lib.web.scan", name = "ControllerScanImplTest", includeClasses = MockCIF.class)
     private static class Config {
 
     }
@@ -35,6 +36,7 @@ class ControllerScanImplTest {
         return getInj().get(ControllerScan.class);
     }
     @Controller
+    @UseRestriction(usedBy = "ControllerScanImplTest")
     @RequestPrefix("home/")
     private static class ControllerSample {
         @Get
@@ -81,6 +83,7 @@ class ControllerScanImplTest {
     }
 
     @Controller
+    @UseRestriction(usedBy = "ControllerScanImplTest")
     @RequestPrefix("wrong/")
     private static class ControllerWrong {
         @URL

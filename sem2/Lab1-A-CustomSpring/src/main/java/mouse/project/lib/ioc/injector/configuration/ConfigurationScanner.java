@@ -37,7 +37,7 @@ public class ConfigurationScanner {
         MouseModules[] mouseModules = config.includeModules();
         ModuleConfig moduleConfig = new ModuleConfig(this::scanPackage);
         Set<Class<?>> moduleClasses = moduleConfig.getModuleClasses(mouseModules);
-        includeAll(base, moduleClasses);
+        addClassesToIoc(base, moduleClasses);
     }
 
     private void addSpecialClasses(Configuration config, InjectorBase injectorBase) {

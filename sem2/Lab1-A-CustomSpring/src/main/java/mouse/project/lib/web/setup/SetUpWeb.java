@@ -2,6 +2,7 @@ package mouse.project.lib.web.setup;
 
 import mouse.project.lib.ioc.Inj;
 import mouse.project.lib.ioc.Ioc;
+import mouse.project.lib.ioc.annotation.Auto;
 import mouse.project.lib.ioc.annotation.Controller;
 import mouse.project.lib.ioc.annotation.Service;
 import mouse.project.lib.ioc.injector.filter.CommonFilters;
@@ -17,7 +18,7 @@ import java.util.Collection;
 @Service
 public class SetUpWeb {
     private final ControllerScan controllerScan;
-
+    @Auto
     public SetUpWeb(ControllerScan controllerScan) {
         this.controllerScan = controllerScan;
     }
@@ -40,9 +41,7 @@ public class SetUpWeb {
         DispatcherMap dispatcherMap = inj.get(DispatcherMap.class);
         WebContext webContext = inj.get(WebContext.class);
 
-        registrations.forEach(r -> {
-            dispatcherMap.setInvoker(r.getUrl(), r.getRequestMethod(), r.getInvoker());
-        });
+        registrations.forEach(r -> dispatcherMap.setInvoker(r.getUrl(), r.getRequestMethod(), r.getInvoker()));
 
         webDispatcher.useMap(dispatcherMap);
         webContext.setDispatcher(configClass, webDispatcher);
