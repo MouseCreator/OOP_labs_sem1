@@ -5,4 +5,6 @@ import mouse.project.lib.web.request.RequestURL;
 
 public interface WebDispatcher {
     WebResponse onRequest(RequestURL requestURL);
+
+    void useMap(DispatcherMap dispatcherMap);
 }

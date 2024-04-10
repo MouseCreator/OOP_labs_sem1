@@ -49,7 +49,12 @@ public class DispatcherMapImpl implements DispatcherMap {
     @Override
     public ControllerInvoker getInvoker(String url, RequestMethod method) {
         FullURL fullURL = urlService.create(url);
-        URLPath path = fullURL.path();
+        return getInvoker(fullURL, method);
+    }
+
+    @Override
+    public ControllerInvoker getInvoker(FullURL url, RequestMethod method) {
+        URLPath path = url.path();
         MapNode current = roots.get(method);
         StringBuilder urlBuild = new StringBuilder();
         for (URLPathNode node : path.getNodes()) {

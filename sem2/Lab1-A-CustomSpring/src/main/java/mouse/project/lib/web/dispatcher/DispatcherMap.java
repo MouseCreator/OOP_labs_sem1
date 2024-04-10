@@ -8,4 +8,5 @@ public interface DispatcherMap {
     void setInvoker(String url, RequestMethod method, ControllerInvoker invoker);
     void setInvoker(FullURL url, RequestMethod method, ControllerInvoker invoker);
     ControllerInvoker getInvoker(String url, RequestMethod method);
+    ControllerInvoker getInvoker(FullURL url, RequestMethod method);
 }
