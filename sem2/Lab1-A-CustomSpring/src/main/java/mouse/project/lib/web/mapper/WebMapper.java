@@ -1,7 +1,6 @@
 package mouse.project.lib.web.mapper;
 
 import mouse.project.lib.ioc.Ioc;
-import mouse.project.lib.web.config.WebConfig;
 import mouse.project.lib.web.dispatcher.ReqRespContext;
 import mouse.project.lib.web.register.RequestMethod;
 
@@ -58,8 +57,7 @@ public class WebMapper extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest req, RequestMethod method, HttpServletResponse resp) throws IOException {
-        resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
-        Ioc.getConfiguredInjector(WebConfig.class)
+        Ioc.getConfiguredInjector(configClass)
                 .get(ReqRespContext.class)
                 .useAndExecute(method, req, resp, configClass);
     }
