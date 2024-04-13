@@ -1,7 +1,9 @@
 package mouse.project.lib.web.tool;
 
-import java.util.List;
+import lombok.EqualsAndHashCode;
 
+import java.util.List;
+@EqualsAndHashCode
 public class URLFragmentImpl implements URLFragment {
     private final URLFragmentNode node;
     public URLFragmentImpl(URLFragmentNode fragmentNode) {

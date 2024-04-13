@@ -1,9 +1,11 @@
 package mouse.project.lib.web.tool;
 
+import lombok.EqualsAndHashCode;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
+@EqualsAndHashCode
 public class URLParamsImpl implements URLParams {
 
     private final List<URLParamNode> paramNodes;

@@ -1,6 +1,7 @@
 package mouse.project.lib.web.dispatcher;
 
 import mouse.project.lib.web.exception.ControllerException;
+import mouse.project.lib.web.exception.NotFoundException;
 import mouse.project.lib.web.invoker.ControllerInvoker;
 import mouse.project.lib.web.register.RequestMethod;
 import mouse.project.lib.web.request.RequestBody;
@@ -60,16 +61,16 @@ class DispatcherMapImplTest {
 
     @Test
     void testNotDefined() {
-        assertThrows(ControllerException.class, () -> dispatcherMap.getInvoker("", getMethod));
+        assertThrows(NotFoundException.class, () -> dispatcherMap.getInvoker("", getMethod));
         ControllerInvoker invoker = r -> "String";
         dispatcherMap.setInvoker("/path/to", getMethod, invoker);
-        assertThrows(ControllerException.class, () -> dispatcherMap.getInvoker("path/else", getMethod));
+        assertThrows(NotFoundException.class, () -> dispatcherMap.getInvoker("path/else", getMethod));
     }
 
     @Test
     void testWrongMethod() {
         ControllerInvoker invoker = r -> "String";
         dispatcherMap.setInvoker("path/to/invoker", getMethod, invoker);
-        assertThrows(ControllerException.class, ()->dispatcherMap.getInvoker("path/to/invoker", RequestMethod.UPDATE));
+        assertThrows(NotFoundException.class, ()->dispatcherMap.getInvoker("path/to/invoker", RequestMethod.UPDATE));
     }
 }

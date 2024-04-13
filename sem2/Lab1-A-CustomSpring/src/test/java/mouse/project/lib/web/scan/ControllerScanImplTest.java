@@ -8,6 +8,7 @@ import mouse.project.lib.ioc.annotation.UseRestriction;
 import mouse.project.lib.web.annotation.*;
 import mouse.project.lib.web.context.ControllerContext;
 import mouse.project.lib.web.exception.ControllerException;
+import mouse.project.lib.web.factory.ContextFactoryImpl;
 import mouse.project.lib.web.factory.ControllerInvokerFactory;
 import mouse.project.lib.web.invoker.ControllerInvoker;
 import mouse.project.lib.web.register.RequestMethod;
@@ -19,7 +20,8 @@ import java.util.Collection;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ControllerScanImplTest {
-    @Configuration(basePackage = "mouse.project.lib.web.scan", name = "ControllerScanImplTest", includeClasses = MockCIF.class)
+    @Configuration(basePackage = "mouse.project.lib.web.scan", name = "ControllerScanImplTest", includeClasses =
+            {MockCIF.class, ContextFactoryImpl.class, URLService.class})
     private static class Config {
 
     }
@@ -61,6 +63,14 @@ class ControllerScanImplTest {
         }
     }
 
+    @Test
+    void registrationTest() {
+        URLService url = new URLService();
+        assertEquals(
+                new Registration(url.create("/"), RequestMethod.POST, null),
+                new Registration(url.create("/"), RequestMethod.POST, null)
+        );
+    }
     @Test
     void scanController() {
         URLService url = new URLService();
