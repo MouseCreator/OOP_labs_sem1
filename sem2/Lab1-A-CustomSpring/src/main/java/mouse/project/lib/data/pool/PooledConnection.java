@@ -7,4 +7,5 @@ public interface PooledConnection extends Connection {
     void onReturn();
     long lastGivenTime();
     boolean isTimeout(int timeout);
+
 }

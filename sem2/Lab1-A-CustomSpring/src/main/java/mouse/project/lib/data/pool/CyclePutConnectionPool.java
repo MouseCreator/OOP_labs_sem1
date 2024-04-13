@@ -12,21 +12,25 @@ import java.util.List;
 @Service
 public class CyclePutConnectionPool implements PutConnectionPool {
     private final ConnectionProvider provider;
-    private static final int HOLD_CONNECTIONS = 5;
+    private final int HOLD_CONNECTIONS;
     private final int TIMEOUT;
-    private final List<PooledConnection> list = new ArrayList<>(HOLD_CONNECTIONS);
+    protected final List<PooledConnection> list;
     private final Object obj;
     @Auto
     public CyclePutConnectionPool(ConnectionProvider provider) {
         this.provider = provider;
         TIMEOUT = 5000;
+        HOLD_CONNECTIONS = 5;
         obj = new Object();
+        list = new ArrayList<>(HOLD_CONNECTIONS);
     }
 
-    public CyclePutConnectionPool(ConnectionProvider provider, int timeout) {
+    public CyclePutConnectionPool(ConnectionProvider provider, int hold, int timeout) {
         this.provider = provider;
         this.TIMEOUT = timeout;
+        this.HOLD_CONNECTIONS = hold;
         obj = new Object();
+        list = new ArrayList<>(HOLD_CONNECTIONS);
     }
 
     @After

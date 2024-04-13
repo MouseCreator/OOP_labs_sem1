@@ -316,4 +316,7 @@ public class ConnectionDecorated implements PooledConnection {
         return System.currentTimeMillis() - lastGet > timeout && isAdditional;
     }
 
+    public boolean isAdditional() {
+        return isAdditional;
+    }
 }
