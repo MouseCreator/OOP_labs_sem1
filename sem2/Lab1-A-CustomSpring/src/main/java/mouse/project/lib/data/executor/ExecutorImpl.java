@@ -22,7 +22,10 @@ public class ExecutorImpl implements Executor {
     }
 
     @Override
-    public ExecutorResult executeQuery(String sql) {
+    public ExecutorResult executeQuery(String sql, Object... args) {
+        if (args.length == 0) {
+            return executePrepared(sql, args);
+        }
         try(Connection connection = pool.getConnection()) {
             try(Statement statement = connection.createStatement()) {
                 ResultSet resultSet = statement.executeQuery(sql);
@@ -33,8 +36,7 @@ public class ExecutorImpl implements Executor {
         }
     }
 
-    @Override
-    public ExecutorResult executePrepared(String sql, Object... args) {
+    private ExecutorResult executePrepared(String sql, Object... args) {
         int questionMarks = getQuestionMarks(sql);
         if (args.length != questionMarks) {
             String msg = String.format("Input sql has %d place holders, but received %d arguments", questionMarks, args.length);

@@ -6,6 +6,9 @@ import mouse.project.lib.data.orm.map.OrmMap;
 import mouse.project.lib.data.transformer.Transformer;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public class ExecutorResultImpl implements ExecutorResult {
 
@@ -30,8 +33,35 @@ public class ExecutorResultImpl implements ExecutorResult {
     }
 
     @Override
-    public <T> T autoTransform(Class<T> model) {
+    public <T> T model(Class<T> model) {
         ModelDescription<?> modelDescription = map.get(model);
-        return model.cast(fill.createAndFill(resultSet, modelDescription));
+        Object object = fill.createAndFill(resultSet, modelDescription);
+        return model.cast(object);
+    }
+
+    @Override
+    public <T> List<T> list(Class<T> model) {
+        ModelDescription<?> modelDescription = map.get(model);
+        List<?> list = fill.createList(resultSet, modelDescription);
+        List<T> result = new ArrayList<>();
+        for (Object obj : list) {
+            result.add(model.cast(obj));
+        }
+        return result;
+    }
+
+    @Override
+    public <T> Optional<T> optional(Class<T> model) {
+        ModelDescription<?> modelDescription = map.get(model);
+        Optional<?> optional = fill.createAndOptional(resultSet, modelDescription);
+        if (optional.isEmpty()) {
+            return Optional.empty();
+        }
+        return optional.map(model::cast);
+    }
+
+    @Override
+    public <T> AdjustedResult<T> adjusted(Class<?> model) {
+        return null;
     }
 }
