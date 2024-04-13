@@ -2,15 +2,15 @@ package mouse.project.lib.data.orm.map;
 
 import mouse.project.lib.data.orm.desc.ModelDescription;
 import mouse.project.lib.data.orm.exception.ORMException;
+import mouse.project.lib.ioc.annotation.Service;
 
 
 import java.util.HashMap;
 import java.util.Map;
-
+@Service
 public class OrmMapImpl implements OrmMap {
 
     private final Map<Class<?>, ModelDescription<?>> map;
-
     public OrmMapImpl() {
         this.map = new HashMap<>();
     }
