@@ -56,4 +56,8 @@ public class CollectionProducer {
         method.setAccessible(true);
         method.invoke(result, implementations);
     }
+
+    public Collection<?> create(Class<?> type) {
+        return create(type, List.of());
+    }
 }

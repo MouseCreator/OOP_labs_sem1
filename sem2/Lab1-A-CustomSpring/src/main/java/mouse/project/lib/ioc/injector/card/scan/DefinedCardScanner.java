@@ -4,6 +4,7 @@ import mouse.project.lib.ioc.annotation.After;
 import mouse.project.lib.ioc.annotation.Auto;
 import mouse.project.lib.ioc.annotation.Factory;
 import mouse.project.lib.exception.CardException;
+
 import mouse.project.lib.ioc.injector.TypeValidator;
 import mouse.project.lib.ioc.injector.card.container.Implementation;
 import mouse.project.lib.ioc.injector.card.container.Implementations;
@@ -18,6 +19,8 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static mouse.project.lib.ioc.injector.Singletons.scanUtils;
 
 public class DefinedCardScanner implements CardScanner {
 
@@ -54,7 +57,6 @@ public class DefinedCardScanner implements CardScanner {
             genericScanners.forEach(s -> s.scan(definedCard, current));
         }
     }
-
     private record ConstructorScanner(DefinitionHelper definitionHelper) {
         public <T> void scan(DefinedCard<T> card, Class<T> toScan) {
             Optional<Constructor<T>> annotated = getAnnotatedConstructor(toScan);
@@ -64,7 +66,7 @@ public class DefinedCardScanner implements CardScanner {
                 card.setPrimaryConstructor(constructor);
                 return;
             }
-            Optional<Constructor<T>> noArgsConstructor = getNoArgsConstructor(toScan);
+            Optional<Constructor<T>> noArgsConstructor = scanUtils().getNoArgsConstructor(toScan);
             if (noArgsConstructor.isPresent()) {
                 ConstructorDefinition<T> constructor = definitionHelper.getConstructor(noArgsConstructor.get());
                 card.setPrimaryConstructor(constructor);
@@ -84,30 +86,12 @@ public class DefinedCardScanner implements CardScanner {
                 if (result != null) {
                     throw new CardException("More than one @Auto-constructor found for: " + clazz);
                 }
-                result = toConstructor(clazz, constructor);
+                result = scanUtils().toConstructor(clazz, constructor);
             }
             return Optional.ofNullable(result);
         }
 
-        private <T> Optional<Constructor<T>> getNoArgsConstructor(Class<T> clazz) {
-            try {
-                Constructor<T> declaredConstructor = clazz.getDeclaredConstructor();
-                return Optional.of(declaredConstructor);
-            } catch (NoSuchMethodException e) {
-                return Optional.empty();
-            }
-        }
 
-        private <T> Constructor<T> toConstructor(Class<T> clazz, Constructor<?> constructor) {
-            Constructor<T> result;
-            Class<?>[] parameterTypes = constructor.getParameterTypes();
-            try {
-                result = clazz.getConstructor(parameterTypes);
-            } catch (NoSuchMethodException e) {
-                throw new CardException(e);
-            }
-            return result;
-        }
     }
     private interface GenericScanner {
         <T> void scan(DefinedCard<T> card, Class<?> toScan);
@@ -115,23 +99,11 @@ public class DefinedCardScanner implements CardScanner {
     private record FieldScanner(DefinitionHelper definitionHelper) implements GenericScanner {
 
         public <T> void scan(DefinedCard<T> card, Class<?> toScan) {
-            List<Field> annotatedFields = getAnnotatedFields(toScan);
+            List<Field> annotatedFields = scanUtils().getAnnotatedFields(toScan, Auto.class);
             for (Field field : annotatedFields) {
                 FieldDefinition fieldDef = definitionHelper.getField(field);
                 card.addField(fieldDef);
             }
-        }
-
-        private List<Field> getAnnotatedFields(Class<?> clazz) {
-            Field[] fields = clazz.getDeclaredFields();
-            List<Field> result = new ArrayList<>();
-            for (Field field : fields) {
-                if (!field.isAnnotationPresent(Auto.class)) {
-                    continue;
-                }
-                result.add(field);
-            }
-            return result;
         }
     }
 
@@ -144,22 +116,11 @@ public class DefinedCardScanner implements CardScanner {
                 card.addSetter(setter);
             }
         }
-
         private <T> List<Method> getAnnotatedSetters(Class<T> clazz) {
-            return getAnnotatedMethod(clazz, Auto.class);
+            return scanUtils().getAnnotatedMethod(clazz, Auto.class);
         }
     }
-    private static <T> List<Method> getAnnotatedMethod(Class<T> clazz, Class<? extends Annotation> annotation) {
-        Method[] methods = clazz.getDeclaredMethods();
-        List<Method> result = new ArrayList<>();
-        for (Method method : methods) {
-            if (!method.isAnnotationPresent(annotation)) {
-                continue;
-            }
-            result.add(method);
-        }
-        return result;
-    }
+
     private record ActionScanner(DefinitionHelper definitionHelper) implements GenericScanner {
 
         public <T> void scan(DefinedCard<T> card, Class<?> toScan) {
@@ -171,7 +132,7 @@ public class DefinedCardScanner implements CardScanner {
         }
 
         private <T> List<Method> getActions(Class<T> clazz) {
-            return getAnnotatedMethod(clazz, After.class);
+            return scanUtils().getAnnotatedMethod(clazz, After.class);
         }
     }
 
@@ -186,7 +147,7 @@ public class DefinedCardScanner implements CardScanner {
         }
 
         private <T> List<Method> getFactories(Class<T> clazz) {
-            return getAnnotatedMethod(clazz, Factory.class);
+            return scanUtils().getAnnotatedMethod(clazz, Factory.class);
         }
     }
 }

@@ -9,6 +9,9 @@ import java.lang.reflect.InvocationTargetException;
 @Service
 public class FillUtilService {
     public <T> T construct(Constructor<T> constructor) {
+        if (constructor == null) {
+            throw new ORMException("No constructor defined for model!");
+        }
         if (constructor.getParameterCount() > 0) {
             throw new ORMException("Constructor " + constructor + " is not default constructor");
         }

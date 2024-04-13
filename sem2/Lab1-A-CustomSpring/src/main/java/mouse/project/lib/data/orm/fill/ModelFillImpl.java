@@ -5,6 +5,7 @@ import mouse.project.lib.data.orm.desc.ModelDescription;
 import mouse.project.lib.data.orm.exception.ORMException;
 import mouse.project.lib.ioc.annotation.Auto;
 import mouse.project.lib.ioc.annotation.Service;
+import mouse.project.lib.ioc.injector.card.helper.CollectionProducer;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
