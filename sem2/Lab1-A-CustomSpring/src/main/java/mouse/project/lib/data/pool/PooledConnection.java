@@ -6,5 +6,5 @@ public interface PooledConnection extends Connection {
     void onGet();
     void onReturn();
     long lastGivenTime();
-    boolean isAdditional();
+    boolean isTimeout(int timeout);
 }

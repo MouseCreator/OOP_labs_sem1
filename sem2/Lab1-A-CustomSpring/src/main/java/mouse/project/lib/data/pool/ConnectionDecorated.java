@@ -8,18 +8,16 @@ import java.util.concurrent.Executor;
 public class ConnectionDecorated implements PooledConnection {
 
     private final Connection decorated;
-
-    public final ConnectionPool source;
+    public final PutConnectionPool source;
     private boolean closed = false;
-
-    private long lastGet = 0;
+    private long lastGet;
     private boolean isAdditional = false;
-    public ConnectionDecorated(Connection decorated, ConnectionPool source) {
+    public ConnectionDecorated(Connection decorated, PutConnectionPool source) {
         this.decorated = decorated;
         this.source = source;
         lastGet = System.currentTimeMillis();
     }
-    public ConnectionDecorated(Connection decorated, ConnectionPool source, boolean isAdditional) {
+    public ConnectionDecorated(Connection decorated, PutConnectionPool source, boolean isAdditional) {
         this.decorated = decorated;
         this.source = source;
         this.isAdditional = true;
@@ -314,7 +312,8 @@ public class ConnectionDecorated implements PooledConnection {
     }
 
     @Override
-    public boolean isAdditional() {
-        return isAdditional;
+    public boolean isTimeout(int timeout) {
+        return System.currentTimeMillis() - lastGet > timeout && isAdditional;
     }
+
 }
