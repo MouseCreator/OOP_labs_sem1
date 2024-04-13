@@ -10,7 +10,6 @@ import java.util.List;
 
 @Service
 public class ModelScannerImpl implements ModelScanner {
-
     private final ModelPackageScan packageScan;
     private final ModelDescriptor descriptor;
     @Auto
@@ -20,7 +19,7 @@ public class ModelScannerImpl implements ModelScanner {
     }
 
     @Override
-    public Collection<ModelDescription<?>> scanAndDescribe(String packageName) {
+    public List<ModelDescription<?>> scanAndDescribe(String packageName) {
         Collection<Class<?>> allModels = packageScan.getAllModels(packageName);
         List<ModelDescription<?>> result = new ArrayList<>();
         for (Class<?> mClass : allModels) {

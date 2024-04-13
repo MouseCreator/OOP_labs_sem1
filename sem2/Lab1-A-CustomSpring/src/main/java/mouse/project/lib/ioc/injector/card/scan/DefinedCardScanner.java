@@ -12,7 +12,6 @@ import mouse.project.lib.ioc.injector.card.definition.*;
 import mouse.project.lib.ioc.injector.card.helper.DefinitionHelper;
 import mouse.project.lib.ioc.injector.card.helper.DefinitionHelperImpl;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
