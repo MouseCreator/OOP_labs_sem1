@@ -5,7 +5,7 @@ import mouse.project.lib.data.orm.desc.FieldDescription;
 import mouse.project.lib.data.orm.desc.FieldDescriptionRecord;
 import mouse.project.lib.data.orm.desc.ModelDescription;
 import mouse.project.lib.data.orm.desc.ModelDescriptionImpl;
-import mouse.project.lib.data.orm.exception.ModelScanException;
+import mouse.project.lib.data.exception.ModelScanException;
 import mouse.project.lib.ioc.annotation.Service;
 import mouse.project.lib.ioc.injector.TypeValidator;
 

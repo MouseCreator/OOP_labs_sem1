@@ -1,4 +1,4 @@
-package mouse.project.lib.data.orm.exception;
+package mouse.project.lib.data.exception;
 
 public class ModelScanException extends RuntimeException{
     public ModelScanException(String s) {

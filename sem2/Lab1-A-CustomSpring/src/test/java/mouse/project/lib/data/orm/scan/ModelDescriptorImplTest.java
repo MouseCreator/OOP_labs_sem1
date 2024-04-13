@@ -3,7 +3,7 @@ package mouse.project.lib.data.orm.scan;
 import mouse.project.lib.data.orm.annotation.NamedColumn;
 import mouse.project.lib.data.orm.desc.FieldDescription;
 import mouse.project.lib.data.orm.desc.ModelDescription;
-import mouse.project.lib.data.orm.exception.ModelScanException;
+import mouse.project.lib.data.exception.ModelScanException;
 import mouse.project.lib.exception.TypeException;
 import mouse.project.lib.ioc.injector.card.scan.ScanTestHelper;
 import mouse.project.lib.ioc.injector.sources.annotation.Construct;

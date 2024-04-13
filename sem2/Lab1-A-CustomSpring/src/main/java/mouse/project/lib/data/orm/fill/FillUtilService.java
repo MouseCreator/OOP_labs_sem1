@@ -1,6 +1,6 @@
 package mouse.project.lib.data.orm.fill;
 
-import mouse.project.lib.data.orm.exception.ORMException;
+import mouse.project.lib.data.exception.ORMException;
 import mouse.project.lib.ioc.annotation.Service;
 
 import java.lang.reflect.Constructor;

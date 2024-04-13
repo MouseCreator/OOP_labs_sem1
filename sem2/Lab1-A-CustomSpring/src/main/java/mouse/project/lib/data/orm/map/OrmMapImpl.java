@@ -1,7 +1,7 @@
 package mouse.project.lib.data.orm.map;
 
 import mouse.project.lib.data.orm.desc.ModelDescription;
-import mouse.project.lib.data.orm.exception.ORMException;
+import mouse.project.lib.data.exception.ORMException;
 import mouse.project.lib.ioc.annotation.Service;
 
 
