@@ -13,12 +13,19 @@ import java.util.List;
 public class CyclePutConnectionPool implements PutConnectionPool {
     private final ConnectionProvider provider;
     private static final int HOLD_CONNECTIONS = 5;
-    private static final int TIMEOUT = 5000;
+    private final int TIMEOUT;
     private final List<PooledConnection> list = new ArrayList<>(HOLD_CONNECTIONS);
     private final Object obj;
     @Auto
     public CyclePutConnectionPool(ConnectionProvider provider) {
         this.provider = provider;
+        TIMEOUT = 5000;
+        obj = new Object();
+    }
+
+    public CyclePutConnectionPool(ConnectionProvider provider, int timeout) {
+        this.provider = provider;
+        this.TIMEOUT = timeout;
         obj = new Object();
     }
 
@@ -56,6 +63,7 @@ public class CyclePutConnectionPool implements PutConnectionPool {
     public void put(PooledConnection connection) {
         synchronized (obj) {
             list.add(connection);
+            connection.onReturn();
         }
     }
 }
