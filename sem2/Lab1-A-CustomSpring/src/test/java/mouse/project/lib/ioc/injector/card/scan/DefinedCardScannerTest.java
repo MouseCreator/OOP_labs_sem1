@@ -1,5 +1,6 @@
 package mouse.project.lib.ioc.injector.card.scan;
 
+import mouse.project.lib.exception.TypeException;
 import mouse.project.lib.ioc.annotation.Auto;
 import mouse.project.lib.exception.CardException;
 import mouse.project.lib.ioc.injector.card.definition.CardDefinition;
@@ -34,9 +35,9 @@ class DefinedCardScannerTest {
 
     @Test
     void scanInvalid() {
-        assertThrows(CardException.class, () -> scan.scan(InterfaceA.class));
-        assertThrows(CardException.class, () -> scan.scan(AbstractA.class));
-        assertThrows(CardException.class, () -> scan.scan(NotStaticA.class));
+        assertThrows(TypeException.class, () -> scan.scan(InterfaceA.class));
+        assertThrows(TypeException.class, () -> scan.scan(AbstractA.class));
+        assertThrows(TypeException.class, () -> scan.scan(NotStaticA.class));
     }
     private static class EmptyClass {
         @Construct(key = "1")

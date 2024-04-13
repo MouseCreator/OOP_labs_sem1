@@ -7,6 +7,7 @@ import mouse.project.lib.data.orm.desc.ModelDescription;
 import mouse.project.lib.data.orm.desc.ModelDescriptionImpl;
 import mouse.project.lib.data.orm.exception.ModelScanException;
 import mouse.project.lib.ioc.annotation.Service;
+import mouse.project.lib.ioc.injector.TypeValidator;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -18,6 +19,10 @@ import static mouse.project.lib.ioc.injector.Singletons.scanUtils;
 public class ModelDescriptorImpl implements ModelDescriptor {
     @Override
     public <T> ModelDescription<T> describe(Class<T> clazz) {
+
+        TypeValidator typeValidator = new TypeValidator();
+        typeValidator.validateCanBeProduced(clazz);
+
         Optional<Constructor<T>> noArgsOptional = scanUtils().getNoArgsConstructor(clazz);
         noArgsOptional.orElseThrow(() -> new ModelScanException("Model " + clazz + " has no default constructor defined"));
 

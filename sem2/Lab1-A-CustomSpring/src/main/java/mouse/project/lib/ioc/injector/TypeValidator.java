@@ -1,19 +1,20 @@
 package mouse.project.lib.ioc.injector;
 
 import mouse.project.lib.exception.CardException;
+import mouse.project.lib.exception.TypeException;
 
 import java.lang.reflect.Modifier;
 
 public class TypeValidator {
     public void validateCanBeProduced(Class<?> clazz) {
         if (clazz.isInterface()) {
-            throw new CardException("Cannot produce an interface: " + clazz);
+            throw new TypeException("Cannot produce an interface: " + clazz);
         }
         if(Modifier.isAbstract(clazz.getModifiers())) {
-            throw new CardException("Cannot produce an abstract class: " + clazz);
+            throw new TypeException("Cannot produce an abstract class: " + clazz);
         }
         if (clazz.isMemberClass() && !Modifier.isStatic(clazz.getModifiers())) {
-            throw new CardException("Cannot produce inner non-static class:" + clazz);
+            throw new TypeException("Cannot produce inner non-static class:" + clazz);
         }
     }
 
