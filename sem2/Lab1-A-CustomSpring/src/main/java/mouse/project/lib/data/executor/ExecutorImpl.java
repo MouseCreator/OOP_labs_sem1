@@ -3,12 +3,14 @@ package mouse.project.lib.data.executor;
 import mouse.project.lib.data.exception.ExecutorException;
 import mouse.project.lib.data.orm.fill.ModelFill;
 import mouse.project.lib.data.orm.map.OrmMap;
-import mouse.project.lib.data.page.PageFactory;
 import mouse.project.lib.data.pool.ConnectionPool;
 import mouse.project.lib.ioc.annotation.Auto;
 import mouse.project.lib.ioc.annotation.Service;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Service
 public class ExecutorImpl implements Executor {
@@ -26,8 +28,20 @@ public class ExecutorImpl implements Executor {
     @Override
     public ExecutorResult executeQuery(String sql, Object... args) {
         if (args.length == 0) {
-            return executePrepared(sql, args);
+            return executeStatic(sql);
         }
+        List<Object> objects = new ArrayList<>(Arrays.asList(args));
+        return executePrepared(sql, objects);
+    }
+
+    @Override
+    public ExecutorResult executeQuery(String sql, List<Object> argList) {
+        if (argList.isEmpty()) {
+            return executeStatic(sql);
+        }
+        return executePrepared(sql, argList);
+    }
+    private ExecutorResult executeStatic(String sql) {
         try(Connection connection = pool.getConnection()) {
             try(Statement statement = connection.createStatement()) {
                 ResultSet resultSet = statement.executeQuery(sql);
@@ -42,16 +56,16 @@ public class ExecutorImpl implements Executor {
         }
     }
 
-    private ExecutorResult executePrepared(String sql, Object... args) {
+    private ExecutorResult executePrepared(String sql, List<Object> args) {
         int questionMarks = getQuestionMarks(sql);
-        if (args.length != questionMarks) {
-            String msg = String.format("Input sql has %d place holders, but received %d arguments", questionMarks, args.length);
+        if (args.size() != questionMarks) {
+            String msg = String.format("Input sql has %d place holders, but received %d arguments", questionMarks, args.size());
             throw new ExecutorException(msg);
         }
         try (Connection connection = pool.getConnection()) {
             try(PreparedStatement ps = connection.prepareStatement(sql)) {
-                for (int i = 0; i < args.length; i++) {
-                    Object arg = args[i];
+                for (int i = 0; i < args.size(); i++) {
+                    Object arg = args.get(i);
                     setParameter(ps, i, arg);
                 }
                 ResultSet resultSet = ps.executeQuery();
