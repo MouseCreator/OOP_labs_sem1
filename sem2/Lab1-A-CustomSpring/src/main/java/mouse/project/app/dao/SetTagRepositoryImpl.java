@@ -1,9 +1,9 @@
 package mouse.project.app.dao;
 
-import mouse.project.app.model.SetTag;
-import mouse.project.app.model.StudySet;
+import mouse.project.app.model.*;
 import mouse.project.lib.data.executor.Executor;
 import mouse.project.lib.data.utils.DaoUtils;
+import mouse.project.lib.ioc.annotation.After;
 import mouse.project.lib.ioc.annotation.Auto;
 import mouse.project.lib.ioc.annotation.Dao;
 
@@ -14,6 +14,21 @@ import java.util.Optional;
 public class SetTagRepositoryImpl implements SetTagRepository {
     private final Executor executor;
     private final DaoUtils daoUtils;
+    private StudySetRepository studySetRepository;
+    private UserRepository userRepository;
+    private TagRepository tagRepository;
+    @After
+    public void setStudySetRepository(StudySetRepository studySetRepository) {
+        this.studySetRepository = studySetRepository;
+    }
+    @After
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+    @After
+    public void setTagRepository(TagRepository tagRepository) {
+        this.tagRepository = tagRepository;
+    }
     @Auto
     public SetTagRepositoryImpl(Executor executor, DaoUtils daoUtils) {
         this.executor = executor;
@@ -22,7 +37,10 @@ public class SetTagRepositoryImpl implements SetTagRepository {
 
     @Override
     public List<SetTag> getAll() {
-        return executor.executeQuery("SELECT * FROM set_tags").list(SetTag.class);
+        return executor.executeQuery("SELECT * FROM set_tags")
+                .adjustedList(SetTagModel.class)
+                .map(this::fromModel)
+                .get();
     }
 
     @Override
@@ -30,7 +48,8 @@ public class SetTagRepositoryImpl implements SetTagRepository {
         return executor.executeQuery("INSERT INTO set_tags (tag_id, set_id, tag_id) VALUES (?, ?, ?)",
                 setTag.getTag(),
                 setTag.getStudySet(),
-                setTag.getUser()).model(SetTag.class);
+                setTag.getUser()).adjusted(SetTagModel.class)
+                .map(this::fromModel).get();
     }
 
     @Override
@@ -43,7 +62,7 @@ public class SetTagRepositoryImpl implements SetTagRepository {
                     "WHERE s.id = ? AND t.id = ? AND u.id = ? AND " +
                     "s.deleted_at IS NULL AND t.deleted_at IS NULL AND u.deleted_at IS NULL",
                 setId, tagId, userId
-        ).optional(SetTag.class);
+        ).adjustedOptional(SetTagModel.class).map(this::fromModel).get();
     }
 
     @Override
@@ -75,7 +94,18 @@ public class SetTagRepositoryImpl implements SetTagRepository {
     @Override
     public void delete(Long userId, Long setId, Long tagId) {
         executor.executeQuery(
-                "DELETE FROM set_tags st WHERE st.user_id = ? AND st.set_id = ? AND st.tag_id = ?",
+            "DELETE FROM set_tags st WHERE st.user_id = ? AND st.set_id = ? AND st.tag_id = ?",
                 userId, setId, tagId);
+    }
+
+    private SetTag fromModel(SetTagModel model) {
+        SetTag setTag = new SetTag();
+        Optional<StudySet> studySetOptional = studySetRepository.findById(model.getSetId());
+        studySetOptional.ifPresent(setTag::setStudySet);
+        Optional<User> userOptional = userRepository.findById(model.getUserId());
+        userOptional.ifPresent(setTag::setUser);
+        Optional<Tag> tagOptional = tagRepository.findById(model.getTagId());
+        tagOptional.ifPresent(setTag::setTag);
+        return setTag;
     }
 }
