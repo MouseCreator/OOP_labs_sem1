@@ -1,9 +1,7 @@
 package mouse.project.lib.data.exception;
 
-import java.sql.SQLException;
-
 public class ExecutorException extends RuntimeException{
-    public ExecutorException(SQLException e) {
+    public ExecutorException(Exception e) {
         super(e);
     }
 

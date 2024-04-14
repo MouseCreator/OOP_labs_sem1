@@ -26,6 +26,15 @@ public class TermRepositoryImpl implements TermRepository {
     }
 
     @Override
+    public List<Term> findAllByStudySet(Long setId) {
+        return executor.executeQuery(
+                "SELECT * FROM terms t " +
+                        "INNER JOIN study_sets_terms st ON t.id = st.term_id " +
+                        "INNER JOIN study_sets s ON s.id = st.set_id " +
+                        "WHERE s.id = ? AND s.deleted_at IS NULL AND t.deleted_at IS NULL").list(Term.class);
+    }
+
+    @Override
     public Optional<Term> findById(Long id) {
         return executor.executeQuery("SELECT * FROM Term t WHERE t.id = ? AND t.deleted_at IS NULL", id)
                 .optional(Term.class);
@@ -58,11 +67,6 @@ public class TermRepositoryImpl implements TermRepository {
     @Override
     public void removeTermFormStudySetsById(Long termId) {
         executor.executeQuery("DELETE FROM study_sets_terms WHERE term_id = ?", termId);
-    }
-
-    @Override
-    public List<Term> findAllByIds(List<Long> termIds) {
-        throw new UnsupportedOperationException();
     }
 
 }

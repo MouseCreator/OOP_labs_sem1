@@ -3,6 +3,7 @@ package mouse.project.lib.data.executor;
 import mouse.project.lib.data.exception.ExecutorException;
 import mouse.project.lib.data.orm.fill.ModelFill;
 import mouse.project.lib.data.orm.map.OrmMap;
+import mouse.project.lib.data.page.PageFactory;
 import mouse.project.lib.data.pool.ConnectionPool;
 import mouse.project.lib.ioc.annotation.Auto;
 import mouse.project.lib.ioc.annotation.Service;
@@ -14,6 +15,7 @@ public class ExecutorImpl implements Executor {
     private final ModelFill fill;
     private final OrmMap map;
     private final ConnectionPool pool;
+
     @Auto
     public ExecutorImpl(ModelFill fill, OrmMap map, ConnectionPool pool) {
         this.fill = fill;
@@ -29,7 +31,11 @@ public class ExecutorImpl implements Executor {
         try(Connection connection = pool.getConnection()) {
             try(Statement statement = connection.createStatement()) {
                 ResultSet resultSet = statement.executeQuery(sql);
+                connection.commit();
                 return toResult(resultSet);
+            } catch (Exception e1) {
+                connection.rollback();
+                throw new ExecutorException(e1);
             }
         } catch (SQLException e) {
             throw new ExecutorException(e);
