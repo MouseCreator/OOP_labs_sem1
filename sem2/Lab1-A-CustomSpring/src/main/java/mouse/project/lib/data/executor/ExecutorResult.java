@@ -1,5 +1,6 @@
 package mouse.project.lib.data.executor;
 
+import mouse.project.app.model.Tag;
 import mouse.project.lib.data.transformer.Transformer;
 
 import java.sql.ResultSet;
@@ -12,5 +13,7 @@ public interface ExecutorResult {
     <T> T model(Class<T> model);
     <T> List<T> list(Class<T> model);
     <T> Optional<T> optional(Class<T> model);
-    <T> AdjustedResult<T> adjusted(Class<?> model);
+    <T> AdjustedResult<T> adjusted(Class<T> model);
+    <T> AdjustedResultList<T> adjustedList(Class<T> model);
+    <T> AdjustedOptional<T> adjustedOptional(Class<T> model);
 }

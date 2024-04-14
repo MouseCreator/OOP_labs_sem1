@@ -61,7 +61,17 @@ public class ExecutorResultImpl implements ExecutorResult {
     }
 
     @Override
-    public <T> AdjustedResult<T> adjusted(Class<?> model) {
+    public <T> AdjustedResult<T> adjusted(Class<T> model) {
+        return null;
+    }
+
+    @Override
+    public <T> AdjustedResultList<T> adjustedList(Class<T> model) {
+        return null;
+    }
+
+    @Override
+    public <T> AdjustedOptional<T> adjustedOptional(Class<T> model) {
         return null;
     }
 }
