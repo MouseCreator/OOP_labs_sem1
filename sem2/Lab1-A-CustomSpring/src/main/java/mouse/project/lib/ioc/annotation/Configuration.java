@@ -19,6 +19,6 @@ public @interface Configuration {
      */
     Class<?>[] includeClasses() default {};
     MouseModules[] includeModules() default {};
-
     String name() default "";
+    String[] includePackages();
 }

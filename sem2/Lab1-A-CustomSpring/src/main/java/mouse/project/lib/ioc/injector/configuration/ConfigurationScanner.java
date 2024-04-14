@@ -29,8 +29,27 @@ public class ConfigurationScanner {
         InjectorBase injectorBase = new InjectorBase(configClass, name);
         scanAndAddAll(injectorBase, config);
         addSpecialClasses(config, injectorBase);
+        addSpecialPackages(config, injectorBase);
         processModules(injectorBase, config);
         return injectorBase;
+    }
+
+    private void addSpecialPackages(Configuration config, InjectorBase injectorBase) {
+        String[] strings = config.includePackages();
+        for (String str : strings) {
+            includePackage(str, injectorBase);
+        }
+    }
+
+    private void includePackage(String str, InjectorBase injectorBase) {
+        Set<Class<?>> classes = addAllOf(str);
+        addClassesToIoc(injectorBase, classes);
+    }
+
+    private Set<Class<?>> addAllOf(String packageName) {
+        PackageLoader loader = new PackageLoader();
+        Set<Class<?>> annotatedClasses = loader.getAllClasses(packageName);
+        return new HashSet<>(annotatedClasses);
     }
 
     private void processModules(InjectorBase base, Configuration config) {

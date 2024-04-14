@@ -15,4 +15,13 @@ public class PackageLoader {
         Reflections reflections = new Reflections(prefix, Scanners.TypesAnnotated);
         return reflections.getTypesAnnotatedWith(annotation);
     }
+
+    public Set<Class<?>> getAllClasses(String packageName) {
+        if (packageName == null || packageName.isEmpty()) {
+            throw new IllegalArgumentException("Package name cannot be null or empty");
+        }
+
+        Reflections reflections = new Reflections(packageName, Scanners.SubTypes);
+        return reflections.getSubTypesOf(Object.class);
+    }
 }
