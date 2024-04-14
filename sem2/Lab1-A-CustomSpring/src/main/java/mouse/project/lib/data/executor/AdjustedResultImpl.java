@@ -1,6 +1,7 @@
 package mouse.project.lib.data.executor;
 
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class AdjustedResultImpl<T> implements AdjustedResult<T> {
 
@@ -19,5 +20,10 @@ public class AdjustedResultImpl<T> implements AdjustedResult<T> {
     public AdjustedResult<T> apply(Consumer<T> action) {
         action.accept(model);
         return this;
+    }
+
+    @Override
+    public <U> AdjustedResult<U> map(Function<T, U> mapper) {
+        return new AdjustedResultImpl<>(mapper.apply(model));
     }
 }

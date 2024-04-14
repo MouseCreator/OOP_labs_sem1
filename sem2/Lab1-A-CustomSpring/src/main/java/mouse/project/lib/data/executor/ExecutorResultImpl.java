@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 public class ExecutorResultImpl implements ExecutorResult {
 
@@ -73,5 +74,10 @@ public class ExecutorResultImpl implements ExecutorResult {
     @Override
     public <T> AdjustedOptional<T> adjustedOptional(Class<T> model) {
         return new AdjustedOptionalImpl<>(model(model));
+    }
+
+    @Override
+    public void action(Consumer<ExecutorResult> consumer) {
+        consumer.accept(this);
     }
 }

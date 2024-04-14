@@ -3,6 +3,7 @@ package mouse.project.lib.data.executor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class AdjustedResultListImpl<T> implements AdjustedResultList<T> {
 
@@ -21,5 +22,11 @@ public class AdjustedResultListImpl<T> implements AdjustedResultList<T> {
     @Override
     public List<T> get() {
         return new ArrayList<>(models);
+    }
+
+    @Override
+    public <U> AdjustedResultList<U> map(Function<T, U> mapper) {
+        List<U> list = models.stream().map(mapper).toList();
+        return new AdjustedResultListImpl<>(list);
     }
 }

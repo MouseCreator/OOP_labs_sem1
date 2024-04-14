@@ -1,11 +1,12 @@
 package mouse.project.lib.data.executor;
 
-import mouse.project.app.model.Tag;
 import mouse.project.lib.data.transformer.Transformer;
 
 import java.sql.ResultSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 public interface ExecutorResult {
     ResultSet getRaw();
@@ -16,4 +17,5 @@ public interface ExecutorResult {
     <T> AdjustedResult<T> adjusted(Class<T> model);
     <T> AdjustedResultList<T> adjustedList(Class<T> model);
     <T> AdjustedOptional<T> adjustedOptional(Class<T> model);
+    void action(Consumer<ExecutorResult> consumer);
 }
