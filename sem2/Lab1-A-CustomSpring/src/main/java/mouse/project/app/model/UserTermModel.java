@@ -6,11 +6,11 @@ import mouse.project.lib.data.orm.annotation.NamedColumn;
 
 @Data
 @NoArgsConstructor
-public class UserStudySetModel {
+public class UserTermModel {
     @NamedColumn("user_id")
     private Long userId;
-    @NamedColumn("set_id")
-    private Long setId;
-    @NamedColumn("type")
-    private String type;
+    @NamedColumn("term_id")
+    private Long termId;
+    @NamedColumn("progress")
+    private String progress;
 }

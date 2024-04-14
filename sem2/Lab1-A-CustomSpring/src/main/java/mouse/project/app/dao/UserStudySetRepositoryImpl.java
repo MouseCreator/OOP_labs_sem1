@@ -6,11 +6,11 @@ import mouse.project.app.model.UserStudySet;
 import mouse.project.app.model.UserStudySetModel;
 import mouse.project.lib.data.executor.Executor;
 import mouse.project.lib.ioc.annotation.After;
-import mouse.project.lib.ioc.annotation.Service;
+import mouse.project.lib.ioc.annotation.Dao;
 
 import java.util.List;
 import java.util.Optional;
-@Service
+@Dao
 public class UserStudySetRepositoryImpl implements UserStudySetRepository {
 
     private final Executor executor;
@@ -84,10 +84,10 @@ public class UserStudySetRepositoryImpl implements UserStudySetRepository {
     public List<UserStudySet> findByUserAndType(Long userId, String type) {
         return executor.executeQuery(
                 "SELECT us " +
-                        "FROM users_study_sets us " +
-                        "INNER JOIN users u ON u.id = us.user_id " +
-                        "WHERE u.id = ? AND us.type = ? " +
-                        "AND u.deletedAt IS NULL", userId, type
+                    "FROM users_study_sets us " +
+                    "INNER JOIN users u ON u.id = us.user_id " +
+                    "WHERE u.id = ? AND us.type = ? " +
+                    "AND u.deletedAt IS NULL", userId, type
         ).adjustedList(UserStudySetModel.class).map(this::transform).get();
     }
 
@@ -95,10 +95,10 @@ public class UserStudySetRepositoryImpl implements UserStudySetRepository {
     public List<UserStudySet> findByUser(Long userId) {
         return executor.executeQuery(
                 "SELECT us " +
-                        "FROM users_study_sets us " +
-                        "INNER JOIN users u ON u.id = us.user_id " +
-                        "WHERE u.id = ? " +
-                        "AND u.deletedAt IS NULL", userId
+                    "FROM users_study_sets us " +
+                    "INNER JOIN users u ON u.id = us.user_id " +
+                    "WHERE u.id = ? " +
+                    "AND u.deletedAt IS NULL", userId
         ).adjustedList(UserStudySetModel.class).map(this::transform).get();
     }
 }
