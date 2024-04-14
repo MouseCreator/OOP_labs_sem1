@@ -2,6 +2,7 @@ package mouse.project.app.dao;
 
 import mouse.project.app.model.Term;
 import mouse.project.lib.data.executor.Executor;
+import mouse.project.lib.data.utils.DaoUtils;
 import mouse.project.lib.ioc.annotation.Auto;
 import mouse.project.lib.ioc.annotation.Dao;
 
@@ -10,9 +11,12 @@ import java.util.Optional;
 @Dao
 public class TermRepositoryImpl implements TermRepository {
     private final Executor executor;
+
+    private final DaoUtils daoUtils;
     @Auto
-    public TermRepositoryImpl(Executor executor) {
+    public TermRepositoryImpl(Executor executor, DaoUtils daoUtils) {
         this.executor = executor;
+        this.daoUtils = daoUtils;
     }
 
     @Override
@@ -67,6 +71,15 @@ public class TermRepositoryImpl implements TermRepository {
     @Override
     public void removeTermFormStudySetsById(Long termId) {
         executor.executeQuery("DELETE FROM study_sets_terms WHERE term_id = ?", termId);
+    }
+
+    @Override
+    public List<Term> findAllByIds(List<Long> termIds) {
+        String qm = daoUtils.qMarksList(termIds);
+        String sql = String.format(
+                "SELECT * FROM terms t WHERE t.id IN %s AND t.deleted_at IS NULL", qm
+        );
+        return executor.executeQuery(sql, termIds).list(Term.class);
     }
 
 }

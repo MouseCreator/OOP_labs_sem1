@@ -15,4 +15,5 @@ public interface TermRepository {
     void restoreById(Long id);
     Term save(Term  model);
     void removeTermFormStudySetsById(Long termId);
+    List<Term> findAllByIds(List<Long> termIds);
 }
