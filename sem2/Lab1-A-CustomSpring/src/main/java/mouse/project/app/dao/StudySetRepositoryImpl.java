@@ -1,5 +1,6 @@
 package mouse.project.app.dao;
 
+import mouse.project.app.model.SizedStudySet;
 import mouse.project.app.model.StudySet;
 import mouse.project.app.model.Term;
 import mouse.project.lib.data.exception.DaoException;
@@ -145,5 +146,15 @@ public class StudySetRepositoryImpl implements StudySetRepository {
         } catch (SQLException e) {
             throw new DaoException(e);
         }
+    }
+
+    @Override
+    public Optional<SizedStudySet> findByIdWithSize(Long id) {
+        Optional<StudySet> studySet = findById(id);
+        if (studySet.isEmpty()) {
+            return Optional.empty();
+        }
+        Integer termCount = getTermCount(id);
+        return Optional.of(new SizedStudySet(studySet.get(), termCount));
     }
 }

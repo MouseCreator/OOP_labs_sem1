@@ -13,4 +13,9 @@ public class SetTag {
 
     private Tag tag;
 
+    public SetTag(User user, StudySet studySet, Tag tag) {
+        this.user = user;
+        this.studySet = studySet;
+        this.tag = tag;
+    }
 }

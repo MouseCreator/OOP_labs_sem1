@@ -1,0 +1,42 @@
+databaseChangeLog:
+  - changeSet:
+      id: 07-change-study-sets-terms-relation-001
+      author: Mykhailo Tyshchenko
+      changes:
+        - dropColumn:
+            tableName: terms
+            columnName: set_id
+
+  - changeSet:
+      id: 07-change-study-sets-terms-relation-002
+      author: Mykhailo Tyshchenko
+      changes:
+        - createTable:
+            tableName: study_sets_terms
+            columns:
+              - column:
+                  name: set_id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    foreignKeyName: fk_study_sets_terms_study_set
+                    references: study_sets(id)
+                    deleteCascade: true
+              - column:
+                  name: term_id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    foreignKeyName: fk_study_sets_terms_term
+                    references: terms(id)
+                    deleteCascade: true
+  - changeSet:
+      id: 07-change-study-sets-terms-relation-003
+      author: Mykhailo Tyshchenko
+      changes:
+        - renameColumn:
+            tableName: terms
+            oldColumnName: order
+            newColumnName: term_order
+            columnDataType: integer
+
